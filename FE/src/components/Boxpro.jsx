@@ -1,7 +1,7 @@
 import React from "react";
 
-const Boxpro = () => {
-  return <div>Boxpro</div>;
+const BoxPro = () => {
+  return <div>BoxPro</div>;
 };
 
-export default Boxpro;
+export default BoxPro;
