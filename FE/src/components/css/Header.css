@@ -1,0 +1,142 @@
+.container-fluid {
+  margin: 0 80px;
+  margin-top: 23px;
+  margin-bottom: 23px;
+}
+.container-fluid.special-element {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.navbar-nav {
+  display: flex; /* Sử dụng flexbox để phân phối đều */
+  justify-content: space-between; /* Phân phối đều giữa các mục */
+  width: 100%; /* Đảm bảo navbar chiếm toàn bộ chiều rộng */
+}
+
+.navbar-nav .nav-item {
+  margin-left: 2px; /* Khoảng cách bên trái */
+  flex: 0.2; /* Giảm độ rộng của các mục điều hướng */
+  text-align: center; /* Căn giữa văn bản */
+}
+
+.navbar-nav .nav-item:first-child {
+  margin-left: 0;
+}
+
+.d-flex search-bar mx-auto {
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+}
+.icon-text,
+.nav-link {
+  align-items: center;
+  margin-right: 20px;
+  color: #6c757d;
+  text-decoration: none;
+  font-weight: bold;
+}
+.icon-text i,
+.icon-text.icon-badge i {
+  margin-right: 5px;
+  font-size: 18px;
+  color: #6c757d;
+}
+.icon-badge {
+  position: relative;
+}
+
+.icon-badge .badge {
+  background-color: #007bff;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+.icon-badge .badge span {
+  vertical-align: middle; /* Vertically center the badge text */
+}
+
+.icon-text .badge {
+  margin-left: 5px; /* Khoảng cách giữa icon và badge */
+}
+
+.badge.rounded-pill {
+  margin-left: -6px;
+  margin-bottom: 20px;
+  margin-right: -3px;
+  padding: 3 6 3 6px;
+}
+
+.icon-text.icon-badge {
+  display: flex;
+  align-items: center;
+  min-width: 120px;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+
+.nav-link:hover,
+.icon-text:hover {
+  color: #016aff;
+}
+
+.top-bar {
+  background-color: #016aff;
+  color: white;
+  padding: 5px 0;
+  text-align: center;
+}
+.navbar {
+  border-bottom: 1px solid #ddd;
+}
+.navbar-brand img {
+  height: 40px;
+}
+.search-bar {
+  width: 50%;
+}
+.search-bar {
+  max-width: 550px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+}
+
+/* Tùy chỉnh ô input */
+.search-bar input {
+  border: none;
+  padding: 10px 20px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  outline: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.search-bar input:focus {
+  border-color: none;
+  box-shadow: none;
+}
+
+/* Tùy chỉnh nút tìm kiếm */
+.search-bar button {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border: none;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: #0056b3;
+}
+
+/* Icon tìm kiếm */
+.search-bar i {
+  font-size: 1.2rem;
+}
