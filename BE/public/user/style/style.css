@@ -220,3 +220,64 @@
 .buy-btn:hover {
     background-color: #218838;
 }
+
+.title_desc {
+    font-size: 24px;
+    color: #d32f2f;
+    background-color: #fbe9e7;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+.features-list {
+    list-style-type: disc;
+    margin-left: 20px;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.review-section {
+    margin-bottom: 30px;
+}
+
+.review-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #212121;
+    margin-bottom: 10px;
+}
+
+.review-subtitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #424242;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.p_details {
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.see-more {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.see-more-link {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    box-shadow: 4px 3px 1px #e9e9e9;
+}
+
+.see-more-link:hover {
+    background-color: #e0e0e0;
+    color: #0056b3;
+}
