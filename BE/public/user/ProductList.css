@@ -1,10 +1,4 @@
-.container-fluid {
-    width: 80%;
-}
-/* .row{
-    width: 100%;/
 
-} */
 .brand-container {
     display: flex;
     justify-content: flex-end;

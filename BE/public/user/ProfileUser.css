@@ -1,13 +1,21 @@
-ul {
-    list-style-type: none; /* Loại bỏ dấu chấm */
-    padding: 0; /* Xóa padding mặc địn/h /*
+.user-info {
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0; 
 }
 
-ul a {
-    text-decoration: none; /* Loại bỏ gạch chân */
-    color: inherit; /* Giữ nguyên màu sắc văn bản */
+.user-info a {
+    text-decoration: none; 
+    color: inherit; 
 }
 
-ul li {
-    margin-bottom: 10px; /* Thêm khoảng cách giữa các mục */
+.user-info li {
+    margin-bottom: 10px; 
+}
+.user-info-image img{
+    max-width: 200px;
+    height: fit-content;
+    background-position: center;
+    border-radius: 50%;
+    border: 1px solid #dee2e6;
 }
