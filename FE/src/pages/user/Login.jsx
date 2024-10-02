@@ -1,5 +1,7 @@
 import React from "react";
 import login from "../../assets/images/log.svg";
+import { Link } from "react-router-dom";
+import "./css/Login.css";
 const Login = () => {
   return (
     <div className="container">
@@ -10,6 +12,9 @@ const Login = () => {
               <img alt="Phone image" className="img-fluid" src={login} />
             </div>
             <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+              <h3 className="fw-bold text-center text-primary my-4 custom-title">
+                LOGIN
+              </h3>
               <form>
                 <div className="form-outline mb-4">
                   <label className="form-label" htmlFor="form1Example13">

@@ -103,6 +103,7 @@
   .card-bodys {
     text-align: left;
     font-size: 0.8rem; /* Giảm kích thước tổng thể của nội dung hơn nữa */
+    padding: 15px;
   }
   .card-titles {
     font-size: 0.9rem; 

@@ -1,0 +1,4 @@
+.small-img-col.active-border img {
+  border: 2px solid #007bff; /* Màu xanh */
+  padding: 2px;
+}
