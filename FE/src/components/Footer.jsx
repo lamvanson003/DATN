@@ -4,13 +4,13 @@ const Footer = () => {
   return (
     <>
       <div className="container footer">
-        <div className="row">
-          <div className="col-md-4">
+        <div className="row ">
+          <div className="col-md-4 ">
             <img
               alt="CloudAB logo"
               className="mb-3"
               height="50"
-              src="/src/assets/image/logo.svg"
+              src="/src/assets/images/logo.svg"
             />
             <p>
               <i className="fas fa-map-marker-alt"></i>
@@ -114,24 +114,24 @@ const Footer = () => {
             </p>
             <p>Phương thức thanh toán</p>
             <div className="payment-methods">
-              <img alt="Visa logo" src="https://placehold.co/50x30" />
+              <img alt="Visa logo" src="/src/assets/images/logovisa.png" />
               <img
                 alt="MasterCard logo"
                 height="30"
-                src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-RcpoXHkzChYnDbFAyeQ8tamr/user-ehrvabJ3DufsCu8YJ7PqY5gl/img-OKOaR12L0NLgvI2zoR087FTY.png?st=2024-09-28T06%3A18%3A55Z&se=2024-09-28T08%3A18%3A55Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-09-28T00%3A53%3A09Z&ske=2024-09-29T00%3A53%3A09Z&sks=b&skv=2024-08-04&sig=emvWMK3Iqk/C5NMTox5uC59JgqwEfYmpoCFBJ58nmKQ%3D"
+                src="/src/assets/images/logomastercard.png"
                 width="50"
               />
               <img
                 alt="Maestro logo"
                 height="30"
-                src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-RcpoXHkzChYnDbFAyeQ8tamr/user-ehrvabJ3DufsCu8YJ7PqY5gl/img-7mdP3JhA1k9z9RVonPTsGk58.png?st=2024-09-28T06%3A18%3A53Z&se=2024-09-28T08%3A18%3A53Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-09-28T00%3A42%3A15Z&ske=2024-09-29T00%3A42%3A15Z&sks=b&skv=2024-08-04&sig=8yntWaFiEDdfoz5%2BLsmw6Wgy2UWjEqItipmLDJJ1EyA%3D"
+                src="/src/assets/images/logovcb.png"
                 width="50"
               />
               <img
                 alt="American Express logo"
                 height="30"
-                src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-RcpoXHkzChYnDbFAyeQ8tamr/user-ehrvabJ3DufsCu8YJ7PqY5gl/img-saKcnoQ7G5g5EyrCZ9PhP9wK.png?st=2024-09-28T06%3A44%3A25Z&se=2024-09-28T08%3A44%3A25Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-09-28T00%3A44%3A15Z&ske=2024-09-29T00%3A44%3A15Z&sks=b&skv=2024-08-04&sig=5os/DeYwcScB%2BL2uatp7hTv9AJ/TYfTwD0dPnQ3zhMY%3D"
-                width="50"
+                src="/src/assets/images/ATM.png"
+                width="40"
               />
             </div>
           </div>
