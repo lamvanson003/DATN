@@ -13,7 +13,7 @@ const Payment = () => {
       </div>
       <div className="d-flex flex-column align-items-center justify-content-center">
         <div className="d-flex" style={{ width: 1300 }}>
-          <div className="border border-primary" style={{ width: "50%" }}>
+          <div className="" style={{ width: "50%" }}>
             <div className="d-flex flex-column">
               <span className="my-2">
                 <label
@@ -207,12 +207,15 @@ const Payment = () => {
             </div>
           </div>
           <div
-            className="border border-primary d-flex justify-content-center"
+            className=" d-flex justify-content-center"
             style={{ width: "50%" }}
           >
             <div
-              className="border border-danger d-flex flex-column px-4 py-4 gap-5"
-              style={{ width: 600 }}
+              className=" d-flex flex-column px-4 py-4 gap-5 rounded"
+              style={{
+                width: 600,
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+              }}
             >
               <div className="d-flex flex-column gap-3">
                 <div className="d-flex align-items-center gap-3 my-3">
@@ -225,7 +228,7 @@ const Payment = () => {
                   </span>
                   <span
                     style={{ width: "60%" }}
-                    className="d-flex flex-column gap-2 "
+                    className="d-flex flex-column gap-2 fw-semibold"
                   >
                     <span className="text-start">Iphone 16 promax</span>
                     <span
@@ -251,7 +254,9 @@ const Payment = () => {
                     style={{ width: "60%" }}
                     className="d-flex flex-column gap-2 "
                   >
-                    <span className="text-start">Iphone 16 promax</span>
+                    <span className="text-start fw-semibold">
+                      Iphone 16 promax
+                    </span>
                     <span
                       className="opacity-75 flex-wrap"
                       style={{ whiteSpace: "normal", wordBreak: "break-word" }}
@@ -273,7 +278,7 @@ const Payment = () => {
                   </span>
                   <span
                     style={{ width: "60%" }}
-                    className="d-flex flex-column gap-2 "
+                    className="d-flex flex-column gap-2 fw-semibold"
                   >
                     <span className="text-start">Iphone 16 promax</span>
                     <span
@@ -336,15 +341,15 @@ const Payment = () => {
                 </span>
                 <span
                   style={{ height: 50 }}
-                  className="px-4 py-2 d-flex algin-items-center border border-secondary rounded text-light bg-primary fw-semibold"
+                  className="px-4 py-2 d-flex algin-items-center border border-secondary rounded text-light bg-primary fw-semibold "
                 >
                   Áp dụng mã
                 </span>
               </div>
               <div>
                 <span
-                  style={{ height: 50, fontSize: 24 }}
-                  className="px-4 py-2 d-flex algin-items-center justify-content-center border border-secondary rounded text-light bg-primary fw-bold"
+                  style={{ height: 50, fontSize: 24, cursor: "pointer" }}
+                  className="px-4 py-2 d-flex align-items-center justify-content-center border border-secondary rounded text-light bg-primary fw-bold"
                 >
                   Thanh toán
                 </span>

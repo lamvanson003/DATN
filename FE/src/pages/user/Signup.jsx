@@ -10,6 +10,9 @@ const Signup = () => {
               <img alt="Phone image" className="img-fluid" src={login} />
             </div>
             <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+              <h3 className="fw-bold text-center text-primary my-4 custom-title">
+                SIGN UP
+              </h3>
               <form>
                 <div className="d-flex  mb-4">
                   <div className="form-outline flex-fill mb-0">

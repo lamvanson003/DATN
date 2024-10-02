@@ -103,8 +103,9 @@ const Header = () => {
                 <div>Giỏ hàng</div>
               </div>
               <div className="d-flex gap-2">
-                <span className="d-flex align-items-center">
-                  <FaRegUser size={24} /> Tài khoản
+                <span className="d-flex align-items-center gap-1">
+                  <FaRegUser size={24} />
+                  <span>Tài khoản</span>
                 </span>
               </div>
             </div>
