@@ -105,7 +105,9 @@ const Header = () => {
               <div className="d-flex gap-2">
                 <span className="d-flex align-items-center gap-1">
                   <FaRegUser size={24} />
-                  <span>Tài khoản</span>
+                  <Link style={{ textDecoration: "none" }} to={"login"}>
+                    Tài khoản
+                  </Link>
                 </span>
               </div>
             </div>

@@ -1,6 +1,12 @@
 import React from "react";
 import login from "../../assets/images/log.svg";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("login"); // Điều hướng đến trang đăng nhập
+  };
   return (
     <div className="container">
       <section className="vh-100">
@@ -106,7 +112,17 @@ const Signup = () => {
                   </button>
                 </div>
                 <div className="mt-4">
-                  Đã có tài khoản? Đăng nhập <a href="">tại đây</a>
+                  Đã có tài khoản? Đăng nhập{" "}
+                  <span
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "none",
+                      color: "blue",
+                    }} // Thêm kiểu để giống với Link
+                    onClick={handleNavigate}
+                  >
+                    tại đây
+                  </span>
                 </div>
               </form>
             </div>

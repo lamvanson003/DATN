@@ -1,5 +1,6 @@
 import React from "react";
 import login from "../../assets/images/log.svg";
+import { Link } from "react-router-dom";
 import "./css/Login.css";
 const Login = () => {
   return (
