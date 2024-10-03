@@ -1,0 +1,21 @@
+.custom-title {
+  font-size: 2rem; /* Tăng kích thước chữ */
+  letter-spacing: 1px; /* Tăng khoảng cách giữa các chữ */
+  text-transform: uppercase; /* Chuyển thành chữ in hoa */
+  color: #007bff; /* Màu xanh primary của Bootstrap */
+  position: relative;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+}
+
+.custom-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 4px;
+  background-color: #007bff; /* Tạo một gạch ngang dưới tiêu đề */
+  border-radius: 2px;
+}

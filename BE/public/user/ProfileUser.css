@@ -1,0 +1,21 @@
+.user-info {
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.user-info a {
+    text-decoration: none; 
+    color: inherit; 
+}
+
+.user-info li {
+    margin-bottom: 10px; 
+}
+.user-info-image img{
+    max-width: 200px;
+    height: fit-content;
+    background-position: center;
+    border-radius: 50%;
+    border: 1px solid #dee2e6;
+}

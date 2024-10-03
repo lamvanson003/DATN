@@ -1,14 +1,20 @@
 import React from "react";
 import { Header, Footer } from "../../components";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 const Public = () => {
+  const location = useLocation();
+  const hideHeaderFooterRoutes = ["/login", "/signup"];
+  const shouldHideHeaderFooter = hideHeaderFooterRoutes.includes(
+    location.pathname
+  );
+
   return (
     <div>
-      <Header />
+      {!shouldHideHeaderFooter && <Header />}
       <div>
         <Outlet />
       </div>
-      <Footer />
+      {!shouldHideHeaderFooter && <Footer />}
     </div>
   );
 };
