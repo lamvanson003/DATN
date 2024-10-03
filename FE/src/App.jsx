@@ -21,9 +21,8 @@ function App() {
           <Route path={path.SIGNUP} element={<Signup />} />
           <Route path={path.CART} element={<Cart />} />
           <Route path={path.ABOUT} element={<About />} />
-          <Route path={"product"} element={<Product />}>
-            <Route path={"detail"} element={<Detail />} />
-          </Route>
+          <Route path={path.PRODUCT} element={<Product />}></Route>
+          <Route path={path.PRODUCT__DETAIL__ID} element={<Detail />} />
           <Route path={path.PAYMENT} element={<Payment />} />
         </Route>
       </Routes>

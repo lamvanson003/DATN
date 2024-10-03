@@ -1,3 +1,9 @@
 export { default as Header } from "./Header";
 export { default as Footer } from "./Footer";
-export { default as BoxPro } from "./BoxPro";
+export { default as BoxPro } from "./Boxpro";
+export { default as Brand } from "./Brand";
+export { default as Banner } from "./Banner";
+export { default as Sbanner } from "./Sbanner";
+export { default as Countdown } from "./Countdown";
+export { default as Commercial } from "./Commercial";
+export { default as News } from "./News";
