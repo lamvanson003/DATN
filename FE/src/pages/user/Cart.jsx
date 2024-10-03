@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import myImage from "../../assets/images/image.png";
 import icons from "../../ultis/icon";
+
 const Cart = () => {
   const { IoCartOutline } = icons;
+
+  // Mảng dữ liệu sản phẩm
+  const [products, setProducts] = useState([
+    {
+      id: 1,
+      name: "Tên sản phẩm 1",
+      price: 23000000,
+      quantity: 1,
+      image: myImage,
+    },
+    {
+      id: 2,
+      name: "Tên sản phẩm 2",
+      price: 23000000,
+      quantity: 1,
+      image: myImage,
+    },
+  ]);
+
   return (
     <div className="d-flex align-items-center justify-content-center w-100">
       <div className="d-flex flex-column" style={{ width: 1300 }}>
@@ -17,150 +37,100 @@ const Cart = () => {
             <IoCartOutline fontSize={40} />
           </span>
         </div>
-        <div className="d-flex flex-column  gap-5">
-          <div
-            className="d-flex justify-content-between align-items-center  fw-semibold"
-            style={{
-              height: 100,
-              fontSize: 25,
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-            }}
-          >
-            <span className="text-center" style={{ width: "40%" }}>
-              Sản phẩm
-            </span>
-            <span className="text-center" style={{ width: "20%" }}>
-              Giá
-            </span>
-            <span className="text-center" style={{ width: "20%" }}>
-              Số lượng
-            </span>
-            <span className="text-center" style={{ width: "20%" }}>
-              Tổng tiền
-            </span>
-          </div>
-          <div
-            className="d-flex justify-content-between align-items-center"
-            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
-          >
-            <span
-              style={{ width: "40%", height: 170 }}
-              className="d-flex justify-content-between align-items-center"
-            >
-              <span>Icon xóa</span>
-              <img src={myImage} alt="123" />
-              <span>Tên sản phẩm 1</span>
-            </span>
-            <span className="text-center" style={{ width: "20%" }}>
-              23.000.000đ
-            </span>
-            <span
-              className="d-flex align-items-center justify-content-center align-items-center fs-4"
-              style={{ width: "20%" }}
+
+        <div className="d-flex flex-column gap-5">
+          {/* Duyệt qua mảng sản phẩm bằng map */}
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="d-flex justify-content-between align-items-center product"
+              style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
             >
               <span
-                style={{ width: "40%" }}
-                className="border rounded-start rounded-end d-flex justify-content-between"
+                style={{ width: "40%", height: 170 }}
+                className="d-flex justify-content-between align-items-center"
               >
-                <button
-                  className="rounded-start border-0"
-                  style={{
-                    height: 50,
-                    width: 30,
-                    backgroundColor: "#fff",
-                  }}
-                >
-                  -
-                </button>
-                <input
-                  className="text-center border-0"
-                  type="text"
-                  value={1}
-                  style={{ width: "15%", height: 50 }}
-                />
-                <button
-                  className="rounded-end border-0"
-                  style={{
-                    height: 50,
-                    width: 30,
-                    backgroundColor: "#fff",
-                  }}
-                >
-                  +
-                </button>
+                <span>Icon xóa</span>
+                <img src={product.image} alt={product.name} />
+                <span>{product.name}</span>
               </span>
-            </span>
-            <span className="text-center" style={{ width: "20%" }}>
-              23.000.000
-            </span>
-          </div>
-          <div
-            className="d-flex justify-content-between align-items-center"
-            style={{
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-            }}
-          >
-            <span
-              style={{ width: "40%", height: 170 }}
-              className="d-flex justify-content-between align-items-center"
-            >
-              <span>Icon xóa</span>
-              <img src={myImage} alt="123" />
-              <span>Tên sản phẩm 2</span>
-            </span>
-            <span className="text-center" style={{ width: "20%" }}>
-              23.000.000đ
-            </span>
-            <span
-              className="d-flex align-items-center justify-content-center align-items-center fs-4"
-              style={{ width: "20%" }}
-            >
+              <span className="text-center" style={{ width: "20%" }}>
+                {product.price.toLocaleString()}đ
+              </span>
               <span
-                style={{ width: "40%" }}
-                className="border rounded-start rounded-end d-flex justify-content-between"
+                className="d-flex align-items-center justify-content-center fs-4"
+                style={{ width: "20%" }}
               >
-                <button
-                  className="rounded-start border-0"
-                  style={{
-                    height: 50,
-                    width: 30,
-                    backgroundColor: "#fff",
-                  }}
+                <span
+                  style={{ width: "40%" }}
+                  className="border rounded-start rounded-end d-flex justify-content-between"
                 >
-                  -
-                </button>
-                <input
-                  className="text-center border-0"
-                  type="text"
-                  value={1}
-                  style={{ width: "15%", height: 50 }}
-                />
-                <button
-                  className="rounded-end border-0"
-                  style={{
-                    height: 50,
-                    width: 30,
-                    backgroundColor: "#fff",
-                  }}
-                >
-                  +
-                </button>
+                  <button
+                    className="rounded-start border-0"
+                    style={{
+                      height: 50,
+                      width: 30,
+                      backgroundColor: "#fff",
+                    }}
+                    onClick={() => {
+                      if (product.quantity > 1) {
+                        setProducts((prevProducts) =>
+                          prevProducts.map((p) =>
+                            p.id === product.id
+                              ? { ...p, quantity: p.quantity - 1 }
+                              : p
+                          )
+                        );
+                      }
+                    }}
+                  >
+                    -
+                  </button>
+                  <input
+                    className="text-center border-0"
+                    type="text"
+                    value={product.quantity}
+                    readOnly
+                    style={{ width: "15%", height: 50 }}
+                  />
+                  <button
+                    className="rounded-end border-0"
+                    style={{
+                      height: 50,
+                      width: 30,
+                      backgroundColor: "#fff",
+                    }}
+                    onClick={() =>
+                      setProducts((prevProducts) =>
+                        prevProducts.map((p) =>
+                          p.id === product.id
+                            ? { ...p, quantity: p.quantity + 1 }
+                            : p
+                        )
+                      )
+                    }
+                  >
+                    +
+                  </button>
+                </span>
               </span>
-            </span>
-            <span className="text-center" style={{ width: "20%" }}>
-              23.000.000
-            </span>
-          </div>
+              <span className="text-center" style={{ width: "20%" }}>
+                {(product.price * product.quantity).toLocaleString()}đ
+              </span>
+            </div>
+          ))}
         </div>
+
         <div className="mt-5" style={{ height: 50 }}>
           <span className="px-2 py-3 bg-primary text-light rounded">
             Tiếp tục mua hàng
           </span>
         </div>
+
         <div className="d-flex justify-content-between mt-5">
           <div
             style={{ width: "40%", backgroundColor: "#EDEAEA", height: 70 }}
-            className="px-3 py-2 d-flex justify-content-between align-items-center rounded "
+            className="px-3 py-2 d-flex justify-content-between align-items-center rounded"
           >
             <span style={{ width: "75%", height: 50 }} className="px-2">
               <input
@@ -185,13 +155,29 @@ const Cart = () => {
               Tổng giỏ hàng
             </span>
             <span className="d-flex justify-content-between py-2 border-bottom border-secondary">
-              Giá gốc : <span> 23.000.000đ</span>
+              Giá gốc:{" "}
+              <span>
+                {products
+                  .reduce((total, product) => total + product.price, 0)
+                  .toLocaleString()}
+                đ
+              </span>
             </span>
             <span className="d-flex justify-content-between py-2 border-bottom border-secondary">
-              Phí vận chuyển <span>100.000đ</span>
+              Phí vận chuyển: <span>100.000đ</span>
             </span>
-            <span className="d-flex justify-content-between py-2 ">
-              Tổng: <span>23.100.000đ</span>
+            <span className="d-flex justify-content-between py-2">
+              Tổng:{" "}
+              <span>
+                {(
+                  products.reduce(
+                    (total, product) =>
+                      total + product.price * product.quantity,
+                    0
+                  ) + 100000
+                ).toLocaleString()}
+                đ
+              </span>
             </span>
             <span className="d-flex justify-content-center">
               <span
