@@ -6,14 +6,13 @@ const Product = () => {
   const [Pros, setPros] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("../../../public/data.json");
+      const res = await fetch("/data.json");
       if (!res.ok) {
         console.error("Lỗi");
         return;
       }
       const data = await res.json();
       setPros(data);
-      console.log(data);
     };
     fetchData();
   }, []);
@@ -167,13 +166,7 @@ const Product = () => {
               {Pros &&
                 Pros.map((item) => (
                   <div key={item.id} className="col-md-2-product">
-                    <BoxPro
-                      name={item.name + " " + item.sku}
-                      id={item.id}
-                      price={item.price}
-                      sale={item.sale}
-                      brand={item.brand}
-                    />
+                    <BoxPro pro={item} />
                   </div>
                 ))}
             </div>

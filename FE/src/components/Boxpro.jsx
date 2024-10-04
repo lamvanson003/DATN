@@ -1,10 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import "./css/Boxpro.css";
 import { Link, useParams } from "react-router-dom";
-import pro from "../assets/images/iHome/image.png";
+import proImg from "../assets/images/iHome/image.png";
 import { CartContext } from "../context/Cart";
-const BoxPro = ({ id, name, price, sale, img, desc, brand }) => {
-  const { cartItem, addToCart } = useContext(CartContext);
+import { memo } from "react";
+const BoxPro = ({ pro }) => {
+  const { cartItems, addToCart } = useContext(CartContext);
+  const inCartItem = cartItems.find((cartItem) => cartItem.id === pro?.id);
+  const cartItemQuantity = inCartItem && inCartItem.quantity;
+
   return (
     <div className="card">
       <div className="badge-hot">Hot</div>
@@ -15,21 +19,23 @@ const BoxPro = ({ id, name, price, sale, img, desc, brand }) => {
             alt="Image of iPhone 14 Pro Max 128GB"
             className="card-img-top "
             style={{ cursor: "pointer" }}
-            src={pro}
+            src={proImg}
           />
         </Link>
       </div>
       <div className="card-body">
         <p className="card-text">Điện thoại</p>
-        <Link to={`/detail/${id}`}>
+        <Link to={`/detail/${pro?.id}`}>
           <h5 className="card-title text-center" style={{ cursor: "pointer" }}>
-            {name ? name : "Not found"}
+            {pro?.name ? pro?.name : "Not found"}
           </h5>
         </Link>
 
         <p className="price text-center">
-          {sale ? sale : "Not found"}{" "}
-          <span className="old-price">{price ? price : "Not found"}</span>
+          {pro?.sale ? pro?.sale : "Not found"}
+          <span className="old-price">
+            {pro?.price ? pro?.price : "Not found"}
+          </span>
         </p>
         <p className="card-text">
           Hãng
@@ -39,12 +45,20 @@ const BoxPro = ({ id, name, price, sale, img, desc, brand }) => {
               marginLeft: 20,
             }}
           >
-            {brand ? brand : "Not found"}
+            {pro?.brand ? pro?.brand : "Not found"}
           </span>
         </p>
-        <div className="d-flex justify-content-between">
-          <button className="icon-btn" onClick={() => addToCart(id)}>
-            <i className="fas fa-shopping-cart" />
+        <div className="d-flex justify-content-between align-items-center">
+          <button
+            className="icon-btn"
+            onClick={() => {
+              addToCart(pro);
+            }}
+          >
+            <i className="fas fa-shopping-cart fw-semibold" />
+            <span className="fw-bold text-danger ms-1">
+              {cartItemQuantity ? `(${cartItemQuantity})` : ""}
+            </span>
           </button>
           <button className="icon-btn">
             <i className="fas fa-exchange-alt" />
@@ -59,4 +73,4 @@ const BoxPro = ({ id, name, price, sale, img, desc, brand }) => {
   );
 };
 
-export default BoxPro;
+export default memo(BoxPro);
