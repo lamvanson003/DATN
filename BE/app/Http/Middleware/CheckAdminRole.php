@@ -25,7 +25,7 @@ class CheckAdminRole
         return redirect()->route('some.other.route')->with('error', 'Bạn không có quyền truy cập.');
     }
 
-    return redirect()->guest(route('admin.login.index'))->with('error', __('Vui lòng đăng nhập để thực hiện'));
+    return redirect()->route('admin.index')->with('error', ('Vui lòng đăng nhập để thực hiện'));
 }
 
 }
