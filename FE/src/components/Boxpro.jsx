@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./css/Boxpro.css";
 import { Link, useParams } from "react-router-dom";
 import pro from "../assets/images/iHome/image.png";
+import { CartContext } from "../context/Cart";
 const BoxPro = ({ id, name, price, sale, img, desc, brand }) => {
+  const { cartItem, addToCart } = useContext(CartContext);
   return (
     <div className="card">
       <div className="badge-hot">Hot</div>
@@ -41,7 +43,7 @@ const BoxPro = ({ id, name, price, sale, img, desc, brand }) => {
           </span>
         </p>
         <div className="d-flex justify-content-between">
-          <button className="icon-btn">
+          <button className="icon-btn" onClick={() => addToCart(id)}>
             <i className="fas fa-shopping-cart" />
           </button>
           <button className="icon-btn">
