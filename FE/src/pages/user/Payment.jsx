@@ -12,8 +12,8 @@ const Payment = () => {
         <h3 className="fw-semibold">Thông tin thanh toán</h3>
       </div>
       <div className="d-flex flex-column align-items-center justify-content-center">
-        <div className="d-flex" style={{ width: 1300 }}>
-          <div className="border border-primary" style={{ width: "50%" }}>
+        <div className="row" style={{ width: 1300 }}>
+          <div className="col-md-6">
             <div className="d-flex flex-column">
               <span className="my-2">
                 <label
@@ -206,148 +206,168 @@ const Payment = () => {
               </span>
             </div>
           </div>
-          <div
-            className="border border-primary d-flex justify-content-center"
-            style={{ width: "50%" }}
-          >
+          <div className="col-md-6">
             <div
-              className="border border-danger d-flex flex-column px-4 py-4 gap-5"
-              style={{ width: 600 }}
+              className=" d-flex justify-content-center"
+              style={{ width: "100%" }}
             >
-              <div className="d-flex flex-column gap-3">
-                <div className="d-flex align-items-center gap-3 my-3">
-                  <span style={{ width: "20%" }}>
-                    <img
-                      src={MyImage}
-                      alt="ảnh sản phẩm"
-                      style={{ height: 65 }}
-                    />
-                  </span>
-                  <span
-                    style={{ width: "60%" }}
-                    className="d-flex flex-column gap-2 "
-                  >
-                    <span className="text-start">Iphone 16 promax</span>
-                    <span
-                      className="opacity-75 flex-wrap"
-                      style={{ whiteSpace: "normal", wordBreak: "break-word" }}
-                    >
-                      Màu sắc: vàng, dung lượng: 512gb
+              <div
+                className=" d-flex flex-column px-4 py-4 gap-5 rounded"
+                style={{
+                  width: 600,
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+                }}
+              >
+                <div className="d-flex flex-column gap-3">
+                  <div className="d-flex align-items-center gap-3 my-3">
+                    <span style={{ width: "20%" }}>
+                      <img
+                        src={MyImage}
+                        alt="ảnh sản phẩm"
+                        style={{ height: 65 }}
+                      />
                     </span>
-                  </span>
-                  <span style={{ width: "20%" }} className="text-end">
-                    25.000.000đ
-                  </span>
-                </div>
-                <div className="d-flex align-items-center gap-3 my-3">
-                  <span style={{ width: "20%" }}>
-                    <img
-                      src={MyImage}
-                      alt="ảnh sản phẩm"
-                      style={{ height: 65 }}
-                    />
-                  </span>
-                  <span
-                    style={{ width: "60%" }}
-                    className="d-flex flex-column gap-2 "
-                  >
-                    <span className="text-start">Iphone 16 promax</span>
                     <span
-                      className="opacity-75 flex-wrap"
-                      style={{ whiteSpace: "normal", wordBreak: "break-word" }}
+                      style={{ width: "60%" }}
+                      className="d-flex flex-column gap-2 fw-semibold"
                     >
-                      Màu sắc: vàng, dung lượng: 512gb
+                      <span className="text-start">Iphone 16 promax</span>
+                      <span
+                        className="opacity-75 flex-wrap"
+                        style={{
+                          whiteSpace: "normal",
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        Màu sắc: vàng, dung lượng: 512gb
+                      </span>
                     </span>
-                  </span>
-                  <span style={{ width: "20%" }} className="text-end">
-                    25.000.000đ
-                  </span>
-                </div>
-                <div className="d-flex align-items-center gap-3 my-3">
-                  <span style={{ width: "20%" }}>
-                    <img
-                      src={MyImage}
-                      alt="ảnh sản phẩm"
-                      style={{ height: 65 }}
-                    />
-                  </span>
-                  <span
-                    style={{ width: "60%" }}
-                    className="d-flex flex-column gap-2 "
-                  >
-                    <span className="text-start">Iphone 16 promax</span>
+                    <span style={{ width: "20%" }} className="text-end">
+                      25.000.000đ
+                    </span>
+                  </div>
+                  <div className="d-flex align-items-center gap-3 my-3">
+                    <span style={{ width: "20%" }}>
+                      <img
+                        src={MyImage}
+                        alt="ảnh sản phẩm"
+                        style={{ height: 65 }}
+                      />
+                    </span>
                     <span
-                      className="opacity-75 flex-wrap"
-                      style={{ whiteSpace: "normal", wordBreak: "break-word" }}
+                      style={{ width: "60%" }}
+                      className="d-flex flex-column gap-2 "
                     >
-                      Màu sắc: vàng, dung lượng: 512gb
+                      <span className="text-start fw-semibold">
+                        Iphone 16 promax
+                      </span>
+                      <span
+                        className="opacity-75 flex-wrap"
+                        style={{
+                          whiteSpace: "normal",
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        Màu sắc: vàng, dung lượng: 512gb
+                      </span>
                     </span>
-                  </span>
-                  <span style={{ width: "20%" }} className="text-end">
-                    25.000.000đ
-                  </span>
+                    <span style={{ width: "20%" }} className="text-end">
+                      25.000.000đ
+                    </span>
+                  </div>
+                  <div className="d-flex align-items-center gap-3 my-3">
+                    <span style={{ width: "20%" }}>
+                      <img
+                        src={MyImage}
+                        alt="ảnh sản phẩm"
+                        style={{ height: 65 }}
+                      />
+                    </span>
+                    <span
+                      style={{ width: "60%" }}
+                      className="d-flex flex-column gap-2 fw-semibold"
+                    >
+                      <span className="text-start">Iphone 16 promax</span>
+                      <span
+                        className="opacity-75 flex-wrap"
+                        style={{
+                          whiteSpace: "normal",
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        Màu sắc: vàng, dung lượng: 512gb
+                      </span>
+                    </span>
+                    <span style={{ width: "20%" }} className="text-end">
+                      25.000.000đ
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="d-flex flex-column gap-3">
-                <div className="d-flex justify-content-between border-bottom border-secondary py-2">
-                  <span className="fw-semibold">Giá: </span>
-                  <span>50.000.000đ</span>
-                </div>
-                <div className="d-flex justify-content-between border-bottom border-secondary py-2">
-                  <span className="fw-semibold">Phí vận chuyển: </span>
-                  <span>100.000đ</span>
-                </div>
-                <div className="d-flex justify-content-between border-bottom border-secondary py-2">
-                  <span className="fw-semibold">Tổng: </span>
-                  <span>50.100.000đ</span>
-                </div>
-                <div>
-                  <span className="d-flex justify-content-between align-items-center">
-                    <span className="fw-semibold">
-                      <input type="radio" style={{ marginRight: 20 }} />
-                      thanh toán online
-                    </span>
-                    <span className="d-flex justify-content-between gap-3">
-                      <img style={{ height: 50 }} src={LogoVisa} alt="" />
-                      <img style={{ height: 50 }} src={logomastercard} alt="" />
-                      <img style={{ height: 50 }} src={logovcb} alt="" />
-                    </span>
-                  </span>
-                  <span className="d-flex justify-content-between">
-                    <span className="fw-semibold">
-                      <input type="radio" style={{ marginRight: 20 }} />
-                      thanh toán khi nhận hàng (COD)
+                <div className="d-flex flex-column gap-3">
+                  <div className="d-flex justify-content-between border-bottom border-secondary py-2">
+                    <span className="fw-semibold">Giá: </span>
+                    <span>50.000.000đ</span>
+                  </div>
+                  <div className="d-flex justify-content-between border-bottom border-secondary py-2">
+                    <span className="fw-semibold">Phí vận chuyển: </span>
+                    <span>100.000đ</span>
+                  </div>
+                  <div className="d-flex justify-content-between border-bottom border-secondary py-2">
+                    <span className="fw-semibold">Tổng: </span>
+                    <span>50.100.000đ</span>
+                  </div>
+                  <div>
+                    <span className="d-flex justify-content-between align-items-center">
+                      <span className="fw-semibold">
+                        <input type="radio" style={{ marginRight: 20 }} />
+                        thanh toán online
+                      </span>
+                      <span className="d-flex justify-content-between gap-3">
+                        <img style={{ height: 50 }} src={LogoVisa} alt="" />
+                        <img
+                          style={{ height: 50 }}
+                          src={logomastercard}
+                          alt=""
+                        />
+                        <img style={{ height: 50 }} src={logovcb} alt="" />
+                      </span>
                     </span>
                     <span className="d-flex justify-content-between">
-                      <PiHandPalm size={24} />
+                      <span className="fw-semibold">
+                        <input type="radio" style={{ marginRight: 20 }} />
+                        thanh toán khi nhận hàng (COD)
+                      </span>
+                      <span className="d-flex justify-content-between">
+                        <PiHandPalm size={24} />
+                      </span>
                     </span>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between">
+                  <span style={{ width: "60%" }}>
+                    <input
+                      style={{ height: 50, width: "100%" }}
+                      type="text"
+                      placeholder="Nhập mã"
+                      className="text-center"
+                    />
+                  </span>
+                  <span
+                    style={{ height: 50 }}
+                    className="px-4 py-2 d-flex algin-items-center border border-secondary rounded text-light bg-primary fw-semibold "
+                  >
+                    Áp dụng mã
                   </span>
                 </div>
-              </div>
-              <div className="d-flex justify-content-between">
-                <span style={{ width: "60%" }}>
-                  <input
-                    style={{ height: 50, width: "100%" }}
-                    type="text"
-                    placeholder="Nhập mã"
-                    className="text-center"
-                  />
-                </span>
-                <span
-                  style={{ height: 50 }}
-                  className="px-4 py-2 d-flex algin-items-center border border-secondary rounded text-light bg-primary fw-semibold"
-                >
-                  Áp dụng mã
-                </span>
-              </div>
-              <div>
-                <span
-                  style={{ height: 50, fontSize: 24 }}
-                  className="px-4 py-2 d-flex algin-items-center justify-content-center border border-secondary rounded text-light bg-primary fw-bold"
-                >
-                  Thanh toán
-                </span>
+                <div>
+                  <span
+                    style={{ height: 50, fontSize: 24, cursor: "pointer" }}
+                    className="px-4 py-2 d-flex align-items-center justify-content-center border border-secondary rounded text-light bg-primary fw-bold"
+                  >
+                    Thanh toán
+                  </span>
+                </div>
               </div>
             </div>
           </div>

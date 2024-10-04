@@ -1,0 +1,194 @@
+.brand-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.brand-container .btn {
+    border-radius: 20px;
+    padding: 10px 10px;
+}
+.category-name .btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.category {
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    margin: 0px;
+}
+.range-price {
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+.category-name .btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+* {
+    box-sizing: border-box; /* Thiết lập box-sizing cho tất cả phần tử */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    width: 100%;
+    height: 100%;
+}
+
+/* start-product */
+.cards {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    width: 228px;
+    margin: 0 0px; /* Khoảng cách bên trái và bên phải cho mỗi thẻ */
+    transition: box-shadow 0.3s; /* Hiệu ứng chuyển đổi bóng đổ */
+    display: inline-block; /* thêm lớp này để các thẻ sản phẩm hiển thị cạnh nhau */
+    vertical-align: top;
+    height: 402px;
+}
+.col-md-2-product {
+    padding: 10px;
+    margin-right: 5px;
+    width: 228px;
+}
+.badge-hot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 0 0 10px 0;
+    font-size: 0.8rem;
+}
+.badge-discount {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    color: #007bff;
+    padding: 5px;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    font-size: 0.7rem;
+}
+.card-bodys {
+    text-align: left;
+    font-size: 0.8rem; /* Giảm kích thước tổng thể của nội dung hơn nữa */
+    padding: 15px;
+}
+.card-titles {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+.card-texts {
+    color: #6c757d;
+    font-size: 0.7rem;
+}
+.prices {
+    color: #007bff;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.old-prices {
+    text-decoration: line-through;
+    color: #6c757d;
+    font-size: 0.6rem;
+}
+.btn-buy {
+    background-color: white;
+    color: #007bff;
+    border-color: #007bff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    width: 100%;
+}
+.btn-buy:hover {
+    background-color: #007bff;
+    color: white;
+}
+.icon-btn {
+    border: 1px solid #dee2e6;
+    border-radius: 8px; /* Giảm kích thước viền nút icon */
+    padding: 5px 10px; /* Giảm padding cho các nút icon hơn nữa */
+    margin: 3px;
+    color: #6c757d;
+    font-size: 0.8rem; /* Giảm kích thước chữ cho các nút icon */
+}
+.icon-btn:hover {
+    border: 1px solid #007bff;
+    color: #007bff;
+}
+
+.card-img-top {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+.img-container {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    margin-left: 55px;
+    width: 114px; /* fixed width */
+    height: 149px; /* fixed height */
+    align-items: center; /* center the container vertically */
+}
+/* Giữ nguyên cấu trúc flex cho brand-container */
+.brand-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Tùy chỉnh nút dropdown */
+.dropdown-toggle {
+    border-radius: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.dropdown-toggle:hover {
+    background-color: #0056b3;
+}
+
+/* Tùy chỉnh danh sách dropdown */
+.dropdown-menu {
+    border-radius: 15px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    padding: 8px 20px;
+    color: #007bff;
+    font-size: 0.9rem;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+    color: #0056b3;
+}
