@@ -1,11 +1,17 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./css/Header.css";
 import path from "../ultis/path";
 import icons from "../ultis/icon";
 import { navMenu } from "../ultis/menu";
 import logoCloudLab from "../assets/images/logo.svg";
-const Header = () => {
+import { CartContext } from "../context/Cart";
+
+const Header = ({ cartItemAmout }) => {
+  const navigate = useNavigate();
+  const handleNaCart = () => {
+    navigate("/cart");
+  };
   const {
     BsSearch,
     CiLocationOn,
@@ -84,7 +90,11 @@ const Header = () => {
                 <div>Yêu thích</div>
               </div>
 
-              <div className="d-flex gap-2">
+              <div
+                className="d-flex gap-2"
+                style={{ cursor: "pointer" }}
+                onClick={handleNaCart}
+              >
                 <div
                   className="position-relative"
                   style={{ display: "inline-block" }}
@@ -97,10 +107,10 @@ const Header = () => {
                       right: "-7px", // Tùy chỉnh khoảng cách từ bên phải
                     }}
                   >
-                    6
+                    {cartItemAmout}
                   </span>
                 </div>
-                <div>Giỏ hàng</div>
+                <span>Giỏ hàng</span>
               </div>
               <div className="d-flex gap-2">
                 <span className="d-flex align-items-center gap-1">

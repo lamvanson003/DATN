@@ -6,17 +6,28 @@ const Product = () => {
   const [Pros, setPros] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("../../../public/data.json");
+      const res = await fetch("/data.json");
       if (!res.ok) {
         console.error("Lỗi");
         return;
       }
       const data = await res.json();
       setPros(data);
-      console.log(data);
     };
     fetchData();
   }, []);
+  const [minPrice, setMinPrice] = useState(100);
+  const [maxPrice, setMaxPrice] = useState(1000);
+  const filteredPros = Pros.filter(
+    (pro) => pro.price > minPrice && pro.price < maxPrice
+  );
+
+  console.log(filteredPros);
+
+  const handleRangeChange = (e) => {
+    setMaxPrice(e.target.value);
+  };
+
   return (
     <div className="container mt-5">
       <section id="header">
@@ -100,13 +111,18 @@ const Product = () => {
             <div className="range-prices">
               <h3>Lọc theo giá</h3>
               <hr />
-              <input className="form-range" id="customRange1" type="range" />
-              <label className="form-label" htmlFor="customRange1">
-                Từ:
-              </label>
-              <label className="form-label" htmlFor="customRange2">
-                Đến:
-              </label>
+              <input
+                className="form-range"
+                id="customRange1"
+                type="range"
+                value={maxPrice}
+                onChange={handleRangeChange}
+                min="100"
+                max="1000"
+              />
+              <span>
+                từ: {minPrice} đến: {maxPrice}
+              </span>
               <div className="check-box">
                 <h5>
                   <strong>Tình trạng hàng</strong>
@@ -164,16 +180,10 @@ const Product = () => {
           </div>
           <div className="col-md-9 p-3">
             <div className="row justify-content gap-3">
-              {Pros &&
-                Pros.map((item) => (
+              {filteredPros &&
+                filteredPros.map((item) => (
                   <div key={item.id} className="col-md-2-product">
-                    <BoxPro
-                      name={item.name + " " + item.sku}
-                      id={item.id}
-                      price={item.price}
-                      sale={item.sale}
-                      brand={item.brand}
-                    />
+                    <BoxPro pro={item} />
                   </div>
                 ))}
             </div>

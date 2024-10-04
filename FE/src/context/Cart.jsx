@@ -1,6 +1,7 @@
 import React from "react";
 import { createContext, useState, useEffect } from "react";
 export const CartContext = createContext();
+import { toast } from "react-toastify";
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(
     localStorage.getItem("cartItems")
@@ -19,6 +20,7 @@ export const CartProvider = ({ children }) => {
       );
     } else {
       setCartItems([...cartItems, { ...item, quantity: 1 }]);
+      toast.success("Đã thêm sản phẩm vào giỏ hàng!");
     }
   };
   const removeFromCart = (item) => {
@@ -36,12 +38,13 @@ export const CartProvider = ({ children }) => {
         );
       }
     }
+    console.log("Giảm bớt sản phẩm: ", item.name);
   };
   const clearCart = () => {
     setCartItems([]);
   };
-  const getTotal = () => {
-    cartItems.reduce(
+  const getCartTotal = () => {
+    return cartItems.reduce(
       (total, cartItem) => total + cartItem.price * cartItem.quantity,
       0
     );
@@ -57,7 +60,7 @@ export const CartProvider = ({ children }) => {
   }, []);
   return (
     <CartContext.Provider
-      value={(cartItems, addToCart, removeFromCart, clearCart, getTotal)}
+      value={{ cartItems, addToCart, removeFromCart, clearCart, getCartTotal }}
     >
       {children}
     </CartContext.Provider>
