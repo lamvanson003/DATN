@@ -1,13 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import mainImg1 from "../../assets/images/k1.jpeg";
 import mainImg2 from "../../assets/images/k2.jpeg";
 import mainImg3 from "../../assets/images/k3.jpeg";
+import mainImg4 from "../../assets/images/k1.jpeg";
 import varImg1 from "../../assets/images/iphone1.jpg";
 import varImg2 from "../../assets/images/iphone2.jpg";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
 const Detail = () => {
-  const pid = useParams();
+  const { pid } = useParams();
+  const [proDatas, setProDatas] = useState([]);
+  useEffect(() => {
+    const fetchProData = async () => {
+      try {
+        const res = await fetch("/detaildata.json");
+        const data = await res.json();
+        setProDatas(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchProData();
+  }, [pid]);
+  // console.log(pid);
+  // console.log(proDatas);
+  const proData = proDatas.find((item) => item.id === parseInt(pid));
+  const imgList = [mainImg1, mainImg2, mainImg3, mainImg4];
   // State để lưu hình ảnh chính, dung lượng và màu sắc đang được chọn
   const [mainImage, setMainImage] = useState(mainImg1);
   const [activeStorage, setActiveStorage] = useState("64GB");
@@ -21,175 +39,178 @@ const Detail = () => {
   // Hàm chọn dung lượng
   const handleStorageClick = (storage) => {
     setActiveStorage(storage);
+    console.log("Active Storage:", storage);
   };
 
   // Hàm chọn màu sắc
   const handleColorClick = (color) => {
     setActiveColor(color);
+    console.log("Active Color:", color);
   };
 
   return (
-    <div className="container mt-5 mb-5">
-      <section className="pt-3 mb-5" id="Breadcrumb">
-        <div className="container p-3 bg-Breadcrumb">
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb mb-0">
-              <li className="breadcrumb-item">
-                <a href="/">
-                  <i className="fa-solid fa-house" /> TRANG CHỦ
-                </a>
-              </li>
-              <li className="breadcrumb-item">
-                <a href="/product"> DANH MỤC </a>
-              </li>
-              <li className="breadcrumb-item">
-                <a href="#"> SẢN PHẨM </a>
-              </li>
-              <li className="breadcrumb-item active"> CHI TIẾT </li>
-            </ol>
-          </nav>
-        </div>
-      </section>
-
-      <section id="product_details">
-        <div className="container">
-          <div className="row">
-            <div className="single_pro_image col-lg-6 col-md-5">
-              {/* Hình ảnh chính */}
-              <img alt="" className="img-fluid" id="MainImg" src={mainImage} />
-              <div className="small-img-group d-flex mt-3">
-                {/* Danh sách hình ảnh nhỏ */}
-                {[mainImg1, mainImg2, mainImg3].map((img, index) => (
+    <>
+      <div className="container pb-3">
+        <section className="px-2 py-3 mb-2" id="Breadcrumb">
+          <div className="container p-3 bg-Breadcrumb mt-5">
+            <nav aria-label="breadcrumb">
+              <ol className="breadcrumb mb-0">
+                <li className="breadcrumb-item">
+                  <a href="/">
+                    <i className="fa-solid fa-house" />
+                    TRANG CHỦ
+                  </a>
+                </li>
+                <li aria-current="page" className="breadcrumb-item">
+                  <a href="/product">DANH MỤC</a>
+                </li>
+                <li aria-current="page" className="breadcrumb-item ">
+                  <a href="#">SAN PHAM</a>
+                </li>
+                <li aria-current="page" className="breadcrumb-item IN">
+                  <a href="">CHI TIET</a>
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </section>
+        <section id="product_details" className="mt-2">
+          <div className="container">
+            <div className="row ">
+              <div className="single_pro_image col-lg-6 col-md-5">
+                <div className="d-flex flex-column align-items-center">
                   <div
-                    className={`small-img-col me-2 ${
-                      mainImage === img ? "active-border" : ""
-                    }`}
-                    key={index}
+                    style={{ width: "100%" }}
+                    className="d-flex border border-success rounded"
                   >
-                    <img
-                      alt=""
-                      className="img-fluid smallimg"
-                      src={img}
-                      onClick={() => handleImageClick(img)}
-                    />
+                    <img src={mainImage} style={{ width: "100%" }} alt="" />
                   </div>
-                ))}
-                {[mainImg1, mainImg2, mainImg3].map((img, index) => (
-                  <div
-                    className={`small-img-col me-2 ${
-                      mainImage === img ? "active-border" : ""
-                    }`}
-                    key={index}
-                  >
-                    <img
-                      alt=""
-                      className="img-fluid smallimg"
-                      src={img}
-                      onClick={() => handleImageClick(img)}
-                    />
+                  <div className="row">
+                    {imgList.map((item, index) => (
+                      <div key={index} className="col-sm-3">
+                        <img
+                          src={item}
+                          style={{ width: "100%", cursor: "pointer" }}
+                          alt=""
+                          onClick={() => handleImageClick(item)}
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-            <div className="col-lg-6 pt-3">
-              <div className="product__details__text">
-                <div className="product-tag">
-                  <div className="bestseller-tag">#Bán chạy</div>
-                  <div className="sold-tag">Đã bán: 41</div>
                 </div>
-                <h1 className="text-uppercase">
-                  iPhone 13 128GB | Chính hãng VN/A
-                </h1>
-                <div className="info-product">
-                  <div className="rate-sku">
-                    <div className="rate">
-                      <i className="bx bxs-star" style={{ color: "#f1c123" }} />
-                      <b>5/5</b>
-                      <span className="ml-2">(32 Reviews)</span>
+              </div>
+              <div className="col-lg-6 pt-3">
+                <div className="product__details__text">
+                  <div className="product-tag">
+                    <div className="bestseller-tag">#Bán chạy</div>
+                    <div className="sold-tag">Đã bán: 41</div>
+                  </div>
+                  <h1 className="text-uppercase">{proData?.name}</h1>
+                  <div className="info-product">
+                    <div className="rate-sku">
+                      <div className="rate">
+                        <i
+                          className="bx bxs-star"
+                          style={{
+                            color: "#f1c123",
+                          }}
+                        />
+                        <b>{proData?.rating}</b>
+                        <span className="ml-2">({proData?.reviews})</span>
+                      </div>
+                      <div className="sku">
+                        <strong>Mã: ABC_xJ</strong>
+                      </div>
+                      <div className="status">
+                        <span className="badge text-bg-success">Còn hàng</span>
+                      </div>
                     </div>
-                    <div className="sku">
-                      <strong>Mã: ABC_xJ</strong>
+                  </div>
+                  <div className="info-product-price mt-2">
+                    <h4>Giá:</h4>
+                    <div className="sale">{proData?.price}</div>
+                    <div className="price">{proData?.original_price}</div>
+                  </div>
+                  <div className="short_desc">{proData?.description}</div>
+                  <div className="product-options">
+                    <div className="option-group">
+                      <label htmlFor="storage">Dung lượng</label>
+                      <div className="storage-options mt-3">
+                        {proData?.storage_options?.map((item, index) => (
+                          <button
+                            key={index}
+                            className={`option-btn ${
+                              activeStorage === item ? "storage badgeClick" : ""
+                            }`}
+                            onClick={() => handleStorageClick(item)}
+                          >
+                            {item}
+                            {/* Chỉ hiển thị span badge khi item được chọn */}
+                            {activeStorage === item && (
+                              <span
+                                className="badgeClick bx bx-check"
+                                style={{ display: "inline" }}
+                              />
+                            )}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                    <div className="status">
-                      <span className="badge text-bg-success">Còn hàng</span>
+                    <div className="option-group">
+                      <label htmlFor="color">Màu sắc</label>
+                      <div className="color-options mt-3">
+                        {proData?.color_options?.map((item, index) => (
+                          <button
+                            key={index}
+                            className={`option-btn ${
+                              activeColor === varImg1
+                                ? "storage badgeClick"
+                                : ""
+                            }`}
+                            onClick={() => handleColorClick(varImg1)}
+                          >
+                            <img alt="Đen" src={varImg1} />
+                            <span>{item}</span>
+                            {activeColor === item && (
+                              <span
+                                className="badgeClick bx bx-check"
+                                style={{ display: "inline" }}
+                              />
+                            )}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div className="info-product-price mt-2">
-                  <h4>Giá:</h4>
+                  <h4>Giá: </h4>
                   <div className="sale">25.000.000 đ</div>
                   <div className="price">20.000.000 đ</div>
                 </div>
                 <div className="short_desc">
-                  Máy mới 100% , chính hãng Apple Việt Nam. Clound LAB hiện là
-                  đại lý bán lẻ uỷ quyền iPhone hãng VN/A của Apple Việt Nam.
+                  Máy mới 100% , chính hãng Apple Việt Nam.Clound LAB hiện là
+                  đại lý bán lẻ uỷ quyền iPhone hãng VN/A của Apple Việt Nam
                 </div>
-                <div className="product-options">
-                  {/* Chọn dung lượng */}
-                  <div className="option-group">
-                    <label htmlFor="storage">Dung lượng</label>
-                    <div className="storage-options">
-                      {["64GB", "256GB"].map((storage) => (
-                        <button
-                          key={storage}
-                          className={`option-btn ${
-                            activeStorage === storage ? "active" : ""
-                          }`}
-                          onClick={() => handleStorageClick(storage)}
-                        >
-                          {storage}
-                          {activeStorage === storage && (
-                            <span className="badgeClick bx bx-check" />
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  {/* Chọn màu sắc */}
-                  <div className="option-group">
-                    <label htmlFor="color">Màu sắc</label>
-                    <div className="color-options">
-                      {[varImg1, varImg2].map((color, index) => (
-                        <button
-                          key={index}
-                          className={`option-btn ${
-                            activeColor === color ? "active" : ""
-                          }`}
-                          onClick={() => handleColorClick(color)}
-                        >
-                          <img alt="" src={color} />
-                          <span>{index === 0 ? "Đen" : "Tím"}</span>
-                          {activeColor === color && (
-                            <span className="badgeClick bx bx-check" />
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="option-group">
-                    <input defaultValue="1" id="quantity" type="number" />
-                  </div>
-                  {/* Nút hành động */}
-                  <div className="action-buttons">
-                    <button className="cart-btn">
-                      <i className="bx bx-cart-add" /> Thêm giỏ hàng
-                    </button>
-                    <button className="buy-btn">
-                      <i className="fas fa-shopping-cart" /> Mua ngay
-                    </button>
-                  </div>
+                <div className="option-group">
+                  <label htmlFor="title">Số lượng</label>
+                  <input defaultValue="1" id="quantity" type="number" />
+                </div>
+                <div className="action-buttons">
+                  <button className="cart-btn">
+                    <i className="bx bx-cart-add" /> Thêm giỏ hàng
+                  </button>
+                  <button className="buy-btn">
+                    <i className="fas fa-shopping-cart" /> Mua ngay
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-      <div>
+        </section>
         <section className="mt-3" id="Description">
           <div className="container">
-            <h1 className="title_desc">
-              Đặc Điểm Nổi Bật Của iPhone 13 128GB | Chính Hãng VN/A
-            </h1>
+            <h1 className="title_desc">Đặc Điểm Nổi Bật Của {proData?.name}</h1>
             <ul className="features-list">
               <li>
                 Hiệu năng vượt trội - Chip Apple A15 Bionic mạnh mẽ, hỗ trợ mạng
@@ -249,7 +270,7 @@ const Detail = () => {
                   <img
                     alt="Reviewer 1"
                     className="reviewer-img"
-                    src={mainImg1}
+                    src="../images/products/k2.jpeg"
                   />
                   <div>
                     <h4>Alea Brooks</h4>
@@ -266,7 +287,7 @@ const Detail = () => {
                   <img
                     alt="Reviewer 2"
                     className="reviewer-img"
-                    src={mainImg2}
+                    src="../images/products/k2.jpeg"
                   />
                   <div>
                     <h4>Grace Wong</h4>
@@ -282,7 +303,7 @@ const Detail = () => {
           </div>
         </section>
       </div>
-    </div>
+    </>
   );
 };
 

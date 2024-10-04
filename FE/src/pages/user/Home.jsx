@@ -31,7 +31,7 @@ const Home = () => {
             .fill(0)
             .map((_, index) => (
               <div key={index} className="col-md-2">
-                <BoxPro />
+                <BoxPro id={index + 1} />
               </div>
             ))}
         </div>

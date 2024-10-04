@@ -2,178 +2,121 @@
   {
     "id": 1,
     "name": "Iphone 13 128GB | Chính Hãng VN/A",
-    "rating": "5/5",
-    "reviews": 32,
-    "price": "20.000.000 đ",
-    "original_price": "25.000.000 đ",
-    "description": "Máy mới 100%, chính hãng Apple Việt Nam. Cloud LAB hiện là đại lý bán lẻ uy tín iPhone hàng VN/A của Apple Việt Nam",
-    "storage_options": [
-      "64GB",
-      "256GB"
-    ],
-    "color_options": [
-      "Đen",
-      "Tím"
-    ],
+    "rating": "4.9/5",
+    "reviews": 40,
+    "price": "19.500.000 đ",
+    "original_price": "25.500.000 đ",
+    "description": "Máy mới 100%, bảo hành 12 tháng. Màn hình Super Retina XDR cho trải nghiệm hình ảnh tuyệt vời.",
+    "storage_options": ["64GB", "128GB", "256GB"],
+    "color_options": ["Đen", "Trắng", "Xanh"],
     "quantity": 1
   },
   {
     "id": 2,
-    "name": "Iphone 14 128GB | Chính Hãng VN/A",
+    "name": "Iphone 14 256GB | Chính Hãng VN/A",
     "rating": "5/5",
-    "reviews": 25,
-    "price": "22.000.000 đ",
-    "original_price": "27.000.000 đ",
-    "description": "Máy mới 100%, chính hãng Apple Việt Nam. Cloud LAB hiện là đại lý bán lẻ uy tín iPhone hàng VN/A của Apple Việt Nam",
-    "storage_options": [
-      "64GB",
-      "256GB"
-    ],
-    "color_options": [
-      "Đen",
-      "Xanh"
-    ],
+    "reviews": 55,
+    "price": "24.000.000 đ",
+    "original_price": "28.500.000 đ",
+    "description": "Máy mới 100%, chính hãng Apple Việt Nam với thiết kế tinh tế và hiệu năng mạnh mẽ.",
+    "storage_options": ["128GB", "256GB"],
+    "color_options": ["Đen", "Xanh dương", "Vàng"],
     "quantity": 1
   },
   {
     "id": 3,
     "name": "Iphone 15 128GB | Chính Hãng VN/A",
-    "rating": "4.5/5",
-    "reviews": 20,
-    "price": "24.000.000 đ",
-    "original_price": "29.000.000 đ",
-    "description": "Máy mới 100%, chính hãng Apple Việt Nam. Cloud LAB hiện là đại lý bán lẻ uy tín iPhone hàng VN/A của Apple Việt Nam",
-    "storage_options": [
-      "64GB",
-      "256GB"
-    ],
-    "color_options": [
-      "Trắng",
-      "Xanh"
-    ],
+    "rating": "4.7/5",
+    "reviews": 35,
+    "price": "23.500.000 đ",
+    "original_price": "30.000.000 đ",
+    "description": "Thiết kế mới lạ, hiệu suất vượt trội với chip A15 Bionic.",
+    "storage_options": ["128GB", "256GB"],
+    "color_options": ["Trắng", "Đỏ", "Xanh lá"],
     "quantity": 1
   },
   {
     "id": 4,
     "name": "Iphone 12 128GB | Chính Hãng VN/A",
     "rating": "4.8/5",
-    "reviews": 30,
-    "price": "18.000.000 đ",
-    "original_price": "23.000.000 đ",
-    "description": "Máy mới 100%, chính hãng Apple Việt Nam. Cloud LAB hiện là đại lý bán lẻ uy tín iPhone hàng VN/A của Apple Việt Nam",
-    "storage_options": [
-      "64GB",
-      "256GB"
-    ],
-    "color_options": [
-      "Đen",
-      "Vàng"
-    ],
+    "reviews": 45,
+    "price": "17.500.000 đ",
+    "original_price": "22.500.000 đ",
+    "description": "Máy mới 100%, thiết kế thời trang và hiệu suất ổn định.",
+    "storage_options": ["64GB", "128GB"],
+    "color_options": ["Đen", "Tím", "Hồng"],
     "quantity": 1
   },
   {
     "id": 5,
     "name": "Iphone 13 Pro 256GB | Chính Hãng VN/A",
     "rating": "5/5",
-    "reviews": 35,
-    "price": "30.000.000 đ",
-    "original_price": "35.000.000 đ",
-    "description": "Máy mới 100%, chính hãng Apple Việt Nam. Cloud LAB hiện là đại lý bán lẻ uy tín iPhone hàng VN/A của Apple Việt Nam",
-    "storage_options": [
-      "128GB",
-      "256GB"
-    ],
-    "color_options": [
-      "Xanh",
-      "Bạc"
-    ],
+    "reviews": 65,
+    "price": "29.500.000 đ",
+    "original_price": "36.000.000 đ",
+    "description": "Máy mới 100%, hỗ trợ 5G, camera chuyên nghiệp cho những bức ảnh tuyệt đẹp.",
+    "storage_options": ["256GB", "512GB"],
+    "color_options": ["Xanh lục", "Bạc", "Vàng"],
     "quantity": 1
   },
   {
     "id": 6,
     "name": "Iphone 14 Pro 256GB | Chính Hãng VN/A",
     "rating": "4.9/5",
-    "reviews": 28,
-    "price": "32.000.000 đ",
-    "original_price": "38.000.000 đ",
-    "description": "Máy mới 100%, chính hãng Apple Việt Nam. Cloud LAB hiện là đại lý bán lẻ uy tín iPhone hàng VN/A của Apple Việt Nam",
-    "storage_options": [
-      "128GB",
-      "256GB"
-    ],
-    "color_options": [
-      "Xám",
-      "Bạc"
-    ],
+    "reviews": 50,
+    "price": "33.000.000 đ",
+    "original_price": "39.000.000 đ",
+    "description": "Máy mới 100%, màn hình ProMotion với tốc độ làm mới 120Hz.",
+    "storage_options": ["128GB", "256GB"],
+    "color_options": ["Xám", "Bạc", "Vàng"],
     "quantity": 1
   },
   {
     "id": 7,
     "name": "Iphone 15 Pro Max 512GB | Chính Hãng VN/A",
     "rating": "5/5",
-    "reviews": 40,
-    "price": "45.000.000 đ",
-    "original_price": "50.000.000 đ",
-    "description": "Máy mới 100%, chính hãng Apple Việt Nam. Cloud LAB hiện là đại lý bán lẻ uy tín iPhone hàng VN/A của Apple Việt Nam",
-    "storage_options": [
-      "256GB",
-      "512GB"
-    ],
-    "color_options": [
-      "Đen",
-      "Vàng"
-    ],
+    "reviews": 70,
+    "price": "48.000.000 đ",
+    "original_price": "55.000.000 đ",
+    "description": "Máy mới 100%, hiệu suất cực mạnh với pin lâu dài.",
+    "storage_options": ["256GB", "512GB"],
+    "color_options": ["Đen", "Bạc", "Đỏ"],
     "quantity": 1
   },
   {
     "id": 8,
     "name": "Iphone 12 Mini 64GB | Chính Hãng VN/A",
-    "rating": "4.7/5",
-    "reviews": 22,
-    "price": "16.000.000 đ",
-    "original_price": "19.000.000 đ",
-    "description": "Máy mới 100%, chính hãng Apple Việt Nam. Cloud LAB hiện là đại lý bán lẻ uy tín iPhone hàng VN/A của Apple Việt Nam",
-    "storage_options": [
-      "64GB"
-    ],
-    "color_options": [
-      "Hồng",
-      "Đen"
-    ],
+    "rating": "4.6/5",
+    "reviews": 30,
+    "price": "15.500.000 đ",
+    "original_price": "20.000.000 đ",
+    "description": "Máy mới 100%, nhỏ gọn và tiện lợi cho việc di chuyển.",
+    "storage_options": ["64GB"],
+    "color_options": ["Hồng", "Đen", "Trắng"],
     "quantity": 1
   },
   {
     "id": 9,
     "name": "Iphone 11 Pro 256GB | Chính Hãng VN/A",
-    "rating": "4.6/5",
-    "reviews": 15,
-    "price": "28.000.000 đ",
-    "original_price": "33.000.000 đ",
-    "description": "Máy mới 100%, chính hãng Apple Việt Nam. Cloud LAB hiện là đại lý bán lẻ uy tín iPhone hàng VN/A của Apple Việt Nam",
-    "storage_options": [
-      "256GB"
-    ],
-    "color_options": [
-      "Đen",
-      "Xanh"
-    ],
+    "rating": "4.8/5",
+    "reviews": 25,
+    "price": "27.000.000 đ",
+    "original_price": "34.000.000 đ",
+    "description": "Máy mới 100%, thiết kế sang trọng với hiệu năng mạnh mẽ.",
+    "storage_options": ["256GB"],
+    "color_options": ["Đen", "Xanh"],
     "quantity": 1
   },
   {
     "id": 10,
     "name": "Iphone SE 128GB | Chính Hãng VN/A",
-    "rating": "4.8/5",
-    "reviews": 27,
-    "price": "15.000.000 đ",
-    "original_price": "18.000.000 đ",
-    "description": "Máy mới 100%, chính hãng Apple Việt Nam. Cloud LAB hiện là đại lý bán lẻ uy tín iPhone hàng VN/A của Apple Việt Nam",
-    "storage_options": [
-      "128GB"
-    ],
-    "color_options": [
-      "Đen",
-      "Trắng"
-    ],
+    "rating": "4.5/5",
+    "reviews": 20,
+    "price": "14.000.000 đ",
+    "original_price": "18.500.000 đ",
+    "description": "Máy mới 100%, giá cả phải chăng với hiệu suất tốt.",
+    "storage_options": ["128GB"],
+    "color_options": ["Đen", "Trắng"],
     "quantity": 1
   }
 ]
