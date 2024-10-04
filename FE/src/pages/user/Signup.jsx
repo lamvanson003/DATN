@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate("login"); // Điều hướng đến trang đăng nhập
+    navigate("/login"); // Điều hướng đến trang đăng nhập
   };
   return (
     <div className="container">
@@ -13,14 +13,14 @@ const Signup = () => {
         <div className="container py-5 h-100">
           <div className="row d-flex align-items-center justify-content-center h-100">
             <div className="col-md-8 col-lg-7 col-xl-6">
-              <img alt="Phone image" className="img-fluid" src={login} />
+              <img alt="Phone image" style={{ width: "100%" }} src={login} />
             </div>
             <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
               <h3 className="fw-bold text-center text-primary my-4 custom-title">
                 SIGN UP
               </h3>
               <form>
-                <div className="d-flex  mb-4">
+                <div className="d-flex mb-2">
                   <div className="form-outline flex-fill mb-0">
                     <label className="form-label" htmlFor="form3Example1c">
                       <i className="fas fa-user fa-lg me-2 fa-fw" />
@@ -38,7 +38,7 @@ const Signup = () => {
                     />
                   </div>
                 </div>
-                <div className="d-flex  mb-4">
+                <div className="d-flex  mb-2">
                   <div className="form-outline flex-fill mb-0">
                     <label className="form-label" htmlFor="form3Example1c">
                       <i className="fas fa-user fa-lg me-2 fa-fw" />
@@ -56,7 +56,7 @@ const Signup = () => {
                     />
                   </div>
                 </div>
-                <div className="d-flex  mb-4">
+                <div className="d-flex  mb-2">
                   <div className="form-outline flex-fill mb-0">
                     <label className="form-label" htmlFor="form3Example1c">
                       <i className="fas fa-lock fa-lg me-3 fa-fw" />
@@ -74,7 +74,7 @@ const Signup = () => {
                     />
                   </div>
                 </div>
-                <div className="d-flex  mb-4">
+                <div className="d-flex  mb-2">
                   <div className="form-outline flex-fill mb-0">
                     <label className="form-label" htmlFor="form3Example1c">
                       <i className="fas fa-lock fa-lg me-3 fa-fw" />
@@ -92,7 +92,7 @@ const Signup = () => {
                     />
                   </div>
                 </div>
-                <div className="form-check d-flex justify-content-center mb-4">
+                <div className="form-check d-flex justify-content-center mb-2">
                   <input
                     className="form-check-input me-2"
                     defaultValue=""
@@ -112,12 +112,13 @@ const Signup = () => {
                   </button>
                 </div>
                 <div className="mt-4">
-                  Đã có tài khoản? Đăng nhập{" "}
+                  Đã có tài khoản? Đăng nhập
                   <span
                     style={{
                       cursor: "pointer",
                       textDecoration: "none",
                       color: "blue",
+                      marginLeft: 5,
                     }} // Thêm kiểu để giống với Link
                     onClick={handleNavigate}
                   >

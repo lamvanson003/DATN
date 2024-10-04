@@ -1,38 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./css/Boxpro.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import pro from "../assets/images/iHome/image.png";
 const BoxPro = ({ id, name, price, sale, img, desc, brand }) => {
-  const navigate = useNavigate();
-  const handleNavigate = (pid) => {
-    navigate(`detail/${pid}`);
-  };
   return (
     <div className="card">
       <div className="badge-hot">Hot</div>
       <div className="badge-discount">-16%</div>
       <div className="img-container">
-        <img
-          alt="Image of iPhone 14 Pro Max 128GB"
-          className="card-img-top "
-          style={{ cursor: "pointer" }}
-          src={pro}
-          onClick={() => {
-            handleNavigate(id);
-          }}
-        />
+        <Link>
+          <img
+            alt="Image of iPhone 14 Pro Max 128GB"
+            className="card-img-top "
+            style={{ cursor: "pointer" }}
+            src={pro}
+          />
+        </Link>
       </div>
       <div className="card-body">
         <p className="card-text">Điện thoại</p>
-        <h5
-          className="card-title text-center"
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            navigate("/detail");
-          }}
-        >
-          {name ? name : "Not found"}
-        </h5>
+        <Link to={`/detail/${id}`}>
+          <h5 className="card-title text-center" style={{ cursor: "pointer" }}>
+            {name ? name : "Not found"}
+          </h5>
+        </Link>
+
         <p className="price text-center">
           {sale ? sale : "Not found"}{" "}
           <span className="old-price">{price ? price : "Not found"}</span>
