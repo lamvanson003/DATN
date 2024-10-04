@@ -4,10 +4,14 @@ import { Link, useParams } from "react-router-dom";
 import proImg from "../assets/images/iHome/image.png";
 import { CartContext } from "../context/Cart";
 import { memo } from "react";
+import { FavorContext } from "../context/Favor";
 const BoxPro = ({ pro }) => {
   const { cartItems, addToCart } = useContext(CartContext);
+  const { favorItems, addToFavor } = useContext(FavorContext);
   const inCartItem = cartItems.find((cartItem) => cartItem.id === pro?.id);
   const cartItemQuantity = inCartItem && inCartItem.quantity;
+  const favoredItem = favorItems.find((favorItem) => favorItem.id === pro?.id);
+  console.log(favoredItem);
 
   return (
     <div className="card">
@@ -63,8 +67,13 @@ const BoxPro = ({ pro }) => {
           <button className="icon-btn">
             <i className="fas fa-exchange-alt" />
           </button>
-          <button className="icon-btn">
-            <i className="fas fa-heart" />
+          <button
+            className="icon-btn"
+            onClick={() => {
+              addToFavor(pro);
+            }}
+          >
+            <i className={`fas fa-heart `} />
           </button>
         </div>
         <button className="btn btn-buy mt-3">Mua ngay</button>

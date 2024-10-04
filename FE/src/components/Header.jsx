@@ -5,10 +5,10 @@ import path from "../ultis/path";
 import icons from "../ultis/icon";
 import { navMenu } from "../ultis/menu";
 import logoCloudLab from "../assets/images/logo.svg";
-import { CartContext } from "../context/Cart";
 
-const Header = ({ cartItemAmout }) => {
+const Header = ({ cartItemAmout, favorItemAmount }) => {
   const navigate = useNavigate();
+
   const handleNaCart = () => {
     navigate("/cart");
   };
@@ -84,7 +84,7 @@ const Header = ({ cartItemAmout }) => {
                       right: "-7px", // Tùy chỉnh khoảng cách từ bên phải
                     }}
                   >
-                    6
+                    {favorItemAmount}
                   </span>
                 </div>
                 <div>Yêu thích</div>

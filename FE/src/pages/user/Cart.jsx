@@ -43,7 +43,6 @@ const Cart = () => {
         </div>
         {cartItems.length >= 1 ? (
           <div>
-            {" "}
             <div className="d-flex flex-column gap-5">
               {cartItems.map((item) => (
                 <div
