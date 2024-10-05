@@ -39,6 +39,13 @@ const Product = () => {
     fetchDataPhone();
     fetchDataLaptop();
   }, []);
+
+  const [minPrice, setMinPrice] = useState(100);
+  const [maxPrice, setMaxPrice] = useState(2000);
+  const filteredPros = Pros.filter(
+    (pro) => pro.price > minPrice && pro.price < maxPrice
+  );
+  const curItems = filteredPros.slice(indexOfFirstItem, indexOfLastItem);
   useEffect(() => {
     if (active === 0) {
       setPros(phone);
@@ -46,13 +53,6 @@ const Product = () => {
       setPros(laptop);
     }
   }, [active, phone, laptop]);
-  const [minPrice, setMinPrice] = useState(100);
-  const [maxPrice, setMaxPrice] = useState(2000);
-  const filteredPros = Pros.filter(
-    (pro) => pro.price > minPrice && pro.price < maxPrice
-  );
-  const curItems = filteredPros.slice(indexOfFirstItem, indexOfLastItem);
-
   const handleRangeChange = (e) => {
     setMaxPrice(e.target.value);
   };

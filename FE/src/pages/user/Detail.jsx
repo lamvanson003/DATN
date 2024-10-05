@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { CartContext } from "../../context/Cart";
 import mainImg1 from "../../assets/images/k1.jpeg";
 import mainImg2 from "../../assets/images/k2.jpeg";
 import mainImg3 from "../../assets/images/k3.jpeg";
@@ -8,6 +9,7 @@ import varImg2 from "../../assets/images/iphone2.jpg";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
 const Detail = () => {
+  const { addToCart } = useContext(CartContext);
   const { pid } = useParams();
   const [proDatas, setProDatas] = useState([]);
   useEffect(() => {
@@ -196,7 +198,12 @@ const Detail = () => {
                   <input defaultValue="1" id="quantity" type="number" />
                 </div>
                 <div className="action-buttons">
-                  <button className="cart-btn">
+                  <button
+                    className="cart-btn"
+                    onClick={() => {
+                      addToCart(proData);
+                    }}
+                  >
                     <i className="bx bx-cart-add" /> Thêm giỏ hàng
                   </button>
                   <button className="buy-btn">
