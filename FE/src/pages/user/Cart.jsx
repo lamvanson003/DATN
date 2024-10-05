@@ -13,35 +13,38 @@ const Cart = () => {
     navigate("/product");
   };
   return (
-    <div className="d-flex align-items-center justify-content-center w-100">
-      <div className="d-flex flex-column" style={{ width: 1300 }}>
-        <div
-          className="d-flex align-items-center justify-content-between "
-          style={{ marginTop: 40, marginBottom: 40 }}
-        >
-          <span className="d-flex align-items-center gap-4">
-            <h3 className="fw-bold m-0" style={{ fontSize: 40 }}>
-              Giỏ hàng
-            </h3>
-            <span>
-              <IoCartOutline fontSize={40} />
+    <div
+      className="d-flex align-items-center justify-content-center w-100"
+      style={{ height: 77 }}
+    >
+      {cartItems.length >= 1 ? (
+        <div className="d-flex flex-column" style={{ width: 1300 }}>
+          <div
+            className="d-flex align-items-center justify-content-between "
+            style={{ marginTop: 40, marginBottom: 40 }}
+          >
+            <span className="d-flex align-items-center gap-4">
+              <h3 className="fw-bold m-0" style={{ fontSize: 40 }}>
+                Giỏ hàng
+              </h3>
+              <span>
+                <IoCartOutline fontSize={40} />
+              </span>
             </span>
-          </span>
-          {cartItems.length >= 1 && (
-            <span>
-              <button
-                onClick={clearCart}
-                className="btn bg-danger text-light d-flex align-items-center"
-              >
-                <span>
-                  <MdDeleteForever size={24} />
-                </span>
-                Xóa hết
-              </button>
-            </span>
-          )}
-        </div>
-        {cartItems.length >= 1 ? (
+            {cartItems.length >= 1 && (
+              <span>
+                <button
+                  onClick={clearCart}
+                  className="btn bg-danger text-light d-flex align-items-center"
+                >
+                  <span>
+                    <MdDeleteForever size={24} />
+                  </span>
+                  Xóa hết
+                </button>
+              </span>
+            )}
+          </div>
           <div>
             <div className="d-flex flex-column gap-5">
               {cartItems.map((item) => (
@@ -121,7 +124,11 @@ const Cart = () => {
             </div>
             <div className="d-flex justify-content-between mt-5">
               <div
-                style={{ width: "40%", backgroundColor: "#EDEAEA", height: 70 }}
+                style={{
+                  width: "40%",
+                  backgroundColor: "#EDEAEA",
+                  height: 70,
+                }}
                 className="px-3 py-2 d-flex justify-content-between align-items-center rounded"
               >
                 <span
@@ -175,19 +182,18 @@ const Cart = () => {
               </div>
             </div>
           </div>
-        ) : (
-          <div>
-            Giỏ hàng của bạn chưa có gì! Quay lại
-            <span
-              style={{ color: "blue", cursor: "pointer" }}
-              onClick={handleNavigate}
-              className="me-2"
-            >
-              trang sản phảm
-            </span>
-          </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div>
+          Giỏ hàng của bạn chưa có gì! Quay lại
+          <span
+            style={{ color: "blue", cursor: "pointer" }}
+            onClick={handleNavigate}
+          >
+            trang sản phảm
+          </span>
+        </div>
+      )}
     </div>
   );
 };
