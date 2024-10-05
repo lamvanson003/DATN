@@ -13,7 +13,7 @@ const Detail = () => {
   useEffect(() => {
     const fetchProData = async () => {
       try {
-        const res = await fetch("/detaildata.json");
+        const res = await fetch("/data.json");
         const data = await res.json();
         setProDatas(data);
       } catch (err) {
@@ -70,6 +70,9 @@ const Detail = () => {
                 <li aria-current="page" className="breadcrumb-item IN">
                   <a href="">CHI TIET</a>
                 </li>
+                <li aria-current="page" className="breadcrumb-item IN">
+                  <a href="">{proData?.name}</a>
+                </li>
               </ol>
             </nav>
           </div>
@@ -103,7 +106,7 @@ const Detail = () => {
                 <div className="product__details__text">
                   <div className="product-tag">
                     <div className="bestseller-tag">#Bán chạy</div>
-                    <div className="sold-tag">Đã bán: 41</div>
+                    <div className="sold-tag">Đã bán: {proData?.sold}</div>
                   </div>
                   <h1 className="text-uppercase">{proData?.name}</h1>
                   <div className="info-product">
@@ -119,18 +122,14 @@ const Detail = () => {
                         <span className="ml-2">({proData?.reviews})</span>
                       </div>
                       <div className="sku">
-                        <strong>Mã: ABC_xJ</strong>
+                        <strong>Mã: {proData?.sku}</strong>
                       </div>
                       <div className="status">
                         <span className="badge text-bg-success">Còn hàng</span>
                       </div>
                     </div>
                   </div>
-                  <div className="info-product-price mt-2">
-                    <h4>Giá:</h4>
-                    <div className="sale">{proData?.price}</div>
-                    <div className="price">{proData?.original_price}</div>
-                  </div>
+
                   <div className="short_desc">{proData?.description}</div>
                   <div className="product-options">
                     <div className="option-group">
@@ -184,9 +183,9 @@ const Detail = () => {
                   </div>
                 </div>
                 <div className="info-product-price mt-2">
-                  <h4>Giá: </h4>
-                  <div className="sale">25.000.000 đ</div>
-                  <div className="price">20.000.000 đ</div>
+                  <h4>Giá:</h4>
+                  <div className="sale">${proData?.sale}</div>
+                  <div className="price">${proData?.price}</div>
                 </div>
                 <div className="short_desc">
                   Máy mới 100% , chính hãng Apple Việt Nam.Clound LAB hiện là
@@ -264,13 +263,13 @@ const Detail = () => {
         <section id="Comments mt-3">
           <div className="container">
             <div className="reviews">
-              <h3>2 Review For Blue Dress For Woman</h3>
+              <h3>2 bình luận của {proData?.name}</h3>
               <div className="review">
                 <div className="reviewer-info">
                   <img
                     alt="Reviewer 1"
                     className="reviewer-img"
-                    src="../images/products/k2.jpeg"
+                    src={mainImg2}
                   />
                   <div>
                     <h4>Alea Brooks</h4>
@@ -287,7 +286,7 @@ const Detail = () => {
                   <img
                     alt="Reviewer 2"
                     className="reviewer-img"
-                    src="../images/products/k2.jpeg"
+                    src={mainImg2}
                   />
                   <div>
                     <h4>Grace Wong</h4>

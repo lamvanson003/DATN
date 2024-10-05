@@ -47,24 +47,28 @@ const Cart = () => {
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="d-flex justify-content-between align-items-center product"
-                  style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
+                  className="d-flex justify-content-between align-items-center product p-3 rounded"
+                  style={{ boxShadow: "0 5px 10px rgba(0, 0, 0, 0.3)" }}
                 >
                   <span
-                    style={{ width: "40%", height: 170 }}
-                    className="d-flex justify-content-between align-items-center px-2"
+                    style={{ width: "40%", height: 100 }}
+                    className="d-flex gap-4 align-items-center px-2"
                   >
-                    <span>
-                      <TiDeleteOutline size={24} />
-                    </span>
-                    <img src={myImage} alt={item.name} />
+                    <img
+                      style={{ height: "90%" }}
+                      src={myImage}
+                      alt={item.name}
+                    />
                     <span className="d-flex flex-column gap-3">
                       <span>{item.name}</span>
                       <span className="opacity-75">Loại: </span>
                     </span>
                   </span>
                   <span className="text-center" style={{ width: "20%" }}>
-                    {item.price}đ
+                    <span className="opacity-75 me-2 text-decoration-line-through">
+                      ${item.price}
+                    </span>
+                    <span>${item.sale}</span>
                   </span>
                   <span
                     className="d-flex align-items-center justify-content-center fs-4"
@@ -72,7 +76,7 @@ const Cart = () => {
                   >
                     <span
                       style={{ width: "40%" }}
-                      className="border rounded-start rounded-end d-flex justify-content-between"
+                      className="border rounded-start rounded-end d-flex justify-content-between "
                     >
                       <button
                         className="rounded-start border-0"
@@ -85,7 +89,9 @@ const Cart = () => {
                       >
                         -
                       </button>
-                      <p>{item.quantity}</p>
+                      <span className="d-flex align-items-center">
+                        {item.quantity}
+                      </span>
                       <button
                         className="rounded-end border-0"
                         style={{
@@ -99,8 +105,11 @@ const Cart = () => {
                       </button>
                     </span>
                   </span>
-                  <span className="text-center" style={{ width: "20%" }}>
-                    {item.price * item.quantity} đ
+                  <span
+                    className="text-center text-danger"
+                    style={{ width: "20%" }}
+                  >
+                    {item.sale * item.quantity} đ
                   </span>
                 </div>
               ))}
@@ -148,12 +157,17 @@ const Cart = () => {
                   Phí vận chuyển: <span>100.000đ</span>
                 </span>
                 <span className="d-flex justify-content-between py-2">
-                  Tổng: <span>{getCartTotal()}</span>
+                  Tổng:
+                  <span className="fw-bold text-danger">${getCartTotal()}</span>
                 </span>
                 <span className="d-flex justify-content-center">
                   <span
-                    style={{ backgroundColor: "#016AFF", width: "50%" }}
-                    className="text-center px-2 py-2 rounded text-light"
+                    style={{
+                      backgroundColor: "#016AFF",
+                      width: "50%",
+                      cursor: "pointer",
+                    }}
+                    className="text-center px-2 py-2 rounded text-light fw-bold"
                   >
                     Tiến hành thanh toán
                   </span>
@@ -167,6 +181,7 @@ const Cart = () => {
             <span
               style={{ color: "blue", cursor: "pointer" }}
               onClick={handleNavigate}
+              className="me-2"
             >
               trang sản phảm
             </span>
