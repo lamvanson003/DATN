@@ -15,7 +15,7 @@ const Cart = () => {
   return (
     <div
       className="d-flex align-items-center justify-content-center w-100"
-      style={{ height: 77 }}
+      style={{ marginBottom: 101 }}
     >
       {cartItems.length >= 1 ? (
         <div className="d-flex flex-column" style={{ width: 1300 }}>

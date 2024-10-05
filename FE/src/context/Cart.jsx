@@ -38,7 +38,6 @@ export const CartProvider = ({ children }) => {
         );
       }
     }
-    console.log("Giảm bớt sản phẩm: ", item.name);
   };
   const clearCart = () => {
     setCartItems([]);
