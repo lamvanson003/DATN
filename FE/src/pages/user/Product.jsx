@@ -7,6 +7,16 @@ const Product = () => {
   const [phone, setPhone] = useState([]);
   const [laptop, setLaptop] = useState([]);
   const [active, setActive] = useState(0);
+  const [curPage, setCurPage] = useState(1);
+  const [itemsPerPage] = useState(8);
+  const indexOfLastItem = curPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(Pros.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+  const paginate = (pageNumber) => setCurPage(pageNumber);
   useEffect(() => {
     const fetchDataPhone = async () => {
       const res = await fetch("/data.json");
@@ -28,8 +38,6 @@ const Product = () => {
     };
     fetchDataPhone();
     fetchDataLaptop();
-    console.log(phone);
-    console.log(laptop);
   }, []);
   useEffect(() => {
     if (active === 0) {
@@ -37,14 +45,13 @@ const Product = () => {
     } else {
       setPros(laptop);
     }
-  }, [active]);
+  }, [active, phone, laptop]);
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(2000);
   const filteredPros = Pros.filter(
     (pro) => pro.price > minPrice && pro.price < maxPrice
   );
-
-  console.log(filteredPros);
+  const curItems = filteredPros.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleRangeChange = (e) => {
     setMaxPrice(e.target.value);
@@ -212,8 +219,8 @@ const Product = () => {
           </div>
           <div className="col-md-9 p-3">
             <div className="row justify-content gap-3">
-              {filteredPros &&
-                filteredPros.map((item) => (
+              {curItems &&
+                curItems.map((item) => (
                   <div key={item.id} className="col-md-2-product">
                     <BoxPro pro={item} />
                   </div>
@@ -233,21 +240,17 @@ const Product = () => {
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li className="page-item">
-                  <a className="page-link rounded-circle" href="#">
-                    1
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link rounded-circle" href="#">
-                    2
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link rounded-circle" href="#">
-                    3
-                  </a>
-                </li>
+                {pageNumbers.map((number) => (
+                  <li key={number} className="page-item">
+                    <a
+                      onClick={() => paginate(number)}
+                      href="#"
+                      className="page-link"
+                    >
+                      {number}
+                    </a>
+                  </li>
+                ))}
                 <li className="page-item">
                   <a className="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
