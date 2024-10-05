@@ -10,6 +10,7 @@ import { FcAbout } from "react-icons/fc";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { TiDeleteOutline } from "react-icons/ti";
 import { MdDeleteForever } from "react-icons/md";
+
 const icons = {
   FaShoppingCart,
   FaRegUser,

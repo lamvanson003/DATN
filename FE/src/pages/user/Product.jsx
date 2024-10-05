@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import "./css/Product.css";
 import { BoxPro } from "../../components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUpZA } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
 const Product = () => {
   const [Pros, setPros] = useState([]);
   const [phone, setPhone] = useState([]);
   const [laptop, setLaptop] = useState([]);
+
   const [active, setActive] = useState(0);
   const [curPage, setCurPage] = useState(1);
   const [itemsPerPage] = useState(8);
@@ -56,6 +60,22 @@ const Product = () => {
   const handleRangeChange = (e) => {
     setMaxPrice(e.target.value);
   };
+  const [sortOrder, setSortOrder] = useState(1); // 1: tăng dần, 0: giảm dần
+  const [sortedItems, setSortedItems] = useState([]);
+
+  const handleSort = () => {
+    const sorted = [...curItems]; // Tạo một bản sao của curItems để tránh thay đổi trực tiếp
+    if (sortOrder) {
+      sorted.sort((a, b) => a.sale - b.sale); // Sắp xếp tăng dần
+    } else {
+      sorted.sort((a, b) => b.sale - a.sale); // Sắp xếp giảm dần
+    }
+    setSortedItems(sorted); // Cập nhật sortedItems
+  };
+
+  useEffect(() => {
+    handleSort(); // Gọi hàm sắp xếp mỗi khi sortOrder hoặc curItems thay đổi
+  }, [sortOrder, curItems]);
 
   return (
     <div className="container mt-5">
@@ -83,40 +103,30 @@ const Product = () => {
               <h2>Thương hiệu</h2>
             </div>
             <div className="col-md-8">
-              <div className="brand-container">
-                <div className="dropdown">
-                  <button
-                    className="btn dropdown-toggle"
-                    type="button"
-                    id="dropdownBrand"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Chọn thương hiệu
-                  </button>
-                  <ul className="dropdown-menu" aria-labelledby="dropdownBrand">
-                    <li>
-                      <a className="dropdown-item" href="#!">
-                        Thương hiệu 1
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#!">
-                        Thương hiệu 2
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#!">
-                        Thương hiệu 3
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#!">
-                        Thương hiệu 4
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+              <div
+                className="d-flex align-items-center justify-content-end gap-4"
+                style={{ height: "100%" }}
+              >
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setSortOrder(1)}
+                >
+                  <FontAwesomeIcon
+                    icon={faArrowUpZA}
+                    size="xl"
+                    className={`increase ${sortOrder === 1 ? "fa-active" : ""}`}
+                  />
+                </span>
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setSortOrder(0)}
+                >
+                  <FontAwesomeIcon
+                    icon={faArrowDownAZ}
+                    size="xl"
+                    className={`decrease ${sortOrder === 0 ? "fa-active" : ""}`}
+                  />
+                </span>
               </div>
             </div>
           </div>
@@ -145,6 +155,41 @@ const Product = () => {
                 >
                   Laptop
                 </button>
+              </div>
+            </div>
+            <div className="brand-container my-3">
+              <div className="dropdown">
+                <button
+                  className="btn dropdown-toggle"
+                  type="button"
+                  id="dropdownBrand"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Chọn thương hiệu
+                </button>
+                <ul className="dropdown-menu" aria-labelledby="dropdownBrand">
+                  <li>
+                    <a className="dropdown-item" href="#!">
+                      Thương hiệu 1
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#!">
+                      Thương hiệu 2
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#!">
+                      Thương hiệu 3
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#!">
+                      Thương hiệu 4
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
             <div className="range-prices">
@@ -219,8 +264,8 @@ const Product = () => {
           </div>
           <div className="col-md-9 p-3">
             <div className="row justify-content gap-3">
-              {curItems &&
-                curItems.map((item) => (
+              {sortedItems &&
+                sortedItems.map((item) => (
                   <div key={item.id} className="col-md-2-product">
                     <BoxPro pro={item} />
                   </div>

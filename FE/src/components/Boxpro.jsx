@@ -10,7 +10,7 @@ const BoxPro = ({ pro }) => {
   const { favorItems, addToFavor } = useContext(FavorContext);
   const inCartItem = cartItems.find((cartItem) => cartItem.id === pro?.id);
   const cartItemQuantity = inCartItem && inCartItem.quantity;
-  const favoredItem = favorItems.find((favorItem) => favorItem.id === pro?.id);
+  const inFavorItems = favorItems.find((favorItem) => favorItem.id === pro?.id);
 
   return (
     <div className="card">
@@ -72,7 +72,7 @@ const BoxPro = ({ pro }) => {
               addToFavor(pro);
             }}
           >
-            <i className={`fas fa-heart `} />
+            <i className={`fas fa-heart ${inFavorItems && "text-danger"}`} />
           </button>
         </div>
         <button className="btn btn-buy mt-3">Mua ngay</button>
