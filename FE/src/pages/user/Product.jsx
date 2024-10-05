@@ -4,20 +4,42 @@ import "./css/Product.css";
 import { BoxPro } from "../../components";
 const Product = () => {
   const [Pros, setPros] = useState([]);
+  const [phone, setPhone] = useState([]);
+  const [laptop, setLaptop] = useState([]);
+  const [active, setActive] = useState(0);
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataPhone = async () => {
       const res = await fetch("/data.json");
       if (!res.ok) {
         console.error("Lỗi");
         return;
       }
       const data = await res.json();
-      setPros(data);
+      setPhone(data);
     };
-    fetchData();
+    const fetchDataLaptop = async () => {
+      const res = await fetch("/datalaptop.json");
+      if (!res.ok) {
+        console.error("Lỗi");
+        return;
+      }
+      const data = await res.json();
+      setLaptop(data);
+    };
+    fetchDataPhone();
+    fetchDataLaptop();
+    console.log(phone);
+    console.log(laptop);
   }, []);
+  useEffect(() => {
+    if (active === 0) {
+      setPros(phone);
+    } else {
+      setPros(laptop);
+    }
+  }, [active]);
   const [minPrice, setMinPrice] = useState(100);
-  const [maxPrice, setMaxPrice] = useState(1000);
+  const [maxPrice, setMaxPrice] = useState(2000);
   const filteredPros = Pros.filter(
     (pro) => pro.price > minPrice && pro.price < maxPrice
   );
@@ -100,10 +122,20 @@ const Product = () => {
               <h3>Danh mục</h3>
               <hr />
               <div className="category-name">
-                <button className="btn btn-primary" type="button">
+                <button
+                  className={`btn ${
+                    active === 0 ? "btn-primary" : "btn-secondary"
+                  }`}
+                  onClick={() => setActive(0)}
+                >
                   Điện thoại
                 </button>
-                <button className="btn btn-light" type="button">
+                <button
+                  className={`btn ${
+                    active === 1 ? "btn-primary" : "btn-secondary"
+                  }`}
+                  onClick={() => setActive(1)}
+                >
                   Laptop
                 </button>
               </div>
@@ -118,7 +150,7 @@ const Product = () => {
                 value={maxPrice}
                 onChange={handleRangeChange}
                 min="100"
-                max="1000"
+                max="2000"
               />
               <span>
                 từ: {minPrice} đến: {maxPrice}
