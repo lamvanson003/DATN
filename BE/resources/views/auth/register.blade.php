@@ -1,4 +1,4 @@
-@extends('admin.partial.layout')
+@extends('auth.partial.layout')
 
 @section('title', 'Trang đăng ký')
 

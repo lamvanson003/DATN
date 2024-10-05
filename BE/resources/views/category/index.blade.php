@@ -45,8 +45,9 @@
               <table id="add-row" class="display table table-hover fix_table text-center">
                 <thead>
                   <tr>
-                    <th>Tên danh mục</th>
                     <th>Hình ảnh</th>
+                    <th>Tên danh mục</th>
+                    <th>Đường dẫn</th>
                     <th>Mô tả</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
@@ -54,8 +55,9 @@
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Tên danh mục</th>
                     <th>Hình ảnh</th>
+                    <th>Tên danh mục</th>
+                    <th>Đường dẫn</th>
                     <th>Mô tả</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
@@ -71,6 +73,9 @@
                       <a class="fix_size_text" href="{{ route('admin.category.edit',$item->id) }}">
                         {{ $item->name }}
                       </a>
+                    </td>
+                    <td>
+                        {{ $item->slug }}
                     </td>
                     <td>{{ $item->description }}</td>
                     <td>
