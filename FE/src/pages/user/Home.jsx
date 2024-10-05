@@ -12,6 +12,16 @@ import "./css/Home.css";
 
 import { Brand } from "../../components";
 const Home = () => {
+  const [prosData, setProsData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("/data.json");
+      const data = await res.json();
+      setProsData(data);
+    };
+    fetchData();
+  }, []);
+  console.log(prosData);
   return (
     <>
       {/* start banner */}
@@ -27,13 +37,11 @@ const Home = () => {
       <div className="container mt-5">
         <div className="row justify-content-center">
           <p className="custom-text">Điện thoại</p>
-          {Array(10)
-            .fill(0)
-            .map((_, index) => (
-              <div key={index} className="col-md-2">
-                <BoxPro id={index + 1} />
-              </div>
-            ))}
+          {prosData.map((pro, index) => (
+            <div key={index} className="col-md-2">
+              <BoxPro pro={pro} />
+            </div>
+          ))}
         </div>
       </div>
       {/* end product */}

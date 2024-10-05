@@ -11,14 +11,13 @@ const BoxPro = ({ pro }) => {
   const inCartItem = cartItems.find((cartItem) => cartItem.id === pro?.id);
   const cartItemQuantity = inCartItem && inCartItem.quantity;
   const favoredItem = favorItems.find((favorItem) => favorItem.id === pro?.id);
-  console.log(favoredItem);
 
   return (
     <div className="card">
       <div className="badge-hot">Hot</div>
       <div className="badge-discount">-16%</div>
       <div className="img-container">
-        <Link>
+        <Link to={`/detail/${pro?.id}`}>
           <img
             alt="Image of iPhone 14 Pro Max 128GB"
             className="card-img-top "
@@ -29,14 +28,14 @@ const BoxPro = ({ pro }) => {
       </div>
       <div className="card-body">
         <p className="card-text">Điện thoại</p>
-        <Link to={`/detail/${pro?.id}`}>
+        <Link to={`/detail/${pro?.id}`} style={{ textDecoration: "none" }}>
           <h5 className="card-title text-center" style={{ cursor: "pointer" }}>
             {pro?.name ? pro?.name : "Not found"}
           </h5>
         </Link>
 
         <p className="price text-center">
-          {pro?.sale ? pro?.sale : "Not found"}
+          <span className="me-2">{pro?.sale ? pro?.sale : "Not found"}</span>
           <span className="old-price">
             {pro?.price ? pro?.price : "Not found"}
           </span>
