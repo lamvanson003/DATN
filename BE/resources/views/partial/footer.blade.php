@@ -235,34 +235,38 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-      var successNotification = document.querySelector('.alert-success');
-      var errorNotification = document.querySelector('.alert-danger');
+    var successNotification = document.querySelector('.alert-success');
+    var errorNotification = document.querySelector('.alert-danger');
 
-      if (successNotification) {
-          showToast(successNotification, '.jq-toast-loader', 2600); 
-      }
+    if (successNotification) {
+        showToast(successNotification, '.jq-toast-loader', 2600); 
+    }
 
-      if (errorNotification) {
-          showToast(errorNotification, '.jq-toast-loader', 2600); 
-  }});
+    if (errorNotification) {
+        showToast(errorNotification, '.jq-toast-loader', 2600); 
+    }
+});
 
-  function showToast(notification, loaderSelector, duration) {
-      const loader = notification.querySelector(loaderSelector);
-      notification.style.display = 'block';
-  
-      
-      loader.style.width = '0%';
-      setTimeout(() => {
-          loader.style.width = '100%';
-      }, 10); 
+function showToast(notification, loaderSelector, duration) {
+    const loader = notification.querySelector(loaderSelector);
+
+    if (loader) { // Kiểm tra nếu loader tồn tại
+        notification.style.display = 'block';
+        loader.style.width = '0%';
         
-      setTimeout(() => {
-          notification.style.display = 'none'; 
-      }, duration); 
-  }
-</script>  
+        setTimeout(() => {
+            loader.style.width = '100%';
+        }, 10); 
+        
+        setTimeout(() => {
+            notification.style.display = 'none'; 
+        }, duration); 
+    } else {
+        console.warn('Loader element not found for selector: ', loaderSelector);
+    }
+}
 
-
+</script>
 
 <!--   Core JS Files   -->
 <script src="{{ asset('/admin/assets/js/core/jquery-3.7.1.min.js') }}"></script>

@@ -44,16 +44,20 @@
                             </div>
                             <div class="row card-body">
                                 <!-- name -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Tên danh mục:</label>
-                                        <input type="text" required class="form-control" name="name" placeholder="Tên danh mục">
+                                <div class="col-md-12 col-sm-12 d-flex gap-2">
+                                    <div class="mb-3 col-5 ">
+                                        <label class="control-label">Tên danh mục<span style="color: red">*</span>:</label>
+                                        <input type="text" required class="form-control" name="name" placeholder="VD: Điện thoại">
+                                    </div>
+                                    <div class="mb-3 col-">
+                                        <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
+                                        <input type="text" required class="form-control" name="slug" placeholder="VD: dien-thoai">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="description" class="control-label">Mô tả:</label>
-                                        <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+                                        <textarea class="form-control" id="description" name="description" rows="5" placeholder="Nhập mô tả"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -82,12 +86,12 @@
                         </div>
 
                         <div class="card mb-3">
-                            <div class="card-header">Ảnh đại diện</div>
+                            <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
                             <div class="card-body p-2">
                                 <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
-                                <input type="hidden" name="images" id="imageUrl" value="{{ asset($category->images) }}">
+                                <input type="hidden" name="images" id="imageUrl" value="">
                                 <div class="image-container" style="cursor: pointer;">
-                                    <img id="imagePreview" src="{{ asset($category->images) }}" alt="Ảnh đại diện" style="max-width: 100%;">
+                                    <img id="imagePreview" src="{{  asset('/images/default-image.png')}}" alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>
                             </div>                            
                         </div>
@@ -97,20 +101,13 @@
                                 function loadFile(event) {
                                     const imagePreview = document.getElementById('imagePreview');
                                     const file = event.target.files[0];
-                        
+                                    
                                     if (file) {
-                                        // Kiểm tra kiểu tệp
-                                        const validTypes = ['image/jpeg', 'image/png', 'image/jpg' ,'image/gif'];
-                                        if (!validTypes.includes(file.type)) {
-                                            alert('Vui lòng chọn một tệp hình ảnh hợp lệ (JPG, PNG, GIF).');
-                                            return;
-                                        }
-                        
-                                        // Tạo URL blob cho hình ảnh đã chọn
                                         imagePreview.src = URL.createObjectURL(file);
+                                        document.getElementById('imageUrl').value = 'path/to/uploaded/image.jpg';                                    
                                     } else {
-                                        imagePreview.src = "{{ asset('/images/default-image.png') }}";
-                                        document.getElementById('imageUrl').value = ''; 
+                                        imagePreview.src = "asset('/images/default-image.png')";
+                                        document.getElementById('imageUrl').value = " ";                                    
                                     }
                                 }
                         
@@ -120,8 +117,7 @@
                         
                                 document.getElementById('fileInput').addEventListener('change', loadFile);
                             });
-                        </script>
-                                
+                        </script>                        
                     </div>                    
                 </div>
             </form>    
