@@ -94,7 +94,7 @@
                     </td>
                     <td>
                       <div class="form-button-action">
-                        <a href="#">
+                        <a href="{{ route('admin.category.edit',$item->id) }}">
                           <button type="button" data-bs-toggle="tooltip" class="btn btn-info btn-icon" title="Chỉnh sửa">
                             <i class="fa fa-pencil-alt"></i>
                           </button>
