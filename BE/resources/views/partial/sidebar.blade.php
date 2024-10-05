@@ -180,7 +180,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#dsthuonghieu">
+                  <a href="{{ route('admin.brand.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS thương hiệu</span>
                   </a>
