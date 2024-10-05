@@ -31,10 +31,13 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
         Route::prefix('/categories')->as('category.')->group(function () {
             Route::controller(App\Http\Controllers\Category\CategoryController::class)->group(function () {
                 Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+
                 Route::get('/', 'index')->name('index');
+
                 Route::get('/sua/{id}', 'edit')->name('edit');
                 Route::put('/sua', 'update')->name('update');
-                Route::post('/them', 'store')->name('store');
+                
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
             });
         });

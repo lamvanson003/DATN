@@ -21,4 +21,19 @@ class CategoryRequest extends BaseRequest
             'images' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ];
     }
+
+    /**
+     * Get the validation rules that apply to the POST request.
+     *
+     * @return array
+     */
+    protected function methodPut()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|integer',
+            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+        ];
+    }
 }

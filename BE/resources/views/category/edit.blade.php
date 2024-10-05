@@ -15,45 +15,41 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="#">Category</a>
+              <a href="{{ route('admin.category.index') }}">Danh mục</a>
             </li>
             <li class="separator">
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="{{ route('admin.category.index') }}">DS danh mục</a>
-            </li>
-            <li class="separator">
-                <i class="icon-arrow-right"></i>
-              </li>
-            <li class="nav-item">
-              <a href="#">Thêm danh mục</a>
+              <a href="#">Chỉnh sửa</a>
             </li>
           </ul>
         </div>
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.category.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.category.update')}}" method="POST">
                 @csrf
+                <input type="hidden" name="_method" value="PUT">
+                <input type="hidden" name="id" value="{{$category->id}}">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Thông tin danh mục</h3>
+                                <h3 class="mb-0 strong text-center">Chỉnh sửa danh mục</h3>
                             </div>
                             <div class="row card-body">
                                 <!-- name -->
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Tên danh mục:</label>
-                                        <input type="text" required class="form-control" name="name" placeholder="Tên danh mục">
+                                        <input type="text" required class="form-control" name="name" value="{{ $category->name }}" placeholder="Tên danh mục">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="description" class="control-label">Mô tả:</label>
-                                        <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+                                        <textarea class="form-control" id="description" name="description" rows="5">{{ $category->description }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -64,8 +60,8 @@
                         <div class="card mb-3">
                             <div class="card-header">Đăng</div>
                             <div class="card-body p-2">
-                                <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
-                                    Thêm
+                                <button type="submit" class="btn btn-primary p-1-2" title="Sửa">
+                                    Sửa
                                 </button>
                             </div>
                         </div>
@@ -75,19 +71,22 @@
                             <div class="card-body p-2">
                                 <select required class="form-select" name="status">
                                     @foreach ($status as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
+                                        <option {{ $key == $category->status->value ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
-                                </select>
+                                </select>                                
                             </div>
                         </div>
 
+                        {{-- Hình đại diện --}}
                         <div class="card mb-3">
                             <div class="card-header">Ảnh đại diện</div>
                             <div class="card-body p-2">
-                                <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
-                                <input type="hidden" name="images" id="imageUrl" value="{{ asset($category->images) }}">
+                                <input type="file" id="fileInput" name="images" class="d-none" accept="image/*">
+                                <input type="hidden" name="images" id="imageUrl" value="{{ $category->images }}">
                                 <div class="image-container" style="cursor: pointer;">
-                                    <img id="imagePreview" src="{{ asset($category->images) }}" alt="Ảnh đại diện" style="max-width: 100%;">
+                                    <img id="imagePreview" 
+                                         src="{{ $category->images ? asset($category->images) : asset('/images/default-image.png') }}" 
+                                         alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>
                             </div>                            
                         </div>
@@ -99,16 +98,12 @@
                                     const file = event.target.files[0];
                         
                                     if (file) {
-                                        // Kiểm tra kiểu tệp
-                                        const validTypes = ['image/jpeg', 'image/png', 'image/jpg' ,'image/gif'];
-                                        if (!validTypes.includes(file.type)) {
-                                            alert('Vui lòng chọn một tệp hình ảnh hợp lệ (JPG, PNG, GIF).');
-                                            return;
-                                        }
-                        
-                                        // Tạo URL blob cho hình ảnh đã chọn
+                                        // Hiển thị hình ảnh mới được chọn
                                         imagePreview.src = URL.createObjectURL(file);
+                                        // Cập nhật giá trị ẩn
+                                        document.getElementById('imageUrl').value = file.name; // Hoặc bất kỳ giá trị nào bạn muốn
                                     } else {
+                                        // Nếu không có hình ảnh, giữ nguyên hình ảnh cũ
                                         imagePreview.src = "{{ asset('/images/default-image.png') }}";
                                         document.getElementById('imageUrl').value = ''; 
                                     }
