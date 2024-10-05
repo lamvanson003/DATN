@@ -27,8 +27,8 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
             });
         });
 
-        Route::prefix('/categories')->as('category.')->group(function () {
-            Route::controller(App\Http\Controllers\Category\CategoryController::class)->group(function () {
+        Route::prefix('/users')->as('user.')->group(function () {
+            Route::controller(App\Http\Controllers\Dashboard\DashboardController::class)->group(function () {
                 Route::get('/them', 'create')->name('create');
                 Route::get('/', 'index')->name('index');
                 Route::get('/sua/{id}', 'edit')->name('edit');

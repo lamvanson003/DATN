@@ -12,7 +12,11 @@ export const FavorProvider = ({ children }) => {
       (favorItem) => favorItem.id === item.id
     );
     if (isItemInFavor) {
-      toast.warning("Sản phẩm đã có trong phần yêu thích");
+      const updateFavorItems = favorItems.filter(
+        (favorItem) => favorItem.id !== item.id
+      );
+      setFavorItems(updateFavorItems);
+      toast.warning("Đã xóa khỏi mục yêu thích");
     } else {
       setFavorItems([...favorItems, item]);
       toast.success("Đã thêm vào mục yêu thích");

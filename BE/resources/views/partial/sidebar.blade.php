@@ -151,7 +151,7 @@
             <div class="collapse" id="category">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="#themdanhmuc">
+                  <a href="{{ route('admin.category.create') }}">
                     <i class="fas fa-plus"></i>
                     <span>Thêm danh mục</span>
                   </a>

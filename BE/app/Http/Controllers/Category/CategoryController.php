@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Enums\Category\CategoryStatus;
 use App\Http\Requests\Category\CategoryRequest;
 use Illuminate\Http\Request;
-
+use Exception;
 class CategoryController extends Controller
 {
     public function index()
@@ -24,23 +24,78 @@ class CategoryController extends Controller
 
 
     public function store(CategoryRequest $request)
-{        
-    $imagePath = '';
-    if ($request->hasFile('images')) {
-        // Lưu hình ảnh và lấy đường dẫn
-        $imagePath = $request->file('images')->store('images/category', 'public'); 
+    {   
+        try {
+            $imagePath = '';
+            if ($request->hasFile('images')) {
+                $image = $request->file('images');
+    
+                $fileName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('images/category'), $fileName);
+                $imagePath = '/images/category/' . $fileName;
+            }
+    
+            Category::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'status' => $request->status,
+                'slug' => $request->slug,
+                'images' => $imagePath,
+            ]);
+    
+            return redirect()->route('admin.category.index')->with('success', 'Thêm thành công.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        }
+       
     }
 
-    // Tạo đối tượng Category
-    Category::create([
-        'name' => $request->name,
-        'description' => $request->description,
-        'status' => $request->status,
-        'images' => $imagePath, // Lưu đường dẫn hình ảnh vào DB
-    ]); 
+    public function edit($id){
+        $category = Category::findOrFail($id);
+        
+        return view('category.edit',
+        ['category'=> $category],
+        ['status' =>CategoryStatus::asSelectArray()]);
+    }
 
-    return redirect()->route('admin.category.index')->with('success', 'Danh mục đã được thêm thành công.');
+    public function update(Request $request)
+{   
+    
+   
+    $request->validate([
+        'id' => ['required','exists:categories,id'],
+        'name' => 'required|string|max:255',
+        'slug' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'status' => 'required',
+        'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+    
+    $category = Category::find($request['id']);
+
+
+    if ($request->hasFile('new_image')) {
+        if ($category->images && file_exists(public_path($category->images))) {
+            unlink(public_path($category->images));
+        }
+        $newImage = $request->file('new_image');
+        $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
+        $newImage->move(public_path('images/category'), $newImageName);
+
+        $category->images = 'images/category/' . $newImageName;
+    }
+    $category->images = $category->images ?? $request->input('old_image');
+
+    // Cập nhật các trường khác
+    $category->name = $request->input('name');
+    $category->description = $request->input('description');
+    $category->status = $request->input('status');
+    $category->slug = $request->input('slug');
+
+    $category->save();
+
+    return redirect()->route('admin.category.edit', $category->id)->with('success', 'Danh mục đã được cập nhật thành công!');
 }
 
-
+    
 }

@@ -42,11 +42,12 @@
           <div class="card-body">
             <!-- Modal -->
             <div class="table-responsive">
-              <table id="add-row" class="display table table-hover fix_table">
+              <table id="add-row" class="display table table-hover fix_table text-center">
                 <thead>
                   <tr>
-                    <th>Tên danh mục</th>
                     <th>Hình ảnh</th>
+                    <th>Tên danh mục</th>
+                    <th>Đường dẫn</th>
                     <th>Mô tả</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
@@ -54,8 +55,9 @@
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Tên danh mục</th>
                     <th>Hình ảnh</th>
+                    <th>Tên danh mục</th>
+                    <th>Đường dẫn</th>
                     <th>Mô tả</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
@@ -103,7 +105,7 @@
                   @endforeach
                 </tbody>
               </table>
-            </div>
+            </div>            
           </div>
         </div>
       </div>
