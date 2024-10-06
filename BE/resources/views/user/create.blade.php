@@ -103,6 +103,10 @@
                                         </select>
                                     </div>
                                 </div>
+                                
+                                <div class="col-12 col-sm-12 d-flex gap-2">
+                                    <input type="text" id="address" name="address" class="form-control" readonly>
+                                </div>
                             </div>
                         </div>
                     </div>
