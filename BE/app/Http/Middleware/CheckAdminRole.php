@@ -20,10 +20,10 @@ class CheckAdminRole
 {
     if (Auth::check()) {
 
-        if (Auth::user()->roles === UserRole::Admin && Auth::user()->status === UserStatus::Active ) {
+        if (Auth::user()->roles === UserRole::Admin && Auth::user()->status->value === UserStatus::Active ) {
             return $next($request);
         }
-        return redirect()->route('some.other.route')->with('error', 'Bạn không có quyền truy cập.');
+        return redirect()->route('admin.login')->with('error', 'Bạn không có quyền truy cập.');
     }
 
     return redirect()->route('admin.index')->with('error', ('Vui lòng đăng nhập để thực hiện'));
