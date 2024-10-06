@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Enums\User;
+namespace App\Enums\Brand;
 
 use BenSampo\Enum\Enum;
 
-final class UserStatus extends Enum
+final class BrandStatus extends Enum
 {
-    const Inactive = 0;        // Ngưng hoạt động
-    const Active = 1;          // Đang hoạt động
-    const Pendding = 2;          // Chờ duyệt
+    const Active = 1; // Hoạt động
+    const Inactive = 0; // Ngưng hoạt động
+    const Deleted = 2; // Đã xóa
 
     public static function asSelectArray(): array
     {
         return [
             self::Active => 'Hoạt động',
             self::Inactive => 'Ngưng hoạt động',
-            self::Inactive => 'Ngưng hoạt động',
+            self::Deleted => 'Đã xóa',
         ];
     }
 
@@ -24,7 +24,10 @@ final class UserStatus extends Enum
         return match ($value) {
             self::Active => 'Hoạt động',
             self::Inactive => 'Ngưng hoạt động',
+            self::Deleted => 'Đã xóa',
             default => 'Không xác định',
         };
     }
 }
+
+

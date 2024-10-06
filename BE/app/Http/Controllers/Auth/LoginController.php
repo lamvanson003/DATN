@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\User\UserRole;
+use App\Enums\User\UserStatus;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -23,13 +24,10 @@ class LoginController extends Controller
         $validatedData = $request->validated();
 
         $user = User::where('email', $validatedData['email'])->first();
-
         if ($user && Hash::check($validatedData['password'], $user->password)) {
             Auth::login($user);
-            Log::info('Session data', ['mess' =>  Auth::login($user)]);
-            if ($user->roles === UserRole::Admin) {
+            if ($user->roles === UserRole::Admin  && $user->status === 1) {
                 $request->session()->regenerate();
-                Log::info('Session data', ['mess' => $user]);
                 return redirect()->intended(route('admin.dashboard.index'))
                     ->with('success', 'Đăng nhập thành công');
             }

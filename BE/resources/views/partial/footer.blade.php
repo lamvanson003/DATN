@@ -245,9 +245,9 @@
     if (errorNotification) {
         showToast(errorNotification, '.jq-toast-loader', 2600); 
     }
-});
+  });
 
-function showToast(notification, loaderSelector, duration) {
+  function showToast(notification, loaderSelector, duration) {
     const loader = notification.querySelector(loaderSelector);
 
     if (loader) { // Kiểm tra nếu loader tồn tại
@@ -264,9 +264,33 @@ function showToast(notification, loaderSelector, duration) {
     } else {
         console.warn('Loader element not found for selector: ', loaderSelector);
     }
-}
-
+  }
 </script>
+
+<!--   Show Image   -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      function loadFile(event) {
+          const imagePreview = document.getElementById('imagePreview');
+          const file = event.target.files[0];
+          
+          if (file) {
+              imagePreview.src = URL.createObjectURL(file);
+              document.getElementById('imageUrl').value = 'path/to/uploaded/image.jpg';                                    
+          } else {
+              imagePreview.src = "asset('/images/default-image.png')";
+              document.getElementById('imageUrl').value = " ";                                    
+          }
+      }
+
+      document.querySelector('.image-container').addEventListener('click', function() {
+          document.getElementById('fileInput').click();
+      });
+
+      document.getElementById('fileInput').addEventListener('change', loadFile);
+  });
+</script>  
+
 
 <!--   Core JS Files   -->
 <script src="{{ asset('/admin/assets/js/core/jquery-3.7.1.min.js') }}"></script>

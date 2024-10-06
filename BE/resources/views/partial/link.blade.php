@@ -20,8 +20,9 @@
 
 <!-- CSS Files -->
 <link rel="stylesheet" href="{{ asset('/admin/assets/css/bootstrap.min.css') }}" />
-<link rel="stylesheet" href="{{ asset('/admin/assets/css/plugins.min.css') }}" />
+
 <link rel="stylesheet" href="{{ asset('/admin/assets/css/kaiadmin.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('/admin/assets/css/plugins.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('/admin/assets/css/admin.css') }}" />
 
 <!-- CSS Just for demo purpose, don't include it in your project -->

@@ -18,7 +18,7 @@
                 <span class="jq-toast-loader jq-toast-loaded" style="-webkit-transition: width 2.6s ease-in;-o-transition: width 2.6s ease-in;transition: width 2.6s ease-in;background-color: #9EC600;"></span>
                 <span class="close-jq-toast-single">×</span>
                 <h2 class="jq-toast-heading">Thông báo</h2>
-                Thực hiện thành công.
+                {{ session('success') }}
             </div>
         </div>    
     @endif
@@ -28,7 +28,7 @@
                 <span class="jq-toast-loader jq-toast-loaded" style="-webkit-transition: width 2.6s ease-in;-o-transition: width 2.6s ease-in;transition: width 2.6s ease-in;background-color: #c63500;"></span>
                 <span class="close-jq-toast-single">×</span>
                 <h2 class="jq-toast-heading">Thông báo</h2>
-                Thực hiện thất bại.
+                {{ session('error') }}
             </div>
         </div>
     @endif    

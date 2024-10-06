@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Category;
-use App\Enums\Category\CategoryStatus;
+namespace App\Http\Requests\Brand;
+use App\Enums\Brand\BrandStatus;
 use App\Http\Requests\BaseRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class CategoryRequest extends BaseRequest
+class BrandRequest extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the POST request.
@@ -16,8 +16,7 @@ class CategoryRequest extends BaseRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'slug' => 'nullable|string',
             'status' => 'required|integer',
             'images' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ];
@@ -31,11 +30,10 @@ class CategoryRequest extends BaseRequest
     protected function methodPut()
     {
         return [
-            'id' => ['required', 'exists:categories,id'],
+            'id' => ['required','exists:brands,id'],
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'status' => 'required',
+            'status' => 'required|integer',
             'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
