@@ -22,11 +22,11 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         $validatedData = $request->validated();
-
+       
         $user = User::where('email', $validatedData['email'])->first();
         if ($user && Hash::check($validatedData['password'], $user->password)) {
             Auth::login($user);
-            if ($user->roles === UserRole::Admin  && $user->status === 1) {
+            if ($user->roles === UserRole::Admin  && $user->status->value === UserStatus::Active) {
                 $request->session()->regenerate();
                 return redirect()->intended(route('admin.dashboard.index'))
                     ->with('success', 'Đăng nhập thành công');
