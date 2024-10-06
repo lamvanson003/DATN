@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Outlet } from "react-router-dom";
 import "./css/Product.css";
 import { BoxPro } from "../../components";
@@ -46,10 +46,12 @@ const Product = () => {
 
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(2000);
-  const filteredPros = Pros.filter(
-    (pro) => pro.price > minPrice && pro.price < maxPrice
-  );
-  const curItems = filteredPros.slice(indexOfFirstItem, indexOfLastItem);
+  const filteredPros = useMemo(() => {
+    return Pros.filter((pro) => pro.price > minPrice && pro.price < maxPrice);
+  }, [Pros, minPrice, maxPrice]);
+  const curItems = useMemo(() => {
+    return filteredPros.slice(indexOfFirstItem, indexOfLastItem);
+  }, [filteredPros, indexOfFirstItem, indexOfLastItem]);
   useEffect(() => {
     if (active === 0) {
       setPros(phone);
@@ -182,11 +184,6 @@ const Product = () => {
                   <li>
                     <a className="dropdown-item" href="#!">
                       Thương hiệu 3
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#!">
-                      Thương hiệu 4
                     </a>
                   </li>
                 </ul>

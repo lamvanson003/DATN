@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { CartContext } from "../../context/Cart";
 import mainImg1 from "../../assets/images/k1.jpeg";
 import mainImg2 from "../../assets/images/k2.jpeg";
@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 const Detail = () => {
   const { addToCart } = useContext(CartContext);
   const { pid } = useParams();
+  const ref = useRef();
   const [proDatas, setProDatas] = useState([]);
   useEffect(() => {
     const fetchProData = async () => {
@@ -24,8 +25,13 @@ const Detail = () => {
     };
     fetchProData();
   }, [pid]);
-  // console.log(pid);
-  // console.log(proDatas);
+  useEffect(() => {
+    ref.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  }, [pid]);
   const proData = proDatas.find((item) => item.id === parseInt(pid));
   const imgList = [mainImg1, mainImg2, mainImg3, mainImg4];
   // State để lưu hình ảnh chính, dung lượng và màu sắc đang được chọn
@@ -53,7 +59,7 @@ const Detail = () => {
   return (
     <>
       <div className="container pb-3">
-        <section className="px-2 py-3 mb-2" id="Breadcrumb">
+        <section className="px-2 py-3 mb-2" id="Breadcrumb" ref={ref}>
           <div className="container p-3 bg-Breadcrumb mt-5">
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb mb-0">
@@ -86,16 +92,16 @@ const Detail = () => {
                 <div className="d-flex flex-column align-items-center">
                   <div
                     style={{ width: "100%" }}
-                    className="d-flex border border-success rounded"
+                    className="d-flex  justify-content-center"
                   >
-                    <img src={mainImage} style={{ width: "100%" }} alt="" />
+                    <img src={mainImage} style={{ width: "60%" }} alt="" />
                   </div>
                   <div className="row">
                     {imgList.map((item, index) => (
-                      <div key={index} className="col-sm-3">
+                      <div key={index} className="col-sm-3 mt-3">
                         <img
                           src={item}
-                          style={{ width: "100%", cursor: "pointer" }}
+                          style={{ width: "70%", cursor: "pointer" }}
                           alt=""
                           onClick={() => handleImageClick(item)}
                         />
