@@ -5,12 +5,37 @@
   max-height: fit-content;
   border-radius: 4px;
 }
-
-.fix_size_text {
-  font-size: 17px;
-  font-weight: 700;
+.required_feild{
+  color: red;
 }
-
+.fix_size_text {
+  font-weight: 500;
+}
+/* FIX TABLE */
+thead>tr>th{
+  border: 1px solid black;
+  border-collapse:unset !important;
+  background-color: #f8fafc !important;
+  color: #616876 !important;
+  font-weight: bold;
+}
+tfoot>tr>th{
+  border: 1px solid black;
+  border-collapse:unset !important;
+  background-color: #f8fafc !important;
+}
+tbody>tr>td,tfoot>tr>th{
+  border: 1px solid black;
+  border-collapse:unset !important;
+  background-color: #ffffff;
+}
+tbody>tr>td> a,tbody>tr>td>a>span {
+  font-weight: 100;
+  color: rgb(32 107 196) !important;
+}
+a:hover{
+  text-decoration: underline !important;
+}
 /* Fix image */
 /* Định dạng container hình ảnh */
 .image-container {
@@ -51,24 +76,6 @@
   /* Phóng to nhẹ khi hover */
 }
 
-/* Fix table */
-/* Làm nổi bật header của bảng */
-.table thead {
-  background-color: #343a40;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Màu nền và đường viền của hàng */
-.table tbody tr {
-  transition: background-color 0.3s, box-shadow 0.3s;
-}
-
-.table tbody tr:hover {
-  background-color: #f5f5f5;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
 
 /* Hiệu ứng hover cho nút chỉnh sửa */
 .btn-info.btn-icon {

@@ -31,12 +31,12 @@ class CategoryRequest extends BaseRequest
     protected function methodPut()
     {
         return [
-            'id' => ['required','exists:categories,id'],
+            'id' => ['required', 'exists:categories,id'],
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status' => 'required|integer',
-            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'status' => 'required',
+            'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }

@@ -1,5 +1,5 @@
 @extends('layout_admin')
-@section('title','Danh mục')
+@section('title','Khách hàng ')
 @section('content_admin')
 <div class="container">
   <div class="page-inner">
@@ -15,13 +15,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Category</a>
-        </li>
-        <li class="separator">
-          <i class="icon-arrow-right"></i>
-        </li>
-        <li class="nav-item">
-          <a href="#">DS danh mục</a>
+          <a href="#">DS khách hàng</a>
         </li>
       </ul>
     </div>
@@ -30,8 +24,8 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">DS danh mục</h4>
-              <a href="{{ route('admin.category.create') }}" class="ms-auto">
+              <h4 class="card-title">DS khách hàng</h4>
+              <a href="{{ route('admin.user.create') }}" class="ms-auto">
                 <button  type="submit" class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#addRowModal" >
                   <i class="fa fa-plus"></i>
                   Thêm
@@ -42,59 +36,68 @@
           <div class="card-body">
             <!-- Modal -->
             <div class="table-responsive">
-              <table id="add-row" class="display table table-hover fix_table text-center">
+              <table id="add-row" class=" table fix_table text-center w-auto">
                 <thead>
                   <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên danh mục</th>
-                    <th>Đường dẫn</th>
-                    <th>Mô tả</th>
+                    <th>Ảnh</th>
+                    <th>Khách hàng</th>
+                    <th>Email</th>
+                    <th>Điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Ngày đăng ký</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên danh mục</th>
-                    <th>Đường dẫn</th>
-                    <th>Mô tả</th>
+                    <th>Ảnh</th>
+                    <th>Khách hàng</th>
+                    <th>Email</th>
+                    <th>Điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Ngày đăng ký</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  @foreach ($category as $item)
+                  @foreach ($user as $item)
                   <tr>
                     <td>
-                      <img class="text-center fix-image mx-auto" src="{{ asset($item->images) }}" alt="{{ $item->name }}">
+                      <img class="text-center fix-image mx-auto" src="{{ asset($item->avatar ?? 'N/A' ) }}" alt="{{ $item->name }}">
                     </td>
                     <td>
-                      <a class="fix_size_text" href="{{ route('admin.category.edit',$item->id) }}">
-                        {{ $item->name }}
+                      <a class="fix_size_text" href="{{ route('admin.user.edit',$item->id) }}">
+                        <span>{{ $item->fullname }}</span>
                       </a>
                     </td>
                     <td>
-                        {{ $item->slug }}
+                        <span> {{ $item->email }}</span>
                     </td>
-                    <td>{{ $item->description }}</td>
                     <td>
-                      @switch($item->status->value)
-                      @case(\App\Enums\Category\CategoryStatus::Active)
-                      <span class="badge rounded-pill badge-success">{{ $item->status->description }}</span>
-                      @break
-                      @case(\App\Enums\Category\CategoryStatus::Inactive)
-                      <span class="badge rounded-pill badge-warning">{{ $item->status->description }}</span>
-                      @break
-                      @case(\App\Enums\Category\CategoryStatus::Deleted)
-                      <span class="badge rounded-pill badge-danger">{{ $item->status->description }}</span>
-                      @break
-                      @default
-                      @endswitch
+                        <span> {{ $item->phone }}</span>
+                    </td>
+                    <td>
+                        <span>{{ $item->address }}</span>
+                    </td>
+                    <td>
+                        <span>{{ $item->created_at ?? 'N/A' }}</span>
+                    </td>
+                    <td>    
+                        @switch($item->status->value)
+                        @case(\App\Enums\User\UserStatus::Active)
+                        <span class="badge rounded-pill badge-success">{{ $item->status->description }}</span>
+                        @break
+                        @case(\App\Enums\User\UserStatus::Inactive)
+                        <span class="badge rounded-pill badge-warning">{{ $item->status->description }}</span>
+                        @break
+                        @default
+                        @endswitch
                     </td>
                     <td>
                       <div class="form-button-action gap-2">
-                        <a href="{{ route('admin.category.edit',$item->id) }}">
+                        <a href="{{ route('admin.user.edit',$item->id) }}">
                           <button type="button" data-bs-toggle="tooltip" class="btn btn-info btn-icon" title="Chỉnh sửa">
                             <i class="fa fa-pencil-alt"></i>
                           </button>
@@ -120,7 +123,7 @@
                               Chuyển trạng thái thành đã xóa
                           </div>
                           <div class="modal-footer">
-                            <form action="{{ route('admin.category.delete',$item->id) }}" method="POST">
+                            <form action="{{ route('admin.user.delete',$item->id) }}" method="POST">
                               @csrf
                               <input type="hidden" name="_method" value="DELETE">
                               <button type="submit" class="btn btn-danger">Xóa</button>
