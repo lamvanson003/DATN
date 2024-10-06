@@ -12,6 +12,9 @@ const Cart = () => {
   const handleNavigate = () => {
     navigate("/product");
   };
+  const navigatePayment = () => {
+    navigate("/payment");
+  };
   return (
     <div
       className="d-flex align-items-center justify-content-center w-100"
@@ -175,6 +178,7 @@ const Cart = () => {
                       cursor: "pointer",
                     }}
                     className="text-center px-2 py-2 rounded text-light fw-bold"
+                    onClick={() => navigatePayment()}
                   >
                     Tiến hành thanh toán
                   </span>
