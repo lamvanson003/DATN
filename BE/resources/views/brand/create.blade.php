@@ -1,5 +1,5 @@
 @extends('layout_admin')
-@section('title','Danh mục')
+@section('title','Thương hiệu')
 @section('content_admin')
 <div class="container">
     <div class="page-inner">
@@ -15,19 +15,19 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="#">Brand</a>
+              <a href="{{ route('admin.brand.index') }}">Brand</a>
             </li>
             <li class="separator">
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="{{ route('admin.brand.index') }}">DS danh mục</a>
+              <a href="{{ route('admin.brand.index') }}">DS thương hiệu</a>
             </li>
             <li class="separator">
                 <i class="icon-arrow-right"></i>
               </li>
             <li class="nav-item">
-              <a href="#">Thêm danh mục</a>
+              <a href="#">Thêm thương hiệu</a>
             </li>
           </ul>
         </div>
@@ -40,20 +40,21 @@
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Thông tin danh mục</h3>
+                                <h3 class="mb-0 strong text-center">Thông tin thương hiệu</h3>
                             </div>
                             <div class="row card-body">
                                 <!-- name -->
                                 <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Tên danh mục:</label>
-                                        <input type="text" required class="form-control" name="name" placeholder="Tên danh mục">
+                                    <div class="mb-3 ">
+                                        <label class="control-label">Tên thương hiệu<span style="color: red">*</span>:</label>
+                                        <input type="text" required class="form-control" name="name" placeholder="VD: Iphone 13Promax">
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <label for="description" class="control-label">Mô tả:</label>
-                                        <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="mb-3 ">
+                                        <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
+                                        <input type="text" required class="form-control" name="slug" placeholder="VD: Iphone-13promax">
                                     </div>
                                 </div>
                             </div>
@@ -82,46 +83,15 @@
                         </div>
 
                         <div class="card mb-3">
-                            <div class="card-header">Ảnh đại diện</div>
+                            <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
                             <div class="card-body p-2">
-                                <input type="file" id="fileInput" name="images" class="d-none" accept="image/*">
+                                <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
                                 <input type="hidden" name="images" id="imageUrl" value="">
                                 <div class="image-container" style="cursor: pointer;">
-                                    <img id="imagePreview" src="{{ asset('/images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
+                                    <img id="imagePreview" src="{{  asset('/images/default-image.png')}}" alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>
                             </div>                            
                         </div>
-                        
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                function loadFile(event) {
-                                    const imagePreview = document.getElementById('imagePreview');
-                                    const file = event.target.files[0];
-                        
-                                    if (file) {
-                                        // Kiểm tra kiểu tệp
-                                        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-                                        if (!validTypes.includes(file.type)) {
-                                            alert('Vui lòng chọn một tệp hình ảnh hợp lệ (JPG, PNG, GIF).');
-                                            return;
-                                        }
-                        
-                                        // Tạo URL blob cho hình ảnh đã chọn
-                                        imagePreview.src = URL.createObjectURL(file);
-                                    } else {
-                                        imagePreview.src = "{{ asset('/images/default-image.png') }}";
-                                        document.getElementById('imageUrl').value = ''; 
-                                    }
-                                }
-                        
-                                document.querySelector('.image-container').addEventListener('click', function() {
-                                    document.getElementById('fileInput').click();
-                                });
-                        
-                                document.getElementById('fileInput').addEventListener('change', loadFile);
-                            });
-                        </script>
-                                
                     </div>                    
                 </div>
             </form>    

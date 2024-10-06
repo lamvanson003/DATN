@@ -1,5 +1,5 @@
 @extends('layout_admin')
-@section('title','Admin')
+@section('title','Khách hàng')
 @section('content_admin')
 <div class="container">
     <div class="page-inner">
@@ -15,13 +15,13 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="{{ route('admin.category.index') }}">DS admin</a>
+              <a href="{{ route('admin.category.index') }}">DS khách hàng</a>
             </li>
             <li class="separator">
                 <i class="icon-arrow-right"></i>
               </li>
             <li class="nav-item">
-              <a href="#">Thêm admin</a>
+              <a href="#">Thêm khách hàng</a>
             </li>
           </ul>
         </div>
@@ -34,14 +34,14 @@
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Thông tin admin</h3>
+                                <h3 class="mb-0 strong text-center">Thông tin khách hàng</h3>
                             </div>
                             <div class="row card-body">
                                 <!-- fullname -->
                                 <div class="col-md-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-6 ">
-                                        <label class="control-label">Tên admin<span class="required_feild">*</span>:</label>
-                                        <input type="text" required class="form-control" name="fullname" placeholder="Tên admin">
+                                        <label class="control-label">Tên khách hàng<span class="required_feild">*</span>:</label>
+                                        <input type="text" required class="form-control" name="fullname" placeholder="Tên khách hàng">
                                     </div>
                                 {{-- Email --}}
                                     <div class="mb-3 col-6">

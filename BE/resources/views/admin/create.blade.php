@@ -15,7 +15,7 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="{{ route('admin.category.index') }}">DS admin</a>
+              <a href="{{ route('admin.admin.index') }}">DS admin</a>
             </li>
             <li class="separator">
                 <i class="icon-arrow-right"></i>
@@ -28,7 +28,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.user.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.admin.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
@@ -55,7 +55,7 @@
                                         <label for="phone" class="control-label">Số điện thoại<span class="required_feild">*</span>:</label>
                                         <input class="form-control" type="number" id="phone" name="phone" placeholder="Số điện thoại"></input>
                                     </div>
-                                {{-- Username --}}
+                                {{-- adminname --}}
                                     <div class="mb-3 col-6">
                                         <label for="username" class="control-label">Tên đăng nhập:</label>
                                         <input class="form-control" type="text" id="username" name="username" placeholder="Tên đăng nhập"></input>

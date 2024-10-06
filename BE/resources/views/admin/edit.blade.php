@@ -15,50 +15,52 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="{{ route('admin.category.index') }}">DS admin</a>
+              <a href="{{ route('admin.admin.index') }}">DS Admin</a>
             </li>
             <li class="separator">
                 <i class="icon-arrow-right"></i>
               </li>
             <li class="nav-item">
-              <a href="#">Thêm admin</a>
+              <a href="#">Sửa thông tin</a>
             </li>
           </ul>
         </div>
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.user.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.admin.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="_method" value="PUT">
+                <input type="hidden" name="id" value="{{$admin->id}}">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Thông tin admin</h3>
+                                <h3 class="mb-0 strong text-center">Thông tin Admin</h3>
                             </div>
                             <div class="row card-body">
                                 <!-- fullname -->
                                 <div class="col-md-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-6 ">
-                                        <label class="control-label">Tên admin<span class="required_feild">*</span>:</label>
-                                        <input type="text" required class="form-control" name="fullname" placeholder="Tên admin">
+                                        <label class="control-label">Tên Admin<span class="required_feild">*</span>:</label>
+                                        <input type="text" required class="form-control" value="{{ $admin->fullname }}" name="fullname" placeholder="Tên Admin">
                                     </div>
                                 {{-- Email --}}
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Email<span class="required_feild">*</span>:</label>
-                                        <input type="email" required class="form-control" name="email" placeholder="Nhập Email">
+                                        <input type="email" required class="form-control" value="{{ $admin->email }}" name="email" placeholder="Nhập Email">
                                     </div>
                                 </div>
                                 {{-- Phone --}}
                                 <div class="col-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-6">
                                         <label for="phone" class="control-label">Số điện thoại<span class="required_feild">*</span>:</label>
-                                        <input class="form-control" type="number" id="phone" name="phone" placeholder="Số điện thoại"></input>
+                                        <input class="form-control" type="number" id="phone" value="{{ $admin->phone }}" name="phone" placeholder="Số điện thoại"></input>
                                     </div>
-                                {{-- Username --}}
+                                {{-- username --}}
                                     <div class="mb-3 col-6">
                                         <label for="username" class="control-label">Tên đăng nhập:</label>
-                                        <input class="form-control" type="text" id="username" name="username" placeholder="Tên đăng nhập"></input>
+                                        <input class="form-control" type="text" id="username" value="{{ $admin->username }}" name="username" placeholder="Tên đăng nhập"></input>
                                     </div>
                                                                       
                                 </div>
@@ -66,11 +68,11 @@
                                 <div class="col-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-6">
                                         <label for="password" class="control-label" >Mật khẩu <span class="required_feild">*</span>:</label>
-                                        <input required type="password" class="form-control" id="password" name="password" placeholder="Nhập Mật khẩu"></input>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Nhập Mật khẩu"></input>
                                     </div>
                                     <div class="mb-3 col-6">
                                         <label for="password_confirmation" class="control-label">Xác nhận mật khẩu <span class="required_feild">*</span>:</label>
-                                        <input required type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Nhập Mật khẩu"></input>
+                                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Nhập Mật khẩu"></input>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12 d-flex gap-2">
@@ -111,8 +113,8 @@
                         <div class="card mb-3">
                             <div class="card-header">Đăng</div>
                             <div class="card-body p-2">
-                                <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
-                                    Thêm
+                                <button type="submit" class="btn btn-primary p-1-2" title="Sửa">
+                                    Sửa
                                 </button>
                             </div>
                         </div>
@@ -120,24 +122,49 @@
                         <div class="card mb-3">
                             <div class="card-header">Trạng thái</div>
                             <div class="card-body p-2">
-                                <select required class="form-select" name="status">
+                                <select class="form-select" name="status">
                                     @foreach ($status as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
+                                        <option {{ $key == $admin->status->value ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
-                                </select>
+                                </select>                                
                             </div>
                         </div>
 
                         <div class="card mb-3">
-                            <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
+                            <div class="card-header">Ảnh đại diện</div>
                             <div class="card-body p-2">
-                                <input required type="file" id="fileInput" name="avatar" class="d-none" accept="image/*">
-                                <input type="hidden" name="avatar" id="imageUrl" value="">
+                                <!-- Input ẩn để chọn file -->
+                                <input type="file" id="fileInput" name="new_image" class="d-none" accept="image/*">
+                                <!-- Input ẩn để lưu URL hình ảnh ban đầu -->
+                                <input type="hidden" name="old_image" value="{{ $admin->avatar }}">
                                 <div class="image-container" style="cursor: pointer;">
-                                    <img id="imagePreview" src="{{  asset('/images/default-image.png')}}" alt="Ảnh đại diện" style="max-width: 100%;">
+                                    <!-- Hình ảnh đại diện ban đầu -->
+                                    <img id="imagePreview" 
+                                         src="{{ asset($admin->avatar ?? 'images/default-image.png') }}" 
+                                         alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>
-                            </div>                            
+                            </div>                                                      
                         </div>
+                        
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                function loadFile(event) {
+                                    const imagePreview = document.getElementById('imagePreview');
+                                    const file = event.target.files[0];
+                                    
+                                    if (file) {
+                                        imagePreview.src = URL.createObjectURL(file);
+                                    } else {
+                                        imagePreview.src = "{{ asset($admin->avatar ?? 'images/default-image.png') }}";
+                                    }
+                                }
+                                document.querySelector('.image-container').addEventListener('click', function() {
+                                    document.getElementById('fileInput').click();
+                                });
+                            
+                                document.getElementById('fileInput').addEventListener('change', loadFile);
+                            });
+                       </script>
                     </div>                    
                 </div>
             </form>    

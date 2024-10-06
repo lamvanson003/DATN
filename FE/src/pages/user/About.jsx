@@ -214,7 +214,7 @@ const About = () => {
               <img alt="" src={plane} />
             </span>
             <input
-              className="form-control"
+              className="form-control p-0 m-0"
               placeholder="Địa chỉ email của bạn"
               type="email"
             />

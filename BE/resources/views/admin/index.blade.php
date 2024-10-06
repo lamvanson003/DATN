@@ -1,5 +1,5 @@
 @extends('layout_admin')
-@section('title','Danh mục')
+@section('title','Khách hàng ')
 @section('content_admin')
 <div class="container">
   <div class="page-inner">
@@ -15,13 +15,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Category</a>
-        </li>
-        <li class="separator">
-          <i class="icon-arrow-right"></i>
-        </li>
-        <li class="nav-item">
-          <a href="#">DS danh mục</a>
+          <a href="#">DS admin</a>
         </li>
       </ul>
     </div>
@@ -30,8 +24,8 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">DS danh mục</h4>
-              <a href="{{ route('admin.category.create') }}" class="ms-auto">
+              <h4 class="card-title">DS admin</h4>
+              <a href="{{ route('admin.admin.create') }}" class="ms-auto">
                 <button  type="submit" class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#addRowModal" >
                   <i class="fa fa-plus"></i>
                   Thêm
@@ -45,48 +39,65 @@
               <table id="add-row" class="display table table-hover fix_table text-center">
                 <thead>
                   <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên danh mục</th>
-                    <th>Đường dẫn</th>
-                    <th>Mô tả</th>
+                    <th>Avatar</th>
+                    <th>Tên Amdin</th>
+                    <th>Tên hiển thị</th>
+                    <th>Email</th>
+                    <th>Điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Ngày đăng ký</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên danh mục</th>
-                    <th>Đường dẫn</th>
-                    <th>Mô tả</th>
+                    <th>Avatar</th>
+                    <th>Tên Amdin</th>
+                    <th>Tên hiển thị</th>
+                    <th>Email</th>
+                    <th>Điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Ngày đăng ký</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  @foreach ($category as $item)
+                  @foreach ($admin as $item)
                   <tr>
                     <td>
-                      <img class="text-center fix-image mx-auto" src="{{ asset($item->images) }}" alt="{{ $item->name }}">
+                      <img class="text-center fix-image mx-auto" src="{{ asset($item->avatar ?? 'N/A' ) }}" alt="{{ $item->name }}">
                     </td>
                     <td>
-                      <a class="fix_size_text" href="{{ route('admin.category.edit',$item->id) }}">
-                        {{ $item->name }}
+                      <a class="fix_size_text" href="{{ route('admin.admin.edit',$item->id) }}">
+                        {{ $item->fullname }}
                       </a>
                     </td>
                     <td>
-                        {{ $item->slug }}
+                        {{ $item->username }}
                     </td>
-                    <td>{{ $item->description }}</td>
+                    <td>
+                        {{ $item->email }}
+                    </td>
+                    <td>
+                        {{ $item->phone }}
+                    </td>
+                    <td>
+                        {{ $item->address }}
+                    </td>
+                    <td>
+                        {{ $item->created_at ?? 'N/A' }}
+                    </td>
                     <td>
                       @switch($item->status->value)
-                      @case(\App\Enums\Category\CategoryStatus::Active)
+                      @case(\App\Enums\User\UserStatus::Active)
                       <span class="badge rounded-pill badge-success">{{ $item->status->description }}</span>
                       @break
-                      @case(\App\Enums\Category\CategoryStatus::Inactive)
+                      @case(\App\Enums\User\UserStatus::Inactive)
                       <span class="badge rounded-pill badge-warning">{{ $item->status->description }}</span>
                       @break
-                      @case(\App\Enums\Category\CategoryStatus::Deleted)
+                      @case(\App\Enums\User\UserStatus::Deleted)
                       <span class="badge rounded-pill badge-danger">{{ $item->status->description }}</span>
                       @break
                       @default
@@ -94,7 +105,7 @@
                     </td>
                     <td>
                       <div class="form-button-action gap-2">
-                        <a href="{{ route('admin.category.edit',$item->id) }}">
+                        <a href="{{ route('admin.admin.edit',$item->id) }}">
                           <button type="button" data-bs-toggle="tooltip" class="btn btn-info btn-icon" title="Chỉnh sửa">
                             <i class="fa fa-pencil-alt"></i>
                           </button>
@@ -120,7 +131,7 @@
                               Chuyển trạng thái thành đã xóa
                           </div>
                           <div class="modal-footer">
-                            <form action="{{ route('admin.category.delete',$item->id) }}" method="POST">
+                            <form action="{{ route('admin.admin.delete',$item->id) }}" method="POST">
                               @csrf
                               <input type="hidden" name="_method" value="DELETE">
                               <button type="submit" class="btn btn-danger">Xóa</button>
