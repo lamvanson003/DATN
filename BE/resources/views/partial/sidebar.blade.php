@@ -203,7 +203,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#dssanpham">
+                  <a href="{{ route('admin.product.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS sản phẩm</span>
                   </a>
