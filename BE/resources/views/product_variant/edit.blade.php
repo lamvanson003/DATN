@@ -6,7 +6,7 @@
 <div class="container">
     <div class="page-inner">
         <div class="page-header">
-            <h3 class="fw-bold mb-3">DataTables</h3>
+            <h3 class="fw-bold mb-3">CloudLab</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
                     <a href="{{ route('admin.dashboard.index') }}">
@@ -17,7 +17,7 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.product.edit',$product->id) }}">{{ $product->name }}</a>
+                    <a href="{{ route('admin.product_variant.index') }}">Biến thể sản phẩm</a>
                 </li>
                 <li class="separator">
                     <i class="icon-arrow-right"></i>
@@ -41,12 +41,28 @@
                             <div class="row card-body">
                                 
                                 <div class="col-md-12 col-sm-12 gap-2 d-flex">
+                                    <!-- sku -->
+                                    <div class="mb-3 col-6">  
+                                        <label class="control-label">Sku<span style="color: red">*</span>:</label>
+                                        <input type="text" required class="form-control" name="sku" placeholder="VD: NO:130000 ">
+                                    </div>
                                     <!-- storage -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Dung lượng <span style="color: red">*</span>:</label>
                                         <input type="text" required class="form-control" name="storage" placeholder="VD: iphone-13-promax">
                                     </div>
                                 </div>
+
+                                <div class="col-md-12 col-sm-12">
+                                    <!-- color -->
+                                    <div class="mb-3 col-6">  
+                                        <label class="control-label">Màu sắc:</label>
+                                        <div class="color-items d-flex">
+                                            <input type="text" name="color" id="color" multiple>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <div class="col-md-12 col-sm-12 gap-2 d-flex">                                   
                                     <!-- price -->
@@ -90,35 +106,11 @@
                         </div>
             
                         <div class="card mb-3">
-                            <div class="card-header" style="color: red">Chọn màu sắc</div>
+                            <div class="card-header" style="color: red">Số lượng bán ra</div>
                             <div class="card-body p-2">
-                                <div class="form-check">
-                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="red" id="colorRed">
-                                    <label class="form-check-label" for="colorRed">Đỏ</label>
-                                </div>
-                        
-                                <div class="form-check">
-                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="green" id="colorGreen">
-                                    <label class="form-check-label" for="colorGreen">Xanh lá</label>
-                                </div>
-                        
-                                <div class="form-check">
-                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="blue" id="colorBlue">
-                                    <label class="form-check-label" for="colorBlue">Xanh dương</label>
-                                </div>
-                        
-                                <div class="form-check">
-                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="yellow" id="colorYellow">
-                                    <label class="form-check-label" for="colorYellow">Vàng</label>
-                                </div>
-                        
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="color[]" value="black" id="colorBlack">
-                                    <label class="form-check-label" for="colorBlack">Đen</label>
-                                </div>
+                                <input class="form-control" required type="number" name="sold" readonly value="99" >
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </form>

@@ -25,12 +25,21 @@ class Product extends Model
         'description',
     ];
 
+    
     /**
      * Quan hệ với bảng Brand (Thương hiệu)
      */
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    /**
+     * Quan hệ với bảng Product_variant
+     */
+    public function product_variant()
+    {
+        return $this->hasMany(Product_Variant::class);
     }
 
     /**
@@ -41,19 +50,4 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    /**
-     * Lấy danh sách hình ảnh từ cột image_lists (giả sử lưu dưới dạng JSON)
-     */
-    public function getImageListsAttribute($value)
-    {
-        return json_decode($value);
-    }
-
-    /**
-     * Thiết lập hình ảnh danh sách (image_lists)
-     */
-    public function setImageListsAttribute($value)
-    {
-        $this->attributes['image_lists'] = json_encode($value);
-    }
 }

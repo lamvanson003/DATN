@@ -1,5 +1,5 @@
 @extends('layout_admin')
-@section('title','Admin')
+@section('title','Danh mục')
 @section('content_admin')
 <div class="container">
     <div class="page-inner">
@@ -15,92 +15,44 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="{{ route('admin.category.index') }}">DS admin</a>
+              <a href="{{ route('admin.category.index') }}">Danh mục</a>
             </li>
             <li class="separator">
-                <i class="icon-arrow-right"></i>
-              </li>
+              <i class="icon-arrow-right"></i>
+            </li>
             <li class="nav-item">
-              <a href="#">Thêm admin</a>
+              <a href="#">Chỉnh sửa</a>
             </li>
           </ul>
         </div>
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.user.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.category.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Thông tin admin</h3>
+                                <h3 class="mb-0 strong text-center">Chỉnh sửa danh mục</h3>
                             </div>
                             <div class="row card-body">
-                                <!-- fullname -->
+                                <!-- name -->
                                 <div class="col-md-12 col-sm-12 d-flex gap-2">
-                                    <div class="mb-3 col-6 ">
-                                        <label class="control-label">Tên admin<span class="required_feild">*</span>:</label>
-                                        <input type="text" required class="form-control" name="fullname" placeholder="Tên admin">
+                                    <div class="mb-3 col-5">
+                                        <label class="control-label">Tên danh mục<span style="color: red">*</span>:</label>
+                                        <input type="text" required class="form-control" name="name" placeholder="VD: Điện thoại">
                                     </div>
-                                {{-- Email --}}
-                                    <div class="mb-3 col-6">
-                                        <label class="control-label">Email<span class="required_feild">*</span>:</label>
-                                        <input type="email" required class="form-control" name="email" placeholder="Nhập Email">
-                                    </div>
-                                </div>
-                                {{-- Phone --}}
-                                <div class="col-12 col-sm-12 d-flex gap-2">
-                                    <div class="mb-3 col-6">
-                                        <label for="phone" class="control-label">Số điện thoại<span class="required_feild">*</span>:</label>
-                                        <input class="form-control" type="number" id="phone" name="phone" placeholder="Số điện thoại"></input>
-                                    </div>
-                                {{-- Username --}}
-                                    <div class="mb-3 col-6">
-                                        <label for="username" class="control-label">Tên đăng nhập:</label>
-                                        <input class="form-control" type="text" id="username" name="username" placeholder="Tên đăng nhập"></input>
-                                    </div>
-                                                                      
-                                </div>
-                                {{-- password --}}
-                                <div class="col-12 col-sm-12 d-flex gap-2">
-                                    <div class="mb-3 col-6">
-                                        <label for="password" class="control-label" >Mật khẩu <span class="required_feild">*</span>:</label>
-                                        <input required type="password" class="form-control" id="password" name="password" placeholder="Nhập Mật khẩu"></input>
-                                    </div>
-                                    <div class="mb-3 col-6">
-                                        <label for="password_confirmation" class="control-label">Xác nhận mật khẩu <span class="required_feild">*</span>:</label>
-                                        <input required type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Nhập Mật khẩu"></input>
+                                    <div class="mb-3 col-5">
+                                        <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
+                                        <input type="text" required class="form-control" name="slug"  placeholder="VD: dien-thoai">
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-12 d-flex gap-2">
-                                    <div class="mb-3 col-6">
-                                        <label for="gender" class="form-label">Giới tính:</label>
-                                        <select name="gender" id="gender" class="form-select">
-                                            <option value="1">Nam</option>
-                                            <option value="2">Nữ</option>
-                                            <option value="3">Khác</option>
-                                        </select>
-                                    </div>                                    
-                                </div>
-                                <div class="col-12 col-sm-12 d-flex gap-2">
-                                    <div class="mb-3 col-4">
-                                        <label for="tinhthanh" class="control-label">Tỉnh/Thành phố:</label>
-                                        <select id="tinhthanh" class="form-select p-2">
-                                            <option value="">--Chọn Tỉnh/Thành phố--</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="huyen" class="control-label">Huyện/Quận::</label>
-                                        <select id="huyen" class="form-select">
-                                            <option value="">--Chọn Huyện/Quận--</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="xa" class="control-label">Phường/Xã:</label>
-                                        <select id="xa" class="form-select">
-                                            <option value="">--Chọn Phường/Xã--</option>
-                                        </select>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="description" class="control-label">Mô tả:</label>
+                                        <textarea class="form-control" id="description" name="description" rows="5" placeholder="Nhập mô tả">
+                                        </textarea>
                                     </div>
                                 </div>
                             </div>
@@ -111,8 +63,8 @@
                         <div class="card mb-3">
                             <div class="card-header">Đăng</div>
                             <div class="card-body p-2">
-                                <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
-                                    Thêm
+                                <button type="submit" class="btn btn-primary p-1-2" title="Sửa">
+                                    Sửa
                                 </button>
                             </div>
                         </div>
@@ -120,19 +72,19 @@
                         <div class="card mb-3">
                             <div class="card-header">Trạng thái</div>
                             <div class="card-body p-2">
-                                <select required class="form-select" name="status">
+                                <select class="form-select" name="status">
                                     @foreach ($status as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
-                                </select>
+                                </select>                                
                             </div>
                         </div>
 
                         <div class="card mb-3">
                             <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
                             <div class="card-body p-2">
-                                <input required type="file" id="fileInput" name="avatar" class="d-none" accept="image/*">
-                                <input type="hidden" name="avatar" id="imageUrl" value="">
+                                <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
+                                <input type="hidden" name="images" id="imageUrl" value="">
                                 <div class="image-container" style="cursor: pointer;">
                                     <img id="imagePreview" src="{{  asset('/images/default-image.png')}}" alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>

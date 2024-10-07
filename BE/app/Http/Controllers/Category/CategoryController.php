@@ -43,7 +43,7 @@ class CategoryController extends Controller
 
                 $fileName = time() . '_' . $image->getClientOriginalName();
                 $image->move(public_path('images/category'), $fileName);
-                $imagePath = '/images/category/' . $fileName;
+                $imagePath ='http://127.0.0.1:8000/images/category/' . $fileName;
             }
 
             Category::create([
