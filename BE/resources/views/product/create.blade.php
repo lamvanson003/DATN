@@ -39,17 +39,13 @@
                                 <h3 class="mb-0 strong text-center">Thông tin sản phẩm</h3>
                             </div>
                             <div class="row card-body">
-                                <!-- Name -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
+                                <!-- Name and Slug in the same row -->
+                                <div class="col-md-12 col-sm-12 d-flex mb-3">
+                                    <div class="me-2 flex-grow-1">
                                         <label class="control-label">Tên sản phẩm<span style="color: red">*</span>:</label>
                                         <input type="text" required class="form-control" name="name" placeholder="VD: Iphone 13 Pro Max">
                                     </div>
-                                </div>
-
-                                <!-- Slug -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
+                                    <div class="flex-grow-1">
                                         <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
                                         <input type="text" required class="form-control" name="slug" placeholder="VD: iphone-13-promax">
                                     </div>
@@ -71,9 +67,9 @@
                                     </div>
                                 </div>
 
-                                <!-- Category ID -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
+                                <!-- Category ID and Brand ID in the same row -->
+                                <div class="col-md-12 col-sm-12 d-flex mb-3">
+                                    <div class="me-2 flex-grow-1">
                                         <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
                                         <select class="form-select" name="category_id" required>
                                             @foreach ($categories as $category)
@@ -81,11 +77,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-
-                                <!-- Brand ID -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
+                                    <div class="flex-grow-1">
                                         <label class="control-label">Thương hiệu<span style="color: red">*</span>:</label>
                                         <select class="form-select" name="brand_id" required>
                                             @foreach ($brands as $brand)
@@ -100,7 +92,7 @@
             
                     <div class="col-12 col-md-3">
                         <div class="card mb-3">
-                            <div class="card-header">Đăng</div>
+                            <div class="card-header text-end">Đăng</div>
                             <div class="card-body p-2">
                                 <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
                                     Thêm
@@ -109,22 +101,24 @@
                         </div>
             
                         <div class="card mb-3">
-                            <div class="card-header">Trạng thái</div>
+                            <div class="card-header text-end">Trạng thái</div>
                             <div class="card-body p-2">
-                                <select required class="form-select" name="status">
+                                <select class="form-select" name="status">
                                     @foreach ($status as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
+                                        <option value="{{ $key }}" {{ isset($product) && $key == $product->status ? 'selected' : '' }}>
+                                            {{ $value }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
 
                         <div class="card mb-3">
-                            <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
-                            <div class="card-body p-2">
+                            <div class="card-header text-end">Ảnh đại diện <span style="color: red">*</span></div>
+                            <div class="card-body p-2 text-end">
                                 <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
                                 <input type="hidden" name="images" id="imageUrl" value="">
-                                <div class="image-container" style="cursor: pointer;">
+                                <div class="image-container" style="cursor: pointer; display: inline-block;">
                                     <img id="imagePreview" src="{{ asset('/images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>
                             </div>

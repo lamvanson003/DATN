@@ -43,17 +43,13 @@
                                 <h3 class="mb-0 strong text-center">Chỉnh sửa sản phẩm</h3>
                             </div>
                             <div class="row card-body">
-                                <!-- Name -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
+                                <!-- Name and Slug in the same row -->
+                                <div class="col-md-12 d-flex mb-3">
+                                    <div class="me-2 flex-grow-1">
                                         <label class="control-label">Tên sản phẩm<span style="color: red">*</span>:</label>
                                         <input type="text" required class="form-control text-capitalize" name="name" value="{{ $product->name }}" placeholder="VD: Iphone 13 Pro Max">
                                     </div>
-                                </div>
-                                
-                                <!-- Slug -->
-                                <div class="col-12 col-sm-12">
-                                    <div class="mb-3">
+                                    <div class="flex-grow-1">
                                         <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
                                         <input type="text" required class="form-control text-capitalize" name="slug" value="{{ $product->slug }}" placeholder="VD: iphone-13-promax">
                                     </div>
@@ -75,9 +71,9 @@
                                     </div>
                                 </div>
 
-                                <!-- Category ID -->
-                                <div class="col-12 col-sm-12">
-                                    <div class="mb-3">
+                                <!-- Category ID and Brand ID in the same row -->
+                                <div class="col-md-12 d-flex mb-3">
+                                    <div class="me-2 flex-grow-1">
                                         <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
                                         <select class="form-select" name="category_id" required>
                                             @foreach ($categories as $category)
@@ -87,11 +83,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-
-                                <!-- Brand ID -->
-                                <div class="col-12 col-sm-12">
-                                    <div class="mb-3">
+                                    <div class="flex-grow-1">
                                         <label class="control-label">Thương hiệu<span style="color: red">*</span>:</label>
                                         <select class="form-select" name="brand_id" required>
                                             @foreach ($brands as $brand)
@@ -102,6 +94,7 @@
                                         </select>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
