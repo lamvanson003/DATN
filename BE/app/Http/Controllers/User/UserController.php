@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Enums\User\UserStatus;
-use Illuminate\Http\Request;
+use Exception;
 use App\Http\Requests\User\UserRquest;
 use App\Models\User;
 use App\Enums\User\UserRole;
@@ -32,26 +32,32 @@ class UserController extends Controller
     }
 
     public function store(UserRequest $request)
-    {
-        $data = $request->validate();
+    {   
+        try {
+            $imagePath = '';
+            if ($request->hasFile('avatar')) {
+                $image = $request->file('avatar');
+                $fileName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('images/avatar'), $fileName);
+                $imagePath = '/images/avatar/' . $fileName;
+            }
+            User::create([
+                'username' => $request->username ?? $request->phone ,
+                'roles' =>  UserRole::User(),
+                'password' => bcrypt($request['password']),
+                'avatar' => $imagePath,
+                'email' => $request->email,
+                'fullname' => $request->fullname,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'gender' => $request->gender,
+            ]);
 
-        $data['username'] = $data['phone'] ?? $data['username'];
-        $data['roles'] = UserRole::User();
-        $data['password'] = bcrypt($data['password']);
-
-        $imagePath = '';
-        if ($request->hasFile('avatar')) {
-            $image = $request->file('avatar');
-            $fileName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('images/avatar'), $fileName);
-            $imagePath = '/images/avatar/' . $fileName;
+            return redirect()->route('admin.user.index')->with('success', 'Người dùng đã được tạo thành công.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
-
-        $data['avatar'] = $imagePath;
-
-        User::create($data);
-
-        return redirect()->route('admin.user.index')->with('success', 'Người dùng đã được tạo thành công.');
+        
     }
 
     public function edit($id){

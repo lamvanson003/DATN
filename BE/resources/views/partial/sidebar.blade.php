@@ -197,15 +197,21 @@
             <div class="collapse" id="product">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="#themsanpham">
+                  <a href="{{ route('admin.product.create') }}">
                     <i class="fas fa-plus"></i>
                     <span>Thêm sản phẩm</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#dssanpham">
+                  <a href="{{ route('admin.product.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS sản phẩm</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.product_variant.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS biến thể</span>
                   </a>
                 </li>
               </ul>

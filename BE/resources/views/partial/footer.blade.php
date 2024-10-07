@@ -291,6 +291,8 @@
   });
 </script>  
 
+<!-- Api Address -->
+<script src="{{ asset('/admin/api/api.js') }}"></script>
 
 <!--   Core JS Files   -->
 <script src="{{ asset('/admin/assets/js/core/jquery-3.7.1.min.js') }}"></script>
