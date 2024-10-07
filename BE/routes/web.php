@@ -79,6 +79,16 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
             });
         });
+        Route::prefix('/product-variants')->as('product_variant.')->group(function () {
+            Route::controller(App\Http\Controllers\Product_Variant\ProductVariantController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+                Route::put('/sua/{id}', 'update')->name('update');
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+        });
         
 });
 

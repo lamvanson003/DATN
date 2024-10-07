@@ -103,6 +103,10 @@
                                         </select>
                                     </div>
                                 </div>
+                                
+                                <div class="col-12 col-sm-12 d-flex gap-2">
+                                    <textarea class="form-control"  id="address" name="address" rows="4" placeholder="Tên địa chỉ hiển thị tại đây" readonly></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
