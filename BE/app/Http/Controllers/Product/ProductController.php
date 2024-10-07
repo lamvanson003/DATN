@@ -22,10 +22,14 @@ class ProductController extends Controller
 
     public function create()
     {
+        
+        $categories = Category::where('status', ProductStatus::Active)->get();
+        $brands = Brand::where('status', ProductStatus::Active)->get();
+
         return view('product.create', [
-            'status' => ProductStatus::asSelectArray(),
-            'categories' => Category::all(),
-            'brands' => Brand::all(), 
+            'status' => [ProductStatus::Active => ProductStatus::getDescription(ProductStatus::Active)], 
+            'categories' => $categories, 
+            'brands' => $brands, 
         ]);
     }
 
@@ -69,11 +73,16 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $status = ProductStatus::asSelectArray();
+
+        
+        $categories = Category::where('status', ProductStatus::Active)->get();
+        $brands = Brand::where('status', ProductStatus::Active)->get();
+
         return view('product.edit', [
             'product' => $product,
             'status' => $status,
-            'categories' => Category::all(), 
-            'brands' => Brand::all(), 
+            'categories' => $categories, 
+            'brands' => $brands, 
         ]);
     }
 

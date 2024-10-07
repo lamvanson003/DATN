@@ -197,7 +197,7 @@
             <div class="collapse" id="product">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="#themsanpham">
+                  <a href="{{ route('admin.product.create') }}">
                     <i class="fas fa-plus"></i>
                     <span>Thêm sản phẩm</span>
                   </a>
