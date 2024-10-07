@@ -203,9 +203,15 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#dssanpham">
+                  <a href="{{ route('admin.product.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS sản phẩm</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.product_variant.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS biến thể</span>
                   </a>
                 </li>
               </ul>
