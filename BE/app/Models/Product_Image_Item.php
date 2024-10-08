@@ -22,4 +22,15 @@ class Product_Image_Item extends Model
     protected $casts = [
         'status'=> Status::class,
     ];
+
+    public function scopeImageItemByProduct($query,$productId){
+        return $query->where('product_id',$productId)->orderBy('id','desc')->get();
+    }
+
+
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class,'id');
+    }
 }

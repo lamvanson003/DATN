@@ -73,12 +73,11 @@
                       <td>
                         <div class="row">
                             <div class="image-items d-flex align-items-center gap-2 justify-content-center">
-                              <img class="text-center fix-image" src="{{ asset($item->images) }}" alt="{{ $item->name }}">
-                              <img class="text-center fix-image" src="{{ asset($item->images) }}" alt="{{ $item->name }}">
-                              <img class="text-center fix-image" src="{{ asset($item->images) }}" alt="{{ $item->name }}">
-                              <img class="text-center fix-image" src="{{ asset($item->images) }}" alt="{{ $item->name }}">
+                              @foreach ($item->product_image_items as $imageItem)
+                                <img class="text-center fix-image" src="{{ asset($imageItem->image) }}" alt="{{ $item->name }}">
+                              @endforeach
                             </div>
-                            <a href="">DS Image-items</a>
+                            <a href="{{ route('admin.product_image_item.imageItem',$item->id) }}">DS Image-items</a>
                         </div>                  
                     </td>
                       <td>

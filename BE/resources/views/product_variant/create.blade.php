@@ -6,7 +6,7 @@
 <div class="container">
     <div class="page-inner">
         <div class="page-header">
-            <h3 class="fw-bold mb-3">DataTables</h3>
+            <h3 class="fw-bold mb-3">CloudLab</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
                     <a href="{{ route('admin.dashboard.index') }}">
@@ -36,7 +36,7 @@
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Thông tin biến thể sản phẩm</h3>
+                                <h3 class="mb-0 strong text-center">Thông tin cấu hình sản phẩm</h3>
                             </div>
                             <div class="row card-body">
                                 

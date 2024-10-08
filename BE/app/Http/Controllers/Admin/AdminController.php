@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Enums\User\UserRole;
 use App\Enums\User\UserStatus;
-use Illuminate\Http\Request;
 use App\Http\Requests\User\UserRequest;
 use App\Models\User;
 

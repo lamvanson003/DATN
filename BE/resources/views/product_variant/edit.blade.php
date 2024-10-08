@@ -17,7 +17,7 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.product_variant.index') }}">Biến thể sản phẩm</a>
+                    <a href="{{ route('admin.product_variant.index') }}">Cấu hình</a>
                 </li>
                 <li class="separator">
                     <i class="icon-arrow-right"></i>
@@ -36,7 +36,7 @@
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Thông tin biến thể sản phẩm</h3>
+                                <h3 class="mb-0 strong text-center">Thông tin cấu hình sản phẩm</h3>
                             </div>
                             <div class="row card-body">
                                 

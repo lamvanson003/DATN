@@ -25,7 +25,7 @@ class Product extends Model
         'description',
     ];
 
-    
+
     /**
      * Quan hệ với bảng Brand (Thương hiệu)
      */
@@ -50,4 +50,9 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-}
+    public function product_image_items()
+    {
+        return $this->hasMany(Product_Image_Item::class,'product_id');
+    }
+
+}   

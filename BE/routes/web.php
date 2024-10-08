@@ -78,19 +78,7 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::get('/sua/{id}', 'edit')->name('edit');
                 Route::put('/sua/{id}', 'update')->name('update');
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
-                
-            });
-            
-            Route::controller(App\Http\Controllers\Product\ProductController::class)->group(function () {
-                Route::get('/', 'index')->name('index');
-                Route::get('/them', 'create')->name('create');
-                Route::post('/them', 'store')->name('store');
-                Route::get('/sua/{id}', 'edit')->name('edit');
-                Route::put('/sua/{id}', 'update')->name('update');
-                Route::delete('/xoa/{id}', 'delete')->name('delete');
-                
-            });
-            
+            });            
         });
        
         Route::prefix('/product-variants')->as('product_variant.')->group(function () {
@@ -104,5 +92,27 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
             });
         });
+
+        Route::prefix('/product-image-items')->as('product_image_item.')->group(function () {
+            Route::controller(App\Http\Controllers\Product_image_item\ProductImageItemController::class)->group(function () {
+                Route::get('/{id}/image-item', 'imageItem')->name('imageItem');
+                Route::get('/{id}/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+                Route::put('/sua/{id}', 'update')->name('update');
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+                });
+            });
+
+        Route::prefix('/colors')->as('color.')->group(function () {
+            Route::controller(App\Http\Controllers\Color\ColorController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+                Route::put('/sua/{id}', 'update')->name('update');
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+                });
+            });
 });
 

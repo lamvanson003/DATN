@@ -21,6 +21,7 @@ class Product_Variant extends Model
         'memory',
         'sold',
         'instock',
+        'variant_color_id',
     ];
 
     public function scopeGetIdByProduct($query,$productId){
@@ -37,12 +38,11 @@ class Product_Variant extends Model
     }
 
     /**
-     * Quan hệ với bảng Color (Màu sắc)
-     * Một biến thể có thể có nhiều màu sắc (Many-to-Many)
+     * Quan hệ với bảng trung gian variantColor
      */
-    public function colors()
+    public function variantColor()
     {
-        return $this->belongsToMany(Product_Variant_Color::class, 'product_variant_color', 'product_variant_id', 'color_id');
+        return $this->belongsTo(Variant_Color::class, 'variant_id');
     }
 
 
