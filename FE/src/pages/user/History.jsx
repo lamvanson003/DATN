@@ -7,6 +7,11 @@ const {
   RiTruckLine,
   FaRegCircleUser,
   FaPencilAlt,
+  FaRegUser,
+  FaHistory,
+  MdNotificationsNone,
+  FaTicketAlt,
+  BsCashCoin,
 } = icons;
 const History = () => {
   return (
@@ -30,12 +35,27 @@ const History = () => {
                 </span>
               </span>
             </div>
-            <div className="d-flex flex-column gap-2">
-              <span>Tài khoản của tôi</span>
-              <span>Đơn mua</span>
-              <span>Thông báo</span>
-              <span>Kho voucher</span>
-              <span>Xu khuyến mãi</span>
+            <div className="d-flex flex-column gap-2 fw-semibold">
+              <span className="d-flex align-items-center gap-1">
+                <FaRegUser color="rgb(0, 123, 255)" />
+                Tài khoản của tôi
+              </span>
+              <span className="d-flex align-items-center gap-1">
+                <FaHistory color="rgb(0, 123, 255)" />
+                Đơn mua
+              </span>
+              <span className="d-flex align-items-center gap-1">
+                <MdNotificationsNone className="text-danger" />
+                Thông báo
+              </span>
+              <span className="d-flex align-items-center gap-1">
+                <FaTicketAlt className="text-danger" />
+                Kho voucher
+              </span>
+              <span className="d-flex align-items-center gap-1">
+                <BsCashCoin className="text-warning" />
+                Xu khuyến mãi
+              </span>
             </div>
           </span>
         </div>
