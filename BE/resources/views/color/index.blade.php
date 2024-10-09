@@ -1,6 +1,6 @@
 @extends('layout_admin')
 
-@section('title', 'Các biến thể')
+@section('title', 'Bảng màu')
 
 @section('content_admin')
 <div class="container">
@@ -17,13 +17,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Biến thể</a>
-        </li>
-        <li class="separator">
-          <i class="icon-arrow-right"></i>
-        </li>
-        <li class="nav-item">
-          <a href="#">Danh sách biến thể</a>
+          <a href="#">DS bảng màu</a>
         </li>
       </ul>
     </div>
@@ -33,8 +27,8 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Danh sách biến thể</h4>
-              <a href="{{ route('admin.product_variant.create'),$productId }}" class="ms-auto">
+              <h4 class="card-title">DS bảng màu</h4>
+              <a href="{{ route('admin.color.create')}}" class="ms-auto">
                 <button type="button" class="btn btn-primary btn-round">
                   <i class="fa fa-plus"></i>
                   Thêm
@@ -50,7 +44,6 @@
                   <tr>
                     <th>Hình ảnh</th>
                     <th>Tên sản phẩm</th>
-                    <th>Slug</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
@@ -59,25 +52,18 @@
                   <tr>
                     <th>Hình ảnh</th>
                     <th>Tên sản phẩm</th>
-                    <th>Slug</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  @foreach ($product_variant as $item)
+                  @foreach ($color as $item)
                     <tr>
-                      <td><a href="{{ route('admin.product_variant.edit', $item->id) }}">{{ $item->sku }}</a></td> 
-                      <td>{{ $item->storage }}</td> 
-                      <td>{{ $item->color }}</td> 
-                      <td>{{ $item->price }}</td> 
-                      <td>{{ $item->sale }}</td> 
-                      <td>{{ $item->memory }}</td> 
-                      <td>{{ $item->instock }}</td> 
-                      <td>{{ $item->sold }}</td> 
+                      <td><a href="{{ route('admin.color.edit', $item->id) }}">{{ $item->color }}</a></td> 
+                      <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt=""></td> 
                       <td>
                         <div class="form-button-action gap-2">
-                          <a href="{{ route('admin.product.edit', $item->id) }}">
+                          <a href="{{ route('admin.color.edit', $item->id) }}">
                             <button type="button" data-bs-toggle="tooltip" title="Chỉnh sửa" class="btn btn-info btn-icon">
                               <i class="fa fa-pencil-alt"></i>
                             </button>
@@ -102,7 +88,7 @@
                               Xóa dữ liệu này khỏi dữ liệu hệ thống?
                           </div>
                           <div class="modal-footer">
-                            <form action="{{ route('admin.product_variant.delete', $item->id) }}" method="POST">
+                            <form action="{{ route('admin.color.delete', $item->id) }}" method="POST">
                               @csrf
                               <input type="hidden" name="_method" value="DELETE">
                               <button type="submit" class="btn btn-danger">Xóa</button>

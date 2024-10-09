@@ -9,23 +9,29 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Enums\Product\ProductStatus;
 use App\Http\Requests\Product\ProductRequest;
+use App\Models\Product_Image_Item;
 use Exception;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('product_image_items')->get();
+
         $status = ProductStatus::asSelectArray();
         return view('product.index', compact(['products', 'status']));
     }
 
     public function create()
     {
+        
+        $categories = Category::where('status', ProductStatus::Active)->get();
+        $brands = Brand::where('status', ProductStatus::Active)->get();
+
         return view('product.create', [
-            'status' => ProductStatus::asSelectArray(),
-            'categories' => Category::all(),
-            'brands' => Brand::all(), 
+            'status' => [ProductStatus::Active => ProductStatus::getDescription(ProductStatus::Active)], 
+            'categories' => $categories, 
+            'brands' => $brands, 
         ]);
     }
 
@@ -46,7 +52,7 @@ class ProductController extends Controller
 
                 $fileName = time() . '_' . $image->getClientOriginalName();
                 $image->move(public_path('images/product'), $fileName);
-                $imagePath = '/images/product/' . $fileName;
+                $imagePath = 'http://127.0.0.1:8000/images/product/' . $fileName;
             }
 
             Product::create([
@@ -69,11 +75,16 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $status = ProductStatus::asSelectArray();
+
+        
+        $categories = Category::where('status', ProductStatus::Active)->get();
+        $brands = Brand::where('status', ProductStatus::Active)->get();
+
         return view('product.edit', [
             'product' => $product,
             'status' => $status,
-            'categories' => Category::all(), 
-            'brands' => Brand::all(), 
+            'categories' => $categories, 
+            'brands' => $brands, 
         ]);
     }
 
@@ -89,7 +100,7 @@ class ProductController extends Controller
             $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
             $newImage->move(public_path('images/product'), $newImageName);
 
-            $product->images = 'images/product/' . $newImageName;
+            $product->images = 'http://127.0.0.1:8000/images/product/' . $newImageName;
         }
         $product->images = $product->images ?? $request->input('old_image');
 

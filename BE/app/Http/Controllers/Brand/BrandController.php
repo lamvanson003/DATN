@@ -40,7 +40,7 @@ class BrandController extends Controller
 
                 $fileName = time() . '_' . $image->getClientOriginalName();
                 $image->move(public_path('images/brand'), $fileName);
-                $imagePath = '/images/brand/' . $fileName;
+                $imagePath = 'http://127.0.0.1:8000/images/brand/' . $fileName;
             }
 
             Brand::create([
@@ -75,7 +75,7 @@ class BrandController extends Controller
             $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
             $newImage->move(public_path('images/brand'), $newImageName);
 
-            $brand->images = 'images/brand/' . $newImageName;
+            $brand->images = 'http://127.0.0.1:8000/images/brand/' . $newImageName;
         }
         $brand->images = $brand->images ?? $request->input('old_image');
 

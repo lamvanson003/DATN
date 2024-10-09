@@ -1,6 +1,6 @@
 @extends('layout_admin')
 
-@section('title', 'Các biến thể')
+@section('title', 'DS Image Items')
 
 @section('content_admin')
 <div class="container">
@@ -17,13 +17,15 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Biến thể</a>
+          <a href="{{ route('admin.product.edit',$product->id) }}">
+            {{ $product->name }}
+            </a>
         </li>
         <li class="separator">
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Danh sách biến thể</a>
+          <a href="#">Image-items</a>
         </li>
       </ul>
     </div>
@@ -33,8 +35,8 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Danh sách biến thể</h4>
-              <a href="{{ route('admin.product_variant.create'),$productId }}" class="ms-auto">
+              <h4 class="card-title">DS Image Items</h4>
+              <a href="{{ route('admin.product_image_item.create',$product->id)}}" class="ms-auto">
                 <button type="button" class="btn btn-primary btn-round">
                   <i class="fa fa-plus"></i>
                   Thêm
@@ -65,19 +67,14 @@
                   </tr>
                 </tfoot>
                 <tbody>
-                  @foreach ($product_variant as $item)
+                  @foreach ($product_image_item as $item)
                     <tr>
-                      <td><a href="{{ route('admin.product_variant.edit', $item->id) }}">{{ $item->sku }}</a></td> 
-                      <td>{{ $item->storage }}</td> 
-                      <td>{{ $item->color }}</td> 
-                      <td>{{ $item->price }}</td> 
-                      <td>{{ $item->sale }}</td> 
-                      <td>{{ $item->memory }}</td> 
-                      <td>{{ $item->instock }}</td> 
-                      <td>{{ $item->sold }}</td> 
+                      <td><a href="{{ route('admin.product_image_item.edit', $item->id) }}">{{ $item->name }}</a></td> 
+                      <td><img class="text-center fix-image" src="{{ asset($item->image) }}" alt=""></td> 
+                      <td>{{ $item->description }}</td> 
                       <td>
                         <div class="form-button-action gap-2">
-                          <a href="{{ route('admin.product.edit', $item->id) }}">
+                          <a href="{{ route('admin.product_image_item.edit', $item->id) }}">
                             <button type="button" data-bs-toggle="tooltip" title="Chỉnh sửa" class="btn btn-info btn-icon">
                               <i class="fa fa-pencil-alt"></i>
                             </button>
@@ -102,7 +99,7 @@
                               Xóa dữ liệu này khỏi dữ liệu hệ thống?
                           </div>
                           <div class="modal-footer">
-                            <form action="{{ route('admin.product_variant.delete', $item->id) }}" method="POST">
+                            <form action="{{ route('admin.product_image_item.delete', $item->id) }}" method="POST">
                               @csrf
                               <input type="hidden" name="_method" value="DELETE">
                               <button type="submit" class="btn btn-danger">Xóa</button>

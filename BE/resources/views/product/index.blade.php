@@ -50,18 +50,18 @@
                   <tr>
                     <th>Hình ảnh</th>
                     <th>Tên sản phẩm</th>
-                    <th>Slug</th>
+                    <th>Các biến thể</th>
+                    <th >Image-items</th>
                     <th>Trạng thái</th>
-                    <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
                     <th>Hình ảnh</th>
                     <th>Tên sản phẩm</th>
-                    <th>Slug</th>
+                    <th>Các biến thể</th>
+                    <th >Image-items</th>
                     <th>Trạng thái</th>
-                    <th style="width: 10%">Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -69,7 +69,17 @@
                     <tr>
                       <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt="{{ $item->name }}"></td>
                       <td><a href="{{ route('admin.product.edit', $item->id) }}">{{ $item->name }}</a></td> 
-                      <td>{{ $item->slug }}</td> 
+                      <td><a href="{{ route('admin.product_variant.getId',$item->id) }}">DS biển thể</a></td> 
+                      <td>
+                        <div class="row">
+                            <div class="image-items d-flex align-items-center gap-2 justify-content-center">
+                              @foreach ($item->product_image_items as $imageItem)
+                                <img class="text-center fix-image" src="{{ asset($imageItem->image) }}" alt="{{ $item->name }}">
+                              @endforeach
+                            </div>
+                            <a href="{{ route('admin.product_image_item.imageItem',$item->id) }}">DS Image-items</a>
+                        </div>                  
+                    </td>
                       <td>
                         @switch($item->status)
                             @case(\App\Enums\Product\ProductStatus::Active)
@@ -85,44 +95,7 @@
                                 <span class="badge rounded-pill badge-secondary">Không xác định</span>
                         @endswitch
                     </td>
-
-                      <td>
-                        <div class="form-button-action gap-2">
-                          <a href="{{ route('admin.product.edit', $item->id) }}">
-                            <button type="button" data-bs-toggle="tooltip" title="Chỉnh sửa" class="btn btn-info btn-icon">
-                              <i class="fa fa-pencil-alt"></i>
-                            </button>
-                          </a>
-
-                          <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
-                            <i class="fa fa-trash-alt"></i>
-                          </button>
-                        </div>                        
-                      </td>
                     </tr>
-
-                    <!-- Modal Xóa sản phẩm -->
-                    <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                              Bạn có chắc chắn muốn xóa sản phẩm này không?
-                          </div>
-                          <div class="modal-footer">
-                            <form action="{{ route('admin.product.delete', $item->id) }}" method="POST">
-                              @csrf
-                              <input type="hidden" name="_method" value="DELETE">
-                              <button type="submit" class="btn btn-danger">Xóa</button>
-                            </form>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   @endforeach
                 </tbody>
               </table>

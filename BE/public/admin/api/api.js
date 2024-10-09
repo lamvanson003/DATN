@@ -39,12 +39,12 @@ async function fetchXa(idHuyen) {
 function displayTinhThanh(data) {
     const tinhSelect = document.getElementById('tinhthanh');
     tinhSelect.innerHTML = '<option value="">--Chọn Tỉnh/Thành phố--</option>';
-    data.sort((a, b) => a.name.localeCompare(b.name));
+    data.sort((a, b) => a.full_name.localeCompare(b.full_name));
 
     data.forEach(tinh => {
         const option = document.createElement('option');
         option.value = tinh.id;
-        option.text = tinh.name;
+        option.text = tinh.full_name;
         tinhSelect.appendChild(option);
     });
 
