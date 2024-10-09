@@ -10,6 +10,7 @@ const path = {
   CONTACT: "contact",
   PAYMENT: "payment",
   HISTORY: "history",
+  PROFILE: "profile",
   //
 };
 export default path;

@@ -5,6 +5,7 @@ import { BoxPro } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpZA } from "@fortawesome/free-solid-svg-icons";
 import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 const Product = () => {
   const [Pros, setPros] = useState([]);
@@ -90,7 +91,7 @@ const Product = () => {
     };
     fetchCate();
   }, []);
-  console.log(category);
+  const dispatch = useDispatch();
 
   return (
     <div className="container mt-5">
