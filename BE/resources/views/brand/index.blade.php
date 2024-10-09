@@ -4,7 +4,7 @@
 <div class="container">
   <div class="page-inner">
     <div class="page-header">
-      <h3 class="fw-bold mb-3">CloudLab.Net</h3>
+      <h3 class="fw-bold mb-3">CloudLab</h3>
       <ul class="breadcrumbs mb-3">
         <li class="nav-home">
           <a href="{{ route('admin.dashboard.index') }}">
@@ -30,7 +30,7 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">DS danh mục</h4>
+              <h4 class="card-title">DS thương hiệu</h4>
               <a href="{{ route('admin.brand.create') }}" class="ms-auto">
                 <button  type="submit" class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#addRowModal" >
                   <i class="fa fa-plus"></i>
@@ -46,7 +46,7 @@
                 <thead>
                   <tr>
                     <th>Hình ảnh</th>
-                    <th>Tên danh mục</th>
+                    <th>Tên thương hiệu</th>
                     <th>Slug</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
@@ -55,7 +55,7 @@
                 <tfoot>
                   <tr>
                     <th>Hình ảnh</th>
-                    <th>Tên danh mục</th>
+                    <th>Tên thương hiệu</th>
                     <th>Slug</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>

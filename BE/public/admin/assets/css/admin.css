@@ -1,10 +1,11 @@
 /* Fix image */
 .fix-image {
-  width: 50px;
+  height: 150px;
   background-position: center;
-  max-height: fit-content;
+  max-width: fit-content;
   border-radius: 4px;
 }
+
 .required_feild{
   color: red;
 }

@@ -9,13 +9,15 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Enums\Product\ProductStatus;
 use App\Http\Requests\Product\ProductRequest;
+use App\Models\Product_Image_Item;
 use Exception;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('product_image_items')->get();
+
         $status = ProductStatus::asSelectArray();
         return view('product.index', compact(['products', 'status']));
     }
@@ -50,7 +52,7 @@ class ProductController extends Controller
 
                 $fileName = time() . '_' . $image->getClientOriginalName();
                 $image->move(public_path('images/product'), $fileName);
-                $imagePath = '/images/product/' . $fileName;
+                $imagePath = 'http://127.0.0.1:8000/images/product/' . $fileName;
             }
 
             Product::create([
@@ -98,7 +100,7 @@ class ProductController extends Controller
             $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
             $newImage->move(public_path('images/product'), $newImageName);
 
-            $product->images = 'images/product/' . $newImageName;
+            $product->images = 'http://127.0.0.1:8000/images/product/' . $newImageName;
         }
         $product->images = $product->images ?? $request->input('old_image');
 
