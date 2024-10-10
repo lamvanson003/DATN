@@ -39,19 +39,19 @@ class ItemController extends controller
         try {
             $baseUrl = url()->to('/');
             $imagePath = '';
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
+            if ($request->hasFile('images')) {
+                $images = $request->file('images');
 
-                $fileName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('images/product_image_item'), $fileName);
+                $fileName = time() . '_' . $images->getClientOriginalName();
+                $images->move(public_path('images/product_image_item'), $fileName);
                 $imagePath =  $baseUrl . '/images/product_image_item/' . $fileName;
             }
 
             Product_Image_Item::create([
                 'name' => $request->name,
-                'description' => $request->description,
+                'posittion' => $request->posittion,
                 'product_id' => $request->product_id,
-                'image' => $imagePath,
+                'images' => $imagePath,
             ]);
             return redirect()->route('admin.product.item.index', $request->product_id)->with('success', 'Thêm thành công.');
         } catch (Exception $e) {
@@ -67,12 +67,12 @@ class ItemController extends controller
     }
 
     public function update(Request $request)
-    {   
+    {       
         $request->validate([
             'id' => 'required|exists:product_image_items,id', 
             'name' => 'required|string|max:255', 
             'status' => 'required|integer', 
-            'description' => 'nullable|string', 
+            'posittion' => 'nullable|integer', 
             'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' 
         ]);
 
@@ -80,8 +80,8 @@ class ItemController extends controller
         $product_image_item = Product_Image_Item::findOrFail($request['id']);
 
         if ($request->hasFile('new_image')) {
-            if ($product_image_item->image && file_exists(public_path($product_image_item->image))) {
-                unlink(public_path($product_image_item->image));
+            if ($product_image_item->images && file_exists(public_path($product_image_item->images))) {
+                unlink(public_path($product_image_item->images));
             }
             $newImage = $request->file('new_image');
             $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
@@ -93,8 +93,8 @@ class ItemController extends controller
         $product_image_item->update([
             'name' => $request['name'],
             'status' => $request['status'],
-            'description' => $request['description'],
-            'image' => $product_image_item->image ?? $request->input('old_image'),
+            'posittion' => $request['posittion'],
+            'images' => $product_image_item->images ?? $request->input('old_image'),
         ]);
 
         return redirect()->back()->with('success', 'Item đã được cập nhật thành công!');

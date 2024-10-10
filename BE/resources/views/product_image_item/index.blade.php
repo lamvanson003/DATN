@@ -8,10 +8,10 @@
     <div class="page-header">
       <h3 class="fw-bold mb-3">CloudLab</h3>
       <ul class="breadcrumbs mb-3">
-        <li class="nav-home">
-          <a href="{{ route('admin.dashboard.index') }}">
-            <i class="icon-home"></i>
-          </a>
+        <li class="nav-item">
+          <a href="{{ route('admin.product.index') }}">
+            Sản phẩm
+            </a>
         </li>
         <li class="separator">
           <i class="icon-arrow-right"></i>
@@ -35,7 +35,7 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">DS Image Items</h4>
+              <h4 class="card-title red">DS Image Items</h4>
               <a href="{{ route('admin.product.item.create',$product->id)}}" class="ms-auto">
                 <button type="button" class="btn btn-primary btn-round">
                   <i class="fa fa-plus"></i>
@@ -52,6 +52,7 @@
                   <tr>
                     <th>Hình ảnh</th>
                     <th>Tên sản phẩm</th>
+                    <th>Vị trí</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
@@ -60,6 +61,7 @@
                   <tr>
                     <th>Hình ảnh</th>
                     <th>Tên sản phẩm</th>
+                    <th>Vị trí</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
@@ -68,7 +70,8 @@
                   @foreach ($product_image_item as $item)
                     <tr>
                       <td><a href="{{ route('admin.product.item.edit', $item->id) }}">{{ $item->name }}</a></td> 
-                      <td><img class="text-center fix-image" src="{{ asset($item->image) }}" alt=""></td> 
+                      <td><span>{{ $item->posittion }}</span></td> 
+                      <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt=""></td> 
                       <td>
                         @switch($item->status->value)
                           @case(\App\Enums\Status::Active)

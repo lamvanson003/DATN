@@ -19,14 +19,17 @@ class Color extends Model
         'status' => Status::class
     ];
 
-    // Quan hệ với bảng ProductVariant thông qua VariantColors
-    public function productVariants()
-    {
-        return $this->belongsToMany(Product_Variant::class, 'variant_colors', 'color_id', 'product_variant_id');
-    }
+
+    // Quan hệ với bảng variant_colors
     public function variantColors()
     {
-        return $this->hasMany(Variant_Color::class, 'color_id');
+        return $this->hasMany(Variant_Color::class);
+    }
+
+    // Quan hệ với bảng products qua bảng variant_colors
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'variant_colors', 'color_id', 'product_id');
     }
 
 }

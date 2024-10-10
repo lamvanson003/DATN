@@ -42,16 +42,16 @@
               <table id="add-row" class="display table table-hover fix_table">
                 <thead>
                   <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên sản phẩm</th>
+                    <th>DS màu</th>
+                    <th>Ảnh minh họa</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên sản phẩm</th>
+                    <th>DS màu</th>
+                    <th>Ảnh minh họa</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>

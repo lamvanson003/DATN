@@ -37,15 +37,15 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3 ">
                                         <label class="control-label">Tên Items<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" value={{ $product_image_item->name }} placeholder="VD: Iphone 13Promax">
+                                        <input type="text" required class="form-control" name="name" value={{ $product_image_item->name }} placeholder="VD: Item-1">
                                     </div>
                                 </div>
 
-                                <!-- Description -->
+                                <!-- posittion -->
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
-                                        <label class="control-label">Mô tả chi tiết:</label>
-                                        <textarea class="form-control" name="description"  rows="4" placeholder="Mô tả chi tiết về sản phẩm">{{ $product_image_item->description }}</textarea>
+                                        <label class="control-label">Vị trí sắp xếp:</label>
+                                        <input type="number" required class="form-control" name="posittion" value="{{ $product_image_item->posittion }}" placeholder="VD: 1">
                                     </div>
                                 </div>
                             </div>
@@ -80,9 +80,9 @@
                             <div class="card-header">Ảnh đại diện</div>
                             <div class="card-body p-2">
                                 <input type="file" id="fileInput" name="new_image" class="d-none" accept="image/*">
-                                <input type="hidden" name="old_image" value="{{ $product_image_item->image }}">
+                                <input type="hidden" name="old_image" value="{{ $product_image_item->images }}">
                                 <div class="image-container" style="cursor: pointer;">
-                                    <img id="imagePreview" src="{{ asset($product_image_item->image ?? 'images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
+                                    <img id="imagePreview" src="{{ asset($product_image_item->images ?? 'images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                                     if (file) {
                                         imagePreview.src = URL.createObjectURL(file);
                                     } else {
-                                        imagePreview.src = "{{ asset($product_image_item->image ?? 'images/default-image.png') }}";
+                                        imagePreview.src = "{{ asset($product_image_item->images ?? 'images/default-image.png') }}";
                                     }
                                 }
                                 document.querySelector('.image-container').addEventListener('click', function() {

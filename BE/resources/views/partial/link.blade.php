@@ -27,3 +27,6 @@
 
 <!-- CSS Just for demo purpose, don't include it in your project -->
 <link rel="stylesheet" href="{{ asset('/admin/assets/css/demo.css') }}" />
+
+ <!-- Thêm CSS cho Select2 -->
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />

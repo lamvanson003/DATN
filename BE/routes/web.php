@@ -93,7 +93,7 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
             });            
 
             Route::controller(App\Http\Controllers\Product_Variant\ProductVariantController::class)
-            ->as('product_item')
+            ->as('product_item.')
             ->group(function () {
                 Route::get('{product_id}/product_item', 'index')->name('index');
                 Route::get('/{product_id}/product_item/them', 'create')->name('create');
@@ -104,8 +104,6 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
             });
         });
        
-        
-
         Route::prefix('/colors')->as('color.')->group(function () {
             Route::controller(App\Http\Controllers\Color\ColorController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
