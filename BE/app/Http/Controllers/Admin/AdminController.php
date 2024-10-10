@@ -59,6 +59,7 @@ class AdminController extends Controller
     }
     public function update(UserRequest $request)
     {
+        // dd($request->all());
         $admin = User::findOrFail($request['id']);
         
         if ($request->hasFile('new_image')) {
@@ -76,11 +77,13 @@ class AdminController extends Controller
         $admin->phone = $request->input('phone');
         $admin->email = $request->input('email');
         $admin->username = $request->input('username')??$request->input('phone');
+        $admin->address = $request->input('address');
 
         if ($request->filled('password')) {
             $admin->password = bcrypt($request->input('password'));
         }
-
+        $admin->address = $request->input('address');
+dd($admin); 
         $admin->save();
         return redirect()->route('admin.admin.edit', $admin->id)->with('success', 'Người dùng đã được cập nhật thành công!');
     }

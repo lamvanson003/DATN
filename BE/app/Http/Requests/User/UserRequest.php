@@ -14,7 +14,7 @@ class UserRequest extends BaseRequest
             'phone' => 'required|string|unique:users,phone',
             'fullname' => 'required|string|max:255',
             'gender' => 'required|in:1,2,3',
-            'address' => 'nullable|string',
+            'address' => 'required|string|max:255',
             'password' => 'required',
             'avatar' => 'nullable|image|max:2048',
         ];
@@ -34,6 +34,7 @@ class UserRequest extends BaseRequest
             'phone' => 'nullable|string',
             'fullname' => 'nullable|string|max:255',
             'gender' => 'nullable|in:1,2,3',
+            'address' => 'required|string|max:255',
             'password' => 'nullable|string',
             'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
