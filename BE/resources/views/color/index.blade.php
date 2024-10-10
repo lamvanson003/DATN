@@ -59,8 +59,21 @@
                 <tbody>
                   @foreach ($color as $item)
                     <tr>
-                      <td><a href="{{ route('admin.color.edit', $item->id) }}">{{ $item->color }}</a></td> 
+                      <td><a href="{{ route('admin.color.edit', $item->id) }}">{{ $item->name }}</a></td> 
                       <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt=""></td> 
+                      <td>
+                        @switch($item->status->value)
+                          @case(\App\Enums\Status::Active)
+                          <span class="badge rounded-pill badge-success">{{ $item->status->description }}</span>
+                          @break
+                          @case(\App\Enums\Status::Inactive)
+                          <span class="badge rounded-pill badge-warning">{{ $item->status->description }}</span>
+                          @break
+                          @default
+                          <span class="badge rounded-pill badge-primary">N/A</span>
+                          @break
+                        @endswitch
+                      </td>
                       <td>
                         <div class="form-button-action gap-2">
                           <a href="{{ route('admin.color.edit', $item->id) }}">

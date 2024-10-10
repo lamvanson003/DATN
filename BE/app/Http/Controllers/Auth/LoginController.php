@@ -22,7 +22,6 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         $validatedData = $request->validated();
-       
         $user = User::where('email', $validatedData['email'])->first();
         if ($user && Hash::check($validatedData['password'], $user->password)) {
             Auth::login($user);

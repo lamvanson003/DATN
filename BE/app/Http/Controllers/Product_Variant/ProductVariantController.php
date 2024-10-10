@@ -10,9 +10,12 @@ use Exception;
 
 class ProductVariantController extends Controller
 {
-    public function index()
-    {
+    public function index($product_id)
+    {   
+        dd($product_id);
+        $product = Product::with('product_variant');
         $product_variant = Product_Variant::all();
+        
         return view('product_variant.index', compact(['product_variant']));
     }
     public function getId($id)

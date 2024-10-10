@@ -36,7 +36,7 @@
           <div class="card-header">
             <div class="d-flex align-items-center">
               <h4 class="card-title">DS Image Items</h4>
-              <a href="{{ route('admin.product_image_item.create',$product->id)}}" class="ms-auto">
+              <a href="{{ route('admin.product.item.create',$product->id)}}" class="ms-auto">
                 <button type="button" class="btn btn-primary btn-round">
                   <i class="fa fa-plus"></i>
                   Thêm
@@ -52,7 +52,6 @@
                   <tr>
                     <th>Hình ảnh</th>
                     <th>Tên sản phẩm</th>
-                    <th>Slug</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
@@ -61,7 +60,6 @@
                   <tr>
                     <th>Hình ảnh</th>
                     <th>Tên sản phẩm</th>
-                    <th>Slug</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
@@ -69,12 +67,22 @@
                 <tbody>
                   @foreach ($product_image_item as $item)
                     <tr>
-                      <td><a href="{{ route('admin.product_image_item.edit', $item->id) }}">{{ $item->name }}</a></td> 
+                      <td><a href="{{ route('admin.product.item.edit', $item->id) }}">{{ $item->name }}</a></td> 
                       <td><img class="text-center fix-image" src="{{ asset($item->image) }}" alt=""></td> 
-                      <td>{{ $item->description }}</td> 
+                      <td>
+                        @switch($item->status->value)
+                          @case(\App\Enums\Status::Active)
+                          <span class="badge rounded-pill badge-success">{{ $item->status->description }}</span>
+                          @break
+                          @case(\App\Enums\Status::Inactive)
+                          <span class="badge rounded-pill badge-warning">{{ $item->status->description }}</span>
+                          @break
+                          @default
+                        @endswitch
+                      </td> 
                       <td>
                         <div class="form-button-action gap-2">
-                          <a href="{{ route('admin.product_image_item.edit', $item->id) }}">
+                          <a href="{{ route('admin.product.item.edit', $item->id) }}">
                             <button type="button" data-bs-toggle="tooltip" title="Chỉnh sửa" class="btn btn-info btn-icon">
                               <i class="fa fa-pencil-alt"></i>
                             </button>
@@ -99,7 +107,10 @@
                               Xóa dữ liệu này khỏi dữ liệu hệ thống?
                           </div>
                           <div class="modal-footer">
-                            <form action="{{ route('admin.product_image_item.delete', $item->id) }}" method="POST">
+                            <form action="{{ route('admin.product.item.delete', [
+                                          'product_id' => $product->id,
+                                          'id' => $item->id
+                                      ]) }}" method="POST">
                               @csrf
                               <input type="hidden" name="_method" value="DELETE">
                               <button type="submit" class="btn btn-danger">Xóa</button>

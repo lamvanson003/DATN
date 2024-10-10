@@ -80,6 +80,7 @@ class UserController extends Controller
         }
 
         $user->fullname = $request->input('fullname');
+        $user->username = $request->input('username')??$user->username;
         $user->status = $request->input('status');
         $user->phone = $request->input('phone');
         $user->email = $request->input('email');

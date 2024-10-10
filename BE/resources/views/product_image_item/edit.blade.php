@@ -15,19 +15,17 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="#">{{ $product_image_item->name }}</a>
-            </li>
-            <li class="separator">
-              <i class="icon-arrow-right"></i>
+              <a href="">{{ $product_image_item->name }}</a>
             </li>
           </ul>
         </div>
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product_image_item.update',$product_image_item->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.product.item.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="_method" value="PUT">   
+                <input type="hidden" name="id" value="{{ $product_image_item->id }}">   
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
@@ -57,9 +55,12 @@
                     <div class="col-12 col-md-3">
                         <div class="card mb-3">
                             <div class="card-header">Đăng</div>
-                            <div class="card-body p-2">
+                            <div class="card-body p-2 gap-2">
                                 <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
-                                    Thêm
+                                    Cập nhật
+                                </button>
+                                <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
+                                    Xóa
                                 </button>
                             </div>
                         </div>
@@ -67,11 +68,11 @@
                         <div class="card mb-3">
                             <div class="card-header">Trạng thái</div>
                             <div class="card-body p-2">
-                                {{-- <select required class="form-select" name="status">
+                                <select required class="form-select" name="status">
                                     @foreach ($status as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
+                                        <option value="{{ $key }}" {{ $key == $product_image_item->status->value ? 'selected' : '' }}> {{ $value }}</option>
                                     @endforeach
-                                </select> --}}
+                                </select>
                             </div>
                         </div>
 

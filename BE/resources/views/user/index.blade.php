@@ -39,24 +39,20 @@
               <table id="add-row" class=" table fix_table text-center w-auto">
                 <thead>
                   <tr>
-                    <th>Ảnh</th>
+                    <th>Avatar</th>
                     <th>Khách hàng</th>
                     <th>Email</th>
                     <th>Điện thoại</th>
-                    <th>Địa chỉ</th>
-                    <th>Ngày đăng ký</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Ảnh</th>
+                    <th>Avatar</th>
                     <th>Khách hàng</th>
                     <th>Email</th>
                     <th>Điện thoại</th>
-                    <th>Địa chỉ</th>
-                    <th>Ngày đăng ký</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
@@ -77,12 +73,6 @@
                     </td>
                     <td>
                         <span> {{ $item->phone }}</span>
-                    </td>
-                    <td>
-                        <span>{{ $item->address }}</span>
-                    </td>
-                    <td>
-                        <span>{{ $item->created_at ?? 'N/A' }}</span>
                     </td>
                     <td>    
                         @switch($item->status->value)

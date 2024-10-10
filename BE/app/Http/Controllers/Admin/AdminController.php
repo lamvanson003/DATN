@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\User\UserGender;
 use App\Http\Controllers\Controller;
 use App\Enums\User\UserRole;
 use App\Enums\User\UserStatus;
@@ -24,42 +25,50 @@ class AdminController extends Controller
     public function delete($id)
     {
         $admin = User::findorFail($id);
-        $admin->status = UserStatus::Inactive;
+        $admin->delete();
         return redirect()->back()->with('success','Thực hiện thành công');
     }
 
     public function store(UserRequest $request)
-    {
-        $data = $request->validate();
-
-        $data['username'] = $data['phone'] ?? $data['username'];
-        $data['roles'] = UserRole::User();
-        $data['password'] = bcrypt($data['password']);
+    {   
+        $data = $request->validated();
+        $baseUrl = url()->to('/');
+        $data['username'] = $request['phone'] ?? $request['username'];
+        $data['roles'] = UserRole::Admin;
+        $data['password'] = bcrypt($request['password']);
 
         $imagePath = '';
         if ($request->hasFile('avatar')) {
             $image = $request->file('avatar');
             $fileName = time() . '_' . $image->getClientOriginalName();
             $image->move(public_path('images/avatar'), $fileName);
-            $imagePath = '/images/avatar/' . $fileName;
+            $imagePath = $baseUrl.'/images/avatar/' . $fileName;
         }
 
         $data['avatar'] = $imagePath;
+        $data['email'] = $request['email'];
+        $data['phone'] = $request['phone'];
+        $data['status'] = UserStatus::Pendding;
 
         User::create($data);
 
-        return redirect()->route('admin.admin.index')->with('success', 'Người dùng đã được tạo thành công.');
+        return redirect()->route('admin.admin.index')->with('success', 'Thêm thành công.');
     }
 
     public function edit($id){
         $admin = User::findOrFail($id);
         $status = UserStatus::asSelectArray();
-        return view('admin.edit',compact('admin','status'));
+        $gender = UserGender::asSelectArray();
+        return view('admin.edit',compact('admin','status','gender'));
     }
+
     public function update(UserRequest $request)
     {
-        $admin = User::findOrFail($request['id']);
-        
+        $data = $request->validated();
+
+        $admin = User::findOrFail($data['id']);
+
+        $baseUrl = url()->to('/');
         if ($request->hasFile('new_image')) {
             if ($admin->avatar && file_exists(public_path($admin->avatar))) {
                 unlink(public_path($admin->avatar));
@@ -67,20 +76,26 @@ class AdminController extends Controller
             $newImage = $request->file('new_image');
             $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
             $newImage->move(public_path('images/avatar'), $newImageName);
-            $admin->avatar = 'images/avatar/' . $newImageName;
+            $admin->avatar = $baseUrl.'/images/avatar/' . $newImageName;
         }
-
-        $admin->fullname = $request->input('fullname');
-        $admin->status = $request->input('status');
-        $admin->phone = $request->input('phone');
-        $admin->email = $request->input('email');
-        $admin->username = $request->input('username')??$request->input('phone');
-
+          
         if ($request->filled('password')) {
-            $admin->password = bcrypt($request->input('password'));
+            $data['password'] = bcrypt($data['password']);
+        }else {
+            $data['password'] = $admin->password;
         }
 
-        $admin->save();
-        return redirect()->route('admin.admin.edit', $admin->id)->with('success', 'Người dùng đã được cập nhật thành công!');
+        $admin->update([
+            'fullname' => $data['fullname'],
+            'status' => $data['status'],
+            'phone' => $data['phone'],
+            'address' => $data['address']??$admin->address,
+            'email' => $data['email'],
+            'username' => $data['username']??$request['phone'],
+            'password' => $data['password'],
+            'avatar' => $admin->avatar,
+        ]);
+
+        return redirect()->route('admin.admin.edit', $admin->id)->with('success', 'Cập nhật thành công!');
     }
 }
