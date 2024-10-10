@@ -1,12 +1,14 @@
 /* Fix image */
 .fix-image {
-  width: 50px;
+  height: 150px;
+  width: 150px;
   background-position: center;
-  max-height: fit-content;
+  max-width: fit-content;
   border-radius: 4px;
 }
-.required_feild{
-  color: red;
+
+.required_feild,.red{
+  color: rgb(219, 49, 49);
 }
 .fix_size_text {
   font-weight: 500;
@@ -50,13 +52,19 @@ a:hover{
   cursor: pointer;
   transition: all 0.3s ease;
 }
+select,select>option,input[type="checkbox"]{
+  cursor: pointer;
+}
+label,.card-header{
+  font-weight: bold;
+}
 
 /* Định dạng hình ảnh */
 #imagePreview {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width:  fit-content;
   height: 100%;
   object-fit: cover;
   /* Ảnh sẽ phủ đầy container mà không bị méo */

@@ -6,7 +6,7 @@
 <div class="container">
     <div class="page-inner">
         <div class="page-header">
-            <h3 class="fw-bold mb-3">DataTables</h3>
+            <h3 class="fw-bold mb-3">CloudLab</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
                     <a href="{{ route('admin.dashboard.index') }}">
@@ -17,7 +17,7 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.product.index') }}">Sản phẩm</a>
+                    <a href="{{ route('admin.product.edit',$product->id) }}">{{ $product->name }}</a>
                 </li>
                 <li class="separator">
                     <i class="icon-arrow-right"></i>
@@ -30,68 +30,49 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.product_variant.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Thông tin viến  sản phẩm</h3>
+                                <h3 class="mb-0 strong text-center">Thông tin cấu hình sản phẩm</h3>
                             </div>
                             <div class="row card-body">
-                                <!-- Name -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">  
-                                        <label class="control-label">Tên sản phẩm<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" placeholder="VD: Iphone 13 Pro Max">
+                                
+                                <div class="col-md-12 col-sm-12 gap-2 d-flex">
+                                    <!-- storage -->
+                                    <div class="mb-3 col-6">
+                                        <label class="control-label">Dung lượng <span style="color: red">*</span>:</label>
+                                        <input type="text" required class="form-control" name="storage" placeholder="VD: iphone-13-promax">
                                     </div>
                                 </div>
 
-                                <!-- Slug -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="slug" placeholder="VD: iphone-13-promax">
+                                <div class="col-md-12 col-sm-12 gap-2 d-flex">                                   
+                                    <!-- price -->
+                                    <div class="mb-3 col-6">
+                                        <label class="control-label">Giá <span style="color: red">*</span>:</label>
+                                        <input type="number" required class="form-control" name="price" placeholder="VND">
+                                    </div>
+
+                                    <!-- price sale -->
+                                    <div class="mb-3 col-6">
+                                        <label class="control-label">Giá khuyến mãi :</label>
+                                        <input type="number" required class="form-control" name="sale" placeholder="VND">
                                     </div>
                                 </div>
 
-                                <!-- Short Description -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Mô tả ngắn:</label>
-                                        <input type="text" class="form-control" name="short_desc" placeholder="Mô tả ngắn về sản phẩm">
+                                <div class="col-md-12 col-sm-12 gap-2 d-flex">                                   
+                                    <!-- memory -->
+                                    <div class="mb-3 col-6">
+                                        <label class="control-label">Gói bảo hành <span style="color: red">*</span>:</label>
+                                        <input type="text" required class="form-control" name="memory" placeholder="VD: 1năm">
                                     </div>
-                                </div>
 
-                                <!-- Description -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Mô tả chi tiết:</label>
-                                        <textarea class="form-control" name="description" rows="4" placeholder="Mô tả chi tiết về sản phẩm"></textarea>
-                                    </div>
-                                </div>
-
-                                <!-- Category ID -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
-                                        <select class="form-select" name="category_id" required>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- Brand ID -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Thương hiệu<span style="color: red">*</span>:</label>
-                                        <select class="form-select" name="brand_id" required>
-                                            @foreach ($brands as $brand)
-                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                            @endforeach
-                                        </select>
+                                    <!-- instock -->
+                                    <div class="mb-3 col-6">
+                                        <label class="control-label">Nhập số lượng (cái) :</label>
+                                        <input type="number" required class="form-control" name="instock" placeholder="VD: 1">
                                     </div>
                                 </div>
                             </div>
@@ -109,50 +90,40 @@
                         </div>
             
                         <div class="card mb-3">
-                            <div class="card-header">Trạng thái</div>
+                            <div class="card-header" style="color: red">Chọn màu sắc</div>
                             <div class="card-body p-2">
-                                <select required class="form-select" name="status">
-                                    @foreach ($status as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3">
-                            <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
-                            <div class="card-body p-2">
-                                <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
-                                <input type="hidden" name="images" id="imageUrl" value="">
-                                <div class="image-container" style="cursor: pointer;">
-                                    <img id="imagePreview" src="{{ asset('/images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
+                                <div class="form-check">
+                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="red" id="colorRed">
+                                    <label class="form-check-label" for="colorRed">Đỏ</label>
+                                </div>
+                        
+                                <div class="form-check">
+                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="green" id="colorGreen">
+                                    <label class="form-check-label" for="colorGreen">Xanh lá</label>
+                                </div>
+                        
+                                <div class="form-check">
+                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="blue" id="colorBlue">
+                                    <label class="form-check-label" for="colorBlue">Xanh dương</label>
+                                </div>
+                        
+                                <div class="form-check">
+                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="yellow" id="colorYellow">
+                                    <label class="form-check-label" for="colorYellow">Vàng</label>
+                                </div>
+                        
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="color[]" value="black" id="colorBlack">
+                                    <label class="form-check-label" for="colorBlack">Đen</label>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('.image-container').addEventListener('click', function() {
-            document.getElementById('fileInput').click();
-        });
-
-        document.getElementById('fileInput').addEventListener('change', function(event) {
-            const imagePreview = document.getElementById('imagePreview');
-            const file = event.target.files[0];
-
-            if (file) {
-                imagePreview.src = URL.createObjectURL(file);
-            } else {
-                imagePreview.src = "{{ asset('/images/default-image.png') }}";
-            }
-        });
-    });
-</script>
 
 @endsection

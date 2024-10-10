@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Nguyễn Văn A",
+      "email": "nguyenvana@example.com",
+      "phone": "0123456789",
+      "address": {
+        "street": "123 Đường A",
+        "city": "Hà Nội",
+        "country": "Việt Nam"
+      }
+    },
+    {
+      "id": "2",
+      "name": "Trần Thị B",
+      "email": "tranthib@example.com",
+      "phone": "0987654321",
+      "address": {
+        "street": "456 Đường B",
+        "city": "TP.HCM",
+        "country": "Việt Nam"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Lê Văn C",
+      "email": "levanc@example.com",
+      "phone": "0112233445",
+      "address": {
+        "street": "789 Đường C",
+        "city": "Đà Nẵng",
+        "country": "Việt Nam"
+      }
+    },
+    {
+      "id": "4",
+      "name": "Phạm Thị D",
+      "email": "phamthid@example.com",
+      "phone": "0167890123",
+      "address": {
+        "street": "321 Đường D",
+        "city": "Nha Trang",
+        "country": "Việt Nam"
+      }
+    }
+  ]
+}

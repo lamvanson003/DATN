@@ -92,7 +92,7 @@
             
                     <div class="col-12 col-md-3">
                         <div class="card mb-3">
-                            <div class="card-header text-end">Đăng</div>
+                            <div class="card-header">Đăng</div>
                             <div class="card-body p-2">
                                 <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
                                     Thêm
@@ -101,7 +101,7 @@
                         </div>
             
                         <div class="card mb-3">
-                            <div class="card-header text-end">Trạng thái</div>
+                            <div class="card-header">Trạng thái</div>
                             <div class="card-body p-2">
                                 <select class="form-select" name="status">
                                     @foreach ($status as $key => $value)
@@ -114,8 +114,8 @@
                         </div>
 
                         <div class="card mb-3">
-                            <div class="card-header text-end">Ảnh đại diện <span style="color: red">*</span></div>
-                            <div class="card-body p-2 text-end">
+                            <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
+                            <div class="card-body p-2">
                                 <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
                                 <input type="hidden" name="images" id="imageUrl" value="">
                                 <div class="image-container" style="cursor: pointer; display: inline-block;">

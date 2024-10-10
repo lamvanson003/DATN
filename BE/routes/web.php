@@ -69,7 +69,20 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
             });
         });
+
         Route::prefix('/products')->as('product.')->group(function () {
+
+            Route::controller(App\Http\Controllers\Product\ItemController::class)
+            ->as('item.')
+            ->group(function () {
+                Route::get('/{product_id}/item/them', 'create')->name('create');
+                Route::get('/{product_id}/item', 'index')->name('index');
+                Route::get('/item/sua/{id}', 'edit')->name('edit');
+                Route::put('/item/sua', 'update')->name('update');
+                Route::post('/item/them', 'store')->name('store');
+                Route::delete('/{product_id}/item/xoa/{id}', 'delete')->name('delete');
+            });
+
             Route::controller(App\Http\Controllers\Product\ProductController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/them', 'create')->name('create');
@@ -77,18 +90,31 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::get('/sua/{id}', 'edit')->name('edit');
                 Route::put('/sua/{id}', 'update')->name('update');
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });            
+
+            Route::controller(App\Http\Controllers\Product_Variant\ProductVariantController::class)
+            ->as('product_item')
+            ->group(function () {
+                Route::get('{product_id}/product_item', 'index')->name('index');
+                Route::get('/{product_id}/product_item/them', 'create')->name('create');
+                Route::post('/product_item/them', 'store')->name('store');
+                Route::get('/product_item/sua/{id}', 'edit')->name('edit');
+                Route::put('/product_item/sua', 'update')->name('update');
+                Route::delete('/{product_id}/product_item/xoa/{id}', 'delete')->name('delete');
             });
         });
-        Route::prefix('/product-variants')->as('product_variant.')->group(function () {
-            Route::controller(App\Http\Controllers\Product_Variant\ProductVariantController::class)->group(function () {
+       
+        
+
+        Route::prefix('/colors')->as('color.')->group(function () {
+            Route::controller(App\Http\Controllers\Color\ColorController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
                 Route::get('/sua/{id}', 'edit')->name('edit');
                 Route::put('/sua/{id}', 'update')->name('update');
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
+                });
             });
-        });
-        
 });
 

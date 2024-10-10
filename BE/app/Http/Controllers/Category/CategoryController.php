@@ -37,13 +37,14 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         try {
+            $baseUrl = url()->to('/');
             $imagePath = '';
             if ($request->hasFile('images')) {
                 $image = $request->file('images');
 
                 $fileName = time() . '_' . $image->getClientOriginalName();
                 $image->move(public_path('images/category'), $fileName);
-                $imagePath = '/images/category/' . $fileName;
+                $imagePath =$baseUrl.'/images/category/' . $fileName;
             }
 
             Category::create([
@@ -74,7 +75,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request)
     {   
         $category = Category::find($request['id']);
-
+        $baseUrl = url()->to('/');
 
         if ($request->hasFile('new_image')) {
             if ($category->images && file_exists(public_path($category->images))) {
@@ -84,7 +85,7 @@ class CategoryController extends Controller
             $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
             $newImage->move(public_path('images/category'), $newImageName);
 
-            $category->images = 'images/category/' . $newImageName;
+            $category->images = $baseUrl.'/images/category/' . $newImageName;
         }
         $category->images = $category->images ?? $request->input('old_image');
 

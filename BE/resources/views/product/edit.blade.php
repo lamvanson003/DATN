@@ -23,7 +23,7 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Chỉnh sửa</a>
+                    <a href="#" class="text-capitalize">{{ $product->name }}</a>
                 </li>
             </ul>
         </div>

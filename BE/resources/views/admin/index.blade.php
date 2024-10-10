@@ -40,11 +40,9 @@
                 <thead>
                   <tr>
                     <th>Avatar</th>
-                    <th>Tên Amdin</th>
                     <th>Tên hiển thị</th>
                     <th>Email</th>
                     <th>Điện thoại</th>
-                    <th>Địa chỉ</th>
                     <th>Ngày đăng ký</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
@@ -53,11 +51,9 @@
                 <tfoot>
                   <tr>
                     <th>Avatar</th>
-                    <th>Tên Amdin</th>
                     <th>Tên hiển thị</th>
                     <th>Email</th>
                     <th>Điện thoại</th>
-                    <th>Địa chỉ</th>
                     <th>Ngày đăng ký</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
@@ -71,20 +67,14 @@
                     </td>
                     <td>
                       <a class="fix_size_text" href="{{ route('admin.admin.edit',$item->id) }}">
-                        {{ $item->fullname }}
-                      </a>
-                    </td>
-                    <td>
                         {{ $item->username }}
+                      </a>
                     </td>
                     <td>
                         {{ $item->email }}
                     </td>
                     <td>
                         {{ $item->phone }}
-                    </td>
-                    <td>
-                        {{ $item->address }}
                     </td>
                     <td>
                         {{ $item->created_at ?? 'N/A' }}
@@ -97,8 +87,8 @@
                       @case(\App\Enums\User\UserStatus::Inactive)
                       <span class="badge rounded-pill badge-warning">{{ $item->status->description }}</span>
                       @break
-                      @case(\App\Enums\User\UserStatus::Deleted)
-                      <span class="badge rounded-pill badge-danger">{{ $item->status->description }}</span>
+                      @case(\App\Enums\User\UserStatus::Pendding)
+                      <span class="badge rounded-pill badge-warning">{{ $item->status->description }}</span>
                       @break
                       @default
                       @endswitch
@@ -128,7 +118,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                              Chuyển trạng thái thành đã xóa
+                              Xác nhận xóa khỏi cơ sở dữ liệu.
                           </div>
                           <div class="modal-footer">
                             <form action="{{ route('admin.admin.delete',$item->id) }}" method="POST">

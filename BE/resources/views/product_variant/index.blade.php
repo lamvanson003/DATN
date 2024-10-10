@@ -34,7 +34,7 @@
           <div class="card-header">
             <div class="d-flex align-items-center">
               <h4 class="card-title">Danh sách biến thể</h4>
-              <a href="{{ route('admin.product_variant.create') }}" class="ms-auto">
+              <a href="{{ route('admin.product_variant.create'),$productId }}" class="ms-auto">
                 <button type="button" class="btn btn-primary btn-round">
                   <i class="fa fa-plus"></i>
                   Thêm

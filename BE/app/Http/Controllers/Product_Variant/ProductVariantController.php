@@ -3,30 +3,33 @@
 namespace App\Http\Controllers\Product_Variant;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\Category;
 use App\Models\Product_Variant;
-use App\Enums\Product\ProductStatus;
-use App\Http\Requests\Product\ProductRequest;
+use App\Http\Requests\Product\ProductVariantRequest;
 use Exception;
 
 class ProductVariantController extends Controller
 {
-    public function index()
-    {
+    public function index($product_id)
+    {   
+        dd($product_id);
+        $product = Product::with('product_variant');
         $product_variant = Product_Variant::all();
+        
         return view('product_variant.index', compact(['product_variant']));
     }
+    public function getId($id)
+    {   
+        $productId = $id;
+        $product = Product::findOrfail($productId);
+        $product_variant = Product_Variant::getIdByProduct($productId);
+        return view('product_variant.create', compact(['product_variant',['productId','product']]));
+    }
 
-    // public function create()
-    // {
-    //     return view('product.create', [
-    //         'status' => ProductStatus::asSelectArray(),
-    //         'categories' => Category::all(),
-    //         'brands' => Brand::all(), 
-    //     ]);
-    // }
+    public function create()
+    {
+        return view('product_variant.create');
+    }
 
     // public function delete($id)
     // {
@@ -36,33 +39,25 @@ class ProductVariantController extends Controller
     //     return redirect()->route('admin.product.index')->with('success', 'Thực hiện thành công.');
     // }
 
-    // public function store(ProductRequest $request)
-    // {
-    //     try {
-    //         $imagePath = '';
-    //         if ($request->hasFile('images')) {
-    //             $image = $request->file('images');
+    public function store(ProductVariantRequest $request)
+    {
+        try {
+            
+            $sku = 'NO.'.random_int(1,50).range(1,10,3);
 
-    //             $fileName = time() . '_' . $image->getClientOriginalName();
-    //             $image->move(public_path('images/product'), $fileName);
-    //             $imagePath = '/images/product/' . $fileName;
-    //         }
-
-    //         Product::create([
-    //             'name' => $request->name,
-    //             'status' => $request->status,
-    //             'slug' => $request->slug,
-    //             'short_desc' => $request->short_desc,
-    //             'description' => $request->description,
-    //             'category_id' => $request->category_id,
-    //             'brand_id' => $request->brand_id,
-    //             'images' => $imagePath,
-    //         ]);
-    //         return redirect()->route('admin.product.index')->with('success', 'Thêm thành công.');
-    //     } catch (Exception $e) {
-    //         return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
-    //     }
-    // }
+            Product::create([
+                'sku ' => $sku ,
+                'price' => $request->price,
+                'sale' => $request->sale,
+                'memory' => $request->memory,
+                'in_stock' => $request->in_stock,
+                'color' => $request->in_stock,
+            ]);
+            return redirect()->route('admin.product.index')->with('success', 'Thêm thành công.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        }
+    }
 
     // public function edit($id)
     // {

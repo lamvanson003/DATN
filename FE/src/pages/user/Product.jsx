@@ -5,11 +5,13 @@ import { BoxPro } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpZA } from "@fortawesome/free-solid-svg-icons";
 import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 const Product = () => {
   const [Pros, setPros] = useState([]);
   const [phone, setPhone] = useState([]);
   const [laptop, setLaptop] = useState([]);
-
+  const [category, setCategory] = useState([]);
   const [active, setActive] = useState(0);
   const [curPage, setCurPage] = useState(1);
   const [itemsPerPage] = useState(8);
@@ -78,6 +80,18 @@ const Product = () => {
   useEffect(() => {
     handleSort(); // Gọi hàm sắp xếp mỗi khi sortOrder hoặc curItems thay đổi
   }, [sortOrder, curItems]);
+  useEffect(() => {
+    const fetchCate = async () => {
+      try {
+        const res = await axios.get(" http://localhost:8000/api/categories");
+        setCategory(res.data.data);
+      } catch (error) {
+        console.log("Error fetching data", error);
+      }
+    };
+    fetchCate();
+  }, []);
+  const dispatch = useDispatch();
 
   return (
     <div className="container mt-5">
