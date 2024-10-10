@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Enums\User\UserRole;
 use App\Enums\User\UserStatus;
 use Illuminate\Support\Facades\Auth; 
+use Exception;
+use Illuminate\Auth\Events\Validated;
 
 class RegisterController extends Controller
 {
@@ -18,17 +20,22 @@ class RegisterController extends Controller
 
     public function store(RegisterRequest $request)
     {
+        try {
             $data = $request->validated();
-            $data['username'] = $data['phone']??$data['username'];
-            $data['email'] = $data['email'];
-            $data['phone'] = $data['phone'];
-            $data['roles'] = UserRole::Admin();
-            $data['status'] = UserStatus::Pendding;
-            $data['password'] = bcrypt($data['password']);
-
-            $user = User::create($data);  
-            Auth::login($user);
-        return redirect()->route('admin.dashboard.index')->with('success', 'Đăng ký thành công');
+            
+            User::create([
+                'username' => $data['phone']??$data['username'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'roles' => UserRole::Admin,
+                'status' => UserStatus::Pendding,
+                'password' => bcrypt($data['password']),
+            ]);
+        return redirect()->route('admin.index')->with('success', 'Đăng ký thành công. Vui lòng chờ Admin DUYỆT ');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        }
+            
     }
 
 }

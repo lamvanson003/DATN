@@ -11,11 +11,13 @@ class Variant_Color extends Model
     protected $table=['variant_colors'];
     protected $fillable = ['product_variant_id','color_id'];
 
+
     public function productVariant()
     {
-        return $this->hasMany(Product_Variant::class, 'variant_color_id');
+        return $this->belongsTo(Product_Variant::class, 'product_variant_id');
     }
 
+    // Quan hệ với Color
     public function color()
     {
         return $this->belongsTo(Color::class, 'color_id');

@@ -28,7 +28,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product_image_item.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.product.item.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}">   
                 <div class="row justify-content-center">
@@ -70,11 +70,11 @@
                         <div class="card mb-3">
                             <div class="card-header">Trạng thái</div>
                             <div class="card-body p-2">
-                                {{-- <select required class="form-select" name="status">
+                                <select required class="form-select" name="status">
                                     @foreach ($status as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
-                                </select> --}}
+                                </select>
                             </div>
                         </div>
 

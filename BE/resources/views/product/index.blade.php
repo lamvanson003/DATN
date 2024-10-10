@@ -69,7 +69,7 @@
                     <tr>
                       <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt="{{ $item->name }}"></td>
                       <td><a href="{{ route('admin.product.edit', $item->id) }}">{{ $item->name }}</a></td> 
-                      <td><a href="{{ route('admin.product_variant.getId',$item->id) }}">DS biển thể</a></td> 
+                      <td><a href="{{ route('admin.product.product_item.index',$item->id) }}">Thông số kỹ thuật</a></td> 
                       <td>
                         <div class="row">
                             <div class="image-items d-flex align-items-center gap-2 justify-content-center">
@@ -77,7 +77,7 @@
                                 <img class="text-center fix-image" src="{{ asset($imageItem->image) }}" alt="{{ $item->name }}">
                               @endforeach
                             </div>
-                            <a href="{{ route('admin.product_image_item.imageItem',$item->id) }}">DS Image-items</a>
+                            <a href="{{ route('admin.product.item.index',$item->id) }}">DS Image-items</a>
                         </div>                  
                     </td>
                       <td>

@@ -21,7 +21,6 @@ class Product_Variant extends Model
         'memory',
         'sold',
         'instock',
-        'variant_color_id',
     ];
 
     public function scopeGetIdByProduct($query,$productId){
@@ -45,5 +44,9 @@ class Product_Variant extends Model
         return $this->belongsTo(Variant_Color::class, 'variant_id');
     }
 
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class, 'variant_colors', 'product_variant_id', 'color_id');
+    }
 
 }

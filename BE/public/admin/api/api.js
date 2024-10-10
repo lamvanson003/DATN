@@ -108,7 +108,7 @@ function updateAddress() {
     const huyenText = document.getElementById('huyen').options[document.getElementById('huyen').selectedIndex].text;
     const xaText = document.getElementById('xa').options[document.getElementById('xa').selectedIndex].text;
 
-    const address = `${xaText}, ${huyenText}, ${tinhText}`;
+    const address = `${tinhText}, ${huyenText}, ${xaText}`;
     document.getElementById('address').value = address;
 }
 

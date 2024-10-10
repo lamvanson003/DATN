@@ -83,6 +83,7 @@
                                         </select>
                                     </div>                                    
                                 </div>
+                                
                                 <div class="col-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-4">
                                         <label for="tinhthanh" class="control-label">Tỉnh/Thành phố:</label>
@@ -102,6 +103,10 @@
                                             <option value="">--Chọn Phường/Xã--</option>
                                         </select>
                                     </div>
+                                </div>
+                                
+                                <div class="col-12 col-sm-12 d-flex gap-2">
+                                    <textarea class="form-control"  id="address" name="address" rows="4" placeholder="Tên địa chỉ hiển thị tại đây" readonly></textarea>
                                 </div>
                             </div>
                         </div>
