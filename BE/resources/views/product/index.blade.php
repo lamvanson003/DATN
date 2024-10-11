@@ -74,7 +74,7 @@
                         <div class="row">
                             <div class="image-items d-flex align-items-center gap-2 justify-content-center">
                               @foreach ($item->product_image_items as $imageItem)
-                                <img class="text-center fix-image" src="{{ asset($imageItem->image) }}" alt="{{ $item->name }}">
+                                <img class="text-center fix-image" src="{{ asset($imageItem->images) }}" alt="{{ $item->name }}">
                               @endforeach
                             </div>
                             <a href="{{ route('admin.product.item.index',$item->id) }}">DS Image-items</a>

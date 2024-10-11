@@ -307,6 +307,19 @@
 <script src="{{ asset('/admin/assets/js/kaiadmin.min.js') }}"></script>
 <!-- Kaiadmin DEMO methods, don't include it in your project! -->
 <script src="{{ asset("/admin/assets/js/setting-demo2.js") }}"></script>
+   
+<!-- Thêm JS cho Select2 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Khởi tạo Select2 cho dropdown màu sắc
+        $('#colorSL').select2({
+            placeholder: "Vui lòng chọn màu", // Placeholder cho dropdown
+            allowClear: true // Cho phép xóa lựa chọn
+        });
+    });
+</script>
+
 <script>
   $(document).ready(function () {
     $("#basic-datatables").DataTable({});

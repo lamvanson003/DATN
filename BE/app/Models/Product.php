@@ -55,4 +55,16 @@ class Product extends Model
         return $this->hasMany(Product_Image_Item::class,'product_id');
     }
 
+    /**
+     * Quan hệ với bảng trung gian variantColor
+     */
+    public function variantColor()
+    {
+        return $this->hasMany(Variant_Color::class);
+    }
+
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class, 'variant_color', 'product_id', 'color_id');
+    }
 }   

@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Product;
 
+use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Color;
 use App\Enums\Product\ProductStatus;
+use App\Enums\Status;
 use App\Http\Requests\Product\ProductRequest;
-use App\Models\Product_Image_Item;
+use App\Models\Variant_Color;
 use Exception;
-
+use Illuminate\Support\Facades\Log;
 class ProductController extends Controller
 {
     public function index()
@@ -28,10 +30,12 @@ class ProductController extends Controller
         $categories = Category::where('status', ProductStatus::Active)->get();
         $brands = Brand::where('status', ProductStatus::Active)->get();
 
+        $colors = Color::where('status', Status::Active)->get();
         return view('product.create', [
-            'status' => [ProductStatus::Active => ProductStatus::getDescription(ProductStatus::Active)], 
+            'status' => Status::asSelectArray(), 
             'categories' => $categories, 
-            'brands' => $brands, 
+            'brands' => $brands,
+            'colors' => $colors,
         ]);
     }
 
@@ -44,32 +48,46 @@ class ProductController extends Controller
     }
 
     public function store(ProductRequest $request)
-    {
-        try {
-            $imagePath = '';
-            if ($request->hasFile('images')) {
-                $image = $request->file('images');
+{
+    $data = $request->validated();
+    try {
+        $baseUrl = url()->to('/');
+        $imagePath = '';
 
-                $fileName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('images/product'), $fileName);
-                $imagePath = 'http://127.0.0.1:8000/images/product/' . $fileName;
-            }
-
-            Product::create([
-                'name' => $request->name,
-                'status' => $request->status,
-                'slug' => $request->slug,
-                'short_desc' => $request->short_desc,
-                'description' => $request->description,
-                'category_id' => $request->category_id,
-                'brand_id' => $request->brand_id,
-                'images' => $imagePath,
-            ]);
-            return redirect()->route('admin.product.index')->with('success', 'Thêm thành công.');
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        if ($request->hasFile('images')) {
+            $image = $request->file('images');
+            $fileName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/product'), $fileName);
+            $imagePath = $baseUrl . '/images/product/' . $fileName;
         }
+
+        $product = Product::create([
+            'name' => $data['name'],
+            'status' => $data['status'],
+            'slug' => $data['slug'],
+            'short_desc' => $data['short_desc'],
+            'description' => $data['description'],
+            'category_id' => $data['category_id'],
+            'brand_id' => $data['brand_id'],
+            'images' => $imagePath,
+        ]);
+
+        if (isset($data['color']) && is_array($data['color'])) {
+            foreach ($data['color'] as $color_id) {
+                Variant_Color::create([
+                    'product_id' => $product->id,
+                    'color_id' => $color_id,
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.product.index')->with('success', 'Thêm thành công.');
+    } catch (Exception $e) {
+        Log::info('mess',['mess'=> $e->getMessage()]);
+        return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
     }
+}
+
 
     public function edit($id)
     {
@@ -89,9 +107,10 @@ class ProductController extends Controller
     }
 
     public function update(ProductRequest $request)
-    {
+    {   
+        $data = $request->validated();
         $product = Product::find($request['id']);
-        
+        $baseUrl = url()->to('/');
         if ($request->hasFile('new_image')) {
             if ($product->images && file_exists(public_path($product->images))) {
                 unlink(public_path($product->images));
@@ -100,20 +119,19 @@ class ProductController extends Controller
             $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
             $newImage->move(public_path('images/product'), $newImageName);
 
-            $product->images = 'http://127.0.0.1:8000/images/product/' . $newImageName;
+            $product->images = $baseUrl.'/images/product/' . $newImageName;
         }
         $product->images = $product->images ?? $request->input('old_image');
 
-        $product->name = $request->input('name');
-        $product->status = $request->input('status');
-        $product->slug = $request->input('slug');
-        $product->short_desc = $request->input('short_desc');
-        $product->description = $request->input('description');
-        $product->category_id = $request->input('category_id');
-        $product->brand_id = $request->input('brand_id');
-
-        $product->save();
-
+        $product->update([
+            'name' => $data['name'],
+            'status' => $data['status'],
+            'slug' => $data['slug']??$product->slug,
+            'short_desc' => $data['short_desc'],
+            'description' => $data['description'],
+            'category_id' => $data['category_id'],
+            'brand_id' => $data['brand_id'],
+        ]);
         return redirect()->route('admin.product.edit', $product->id)->with('success', 'Sản phẩm đã được cập nhật thành công!');
     }
 }

@@ -30,8 +30,9 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product_variant.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.product.product_item.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}">   
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
@@ -88,37 +89,6 @@
                                 </button>
                             </div>
                         </div>
-            
-                        <div class="card mb-3">
-                            <div class="card-header" style="color: red">Chọn màu sắc</div>
-                            <div class="card-body p-2">
-                                <div class="form-check">
-                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="red" id="colorRed">
-                                    <label class="form-check-label" for="colorRed">Đỏ</label>
-                                </div>
-                        
-                                <div class="form-check">
-                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="green" id="colorGreen">
-                                    <label class="form-check-label" for="colorGreen">Xanh lá</label>
-                                </div>
-                        
-                                <div class="form-check">
-                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="blue" id="colorBlue">
-                                    <label class="form-check-label" for="colorBlue">Xanh dương</label>
-                                </div>
-                        
-                                <div class="form-check">
-                                    <input class="form-check-input check-all" type="checkbox" name="color[]" value="yellow" id="colorYellow">
-                                    <label class="form-check-label" for="colorYellow">Vàng</label>
-                                </div>
-                        
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="color[]" value="black" id="colorBlack">
-                                    <label class="form-check-label" for="colorBlack">Đen</label>
-                                </div>
-                            </div>
-                        </div>
-                        
                     </div>
                 </div>
             </form>
