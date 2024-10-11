@@ -4,9 +4,9 @@ namespace App\Enums\User;
 
 enum UserGender: int {
 
-    const Male = 1;
-    const Female = 2;
-    const Other = 3;
+    case Male = 1;
+    case Female = 2;
+    case Other = 3;
 
     public static function asSelectArray(): array
     {
