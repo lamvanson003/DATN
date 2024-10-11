@@ -5,8 +5,9 @@ import proImg from "../assets/images/iHome/image.png";
 import { CartContext } from "../context/Cart";
 import { memo } from "react";
 import { FavorContext } from "../context/Favor";
+
 const BoxPro = ({ pro }) => {
-  const { cartItems, addToCart } = useContext(CartContext);
+  const { cartItems, addToCart, buyNow } = useContext(CartContext);
   const { favorItems, addToFavor } = useContext(FavorContext);
   const inCartItem = cartItems.find((cartItem) => cartItem.id === pro?.id);
   const cartItemQuantity = inCartItem && inCartItem.quantity;
@@ -75,7 +76,14 @@ const BoxPro = ({ pro }) => {
             <i className={`fas fa-heart ${inFavorItems && "text-danger"}`} />
           </button>
         </div>
-        <button className="btn btn-buy mt-3">Mua ngay</button>
+        <button
+          className="btn btn-buy mt-3"
+          onClick={() => {
+            buyNow(pro);
+          }}
+        >
+          Mua ngay
+        </button>
       </div>
     </div>
   );

@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "productId": 1,
+    "userId": 101,
+    "username": "nguyenvana",
+    "content": "Sản phẩm tuyệt vời! Rất đáng mua.",
+    "rating": 5,
+    "createdAt": "2023-10-10T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "productId": 1,
+    "userId": 102,
+    "username": "tranthib",
+    "content": "Rất hữu ích và giá cả phải chăng.",
+    "rating": 4,
+    "createdAt": "2023-10-11T10:00:00Z"
+  },
+  {
+    "id": 3,
+    "productId": 2,
+    "userId": 103,
+    "username": "levanc",
+    "content": "Không như tôi mong đợi, nhưng cũng tạm ổn.",
+    "rating": 3,
+    "createdAt": "2023-10-12T10:00:00Z"
+  },
+  {
+    "id": 4,
+    "productId": 2,
+    "userId": 104,
+    "username": "phamthid",
+    "content": "Có thể tốt hơn so với giá này.",
+    "rating": 3,
+    "createdAt": "2023-10-12T12:00:00Z"
+  },
+  {
+    "id": 5,
+    "productId": 3,
+    "userId": 105,
+    "username": "nguyenthie",
+    "content": "Chất lượng tuyệt vời, rất đáng đồng tiền.",
+    "rating": 5,
+    "createdAt": "2023-10-13T08:00:00Z"
+  },
+  {
+    "id": 6,
+    "productId": 3,
+    "userId": 106,
+    "username": "tranvanf",
+    "content": "Giao hàng nhanh và dịch vụ khách hàng tốt.",
+    "rating": 4,
+    "createdAt": "2023-10-14T09:00:00Z"
+  },
+  {
+    "id": 7,
+    "productId": 4,
+    "userId": 107,
+    "username": "lethig",
+    "content": "Sản phẩm không đạt mong đợi của tôi.",
+    "rating": 2,
+    "createdAt": "2023-10-15T07:30:00Z"
+  },
+  {
+    "id": 8,
+    "productId": 4,
+    "userId": 108,
+    "username": "phanhoah",
+    "content": "Giá trị tốt so với số tiền bỏ ra.",
+    "rating": 4,
+    "createdAt": "2023-10-15T08:45:00Z"
+  },
+  {
+    "id": 9,
+    "productId": 5,
+    "userId": 109,
+    "username": "trinhthi",
+    "content": "Tôi rất thích sản phẩm này! Sẽ mua lại.",
+    "rating": 5,
+    "createdAt": "2023-10-16T06:15:00Z"
+  },
+  {
+    "id": 10,
+    "productId": 5,
+    "userId": 110,
+    "username": "dovanl",
+    "content": "Hài lòng với sản phẩm đã mua.",
+    "rating": 4,
+    "createdAt": "2023-10-16T08:00:00Z"
+  }
+]

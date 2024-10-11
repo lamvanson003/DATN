@@ -1,21 +1,19 @@
-import React, { useEffect, useState, useMemo } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect, useState, useMemo, useContext } from "react";
 import "./css/Product.css";
 import { BoxPro } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpZA } from "@fortawesome/free-solid-svg-icons";
 import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
-import * as action from "../../store/actions";
+import { useDispatch } from "react-redux";
+import { FavorContext } from "../../context/Favor";
 import axios from "axios";
-const Product = () => {
-  const { loading } = useSelector((state) => state.app);
-  const dispatch = useDispatch();
+import icons from "../../ultis/icon";
+const Favor = () => {
+  const { favorItems } = useContext(FavorContext);
   const [Pros, setPros] = useState([]);
-  const [phone, setPhone] = useState([]);
-  const [laptop, setLaptop] = useState([]);
-
-  const [active, setActive] = useState(0);
+  //   const [category, setCategory] = useState([]);
+  const { FaRegHeart } = icons;
+  //   const [active, setActive] = useState(0);
   const [curPage, setCurPage] = useState(1);
   const [itemsPerPage] = useState(8);
   const indexOfLastItem = curPage * itemsPerPage;
@@ -25,32 +23,6 @@ const Product = () => {
   for (let i = 1; i <= Math.ceil(Pros.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
-  const paginate = (pageNumber) => setCurPage(pageNumber);
-  useEffect(() => {
-    const fetchData = async () => {
-      // dispatch(action.loading(true)); // Bắt đầu loading
-      try {
-        const [resPhone, resLaptop] = await Promise.all([
-          fetch("/data.json"),
-          fetch("/datalaptop.json"),
-        ]);
-
-        if (!resPhone.ok || !resLaptop.ok) {
-          throw new Error("Lỗi khi fetch dữ liệu");
-        }
-
-        const dataPhone = await resPhone.json();
-        const dataLaptop = await resLaptop.json();
-
-        setPhone(dataPhone);
-        setLaptop(dataLaptop);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [dispatch]);
 
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(2000);
@@ -61,12 +33,9 @@ const Product = () => {
     return filteredPros.slice(indexOfFirstItem, indexOfLastItem);
   }, [filteredPros, indexOfFirstItem, indexOfLastItem]);
   useEffect(() => {
-    if (active === 0) {
-      setPros(phone);
-    } else {
-      setPros(laptop);
-    }
-  }, [active, phone, laptop]);
+    setPros(favorItems);
+  }, []);
+
   const handleRangeChange = (e) => {
     setMaxPrice(e.target.value);
   };
@@ -86,17 +55,18 @@ const Product = () => {
   useEffect(() => {
     handleSort(); // Gọi hàm sắp xếp mỗi khi sortOrder hoặc curItems thay đổi
   }, [sortOrder, curItems]);
-  // useEffect(() => {
-  //   const fetchCate = async () => {
-  //     try {
-  //       const res = await axios.get(" http://localhost:8000/api/categories");
-  //       setCategory(res.data.data);
-  //     } catch (error) {
-  //       console.log("Error fetching data", error);
-  //     }
-  //   };
-  //   fetchCate();
-  // }, []);
+  //   useEffect(() => {
+  //     const fetchCate = async () => {
+  //       try {
+  //         const res = await axios.get(" http://localhost:8000/api/categories");
+  //         setCategory(res.data.data);
+  //       } catch (error) {
+  //         console.log("Error fetching data", error);
+  //       }
+  //     };
+  //     fetchCate();
+  //   }, []);
+  const dispatch = useDispatch();
 
   return (
     <div className="container mt-5">
@@ -121,7 +91,10 @@ const Product = () => {
           </div>
           <div className="row my-3">
             <div className="col-md-4">
-              <h2>Thương hiệu</h2>
+              <span className="d-flex align-items-center text-danger gap-2">
+                <h2>Sản phẩm yêu thích</h2>
+                <FaRegHeart size={30} className=" rounded-circle" />
+              </span>
             </div>
             <div className="col-md-8">
               <div
@@ -159,7 +132,7 @@ const Product = () => {
             <div className="category">
               <h3>Danh mục</h3>
               <hr />
-              <div className="category-name">
+              {/* <div className="category-name">
                 <button
                   className={`btn ${
                     active === 0 ? "btn-primary" : "btn-secondary"
@@ -176,7 +149,7 @@ const Product = () => {
                 >
                   Laptop
                 </button>
-              </div>
+              </div> */}
             </div>
             <div className="brand-container my-3">
               <div className="dropdown">
@@ -326,4 +299,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default Favor;
