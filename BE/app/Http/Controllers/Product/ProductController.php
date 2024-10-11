@@ -11,6 +11,7 @@ use App\Models\Color;
 use App\Enums\Product\ProductStatus;
 use App\Enums\Status;
 use App\Http\Requests\Product\ProductRequest;
+use App\Models\Product_Variant;
 use App\Models\Variant_Color;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -18,8 +19,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('product_image_items')->get();
-
+        $products = Product::with('product_image_items','product_variant')->get();
         $status = ProductStatus::asSelectArray();
         return view('product.index', compact(['products', 'status']));
     }
@@ -109,7 +109,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request)
     {   
         $data = $request->validated();
-        $product = Product::find($request['id']);
+        $product = Product::find($data['id']);
         $baseUrl = url()->to('/');
         if ($request->hasFile('new_image')) {
             if ($product->images && file_exists(public_path($product->images))) {

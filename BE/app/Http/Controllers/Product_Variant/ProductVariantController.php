@@ -40,7 +40,7 @@ class ProductVariantController extends Controller
     {
         try {
             $data = $request->validated();
-            $sku = 'SKU-' . strtoupper(Str::random(3)) . '-' . random_int(100, 999);
+            $sku = 'SKU-'. random_int(100, 999);
 
             Product_Variant::create([
                 'product_id'=> $data['product_id'],
@@ -59,11 +59,13 @@ class ProductVariantController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit($id,$product_id)
     {
-        $product_variant = Product_Variant::findOrFail($id);
+        $product_variant = Product_Variant::with('product')->findOrFail($id);
+        $product = Product::findOrfail($product_id);
         return view('product_variant.edit', [
             'product_variant' => $product_variant,
+            'product' => $product
         ]);
     }
 
@@ -79,6 +81,6 @@ class ProductVariantController extends Controller
             'storage' => $request->input('storage'),
         ]);
 
-        return redirect()->back()->with('success', 'Cập nhật thành công!');
+        return redirect()->route('admin.product.product_item.index',$request->product_id)->with('success', 'Cập nhật thành công!');
     }
 }

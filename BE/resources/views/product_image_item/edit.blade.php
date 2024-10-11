@@ -59,9 +59,6 @@
                                 <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
                                     Cập nhật
                                 </button>
-                                <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
-                                    Xóa
-                                </button>
                             </div>
                         </div>
             

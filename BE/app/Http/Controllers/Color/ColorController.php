@@ -55,14 +55,17 @@ class ColorController extends Controller
     public function edit($id)
     {
         $color = Color::findOrFail($id);
+        $status = Status::asSelectArray();
         return view('color.edit', [
             'color' => $color,
+            'status' => $status
         ]);
     }
 
     public function update(Request $request)
-    {
-        $color = Color::find($request['id']);
+    {   
+        $color = Color::findOrfail($request['id']);
+      
         $baseUrl = url()->to('/');
         if ($request->hasFile('new_image')) {
             if ($color->images && file_exists(public_path($color->images))) {
@@ -75,9 +78,8 @@ class ColorController extends Controller
             $color->images = $baseUrl.'/images/color/' . $newImageName;
         }
         $color->images = $color->images ?? $request->input('old_image');
-
+        $color->status = $request->input('status');
         $color->name = $request->input('name');
-
         $color->save();
 
         return redirect()->route('admin.color.edit', $color->id)->with('success', 'Cập nhật thành công!');

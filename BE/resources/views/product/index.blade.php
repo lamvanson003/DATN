@@ -19,12 +19,6 @@
         <li class="nav-item">
           <a href="#">Sản phẩm</a>
         </li>
-        <li class="separator">
-          <i class="icon-arrow-right"></i>
-        </li>
-        <li class="nav-item">
-          <a href="#">Danh sách sản phẩm</a>
-        </li>
       </ul>
     </div>
 
@@ -48,20 +42,22 @@
               <table id="add-row" class="display table table-hover fix_table">
                 <thead>
                   <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên sản phẩm</th>
+                    <th></th>
+                    <th>sản phẩm</th>
                     <th>Các biến thể</th>
                     <th >Image-items</th>
                     <th>Trạng thái</th>
+                    <th>Hành động</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên sản phẩm</th>
+                    <th></th>
+                    <th>sản phẩm</th>
                     <th>Các biến thể</th>
                     <th >Image-items</th>
                     <th>Trạng thái</th>
+                    <th>Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -94,6 +90,15 @@
                             @default
                                 <span class="badge rounded-pill badge-secondary">Không xác định</span>
                         @endswitch
+                    </td>
+                    <td>
+                      <div class="form-button-action gap-2">
+                        <a href="{{ route('admin.product.edit', $item->id) }}">
+                          <button type="button" data-bs-toggle="tooltip" title="Chỉnh sửa" class="btn btn-info btn-icon">
+                            <i class="fa fa-pencil-alt"></i>
+                          </button>
+                        </a>
+                      </div>   
                     </td>
                     </tr>
                   @endforeach

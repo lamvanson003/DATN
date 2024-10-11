@@ -53,7 +53,7 @@ class ItemController extends controller
                 'product_id' => $request->product_id,
                 'images' => $imagePath,
             ]);
-            return redirect()->route('admin.product.item.index', $request->product_id)->with('success', 'Thêm thành công.');
+            return redirect()->route('admin.product.item.create',$request->product_id)->with('success', 'Thêm thành công.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }

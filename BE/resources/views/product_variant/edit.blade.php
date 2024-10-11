@@ -24,9 +24,10 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product.product_item.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.product.product_item.update',$product_variant->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="_method" value="PUT">   
+                <input type="hidden" name="id" value="{{ $product_variant->id }}">   
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
@@ -39,7 +40,7 @@
                                     <!-- sku -->
                                     <div class="mb-3 col-6">  
                                         <label class="control-label">Sku<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" value="{{ $product_variant->sku }}" name="sku" placeholder="VD: NO:130000 ">
+                                        <input type="text" required class="form-control" value="{{ $product_variant->sku }}" name="sku" placeholder="VD: NO:130000 " disabled>
                                     </div>
                                     <!-- storage -->
                                     <div class="mb-3 col-6">
