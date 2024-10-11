@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Product;
 
-use App\Enums\Product\ProductStatus;
 use App\Http\Requests\BaseRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -16,8 +15,8 @@ class ProductVariantRequest extends BaseRequest
     protected function methodPost()
     {
         return [
+            'product_id' => 'required|integer',
             'storage' => 'required|string',
-            'color' => 'requires|array',
             'price' => 'required|integer',
             'sale' => 'nullable|integer',
             'memory' => 'nullable|string',
@@ -35,7 +34,6 @@ class ProductVariantRequest extends BaseRequest
         return [
             'id' => ['required', 'exists:product_variants,id'],
             'storage' => 'required|string',
-            'color' => 'requires|array',
             'price' => 'required|integer',
             'sale' => 'nullable|integer',
             'memory' => 'nullable|string',

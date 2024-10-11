@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Enums\User\UserRole;
+use App\Enums\User\UserGender;
 
 class User extends Authenticatable
 {
@@ -27,7 +28,8 @@ class User extends Authenticatable
         'token',
         'password',
         'roles',
-        'avatar'
+        'avatar',
+        'status'
     ];
     
     public function hasRole($role)
@@ -46,5 +48,6 @@ class User extends Authenticatable
     
     protected $casts = [
         'status' => UserStatus::class,
+        'gender' => UserGender::class,
     ];
 }

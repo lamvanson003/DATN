@@ -41,7 +41,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3 ">
                                         <label class="control-label">Tên bảng màu<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="color" placeholder="VD: Midnight (Đen)">
+                                        <input type="text" required class="form-control" name="name" placeholder="VD: Midnight (Đen)">
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@
                         <div class="card mb-3">
                             <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
                             <div class="card-body p-2">
-                                <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
+                                <input type="file" id="fileInput" name="images" class="d-none" accept="image/*">
                                 <input type="hidden" name="images" id="imageUrl" value="">
                                 <div class="image-container" style="cursor: pointer;">
                                     <img id="imagePreview" src="{{  asset('/images/default-image.png')}}" alt="Ảnh đại diện" style="max-width: 100%;">

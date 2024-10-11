@@ -14,20 +14,14 @@ class Product_Image_Item extends Model
     protected $fillable = [
         'product_id',
         'name',
-        'image',
-        'description',
+        'images',
+        'posittion',
         'status',
     ];
 
     protected $casts = [
         'status'=> Status::class,
     ];
-
-    public function scopeImageItemByProduct($query,$productId){
-        return $query->where('product_id',$productId)->orderBy('id','desc')->get();
-    }
-
-
 
     public function product()
     {

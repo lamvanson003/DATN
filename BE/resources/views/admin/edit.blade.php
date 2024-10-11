@@ -36,7 +36,7 @@
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Thông tin Admin</h3>
+                                <h3 class="mb-0 strong text-center text-danger">Thông tin Admin</h3>
                             </div>
                             <div class="row card-body">
                                 <!-- fullname -->
@@ -78,22 +78,27 @@
                                 <div class="col-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-6">
                                         <label for="gender" class="form-label">Giới tính:</label>
-                                        <select name="gender" id="gender" class="form-select">
-                                            <option value="1">Nam</option>
-                                            <option value="2">Nữ</option>
-                                            <option value="3">Khác</option>
+                                        <select name="gender" id="gender" class="form-control cursor-pointer">
+                                            @foreach ($gender as $key => $value)
+                                                <option {{ $key == $admin->gender ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
                                         </select>
                                     </div>                                    
+                                    <div class="mb-3 col-6">
+                                        <label for="gender" class="form-label">Ngày cập nhật:</label>
+                                        <input type="datetime-local" value="{{ $admin->updated_at }}" name="updated_at" id="updated_at" class="form-control">
+                                    </div>                                    
                                 </div>
+
                                 <div class="col-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-4">
                                         <label for="tinhthanh" class="control-label">Tỉnh/Thành phố:</label>
-                                        <select id="tinhthanh" class="form-select p-2">
+                                        <select id="tinhthanh" class="form-select">
                                             <option value="">--Chọn Tỉnh/Thành phố--</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 col-4">
-                                        <label for="huyen" class="control-label">Huyện/Quận::</label>
+                                        <label for="huyen" class="control-label">Huyện/Quận:</label>
                                         <select id="huyen" class="form-select">
                                             <option value="">--Chọn Huyện/Quận--</option>
                                         </select>
@@ -105,6 +110,10 @@
                                         </select>
                                     </div>
                                 </div>
+                                
+                                <div class="col-12 col-sm-12 d-flex gap-2">
+                                    <textarea class="form-control"  id="address" name="address" rows="4" placeholder="Tên địa chỉ hiển thị tại đây" readonly>{{ $admin->address }}</textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -114,7 +123,7 @@
                             <div class="card-header">Đăng</div>
                             <div class="card-body p-2">
                                 <button type="submit" class="btn btn-primary p-1-2" title="Sửa">
-                                    Sửa
+                                    Cập nhật
                                 </button>
                             </div>
                         </div>

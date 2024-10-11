@@ -15,19 +15,17 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="#">{{ $product_image_item->name }}</a>
-            </li>
-            <li class="separator">
-              <i class="icon-arrow-right"></i>
+              <a href="">{{ $product_image_item->name }}</a>
             </li>
           </ul>
         </div>
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product_image_item.update',$product_image_item->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.product.item.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="_method" value="PUT">   
+                <input type="hidden" name="id" value="{{ $product_image_item->id }}">   
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
@@ -39,15 +37,15 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3 ">
                                         <label class="control-label">Tên Items<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" value={{ $product_image_item->name }} placeholder="VD: Iphone 13Promax">
+                                        <input type="text" required class="form-control" name="name" value={{ $product_image_item->name }} placeholder="VD: Item-1">
                                     </div>
                                 </div>
 
-                                <!-- Description -->
+                                <!-- posittion -->
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
-                                        <label class="control-label">Mô tả chi tiết:</label>
-                                        <textarea class="form-control" name="description"  rows="4" placeholder="Mô tả chi tiết về sản phẩm">{{ $product_image_item->description }}</textarea>
+                                        <label class="control-label">Vị trí sắp xếp:</label>
+                                        <input type="number" required class="form-control" name="posittion" value="{{ $product_image_item->posittion }}" placeholder="VD: 1">
                                     </div>
                                 </div>
                             </div>
@@ -57,9 +55,12 @@
                     <div class="col-12 col-md-3">
                         <div class="card mb-3">
                             <div class="card-header">Đăng</div>
-                            <div class="card-body p-2">
+                            <div class="card-body p-2 gap-2">
                                 <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
-                                    Thêm
+                                    Cập nhật
+                                </button>
+                                <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
+                                    Xóa
                                 </button>
                             </div>
                         </div>
@@ -67,11 +68,11 @@
                         <div class="card mb-3">
                             <div class="card-header">Trạng thái</div>
                             <div class="card-body p-2">
-                                {{-- <select required class="form-select" name="status">
+                                <select required class="form-select" name="status">
                                     @foreach ($status as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
+                                        <option value="{{ $key }}" {{ $key == $product_image_item->status->value ? 'selected' : '' }}> {{ $value }}</option>
                                     @endforeach
-                                </select> --}}
+                                </select>
                             </div>
                         </div>
 
@@ -79,9 +80,9 @@
                             <div class="card-header">Ảnh đại diện</div>
                             <div class="card-body p-2">
                                 <input type="file" id="fileInput" name="new_image" class="d-none" accept="image/*">
-                                <input type="hidden" name="old_image" value="{{ $product_image_item->image }}">
+                                <input type="hidden" name="old_image" value="{{ $product_image_item->images }}">
                                 <div class="image-container" style="cursor: pointer;">
-                                    <img id="imagePreview" src="{{ asset($product_image_item->image ?? 'images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
+                                    <img id="imagePreview" src="{{ asset($product_image_item->images ?? 'images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>
                             </div>
                         </div>
@@ -95,7 +96,7 @@
                                     if (file) {
                                         imagePreview.src = URL.createObjectURL(file);
                                     } else {
-                                        imagePreview.src = "{{ asset($product_image_item->image ?? 'images/default-image.png') }}";
+                                        imagePreview.src = "{{ asset($product_image_item->images ?? 'images/default-image.png') }}";
                                     }
                                 }
                                 document.querySelector('.image-container').addEventListener('click', function() {

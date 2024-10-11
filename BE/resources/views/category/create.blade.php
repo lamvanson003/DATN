@@ -17,12 +17,6 @@
             <li class="nav-item">
               <a href="{{ route('admin.category.index') }}">Danh mục</a>
             </li>
-            <li class="separator">
-              <i class="icon-arrow-right"></i>
-            </li>
-            <li class="nav-item">
-              <a href="#">Chỉnh sửa</a>
-            </li>
           </ul>
         </div>
     </div>
@@ -34,7 +28,7 @@
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Chỉnh sửa danh mục</h3>
+                                <h3 class="mb-0 strong text-center">Thêm danh mục</h3>
                             </div>
                             <div class="row card-body">
                                 <!-- name -->
@@ -64,7 +58,7 @@
                             <div class="card-header">Đăng</div>
                             <div class="card-body p-2">
                                 <button type="submit" class="btn btn-primary p-1-2" title="Sửa">
-                                    Sửa
+                                    Thêm
                                 </button>
                             </div>
                         </div>

@@ -15,7 +15,7 @@ final class UserStatus extends Enum
         return [
             self::Active => 'Hoạt động',
             self::Inactive => 'Ngưng hoạt động',
-            self::Inactive => 'Ngưng hoạt động',
+            self::Pendding => 'Chờ duyệt',
         ];
     }
 
@@ -24,6 +24,7 @@ final class UserStatus extends Enum
         return match ($value) {
             self::Active => 'Hoạt động',
             self::Inactive => 'Ngưng hoạt động',
+            self::Pendding => 'Chờ duyệt',
             default => 'Không xác định',
         };
     }

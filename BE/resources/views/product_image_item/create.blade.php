@@ -28,7 +28,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product_image_item.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.product.item.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}">   
                 <div class="row justify-content-center">
@@ -42,15 +42,14 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3 ">
                                         <label class="control-label">Tên Items<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" placeholder="VD: Iphone 13Promax">
+                                        <input type="text" required class="form-control" name="name" placeholder="VD: Item 1">
                                     </div>
                                 </div>
-
-                                <!-- Description -->
+                                <!-- posittion -->
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
-                                        <label class="control-label">Mô tả chi tiết:</label>
-                                        <textarea class="form-control" name="description" rows="4" placeholder="Mô tả chi tiết về sản phẩm"></textarea>
+                                        <label class="control-label">Vị trí sắp xếp:</label>
+                                        <input type="number" required class="form-control" name="posittion" placeholder="VD: 1">
                                     </div>
                                 </div>
                             </div>
@@ -70,19 +69,19 @@
                         <div class="card mb-3">
                             <div class="card-header">Trạng thái</div>
                             <div class="card-body p-2">
-                                {{-- <select required class="form-select" name="status">
+                                <select required class="form-select" name="status">
                                     @foreach ($status as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
-                                </select> --}}
+                                </select>
                             </div>
                         </div>
 
                         <div class="card mb-3">
                             <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
                             <div class="card-body p-2">
-                                <input required type="file" id="fileInput" name="image" class="d-none" accept="image/*">
-                                <input type="hidden" name="image" id="imageUrl" value="">
+                                <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
+                                <input type="hidden" name="images" id="imageUrl" value="">
                                 <div class="image-container" style="cursor: pointer;">
                                     <img id="imagePreview" src="{{  asset('/images/default-image.png')}}" alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>

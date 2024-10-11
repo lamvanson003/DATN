@@ -90,27 +90,26 @@
                                     <div class="mb-3 col-4">
                                         <label for="tinhthanh" class="control-label">Tỉnh/Thành phố:</label>
                                         <select id="tinhthanh" class="form-select p-2">
-                                            <option value="">--Chọn Tỉnh/Thành phố--</option>
+                                            <option value="">Chọn Tỉnh/Thành phố</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 col-4">
                                         <label for="huyen" class="control-label">Huyện/Quận::</label>
                                         <select id="huyen" class="form-select">
-                                            <option value="">--Chọn Huyện/Quận--</option>
+                                            <option value="">Chọn Huyện/Quận</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 col-4">
                                         <label for="xa" class="control-label">Phường/Xã:</label>
                                         <select id="xa" class="form-select">
-                                            <option value="">--Chọn Phường/Xã--</option>
+                                            <option value="">Chọn Phường/Xã</option>
                                         </select>
                                     </div>
                                 </div>
                                 
                                 <div class="col-12 col-sm-12 d-flex gap-2">
-                                    <textarea class="form-control"  id="address" name="address" rows="4" placeholder="Tên địa chỉ hiển thị tại đây" readonly>{{ $user->address }}</textarea>
+                                    <textarea class="form-control" id="address" name="address" rows="4" placeholder="Tên địa chỉ hiển thị tại đây" >{{ $user->address }}</textarea>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>

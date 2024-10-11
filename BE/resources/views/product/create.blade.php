@@ -66,6 +66,31 @@
                                         <textarea class="form-control" name="description" rows="4" placeholder="Mô tả chi tiết về sản phẩm"></textarea>
                                     </div>
                                 </div>
+                                
+                                @if ((isset($colors)))
+                                    <!-- Color -->
+                                    <div class="col-md-12 col-sm-12">
+                                        <div id="color-select">
+                                            <div class="mb-3">
+                                                <label for="color" class="form-label">Chọn Màu Sắc</label>
+                                                <select class="form-select select2" name="color[]" id="colorSL" multiple>
+
+                                                    @foreach ($colors as $item)
+                                                        <option value="{{ $item->id }}">{{$item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                @else
+                                    <div class="col-md-12 col-sm-12 mb-3">
+                                        <a href="{{ route('admin.color.create') }}" class="red">
+                                            <span class="badge text-bg-danger">Thêm màu sắc</span>
+                                        </a>
+                                    </div>
+                                @endif
+
+
 
                                 <!-- Category ID and Brand ID in the same row -->
                                 <div class="col-md-12 col-sm-12 d-flex mb-3">
@@ -105,7 +130,7 @@
                             <div class="card-body p-2">
                                 <select class="form-select" name="status">
                                     @foreach ($status as $key => $value)
-                                        <option value="{{ $key }}" {{ isset($product) && $key == $product->status ? 'selected' : '' }}>
+                                        <option value="{{ $key }}">
                                             {{ $value }}
                                         </option>
                                     @endforeach
