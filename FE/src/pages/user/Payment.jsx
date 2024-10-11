@@ -8,7 +8,7 @@ import { CartContext } from "../../context/Cart";
 import axios from "axios";
 const Payment = () => {
   const { IoIosArrowDropdown, RiBankCardFill, PiHandPalm } = icons;
-  const { cartItems, getCartTotal } = useContext(CartContext);
+  const { cartItems, getCartTotal, buyNowItem } = useContext(CartContext);
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);

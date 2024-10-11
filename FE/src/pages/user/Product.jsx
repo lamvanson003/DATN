@@ -5,13 +5,16 @@ import { BoxPro } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpZA } from "@fortawesome/free-solid-svg-icons";
 import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import * as action from "../../store/actions";
 import axios from "axios";
 const Product = () => {
+  const { loading } = useSelector((state) => state.app);
+  const dispatch = useDispatch();
   const [Pros, setPros] = useState([]);
   const [phone, setPhone] = useState([]);
   const [laptop, setLaptop] = useState([]);
-  const [category, setCategory] = useState([]);
+
   const [active, setActive] = useState(0);
   const [curPage, setCurPage] = useState(1);
   const [itemsPerPage] = useState(8);
@@ -24,27 +27,30 @@ const Product = () => {
   }
   const paginate = (pageNumber) => setCurPage(pageNumber);
   useEffect(() => {
-    const fetchDataPhone = async () => {
-      const res = await fetch("/data.json");
-      if (!res.ok) {
-        console.error("Lỗi");
-        return;
+    const fetchData = async () => {
+      // dispatch(action.loading(true)); // Bắt đầu loading
+      try {
+        const [resPhone, resLaptop] = await Promise.all([
+          fetch("/data.json"),
+          fetch("/datalaptop.json"),
+        ]);
+
+        if (!resPhone.ok || !resLaptop.ok) {
+          throw new Error("Lỗi khi fetch dữ liệu");
+        }
+
+        const dataPhone = await resPhone.json();
+        const dataLaptop = await resLaptop.json();
+
+        setPhone(dataPhone);
+        setLaptop(dataLaptop);
+      } catch (error) {
+        console.error(error);
       }
-      const data = await res.json();
-      setPhone(data);
     };
-    const fetchDataLaptop = async () => {
-      const res = await fetch("/datalaptop.json");
-      if (!res.ok) {
-        console.error("Lỗi");
-        return;
-      }
-      const data = await res.json();
-      setLaptop(data);
-    };
-    fetchDataPhone();
-    fetchDataLaptop();
-  }, []);
+
+    fetchData();
+  }, [dispatch]);
 
   const [minPrice, setMinPrice] = useState(100);
   const [maxPrice, setMaxPrice] = useState(2000);
@@ -80,18 +86,17 @@ const Product = () => {
   useEffect(() => {
     handleSort(); // Gọi hàm sắp xếp mỗi khi sortOrder hoặc curItems thay đổi
   }, [sortOrder, curItems]);
-  useEffect(() => {
-    const fetchCate = async () => {
-      try {
-        const res = await axios.get(" http://localhost:8000/api/categories");
-        setCategory(res.data.data);
-      } catch (error) {
-        console.log("Error fetching data", error);
-      }
-    };
-    fetchCate();
-  }, []);
-  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   const fetchCate = async () => {
+  //     try {
+  //       const res = await axios.get(" http://localhost:8000/api/categories");
+  //       setCategory(res.data.data);
+  //     } catch (error) {
+  //       console.log("Error fetching data", error);
+  //     }
+  //   };
+  //   fetchCate();
+  // }, []);
 
   return (
     <div className="container mt-5">
