@@ -288,7 +288,19 @@ const Detail = () => {
           </div>
         </section>
         <section id="Comments mt-3">
-          <div className="container">
+          <div className="container mt-5">
+            <div>
+              <span>Bạn cần đăng nhập để bình luận</span>
+              <textarea
+                placeholder="Hãy nêu suy nghĩ của bạn"
+                style={{
+                  width: "100%",
+                  height: 100,
+                  outline: "none",
+                  boxShadow: "none",
+                }}
+              />
+            </div>
             <div className="reviews">
               <h3>2 bình luận của {proData?.name}</h3>
               {cmts.map((cmt) => (

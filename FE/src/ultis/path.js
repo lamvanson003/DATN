@@ -11,6 +11,7 @@ const path = {
   PAYMENT: "payment",
   HISTORY: "history",
   PROFILE: "profile",
+  FAVOR: "favor",
   //
 };
 export default path;
