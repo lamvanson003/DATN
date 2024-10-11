@@ -6,11 +6,13 @@ import mainImg3 from "../../assets/images/k3.jpeg";
 import mainImg4 from "../../assets/images/k1.jpeg";
 import varImg1 from "../../assets/images/iphone1.jpg";
 import varImg2 from "../../assets/images/iphone2.jpg";
+import { getCommentByPid } from "../../apis/comment";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
 const Detail = () => {
   const { addToCart } = useContext(CartContext);
   const { pid } = useParams();
+  const [cmts, setCmts] = useState([]);
   const ref = useRef();
   const [proDatas, setProDatas] = useState([]);
   useEffect(() => {
@@ -32,6 +34,18 @@ const Detail = () => {
       inline: "nearest",
     });
   }, [pid]);
+  useEffect(() => {
+    try {
+      const fetchCmtpid = async () => {
+        const data = await getCommentByPid(+pid);
+        setCmts(data);
+      };
+      fetchCmtpid();
+    } catch (err) {
+      console.log("không thể fetch dữ liệu", err);
+    }
+  }, [pid]);
+
   const proData = proDatas.find((item) => item.id === parseInt(pid));
   const imgList = [mainImg1, mainImg2, mainImg3, mainImg4];
   // State để lưu hình ảnh chính, dung lượng và màu sắc đang được chọn
@@ -277,40 +291,26 @@ const Detail = () => {
           <div className="container">
             <div className="reviews">
               <h3>2 bình luận của {proData?.name}</h3>
-              <div className="review">
-                <div className="reviewer-info">
-                  <img
-                    alt="Reviewer 1"
-                    className="reviewer-img"
-                    src={mainImg2}
-                  />
-                  <div>
-                    <h4>Alea Brooks</h4>
-                    <p>March 5, 2018</p>
-                    <p>Lorem Ipsum gravida nibh vel velit auctor aliquet...</p>
+              {cmts.map((cmt) => (
+                <div key={cmt.id} className="review">
+                  <div className="reviewer-info">
+                    <img
+                      alt="Reviewer 1"
+                      className="reviewer-img"
+                      src={mainImg2}
+                    />
+                    <div>
+                      <h4>{cmt.username}</h4>
+                      <p>{cmt.createdAt}</p>
+                      <p>{cmt.content}</p>
+                    </div>
+                  </div>
+                  <div className="rating d-flex align-items-center gap-2">
+                    <span>{cmt.rating}</span>
+                    <span className="text-warning">★★★★☆</span>
                   </div>
                 </div>
-                <div className="rating">
-                  <span>★★★★☆</span>
-                </div>
-              </div>
-              <div className="review">
-                <div className="reviewer-info">
-                  <img
-                    alt="Reviewer 2"
-                    className="reviewer-img"
-                    src={mainImg2}
-                  />
-                  <div>
-                    <h4>Grace Wong</h4>
-                    <p>June 17, 2018</p>
-                    <p>It is a long established fact that a reader will...</p>
-                  </div>
-                </div>
-                <div className="rating">
-                  <span>★★★☆☆</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
