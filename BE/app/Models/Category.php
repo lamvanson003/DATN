@@ -12,10 +12,10 @@ class Category extends Model
     use HasFactory;
 
     protected $table = 'categories';
-    protected $fillable = ['name','image','description','status' ,'slug'];
+    protected $fillable = ['name','images','description','status' ,'slug'];
 
     public function scopeCategory($query){
-        return $query->where('status',CategoryStatus::Active)->get();
+        return $query->orderBy('id','desc')->get();
     }
 
     protected $casts = [

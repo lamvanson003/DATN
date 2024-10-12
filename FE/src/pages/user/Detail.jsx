@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { CartContext } from "../../context/Cart";
 import mainImg1 from "../../assets/images/k1.jpeg";
 import mainImg2 from "../../assets/images/k2.jpeg";
 import mainImg3 from "../../assets/images/k3.jpeg";
 import mainImg4 from "../../assets/images/k1.jpeg";
 import varImg1 from "../../assets/images/iphone1.jpg";
 import varImg2 from "../../assets/images/iphone2.jpg";
+import { getCommentByPid } from "../../apis/comment";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
 const Detail = () => {
+  const { addToCart } = useContext(CartContext);
   const { pid } = useParams();
+  const [cmts, setCmts] = useState([]);
+  const ref = useRef();
   const [proDatas, setProDatas] = useState([]);
   useEffect(() => {
     const fetchProData = async () => {
       try {
-        const res = await fetch("/detaildata.json");
+        const res = await fetch("/data.json");
         const data = await res.json();
         setProDatas(data);
       } catch (err) {
@@ -22,8 +27,25 @@ const Detail = () => {
     };
     fetchProData();
   }, [pid]);
-  // console.log(pid);
-  // console.log(proDatas);
+  useEffect(() => {
+    ref.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  }, [pid]);
+  useEffect(() => {
+    try {
+      const fetchCmtpid = async () => {
+        const data = await getCommentByPid(+pid);
+        setCmts(data);
+      };
+      fetchCmtpid();
+    } catch (err) {
+      console.log("không thể fetch dữ liệu", err);
+    }
+  }, [pid]);
+
   const proData = proDatas.find((item) => item.id === parseInt(pid));
   const imgList = [mainImg1, mainImg2, mainImg3, mainImg4];
   // State để lưu hình ảnh chính, dung lượng và màu sắc đang được chọn
@@ -51,7 +73,7 @@ const Detail = () => {
   return (
     <>
       <div className="container pb-3">
-        <section className="px-2 py-3 mb-2" id="Breadcrumb">
+        <section className="px-2 py-3 mb-2" id="Breadcrumb" ref={ref}>
           <div className="container p-3 bg-Breadcrumb mt-5">
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb mb-0">
@@ -70,6 +92,9 @@ const Detail = () => {
                 <li aria-current="page" className="breadcrumb-item IN">
                   <a href="">CHI TIET</a>
                 </li>
+                <li aria-current="page" className="breadcrumb-item IN">
+                  <a href="">{proData?.name}</a>
+                </li>
               </ol>
             </nav>
           </div>
@@ -81,16 +106,16 @@ const Detail = () => {
                 <div className="d-flex flex-column align-items-center">
                   <div
                     style={{ width: "100%" }}
-                    className="d-flex border border-success rounded"
+                    className="d-flex  justify-content-center"
                   >
-                    <img src={mainImage} style={{ width: "100%" }} alt="" />
+                    <img src={mainImage} style={{ width: "60%" }} alt="" />
                   </div>
                   <div className="row">
                     {imgList.map((item, index) => (
-                      <div key={index} className="col-sm-3">
+                      <div key={index} className="col-sm-3 mt-3">
                         <img
                           src={item}
-                          style={{ width: "100%", cursor: "pointer" }}
+                          style={{ width: "70%", cursor: "pointer" }}
                           alt=""
                           onClick={() => handleImageClick(item)}
                         />
@@ -103,7 +128,7 @@ const Detail = () => {
                 <div className="product__details__text">
                   <div className="product-tag">
                     <div className="bestseller-tag">#Bán chạy</div>
-                    <div className="sold-tag">Đã bán: 41</div>
+                    <div className="sold-tag">Đã bán: {proData?.sold}</div>
                   </div>
                   <h1 className="text-uppercase">{proData?.name}</h1>
                   <div className="info-product">
@@ -119,18 +144,14 @@ const Detail = () => {
                         <span className="ml-2">({proData?.reviews})</span>
                       </div>
                       <div className="sku">
-                        <strong>Mã: ABC_xJ</strong>
+                        <strong>Mã: {proData?.sku}</strong>
                       </div>
                       <div className="status">
                         <span className="badge text-bg-success">Còn hàng</span>
                       </div>
                     </div>
                   </div>
-                  <div className="info-product-price mt-2">
-                    <h4>Giá:</h4>
-                    <div className="sale">{proData?.price}</div>
-                    <div className="price">{proData?.original_price}</div>
-                  </div>
+
                   <div className="short_desc">{proData?.description}</div>
                   <div className="product-options">
                     <div className="option-group">
@@ -184,9 +205,9 @@ const Detail = () => {
                   </div>
                 </div>
                 <div className="info-product-price mt-2">
-                  <h4>Giá: </h4>
-                  <div className="sale">25.000.000 đ</div>
-                  <div className="price">20.000.000 đ</div>
+                  <h4>Giá:</h4>
+                  <div className="sale">${proData?.sale}</div>
+                  <div className="price">${proData?.price}</div>
                 </div>
                 <div className="short_desc">
                   Máy mới 100% , chính hãng Apple Việt Nam.Clound LAB hiện là
@@ -197,7 +218,12 @@ const Detail = () => {
                   <input defaultValue="1" id="quantity" type="number" />
                 </div>
                 <div className="action-buttons">
-                  <button className="cart-btn">
+                  <button
+                    className="cart-btn"
+                    onClick={() => {
+                      addToCart(proData);
+                    }}
+                  >
                     <i className="bx bx-cart-add" /> Thêm giỏ hàng
                   </button>
                   <button className="buy-btn">
@@ -262,43 +288,41 @@ const Detail = () => {
           </div>
         </section>
         <section id="Comments mt-3">
-          <div className="container">
+          <div className="container mt-5">
+            <div>
+              <span>Bạn cần đăng nhập để bình luận</span>
+              <textarea
+                placeholder="Hãy nêu suy nghĩ của bạn"
+                style={{
+                  width: "100%",
+                  height: 100,
+                  outline: "none",
+                  boxShadow: "none",
+                }}
+              />
+            </div>
             <div className="reviews">
-              <h3>2 Review For Blue Dress For Woman</h3>
-              <div className="review">
-                <div className="reviewer-info">
-                  <img
-                    alt="Reviewer 1"
-                    className="reviewer-img"
-                    src="../images/products/k2.jpeg"
-                  />
-                  <div>
-                    <h4>Alea Brooks</h4>
-                    <p>March 5, 2018</p>
-                    <p>Lorem Ipsum gravida nibh vel velit auctor aliquet...</p>
+              <h3>2 bình luận của {proData?.name}</h3>
+              {cmts.map((cmt) => (
+                <div key={cmt.id} className="review">
+                  <div className="reviewer-info">
+                    <img
+                      alt="Reviewer 1"
+                      className="reviewer-img"
+                      src={mainImg2}
+                    />
+                    <div>
+                      <h4>{cmt.username}</h4>
+                      <p>{cmt.createdAt}</p>
+                      <p>{cmt.content}</p>
+                    </div>
+                  </div>
+                  <div className="rating d-flex align-items-center gap-2">
+                    <span>{cmt.rating}</span>
+                    <span className="text-warning">★★★★☆</span>
                   </div>
                 </div>
-                <div className="rating">
-                  <span>★★★★☆</span>
-                </div>
-              </div>
-              <div className="review">
-                <div className="reviewer-info">
-                  <img
-                    alt="Reviewer 2"
-                    className="reviewer-img"
-                    src="../images/products/k2.jpeg"
-                  />
-                  <div>
-                    <h4>Grace Wong</h4>
-                    <p>June 17, 2018</p>
-                    <p>It is a long established fact that a reader will...</p>
-                  </div>
-                </div>
-                <div className="rating">
-                  <span>★★★☆☆</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>

@@ -5,20 +5,20 @@ import proImg from "../assets/images/iHome/image.png";
 import { CartContext } from "../context/Cart";
 import { memo } from "react";
 import { FavorContext } from "../context/Favor";
+
 const BoxPro = ({ pro }) => {
-  const { cartItems, addToCart } = useContext(CartContext);
+  const { cartItems, addToCart, buyNow } = useContext(CartContext);
   const { favorItems, addToFavor } = useContext(FavorContext);
   const inCartItem = cartItems.find((cartItem) => cartItem.id === pro?.id);
   const cartItemQuantity = inCartItem && inCartItem.quantity;
-  const favoredItem = favorItems.find((favorItem) => favorItem.id === pro?.id);
-  console.log(favoredItem);
+  const inFavorItems = favorItems.find((favorItem) => favorItem.id === pro?.id);
 
   return (
     <div className="card">
       <div className="badge-hot">Hot</div>
       <div className="badge-discount">-16%</div>
       <div className="img-container">
-        <Link>
+        <Link to={`/detail/${pro?.id}`}>
           <img
             alt="Image of iPhone 14 Pro Max 128GB"
             className="card-img-top "
@@ -29,14 +29,14 @@ const BoxPro = ({ pro }) => {
       </div>
       <div className="card-body">
         <p className="card-text">Điện thoại</p>
-        <Link to={`/detail/${pro?.id}`}>
+        <Link to={`/detail/${pro?.id}`} style={{ textDecoration: "none" }}>
           <h5 className="card-title text-center" style={{ cursor: "pointer" }}>
             {pro?.name ? pro?.name : "Not found"}
           </h5>
         </Link>
 
         <p className="price text-center">
-          {pro?.sale ? pro?.sale : "Not found"}
+          <span className="me-2">{pro?.sale ? pro?.sale : "Not found"}</span>
           <span className="old-price">
             {pro?.price ? pro?.price : "Not found"}
           </span>
@@ -73,10 +73,17 @@ const BoxPro = ({ pro }) => {
               addToFavor(pro);
             }}
           >
-            <i className={`fas fa-heart `} />
+            <i className={`fas fa-heart ${inFavorItems && "text-danger"}`} />
           </button>
         </div>
-        <button className="btn btn-buy mt-3">Mua ngay</button>
+        <button
+          className="btn btn-buy mt-3"
+          onClick={() => {
+            buyNow(pro);
+          }}
+        >
+          Mua ngay
+        </button>
       </div>
     </div>
   );

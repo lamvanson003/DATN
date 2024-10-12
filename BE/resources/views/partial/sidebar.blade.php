@@ -44,7 +44,7 @@
             </span>
             <h4 class="text-section">Components</h4>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#notification">
               <i class="fas fa-bell"></i>
               <p>Thông báo</p>
@@ -66,8 +66,8 @@
                 </li>
               </ul>
             </div>
-          </li>
-          <li class="nav-item">
+          </li> --}}
+          {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#sidebarLayouts">
               <i class="fas fa-pencil-ruler"></i>
               <p>Bài viết</p>
@@ -95,7 +95,7 @@
                 </li>
               </ul>
             </div>
-          </li>
+          </li> --}}
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#slider">
               <i class="fas fa-sliders-h"></i>
@@ -151,7 +151,7 @@
             <div class="collapse" id="category">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="#themdanhmuc">
+                  <a href="{{ route('admin.category.create') }}">
                     <i class="fas fa-plus"></i>
                     <span>Thêm danh mục</span>
                   </a>
@@ -174,13 +174,13 @@
             <div class="collapse" id="brand">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="#themthuonghieu">
+                  <a href="{{ route('admin.brand.create') }}">
                     <i class="fas fa-plus"></i>
                     <span>Thêm thương hiệu</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#dsthuonghieu">
+                  <a href="{{ route('admin.brand.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS thương hiệu</span>
                   </a>
@@ -197,13 +197,13 @@
             <div class="collapse" id="product">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="#themsanpham">
+                  <a href="{{ route('admin.product.create') }}">
                     <i class="fas fa-plus"></i>
                     <span>Thêm sản phẩm</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#dssanpham">
+                  <a href="{{ route('admin.product.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS sản phẩm</span>
                   </a>
@@ -212,6 +212,29 @@
             </div>
           </li>
           <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#color">
+              <i class="fas fa-paint-brush"></i>
+              <p>Màu Sắc</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="color">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('admin.color.create') }}">
+                    <i class="fas fa-plus"></i>
+                    <span>Thêm màu sắc</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.color.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS bảng màu</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#order">
               <i class="fas fa-receipt"></i>
               <p>Đơn hàng</p>
@@ -233,8 +256,8 @@
                 </li>
               </ul>
             </div>
-          </li>
-          <li class="nav-item">
+          </li> --}}
+          {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#comment">
               <i class="fas fa-comment"></i>
               <p>Bình luận</p>
@@ -256,8 +279,8 @@
                 </li>
               </ul>
             </div>
-          </li>
-          <li class="nav-item">
+          </li> --}}
+          {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#tables">
               <i class="fas fa-table"></i>
               <p>Tables</p>
@@ -277,8 +300,8 @@
                 </li>
               </ul>
             </div>
-          </li>
-          <li class="nav-item">
+          </li> --}}
+          {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#subribe">
               <i class="far fas fa-envelope"></i>
               <p>Email khách hàng</p>
@@ -300,7 +323,7 @@
                 </li>
               </ul>
             </div>
-          </li>
+          </li> --}}
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#customer">
               <i class="fas fa-user-friends"></i>
@@ -310,13 +333,13 @@
             <div class="collapse" id="customer">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="#customer">
+                  <a href="{{ route('admin.user.create') }}">
                     <i class="fas fa-plus"></i>
                     <span >Thêm khách hàng</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#customer">
+                  <a href="{{ route('admin.user.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS khách hàng</span>
                   </a>
@@ -333,13 +356,13 @@
             <div class="collapse" id="admin">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="#admin">
+                  <a href="{{ route('admin.admin.create') }}">
                     <i class="fas fa-plus"></i>
                     <span>Thêm admin</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#admin">
+                  <a href="{{ route('admin.admin.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS admin</span>
                   </a>
@@ -347,7 +370,7 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts">
               <i class="far fa-chart-bar"></i>
               <p>Charts</p>
@@ -367,15 +390,15 @@
                 </li>
               </ul>
             </div>
-          </li>
+          </li> --}}
           
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="widgets.html">
               <i class="fas fa-desktop"></i>
               <p>Widgets</p>
               <span class="badge badge-success">4</span>
             </a>
-          </li>
+          </li> --}}
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#submenu">
               <i class="fas fa-bars"></i>

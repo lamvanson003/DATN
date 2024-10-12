@@ -2,7 +2,10 @@ import React from "react";
 import { createContext, useState, useEffect } from "react";
 export const CartContext = createContext();
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 export const CartProvider = ({ children }) => {
+  const navigate = useNavigate();
+
   const [cartItems, setCartItems] = useState(
     localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
@@ -38,16 +41,19 @@ export const CartProvider = ({ children }) => {
         );
       }
     }
-    console.log("Giảm bớt sản phẩm: ", item.name);
   };
   const clearCart = () => {
     setCartItems([]);
   };
   const getCartTotal = () => {
     return cartItems.reduce(
-      (total, cartItem) => total + cartItem.price * cartItem.quantity,
+      (total, cartItem) => total + cartItem.sale * cartItem.quantity,
       0
     );
+  };
+  const buyNow = (item) => {
+    setCartItems([{ ...item, quantity: 1 }]);
+    navigate("/payment");
   };
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
@@ -60,7 +66,14 @@ export const CartProvider = ({ children }) => {
   }, []);
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, clearCart, getCartTotal }}
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        getCartTotal,
+        buyNow,
+      }}
     >
       {children}
     </CartContext.Provider>

@@ -4,7 +4,7 @@
         <span class="jq-toast-loader jq-toast-loaded" style="-webkit-transition: width 2.6s ease-in;-o-transition: width 2.6s ease-in;transition: width 2.6s ease-in;background-color: #9EC600;"></span>
         <span class="close-jq-toast-single">×</span>
         <h2 class="jq-toast-heading">Thông báo</h2>
-        Thực hiện thành công.
+        {{ session('success') }}
     </div>
 </div>    
 @endif
@@ -14,7 +14,7 @@
         <span class="jq-toast-loader jq-toast-loaded" style="-webkit-transition: width 2.6s ease-in;-o-transition: width 2.6s ease-in;transition: width 2.6s ease-in;background-color: #c63500;"></span>
         <span class="close-jq-toast-single">×</span>
         <h2 class="jq-toast-heading">Thông báo</h2>
-        Thực hiện thất bại.
+        {{ session('error') }}
     </div>
   </div> 
 @endif    
@@ -221,7 +221,7 @@
               >
                 <div class="avatar-sm">
                   <img
-                    src="{{ asset('/admin/assets/img/profile.jpg') }}"
+                    src="{{ asset(Auth::user()->avatar ?? '/admin/assets/img/profile.jpg') }}"
                     alt="..."
                     class="avatar-img rounded-circle"
                   />
@@ -237,7 +237,7 @@
                     <div class="user-box">
                       <div class="avatar-lg">
                         <img
-                          src="{{ asset('/admin/assets/img/profile.jpg') }}"
+                          src="{{ asset(Auth::user()->avatar ?? '/admin/assets/img/profile.jpg') }}"
                           alt="image profile"
                           class="avatar-img rounded"
                         />

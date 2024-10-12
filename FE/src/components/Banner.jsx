@@ -3,6 +3,7 @@ import banner1 from "../assets/images/iHome/banner-1.png";
 import banner2 from "../assets/images/iHome/banner-2.png";
 import banner3 from "../assets/images/iHome/banner-3.png";
 import { setupSlider } from "../ultis/func";
+
 const Banner = () => {
   const slidesRef = useRef([]); // Để tham chiếu tới các slide
   const formRef = useRef(null);
@@ -10,9 +11,13 @@ const Banner = () => {
   const nextRef = useRef(null);
 
   useEffect(() => {
-    // Gọi hàm setupSlider từ sliderLogic.js và truyền tham chiếu (refs) cho nó
-    setupSlider(slidesRef, formRef, prevRef, nextRef);
+    // Gọi hàm setupSlider từ func.js và truyền tham chiếu (refs) cho nó
+    const cleanup = setupSlider(slidesRef, formRef, prevRef, nextRef);
+
+    // Cleanup khi component bị unmount
+    return () => cleanup();
   }, []);
+
   return (
     <div className="d-flex justify-content-center mt-5">
       <div className="banner-slide m-0">
