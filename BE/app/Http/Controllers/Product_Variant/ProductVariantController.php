@@ -4,99 +4,83 @@ namespace App\Http\Controllers\Product_Variant;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\Product_Variant;
 use App\Http\Requests\Product\ProductVariantRequest;
 use Exception;
+use  App\Enums\Product\ProductStatus;
+use App\Models\Product_Variant;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class ProductVariantController extends Controller
 {
     public function index($product_id)
     {   
-        dd($product_id);
-        $product = Product::with('product_variant');
-        $product_variant = Product_Variant::all();
-        
-        return view('product_variant.index', compact(['product_variant']));
+        $product = Product::with('product_variant')->findOrFail($product_id);
+        $product_variant = $product->product_variant;
+        return view('product_variant.index', compact('product_variant','product'));
     }
-    public function getId($id)
+
+    public function create($product_id)
     {   
-        $productId = $id;
-        $product = Product::findOrfail($productId);
-        $product_variant = Product_Variant::getIdByProduct($productId);
-        return view('product_variant.create', compact(['product_variant',['productId','product']]));
+        $product = Product::with('variantColor.color')->findOrFail($product_id);
+        return view('product_variant.create',
+        compact('product')
+        );
     }
 
-    public function create()
+    public function delete($product_id,$id)
     {
-        return view('product_variant.create');
+        $product_variant = Product_Variant::findOrFail($id);
+        $product_variant->delete();
+        return redirect()->route('admin.product.product_item.index',$product_id)->with('success', 'Thực hiện thành công.');
     }
-
-    // public function delete($id)
-    // {
-    //     $product = Product::findOrFail($id);
-    //     $product->status = ProductStatus::Deleted;
-    //     $product->save();
-    //     return redirect()->route('admin.product.index')->with('success', 'Thực hiện thành công.');
-    // }
 
     public function store(ProductVariantRequest $request)
     {
         try {
-            
-            $sku = 'NO.'.random_int(1,50).range(1,10,3);
+            $data = $request->validated();
+            $sku = 'SKU-'. random_int(100, 999);
 
-            Product::create([
-                'sku ' => $sku ,
-                'price' => $request->price,
-                'sale' => $request->sale,
-                'memory' => $request->memory,
-                'in_stock' => $request->in_stock,
-                'color' => $request->in_stock,
+            Product_Variant::create([
+                'product_id'=> $data['product_id'],
+                'sku' => $sku ,
+                'price' => $data['price'],
+                'storage' => $data['storage'],
+                'sale' => $data['sale'],
+                'memory' => $data['memory'],
+                'instock' => $data['instock'],
             ]);
-            return redirect()->route('admin.product.index')->with('success', 'Thêm thành công.');
+            Log::info('mess',['mess'=> $data]);
+            return redirect()->route('admin.product.product_item.index',$data['product_id'])->with('success', 'Thêm thành công.');
         } catch (Exception $e) {
+            Log::info('mess',['mess'=> $e]);
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
 
-    // public function edit($id)
-    // {
-    //     $product = Product::findOrFail($id);
-    //     $status = ProductStatus::asSelectArray();
-    //     return view('product.edit', [
-    //         'product' => $product,
-    //         'status' => $status,
-    //         'categories' => Category::all(), 
-    //         'brands' => Brand::all(), 
-    //     ]);
-    // }
+    public function edit($id,$product_id)
+    {
+        $product_variant = Product_Variant::with('product')->findOrFail($id);
+        $product = Product::findOrfail($product_id);
+        return view('product_variant.edit', [
+            'product_variant' => $product_variant,
+            'product' => $product
+        ]);
+    }
 
-    // public function update(ProductRequest $request)
-    // {
-    //     $product = Product::find($request['id']);
+    public function update(Request $request)
+    {
+        $product_variant = Product_Variant::find($request['id']);
         
-    //     if ($request->hasFile('new_image')) {
-    //         if ($product->images && file_exists(public_path($product->images))) {
-    //             unlink(public_path($product->images));
-    //         }
-    //         $newImage = $request->file('new_image');
-    //         $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
-    //         $newImage->move(public_path('images/product'), $newImageName);
+        $product_variant->update([
+            'memory' => $request->input('memory'),
+            'price' => $request->input('price'),
+            'sale' => $request->input('sale'),
+            'instock' => $request->input('instock'),
+            'storage' => $request->input('storage'),
+        ]);
 
-    //         $product->images = 'images/product/' . $newImageName;
-    //     }
-    //     $product->images = $product->images ?? $request->input('old_image');
-
-    //     $product->name = $request->input('name');
-    //     $product->status = $request->input('status');
-    //     $product->slug = $request->input('slug');
-    //     $product->short_desc = $request->input('short_desc');
-    //     $product->description = $request->input('description');
-    //     $product->category_id = $request->input('category_id');
-    //     $product->brand_id = $request->input('brand_id');
-
-    //     $product->save();
-
-    //     return redirect()->route('admin.product.edit', $product->id)->with('success', 'Sản phẩm đã được cập nhật thành công!');
-    // }
+        return redirect()->route('admin.product.product_item.index',$request->product_id)->with('success', 'Cập nhật thành công!');
+    }
 }

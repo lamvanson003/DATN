@@ -10,6 +10,7 @@ import {
   Signup,
   History,
   Profile,
+  Favor,
 } from "./pages/user";
 import { Routes, Route } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
@@ -31,6 +32,7 @@ function App() {
             <Route path={path.PAYMENT} element={<Payment />} />
             <Route path={path.HISTORY} element={<History />} />
             <Route path={path.PROFILE} element={<Profile />} />
+            <Route path={path.FAVOR} element={<Favor />} />
           </Route>
         </Routes>
       </div>

@@ -17,12 +17,6 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.product_variant.index') }}">Cấu hình</a>
-                </li>
-                <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
                     <a href="#">Thêm biến thể</a>
                 </li>
             </ul>
@@ -30,8 +24,10 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product_variant.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.product.product_item.update',$product_variant->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="_method" value="PUT">   
+                <input type="hidden" name="id" value="{{ $product_variant->id }}">   
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
@@ -44,37 +40,26 @@
                                     <!-- sku -->
                                     <div class="mb-3 col-6">  
                                         <label class="control-label">Sku<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="sku" placeholder="VD: NO:130000 ">
+                                        <input type="text" required class="form-control" value="{{ $product_variant->sku }}" name="sku" placeholder="VD: NO:130000 " disabled>
                                     </div>
                                     <!-- storage -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Dung lượng <span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="storage" placeholder="VD: iphone-13-promax">
+                                        <input type="text" required class="form-control" value="{{ $product_variant->storage }}"  name="storage" placeholder="VD: iphone-13-promax">
                                     </div>
                                 </div>
-
-                                <div class="col-md-12 col-sm-12">
-                                    <!-- color -->
-                                    <div class="mb-3 col-6">  
-                                        <label class="control-label">Màu sắc:</label>
-                                        <div class="color-items d-flex">
-                                            <input type="text" name="color" id="color" multiple>
-                                        </div>
-                                    </div>
-                                </div>
-
 
                                 <div class="col-md-12 col-sm-12 gap-2 d-flex">                                   
                                     <!-- price -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Giá <span style="color: red">*</span>:</label>
-                                        <input type="number" required class="form-control" name="price" placeholder="VND">
+                                        <input type="number" value="{{ $product_variant->price }}"  required class="form-control" name="price" placeholder="VND">
                                     </div>
 
                                     <!-- price sale -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Giá khuyến mãi :</label>
-                                        <input type="number" required class="form-control" name="sale" placeholder="VND">
+                                        <input type="number" value="{{ $product_variant->sale }}"  required class="form-control" name="sale" placeholder="VND">
                                     </div>
                                 </div>
 
@@ -82,13 +67,13 @@
                                     <!-- memory -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Gói bảo hành <span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="memory" placeholder="VD: 1năm">
+                                        <input type="text" value="{{ $product_variant->memory }}"  required class="form-control" name="memory" placeholder="VD: 1năm">
                                     </div>
 
                                     <!-- instock -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Nhập số lượng (cái) :</label>
-                                        <input type="number" required class="form-control" name="instock" placeholder="VD: 1">
+                                        <input type="number" required class="form-control" value="{{ $product_variant->instock }}"  name="instock" placeholder="VD: 1">
                                     </div>
                                 </div>
                             </div>
@@ -100,15 +85,8 @@
                             <div class="card-header">Đăng</div>
                             <div class="card-body p-2">
                                 <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
-                                    Thêm
+                                    Cập nhật
                                 </button>
-                            </div>
-                        </div>
-            
-                        <div class="card mb-3">
-                            <div class="card-header" style="color: red">Số lượng bán ra</div>
-                            <div class="card-body p-2">
-                                <input class="form-control" required type="number" name="sold" readonly value="99" >
                             </div>
                         </div>
                     </div>

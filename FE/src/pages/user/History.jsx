@@ -17,7 +17,7 @@ const History = () => {
   return (
     <div className=" mt-5" style={{ width: "100%" }}>
       <div className="row" style={{ width: "100%" }}>
-        <div className="col-md-4">
+        <div className="col-md-3 px-5">
           <span className="px-5 d-flex flex-column gap-4">
             <div className="d-flex align-items-center gap-3">
               <span>

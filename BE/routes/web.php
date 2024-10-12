@@ -93,19 +93,17 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
             });            
 
             Route::controller(App\Http\Controllers\Product_Variant\ProductVariantController::class)
-            ->as('product_item')
+            ->as('product_item.')
             ->group(function () {
                 Route::get('{product_id}/product_item', 'index')->name('index');
                 Route::get('/{product_id}/product_item/them', 'create')->name('create');
-                Route::post('/product_item/them', 'store')->name('store');
-                Route::get('/product_item/sua/{id}', 'edit')->name('edit');
+                Route::post('/{product_id}/product_item/them', 'store')->name('store');
+                Route::get('/{product_id}/product_item/sua/{id}', 'edit')->name('edit');
                 Route::put('/product_item/sua', 'update')->name('update');
                 Route::delete('/{product_id}/product_item/xoa/{id}', 'delete')->name('delete');
             });
         });
        
-        
-
         Route::prefix('/colors')->as('color.')->group(function () {
             Route::controller(App\Http\Controllers\Color\ColorController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
