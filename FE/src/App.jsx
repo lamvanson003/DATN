@@ -11,6 +11,8 @@ import {
   History,
   Profile,
   Favor,
+  User,
+  Account,
 } from "./pages/user";
 import { Routes, Route } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
@@ -29,9 +31,13 @@ function App() {
             <Route path={path.ABOUT} element={<About />} />
             <Route path={path.PRODUCT} element={<Product />}></Route>
             <Route path={path.PRODUCT__DETAIL__ID} element={<Detail />} />
+            <Route path={path.USER} element={<User />}>
+              <Route path={path.ACCOUNT} element={<Account />}>
+                <Route path={path.PROFILE} element={<Profile />} />
+              </Route>
+              <Route path={path.HISTORY} element={<History />} />
+            </Route>
             <Route path={path.PAYMENT} element={<Payment />} />
-            <Route path={path.HISTORY} element={<History />} />
-            <Route path={path.PROFILE} element={<Profile />} />
             <Route path={path.FAVOR} element={<Favor />} />
           </Route>
         </Routes>

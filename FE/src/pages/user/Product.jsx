@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, act } from "react";
 import { Outlet } from "react-router-dom";
 import "./css/Product.css";
 import { BoxPro } from "../../components";
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as action from "../../store/actions";
 import axios from "axios";
 const Product = () => {
-  const { loading } = useSelector((state) => state.app);
+  const { isLoading } = useSelector((state) => state.app);
   const dispatch = useDispatch();
   const [Pros, setPros] = useState([]);
   const [phone, setPhone] = useState([]);
@@ -28,12 +28,14 @@ const Product = () => {
   const paginate = (pageNumber) => setCurPage(pageNumber);
   useEffect(() => {
     const fetchData = async () => {
-      // dispatch(action.loading(true)); // Bắt đầu loading
+      dispatch(action.loading(true)); // Bắt đầu loading
+
       try {
         const [resPhone, resLaptop] = await Promise.all([
           fetch("/data.json"),
           fetch("/datalaptop.json"),
         ]);
+        dispatch(action.loading(false));
 
         if (!resPhone.ok || !resLaptop.ok) {
           throw new Error("Lỗi khi fetch dữ liệu");
@@ -50,6 +52,7 @@ const Product = () => {
     };
 
     fetchData();
+    dispatch(action.loading(false));
   }, [dispatch]);
 
   const [minPrice, setMinPrice] = useState(100);
