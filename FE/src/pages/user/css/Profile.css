@@ -1,21 +1,18 @@
-.user-info {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+.form-container {
+  width: 100%;
 }
 
-.user-info a {
-  text-decoration: none;
-  color: inherit;
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-.user-info li {
-  margin-bottom: 10px;
+.form-group label {
+  width: 20%;
 }
-.user-info-image img {
-  max-width: 200px;
-  height: fit-content;
-  background-position: center;
-  border-radius: 50%;
-  border: 1px solid #dee2e6;
+
+.form-group input {
+  width: 60%;
+  padding: 0.5rem;
 }

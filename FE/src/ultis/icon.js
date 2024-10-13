@@ -20,6 +20,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { FaRocketchat, FaPencilAlt, FaTicketAlt } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { BsCashCoin } from "react-icons/bs";
+import { LuUser2 } from "react-icons/lu";
 const icons = {
   FaShoppingCart,
   FaRegUser,
@@ -47,5 +48,6 @@ const icons = {
   MdNotificationsNone,
   FaTicketAlt,
   BsCashCoin,
+  LuUser2,
 };
 export default icons;
