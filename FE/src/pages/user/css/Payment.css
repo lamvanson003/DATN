@@ -50,3 +50,30 @@
   text-align: center;
   font-weight: bold;
 }
+
+.input-style {
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  border: none;
+  outline: none;
+  height: 40px;
+  width: 520px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.label-style {
+  margin-bottom: 8px;
+}
+
+.input-group-style {
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.rounded {
+  border-radius: 8px;
+}

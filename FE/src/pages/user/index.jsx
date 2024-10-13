@@ -10,3 +10,5 @@ export { default as Signup } from "./Signup";
 export { default as History } from "./History";
 export { default as Profile } from "./Profile";
 export { default as Favor } from "./Favor";
+export { default as User } from "./User";
+export { default as Account } from "./Account";
