@@ -15,6 +15,12 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
+              <a href="{{ route('admin.product.index') }}">DS sản phẩm</a>
+            </li>
+            <li class="separator">
+              <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
               <a href="">{{ $product_image_item->name }}</a>
             </li>
           </ul>
@@ -24,8 +30,9 @@
         <div class="container-xl">
             <form action="{{ route('admin.product.item.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="_method" value="PUT">   
+                @method('PUT') 
                 <input type="hidden" name="id" value="{{ $product_image_item->id }}">   
+                <input type="hidden" name="old_image" value="{{ $product_image_item->images }}">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
@@ -37,7 +44,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3 ">
                                         <label class="control-label">Tên Items<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" value={{ $product_image_item->name }} placeholder="VD: Item-1">
+                                        <input type="text" required class="form-control" name="name" value="{{ $product_image_item->name }}" placeholder="VD: Item-1">
                                     </div>
                                 </div>
 
@@ -77,7 +84,6 @@
                             <div class="card-header">Ảnh đại diện</div>
                             <div class="card-body p-2">
                                 <input type="file" id="fileInput" name="new_image" class="d-none" accept="image/*">
-                                <input type="hidden" name="old_image" value="{{ $product_image_item->images }}">
                                 <div class="image-container" style="cursor: pointer;">
                                     <img id="imagePreview" src="{{ asset($product_image_item->images ?? 'images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>
@@ -89,7 +95,7 @@
                                 function loadFile(event) {
                                     const imagePreview = document.getElementById('imagePreview');
                                     const file = event.target.files[0];
-
+                
                                     if (file) {
                                         imagePreview.src = URL.createObjectURL(file);
                                     } else {
@@ -99,7 +105,7 @@
                                 document.querySelector('.image-container').addEventListener('click', function() {
                                     document.getElementById('fileInput').click();
                                 });
-
+                
                                 document.getElementById('fileInput').addEventListener('change', loadFile);
                             });
                         </script>

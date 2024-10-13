@@ -17,7 +17,19 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Thêm biến thể</a>
+                    <a href="{{ route('admin.product.edit',$product_variant->product->id) }}">{{ $product_variant->product->name }}</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.product.product_item.index',$product_variant->product->id) }}">DS biến thể</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Chỉnh sửa</a>
                 </li>
             </ul>
         </div>

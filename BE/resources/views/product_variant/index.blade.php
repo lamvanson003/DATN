@@ -79,7 +79,7 @@
                 <tbody>
                   @foreach ($product_variant as $item)
                     <tr>
-                      <td><a href="{{ route('admin.product.product_item.edit',[$item->id,$product->id]) }}">{{ $item->sku }}</a></td> 
+                      <td><a href="{{ route('admin.product.product_item.edit',[$product->id,$item->id]) }}">{{ $item->sku }}</a></td> 
                       <td>{{ $item->storage }}</td> 
                       <td>{{ number_format($item->price) }}</td> 
                       <td><span class="red">{{ number_format($item->sale)??'N/A' }}</span></td> 
@@ -88,7 +88,7 @@
                       <td>
                         
                         <button type="button" class="btn btn-primary btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
-                          <i class="fa fa-trash-alt"></i>
+                          <i class="fa fa-pencil-alt"></i>
                         </button>                       
                       </td>
                     </tr>
