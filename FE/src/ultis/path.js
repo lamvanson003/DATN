@@ -14,6 +14,8 @@ const path = {
   HISTORY: "history",
   PROFILE: "profile",
   FAVOR: "favor",
+  BANKINGONLINE: "banking-online",
+
   //
 };
 export default path;

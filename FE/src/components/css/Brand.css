@@ -1,0 +1,62 @@
+/* BrandCards.css */
+.brand-card {
+  width: 100px;
+  border-radius: 10px;
+}
+
+.brand-card-body {
+  text-align: center;
+}
+
+.card-img-top-brand {
+  width: 100%;
+  height: auto;
+  padding: 16px;
+}
+
+.brand-card-title {
+  font-weight: bold;
+}
+
+.brand-card-text {
+  color: gray;
+}
+
+.d-flex-center {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Specific background colors */
+.apple-card {
+  background-color: #b9d5ff;
+}
+
+.samsung-card {
+  background-color: #add8e6;
+}
+
+.microsoft-card {
+  background-color: #b0e0e6;
+}
+
+.lenovo-card {
+  background-color: #afeeee;
+}
+
+.amazon-card {
+  background-color: #cceeff;
+}
+
+.huawei-card {
+  background-color: #87ceeb;
+}
+
+.xiaomi-card {
+  background-color: #d0e0f0;
+}
+
+.realme-card {
+  background-color: #c7e1fd;
+}

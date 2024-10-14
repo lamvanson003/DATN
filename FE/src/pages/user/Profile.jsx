@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./css/Profile.css";
-import { updateUserAccount } from "../../apis/profile";
+// import { updateUserAccount } from "../../apis/profile";
 import icons from "../../ultis/icon";
 const Profile = () => {
   const [name, setName] = useState("");

@@ -7,6 +7,7 @@ import { faArrowUpZA } from "@fortawesome/free-solid-svg-icons";
 import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import * as action from "../../store/actions";
+import { Brand } from "../../components";
 import axios from "axios";
 const Product = () => {
   const { isLoading } = useSelector((state) => state.app);
@@ -158,7 +159,7 @@ const Product = () => {
       </section>
       <section id="body-product mt-5">
         <div className="row">
-          <div className="col-md-3">
+          <div className="col-md-3 p-3">
             <div className="category">
               <h3>Danh mục</h3>
               <hr />
@@ -283,6 +284,7 @@ const Product = () => {
           </div>
           <div className="col-md-9 p-3">
             <div className="row justify-content gap-3">
+              <Brand />
               {sortedItems &&
                 sortedItems.map((item) => (
                   <div key={item.id} className="col-md-2-product">

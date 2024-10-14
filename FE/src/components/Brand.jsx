@@ -7,10 +7,10 @@ import logoAmazon from "../assets/images/iHome/Amazon.png";
 import logoHuW from "../assets/images/iHome/Huawei-Logo 1.png";
 import logoXiaomi from "../assets/images/iHome/xiaomi.png";
 import logoReal from "../assets/images/iHome/realme.png";
+import "./css/Brand.css";
 const Brand = () => {
   return (
-    <div className="container mt-5">
-      <div className="category-header">Điện thoại</div>
+    <div className="container">
       <div
         className="carousel slide"
         data-bs-ride="carousel"
@@ -18,18 +18,9 @@ const Brand = () => {
       >
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <div className="d-flex justify-content-center flex-wrap">
+            <div className="d-flex justify-content-between gap-2">
               {/* Apple Card */}
-              <div
-                className="brand-card"
-                style={{
-                  backgroundColor: "#B9D5FF",
-                  width: 137,
-                  height: 180.19,
-                  marginRight: 27,
-                  borderRadius: 10,
-                }}
-              >
+              <div className="brand-card apple-card">
                 <a className="brand-link" href="/apple">
                   <img
                     alt="Apple logo"
@@ -37,7 +28,7 @@ const Brand = () => {
                     src={logoApple}
                   />
                 </a>
-                <div className="brand-card-body text-center">
+                <div className="brand-card-body">
                   <a className="brand-card-title brand-link" href="/apple">
                     Apple
                   </a>
@@ -47,17 +38,9 @@ const Brand = () => {
                   </a>
                 </div>
               </div>
+
               {/* Samsung Card */}
-              <div
-                className="brand-card"
-                style={{
-                  backgroundColor: "#ADD8E6",
-                  width: 137,
-                  height: "180.19px",
-                  marginRight: 27,
-                  borderRadius: 10,
-                }}
-              >
+              <div className="brand-card samsung-card">
                 <a className="brand-link" href="/samsung">
                   <img
                     alt="Samsung logo"
@@ -65,7 +48,7 @@ const Brand = () => {
                     src={logoSamSung}
                   />
                 </a>
-                <div className="brand-card-body text-center">
+                <div className="brand-card-body">
                   <a className="brand-card-title brand-link" href="/samsung">
                     Samsung
                   </a>
@@ -75,17 +58,9 @@ const Brand = () => {
                   </a>
                 </div>
               </div>
+
               {/* Microsoft Card */}
-              <div
-                className="brand-card"
-                style={{
-                  backgroundColor: "#B0E0E6",
-                  width: 137,
-                  height: "180.19px",
-                  marginRight: 27,
-                  borderRadius: 10,
-                }}
-              >
+              <div className="brand-card microsoft-card">
                 <a className="brand-link" href="/microsoft">
                   <img
                     alt="Microsoft logo"
@@ -93,7 +68,7 @@ const Brand = () => {
                     src={logoMic}
                   />
                 </a>
-                <div className="brand-card-body text-center">
+                <div className="brand-card-body">
                   <a className="brand-card-title brand-link" href="/microsoft">
                     Microsoft
                   </a>
@@ -103,17 +78,9 @@ const Brand = () => {
                   </a>
                 </div>
               </div>
+
               {/* Lenovo Card */}
-              <div
-                className="brand-card"
-                style={{
-                  backgroundColor: "#AFEEEE",
-                  width: 137,
-                  height: "180.19px",
-                  marginRight: 27,
-                  borderRadius: 10,
-                }}
-              >
+              <div className="brand-card lenovo-card">
                 <a className="brand-link" href="/lenovo">
                   <img
                     alt="Lenovo logo"
@@ -121,7 +88,7 @@ const Brand = () => {
                     src={logoLeno}
                   />
                 </a>
-                <div className="brand-card-body text-center">
+                <div className="brand-card-body">
                   <a className="brand-card-title brand-link" href="/lenovo">
                     Lenovo
                   </a>
@@ -131,17 +98,9 @@ const Brand = () => {
                   </a>
                 </div>
               </div>
+
               {/* Amazon Card */}
-              <div
-                className="brand-card"
-                style={{
-                  backgroundColor: "#CCEEFF",
-                  width: 137,
-                  height: "180.19px",
-                  marginRight: 27,
-                  borderRadius: 10,
-                }}
-              >
+              <div className="brand-card amazon-card">
                 <a className="brand-link" href="/amazon">
                   <img
                     alt="Amazon logo"
@@ -149,7 +108,7 @@ const Brand = () => {
                     src={logoAmazon}
                   />
                 </a>
-                <div className="brand-card-body text-center">
+                <div className="brand-card-body">
                   <a className="brand-card-title brand-link" href="/amazon">
                     Amazon
                   </a>
@@ -159,17 +118,9 @@ const Brand = () => {
                   </a>
                 </div>
               </div>
+
               {/* Huawei Card */}
-              <div
-                className="brand-card"
-                style={{
-                  backgroundColor: "#87CEEB",
-                  width: 137,
-                  height: "180.19px",
-                  marginRight: 27,
-                  borderRadius: 10,
-                }}
-              >
+              <div className="brand-card huawei-card">
                 <a className="brand-link" href="/huawei">
                   <img
                     alt="Huawei logo"
@@ -177,7 +128,7 @@ const Brand = () => {
                     src={logoHuW}
                   />
                 </a>
-                <div className="brand-card-body text-center">
+                <div className="brand-card-body">
                   <a className="brand-card-title brand-link" href="/huawei">
                     Huawei
                   </a>
@@ -187,17 +138,9 @@ const Brand = () => {
                   </a>
                 </div>
               </div>
+
               {/* Xiaomi Card */}
-              <div
-                className="brand-card"
-                style={{
-                  backgroundColor: "#D0E0F0",
-                  width: 137,
-                  height: "180.19px",
-                  marginRight: 27,
-                  borderRadius: 10,
-                }}
-              >
+              <div className="brand-card xiaomi-card">
                 <a className="brand-link" href="/xiaomi">
                   <img
                     alt="Xiaomi logo"
@@ -205,7 +148,7 @@ const Brand = () => {
                     src={logoXiaomi}
                   />
                 </a>
-                <div className="brand-card-body text-center">
+                <div className="brand-card-body">
                   <a className="brand-card-title brand-link" href="/xiaomi">
                     Xiaomi
                   </a>
@@ -215,16 +158,9 @@ const Brand = () => {
                   </a>
                 </div>
               </div>
+
               {/* Realme Card */}
-              <div
-                className="brand-card"
-                style={{
-                  backgroundColor: "#C7E1FD",
-                  width: 137,
-                  height: "180.19px",
-                  borderRadius: 10,
-                }}
-              >
+              <div className="brand-card realme-card">
                 <a className="brand-link" href="/realme">
                   <img
                     alt="Realme logo"
@@ -232,7 +168,7 @@ const Brand = () => {
                     src={logoReal}
                   />
                 </a>
-                <div className="brand-card-body text-center">
+                <div className="brand-card-body">
                   <a className="brand-card-title brand-link" href="/realme">
                     Realme
                   </a>
