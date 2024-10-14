@@ -39,7 +39,7 @@ class Product extends Model
      */
     public function product_variant()
     {
-        return $this->hasMany(Product_Variant::class,'product_id');
+        return $this->hasMany(ProductVariant::class,'product_id');
     }
 
     /**
@@ -52,7 +52,7 @@ class Product extends Model
 
     public function product_image_items()
     {
-        return $this->hasMany(Product_Image_Item::class,'product_id');
+        return $this->hasMany(ProductImageItem::class,'product_id');
     }
 
     /**
@@ -60,11 +60,16 @@ class Product extends Model
      */
     public function variantColor()
     {
-        return $this->hasMany(Variant_Color::class);
+        return $this->hasMany(VariantColor::class);
     }
 
     public function colors()
     {
         return $this->belongsToMany(Color::class, 'variant_color', 'product_id', 'color_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }   

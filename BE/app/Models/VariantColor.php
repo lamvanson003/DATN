@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Variant_Color extends Model
+class VariantColor extends Model
 {
     use HasFactory;
     protected $table='variant_colors';
@@ -17,7 +17,7 @@ class Variant_Color extends Model
      // Quan hệ với bảng products
      public function product()
      {
-         return $this->belongsTo(Product::class);
+         return $this->belongsTo(Product::class,'product_id');
      }
  
      // Quan hệ với bảng colors

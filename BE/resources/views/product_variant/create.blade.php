@@ -17,6 +17,12 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('admin.product.index') }}">Sản phẩm</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin.product.edit',$product->id) }}">{{ $product->name }}</a>
                 </li>
                 <li class="separator">

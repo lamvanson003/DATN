@@ -7,10 +7,11 @@ use App\Models\Product;
 use App\Http\Requests\Product\ProductVariantRequest;
 use Exception;
 use  App\Enums\Product\ProductStatus;
-use App\Models\Product_Variant;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 
 class ProductVariantController extends Controller
 {
@@ -22,7 +23,7 @@ class ProductVariantController extends Controller
     }
 
     public function create($product_id)
-    {   
+    {  
         $product = Product::with('variantColor.color')->findOrFail($product_id);
         return view('product_variant.create',
         compact('product')
@@ -31,7 +32,7 @@ class ProductVariantController extends Controller
 
     public function delete($product_id,$id)
     {
-        $product_variant = Product_Variant::findOrFail($id);
+        $product_variant = ProductVariant::findOrFail($id);
         $product_variant->delete();
         return redirect()->route('admin.product.product_item.index',$product_id)->with('success', 'Thực hiện thành công.');
     }
@@ -42,7 +43,7 @@ class ProductVariantController extends Controller
             $data = $request->validated();
             $sku = 'SKU-'. random_int(100, 999);
 
-            Product_Variant::create([
+            ProductVariant::create([
                 'product_id'=> $data['product_id'],
                 'sku' => $sku ,
                 'price' => $data['price'],
@@ -59,19 +60,18 @@ class ProductVariantController extends Controller
         }
     }
 
-    public function edit($id,$product_id)
-    {
-        $product_variant = Product_Variant::with('product')->findOrFail($id);
-        $product = Product::findOrfail($product_id);
+    public function edit($product_id,$id)
+    {   
+        $product_variant = ProductVariant::with('product')->findOrFail($id);
         return view('product_variant.edit', [
             'product_variant' => $product_variant,
-            'product' => $product
+            
         ]);
     }
 
     public function update(Request $request)
     {
-        $product_variant = Product_Variant::find($request['id']);
+        $product_variant = ProductVariant::find($request['id']);
         
         $product_variant->update([
             'memory' => $request->input('memory'),
@@ -81,6 +81,6 @@ class ProductVariantController extends Controller
             'storage' => $request->input('storage'),
         ]);
 
-        return redirect()->route('admin.product.product_item.index',$request->product_id)->with('success', 'Cập nhật thành công!');
+        return redirect()->back()->with('success', 'Cập nhật thành công!');
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\Status;
 
-class Product_Image_Item extends Model
+class ProductImageItem extends Model
 {
     use HasFactory;
     protected $table = 'product_image_items';
@@ -25,6 +25,6 @@ class Product_Image_Item extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class,'id');
+        return $this->belongsTo(Product::class);
     }
 }
