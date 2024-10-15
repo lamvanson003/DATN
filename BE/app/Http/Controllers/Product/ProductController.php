@@ -19,9 +19,10 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('product_image_items')->get();
-
+        $categories = Category::all();
+        $brands = Brand::all();
         $status = ProductStatus::asSelectArray();
-        return view('product.index', compact(['products', 'status']));
+        return view('product.index', compact(['products', 'status', 'categories', 'brands']));
     }
 
     public function create()
