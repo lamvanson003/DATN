@@ -2,19 +2,22 @@
 namespace App\Http\Controllers\Api\Product;
 use App\Http\Controllers\Controller;
 use Exception;
-use App\Models\Product;
+
 use App\Enums\Category\CategoryStatus;
 use App\Enums\Brand\BrandStatus;
 use App\Enums\Status;
 use App\Enums\Product\ProductStatus;
-use App\Http\Controllers\Api\Resources\Product\ProductResource;
-use App\Models\ProductVariant;
+use App\Http\Resources\Api\Product\ProductResource;
+use App\Http\Resources\Api\Product\ProductDetailResource;
+use App\Models\Product;
+
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends controller{
 
     public function index() {
         try {
-            $products = ProductVariant::with(
+            $products = Product::with(
                 [
                     'product' => function ($query) {
                         $query->where('status', ProductStatus::Active);
@@ -43,7 +46,7 @@ class ProductController extends controller{
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to fetch categories',
+                'message' => 'Failed to fetch data',
                 'error' => $th->getMessage()
             ], 500);
         }
@@ -51,33 +54,39 @@ class ProductController extends controller{
 
     public function detail($id) {
         try {
-            $products = Product::with(
-                ['category' => function ($query) {
-                $query->where('status', CategoryStatus::Active);
+
+            $product_variant = Product::with(
+                ['product' => function ($query) {
+                    $query->where('status', ProductStatus::Active);
+                },
+                'product.category' => function ($query) {
+                    $query->where('status', CategoryStatus::Active);
                 }, 
-                'brand'=> function ($query){
+                'product.brand'=> function ($query){
                     $query->where('status', BrandStatus::Active);
                 }, 
-                'product_variant', 
-                'product_image_items' => function ($query){
+                'product.product_image_items' => function ($query){
                     $query->where('status', Status::Active);
                 }, 
-                'variantColor.color' => function ($query){
+                'product.variantColor.color' => function ($query){
                     $query->where('status', Status::Active);
                 },
-                ])->findOrFail($id);
-
+                ])
+                ->findOrFail($id);
+                Log::info('mess',['mess'=> $product_variant]);
             return response()->json([
                 'success' => true,
-                'data' => $products
+                'data' => new ProductDetailResource($product_variant)
             ], 200);
-        } catch (\Throwable $th) {
+        } catch (\Throwable $e) {
+            Log::info('mess',['mess'=> $e]);
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to fetch categories',
-                'error' => $th->getMessage()
+                'message' => 'Failed to fetch product details',
+                'error' => $e->getMessage()
             ], 500);
         }
     }
+    
     
 }

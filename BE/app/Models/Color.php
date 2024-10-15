@@ -23,7 +23,7 @@ class Color extends Model
     // Quan hệ với bảng variant_colors
     public function variantColors()
     {
-        return $this->hasMany(Variant_Color::class);
+        return $this->hasMany(VariantColor::class);
     }
 
     // Quan hệ với bảng products qua bảng variant_colors
