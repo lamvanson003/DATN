@@ -8,3 +8,4 @@ export { default as Countdown } from "./Countdown";
 export { default as Commercial } from "./Commercial";
 export { default as News } from "./News";
 export { default as Loading } from "./Loading";
+export { default as Tab } from "./Tab";

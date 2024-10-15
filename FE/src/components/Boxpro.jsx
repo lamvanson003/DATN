@@ -6,7 +6,7 @@ import { CartContext } from "../context/Cart";
 import { memo } from "react";
 import { FavorContext } from "../context/Favor";
 import icons from "../ultis/icon";
-const BoxPro = ({ pro }) => {
+const BoxPro = ({ pro, watched }) => {
   const { IoIosStar, IoIosStarHalf, IoIosStarOutline } = icons;
   const { cartItems, addToCart, buyNow } = useContext(CartContext);
   const { favorItems, addToFavor } = useContext(FavorContext);
@@ -50,62 +50,64 @@ const BoxPro = ({ pro }) => {
           </h5>
         </Link>
 
-        <p className="price text-center">
-          <span className="me-2">{pro?.sale ? pro?.sale : "Not found"}</span>
-          <span className="old-price">
-            {pro?.price ? pro?.price : "Not found"}
-          </span>
-        </p>
-        <div
-          className="card-text d-flex justify-content-between"
-          style={{ fontSize: 14 }}
-        >
-          <span>
-            hãng:
-            <span
-              style={{
-                color: "#007bff",
-                marginLeft: 5,
+        <div>
+          <p className="price text-center">
+            <span className="me-2">{pro?.sale ? pro?.sale : "Not found"}</span>
+            <span className="old-price">
+              {pro?.price ? pro?.price : "Not found"}
+            </span>
+          </p>
+          <div
+            className="card-text d-flex justify-content-between"
+            style={{ fontSize: 14 }}
+          >
+            <span>
+              hãng:
+              <span
+                style={{
+                  color: "#007bff",
+                  marginLeft: 5,
+                }}
+              >
+                {pro?.brand ? pro?.brand : "Not found"}
+              </span>
+            </span>
+
+            {renderStars(3)}
+          </div>
+          <div className="d-flex justify-content-between align-items-center">
+            <button
+              className="icon-btn"
+              onClick={() => {
+                addToCart(pro);
               }}
             >
-              {pro?.brand ? pro?.brand : "Not found"}
-            </span>
-          </span>
-
-          {renderStars(3)}
-        </div>
-        <div className="d-flex justify-content-between align-items-center">
+              <i className="fas fa-shopping-cart fw-semibold" />
+              <span className="fw-bold text-danger ms-1">
+                {cartItemQuantity ? `(${cartItemQuantity})` : ""}
+              </span>
+            </button>
+            <button className="icon-btn">
+              <i className="fas fa-exchange-alt" />
+            </button>
+            <button
+              className="icon-btn"
+              onClick={() => {
+                addToFavor(pro);
+              }}
+            >
+              <i className={`fas fa-heart ${inFavorItems && "text-danger"}`} />
+            </button>
+          </div>
           <button
-            className="icon-btn"
+            className="btn btn-buy mt-3"
             onClick={() => {
-              addToCart(pro);
+              buyNow(pro);
             }}
           >
-            <i className="fas fa-shopping-cart fw-semibold" />
-            <span className="fw-bold text-danger ms-1">
-              {cartItemQuantity ? `(${cartItemQuantity})` : ""}
-            </span>
-          </button>
-          <button className="icon-btn">
-            <i className="fas fa-exchange-alt" />
-          </button>
-          <button
-            className="icon-btn"
-            onClick={() => {
-              addToFavor(pro);
-            }}
-          >
-            <i className={`fas fa-heart ${inFavorItems && "text-danger"}`} />
+            Mua ngay
           </button>
         </div>
-        <button
-          className="btn btn-buy mt-3"
-          onClick={() => {
-            buyNow(pro);
-          }}
-        >
-          Mua ngay
-        </button>
       </div>
     </div>
   );
