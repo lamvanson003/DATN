@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Resources\Api\Product;
 
 use Illuminate\Http\Request;
@@ -16,45 +17,48 @@ class ProductDetailResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'sku' => $this->sku,
-            'sale' => $this->sale ?? 'chưa có giá KM',
-            'price' => $this->price,
-            'memory' => $this->memory,
-            'instock' => $this->instock,
-            'storage' => $this->storage,
+            'images' => $this->images,
+            'slug' => $this->slug,
+            'short_desc' => $this->short_desc,
+            'description' => $this->description,
 
-            'product' => [
-                'id' =>  optional($this->product)->id ,
-                'name' =>  optional($this->product)->name ,
-                'images' =>  optional($this->product)->images ,
-                'slug' =>  optional($this->product)->slug ,
-                'short_desc' =>  optional($this->product)->short_desc,
-                'description' =>  optional($this->product)->description,
-                'status' =>  optional($this->product)->status,
+            'brand' => [
+                'slug' => optional($this->brand)->slug,
+                'name' => optional($this->brand)->name,
+            ],
+            'category' => [
+                'slug' => optional($this->category)->slug,
+                'name' => optional($this->category)->name,
+            ],
 
-                'brand' => [
-                            'name' => optional($this->product->brand)->name,
-                        ],
-                'category' => [
-                            'name' => optional($this->product->category)->name,
-                        ],
-                'product_image_items' => $this->product->product_image_items->map(function($item) {
-                    return [
-                        'name' => $item->name,
-                        'position' => $item->posittion,
-                        'images' => $item->images,
-                    ];
-                }),
-                'colors' => $this->product->variantColor->map(function($variantColor) {
-                    return [
-                        'id' => $variantColor->color->id,
-                        'name' => $variantColor->color->name,
-                        'images' => $variantColor->color->images,
-                    ];
-                }),
+            'product_variant' => $this->product_variant->map(function ($item) {
+                return [
+                    'id' =>  $item->id,
+                    'sku' => $item->sku,
+                    'sale' => $item->sale ?? 'chưa có giá KM',
+                    'price' => $item->price,
+                    'memory' => $item->memory,
+                    'instock' => $item->instock,
+                    'storage' => $item->storage,
 
-            ]
-            
+                ];
+            }),
+
+            'product_image_items' => $this->product_image_items->map(function ($item) {
+                return [
+                    'name' => $item->name,
+                    'position' => $item->posittion,
+                    'images' => $item->images,
+                ];
+            }),
+            'colors' => $this->variantColor->map(function ($variantColor) {
+                return [
+                    'id' => $variantColor->color->id,
+                    'name' => $variantColor->color->name,
+                    'images' => $variantColor->color->images,
+                ];
+            }),
+
         ];
     }
 }

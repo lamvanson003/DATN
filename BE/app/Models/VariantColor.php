@@ -9,15 +9,15 @@ class VariantColor extends Model
 {
     use HasFactory;
     protected $table='variant_colors';
-    protected $fillable = ['product_id','color_id'];
+    protected $fillable = ['product_variant_id','color_id'];
 
 
 
 
      // Quan hệ với bảng products
-     public function product()
+     public function ProductVariant()
      {
-         return $this->belongsTo(Product::class,'product_id');
+         return $this->belongsTo(ProductVariant::class,'product_variant_id');
      }
  
      // Quan hệ với bảng colors

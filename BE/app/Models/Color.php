@@ -27,9 +27,9 @@ class Color extends Model
     }
 
     // Quan hệ với bảng products qua bảng variant_colors
-    public function products()
+    public function ProductVariants()
     {
-        return $this->belongsToMany(Product::class, 'variant_colors', 'color_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'variant_colors', 'color_id', 'product_variant_id');
     }
 
 }

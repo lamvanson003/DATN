@@ -18,26 +18,20 @@ class ProductController extends controller{
     public function index() {
         try {
             $products = Product::with(
-                [
-                    'product' => function ($query) {
-                        $query->where('status', ProductStatus::Active);
-                    }
-                ],
-                ['product.category' => function ($query) {
+                ['category' => function ($query) {
                 $query->where('status', CategoryStatus::Active);
                 }, 
-                'prodyct.brand'=> function ($query){
+                'brand'=> function ($query){
                     $query->where('status', BrandStatus::Active);
                 }, 
-                'product.product_variant', 
-                'product.product_image_items' => function ($query){
+                'product_variant', 
+                'product_image_items' => function ($query){
                     $query->where('status', Status::Active);
                 }, 
-                'product.variantColor.color' => function ($query){
+                'product_variant.variantColor.color' => function ($query){
                     $query->where('status', Status::Active);
                 },
-                ])
-                ->get();
+                ])->where('status', ProductStatus::Active)->get();
 
             return response()->json([
                 'success' => true,
@@ -55,28 +49,25 @@ class ProductController extends controller{
     public function detail($id) {
         try {
 
-            $product_variant = Product::with(
-                ['product' => function ($query) {
-                    $query->where('status', ProductStatus::Active);
-                },
-                'product.category' => function ($query) {
+            $product = Product::with(
+                [
+                'category' => function ($query) {
                     $query->where('status', CategoryStatus::Active);
                 }, 
-                'product.brand'=> function ($query){
+                'brand'=> function ($query){
                     $query->where('status', BrandStatus::Active);
                 }, 
-                'product.product_image_items' => function ($query){
+                'product_image_items' => function ($query){
                     $query->where('status', Status::Active);
                 }, 
-                'product.variantColor.color' => function ($query){
+                'product_variant.variant_color.color' => function ($query){
                     $query->where('status', Status::Active);
                 },
                 ])
-                ->findOrFail($id);
-                Log::info('mess',['mess'=> $product_variant]);
+                ->where('status', ProductStatus::Active)->findOrFail($id);
             return response()->json([
                 'success' => true,
-                'data' => new ProductDetailResource($product_variant)
+                'data' => new ProductDetailResource($product)
             ], 200);
         } catch (\Throwable $e) {
             Log::info('mess',['mess'=> $e]);

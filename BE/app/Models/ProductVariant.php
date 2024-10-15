@@ -21,4 +21,17 @@ class ProductVariant extends Model
         return $this->belongsTo(Product::class,'product_id');
     }
 
+     /**
+     * Quan hệ với bảng trung gian variantColor
+     */
+    public function variantColor()
+    {
+        return $this->hasMany(VariantColor::class);
+    }
+
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class, 'variant_color', 'product_variant_id', 'color_id');
+    }
+
 }

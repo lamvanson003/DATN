@@ -21,15 +21,20 @@ class ProductResource extends JsonResource
             'slug' => $this->slug,
 
             'category' => [
-                'name' => optional($this->product->category)->name,
+                'name' => optional($this->category)->name,
             ],
             'brand' => [
-                'name' =>  optional($this->product->brand)->name,
+                'name' =>  optional($this->brand)->name,
             ],
-            'product_variant' => [
-                'name' =>  optional($this->product->brand)->name,
-            ]
-                      
+            'product_variant' => $this->product_variant->map(function($item) {
+                return [
+                    'id' => $item->id,
+                    'sku' => $item->sku,
+                    'storage' => $item->storage,
+                    'sale' => $item->sale,
+                    'price' => $item->price,
+                ];
+            }),
         ];
     }
 }
