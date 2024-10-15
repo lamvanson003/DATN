@@ -6,7 +6,7 @@ import mainImg3 from "../../assets/images/k3.jpeg";
 import mainImg4 from "../../assets/images/k1.jpeg";
 import varImg1 from "../../assets/images/iphone1.jpg";
 import varImg2 from "../../assets/images/iphone2.jpg";
-import { getCommentByPid } from "../../apis/comment";
+import { commentApi } from "../../apis";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
 const Detail = () => {
@@ -15,6 +15,8 @@ const Detail = () => {
   const [cmts, setCmts] = useState([]);
   const ref = useRef();
   const [proDatas, setProDatas] = useState([]);
+  const [comment, setComment] = useState("");
+  const [loadingComment, setLoadingComment] = useState(false);
   useEffect(() => {
     const fetchProData = async () => {
       try {
@@ -37,7 +39,7 @@ const Detail = () => {
   useEffect(() => {
     try {
       const fetchCmtpid = async () => {
-        const data = await getCommentByPid(+pid);
+        const data = await commentApi.getCommentByPid(+pid);
         setCmts(data);
       };
       fetchCmtpid();
@@ -69,6 +71,20 @@ const Detail = () => {
     setActiveColor(color);
     console.log("Active Color:", color);
   };
+
+  const handleSubmitComment = async (e) => {
+    e.preventDefault();
+    setLoadingComment(true);
+    try {
+      const data = await commentApi.postComment(1, pid, comment);
+      console.log("Bình luận đã được đăng !", data);
+    } catch (err) {
+      console.log("Lỗi", err);
+    } finally {
+      setLoadingComment(false);
+    }
+  };
+  console.log(comment);
 
   return (
     <>
@@ -291,15 +307,28 @@ const Detail = () => {
           <div className="container mt-5">
             <div>
               <span>Bạn cần đăng nhập để bình luận</span>
-              <textarea
-                placeholder="Hãy nêu suy nghĩ của bạn"
-                style={{
-                  width: "100%",
-                  height: 100,
-                  outline: "none",
-                  boxShadow: "none",
-                }}
-              />
+              <form action="" onSubmit={handleSubmitComment}>
+                <textarea
+                  placeholder="Hãy nêu suy nghĩ của bạn"
+                  style={{
+                    width: "100%",
+                    height: 100,
+                    outline: "none",
+                    boxShadow: "none",
+                  }}
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+                <span className="d-flex justify-content-end">
+                  <button
+                    className="btn btn-primary"
+                    disabled={loadingComment}
+                    type="submit"
+                  >
+                    {loadingComment ? "Đang gửi ..." : "Bình luận"}
+                  </button>
+                </span>
+              </form>
             </div>
             <div className="reviews">
               <h3>2 bình luận của {proData?.name}</h3>

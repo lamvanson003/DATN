@@ -12,3 +12,5 @@ export { default as Profile } from "./Profile";
 export { default as Favor } from "./Favor";
 export { default as User } from "./User";
 export { default as Account } from "./Account";
+export { default as BankingOnline } from "./BankingOnline";
+export { default as Contact } from "./Contact";
