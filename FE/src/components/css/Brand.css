@@ -1,7 +1,10 @@
 /* BrandCards.css */
 .brand-card {
   width: 100px;
-  border-radius: 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .brand-card-body {
@@ -11,7 +14,6 @@
 .card-img-top-brand {
   width: 100%;
   height: auto;
-  padding: 16px;
 }
 
 .brand-card-title {

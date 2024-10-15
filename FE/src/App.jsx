@@ -14,6 +14,7 @@ import {
   User,
   Account,
   BankingOnline,
+  Contact,
 } from "./pages/user";
 import { Routes, Route } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
@@ -30,6 +31,7 @@ function App() {
             <Route path={path.SIGNUP} element={<Signup />} />
             <Route path={path.CART} element={<Cart />} />
             <Route path={path.ABOUT} element={<About />} />
+            <Route path={path.CONTACT} element={<Contact />} />
             <Route path={path.PRODUCT} element={<Product />}></Route>
             <Route path={path.PRODUCT__DETAIL__ID} element={<Detail />} />
             <Route path={path.USER} element={<User />}>

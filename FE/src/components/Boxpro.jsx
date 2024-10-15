@@ -5,14 +5,29 @@ import proImg from "../assets/images/iHome/image.png";
 import { CartContext } from "../context/Cart";
 import { memo } from "react";
 import { FavorContext } from "../context/Favor";
-
+import icons from "../ultis/icon";
 const BoxPro = ({ pro }) => {
+  const { IoIosStar, IoIosStarHalf, IoIosStarOutline } = icons;
   const { cartItems, addToCart, buyNow } = useContext(CartContext);
   const { favorItems, addToFavor } = useContext(FavorContext);
   const inCartItem = cartItems.find((cartItem) => cartItem.id === pro?.id);
   const cartItemQuantity = inCartItem && inCartItem.quantity;
   const inFavorItems = favorItems.find((favorItem) => favorItem.id === pro?.id);
 
+  const renderStars = (rating) => {
+    const maxStars = 5;
+    const fullStars = Math.floor(rating); // Số sao đầy (phần nguyên của rating)
+    const hasHalfStar = rating % 1 !== 0; // Kiểm tra nếu có sao nửa
+    const emptyStars = maxStars - fullStars - (hasHalfStar ? 1 : 0); // Số sao trống
+
+    return (
+      <span className="text-warning">
+        {Array(fullStars).fill(<IoIosStar />)} {/* Sao đầy */}
+        {hasHalfStar && <IoIosStarHalf />} {/* Sao nửa nếu có */}
+        {Array(emptyStars).fill(<IoIosStarOutline />)} {/* Sao trống */}
+      </span>
+    );
+  };
   return (
     <div className="card">
       <div className="badge-hot">Hot</div>
@@ -41,17 +56,24 @@ const BoxPro = ({ pro }) => {
             {pro?.price ? pro?.price : "Not found"}
           </span>
         </p>
-        <p className="card-text">
-          Hãng
-          <span
-            style={{
-              color: "#007bff",
-              marginLeft: 20,
-            }}
-          >
-            {pro?.brand ? pro?.brand : "Not found"}
+        <div
+          className="card-text d-flex justify-content-between"
+          style={{ fontSize: 14 }}
+        >
+          <span>
+            hãng:
+            <span
+              style={{
+                color: "#007bff",
+                marginLeft: 5,
+              }}
+            >
+              {pro?.brand ? pro?.brand : "Not found"}
+            </span>
           </span>
-        </p>
+
+          {renderStars(3)}
+        </div>
         <div className="d-flex justify-content-between align-items-center">
           <button
             className="icon-btn"
