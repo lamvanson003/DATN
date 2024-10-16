@@ -11,14 +11,15 @@ use App\Models\Color;
 use App\Enums\Product\ProductStatus;
 use App\Enums\Status;
 use App\Http\Requests\Product\ProductRequest;
-use App\Models\Variant_Color;
+use App\Models\Product_Variant;
+use App\Models\VariantColor;
 use Exception;
 use Illuminate\Support\Facades\Log;
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('product_image_items')->get();
+        $products = Product::with('product_image_items','product_variant')->get();
         $status = ProductStatus::asSelectArray();
         return view('product.index', compact(['products', 'status']));
     }
@@ -73,7 +74,7 @@ class ProductController extends Controller
 
         if (isset($data['color']) && is_array($data['color'])) {
             foreach ($data['color'] as $color_id) {
-                Variant_Color::create([
+                VariantColor::create([
                     'product_id' => $product->id,
                     'color_id' => $color_id,
                 ]);
@@ -90,7 +91,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with('category','brand','product_variant','product_image_items','variantColor','variantColor.color')->findOrFail($id);
         $status = ProductStatus::asSelectArray();
 
         
@@ -108,7 +109,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request)
     {   
         $data = $request->validated();
-        $product = Product::find($request['id']);
+        $product = Product::findOrfail($data['id']);
         $baseUrl = url()->to('/');
         if ($request->hasFile('new_image')) {
             if ($product->images && file_exists(public_path($product->images))) {
@@ -124,6 +125,7 @@ class ProductController extends Controller
 
         $product->update([
             'name' => $data['name'],
+            'images' => $product->images,
             'status' => $data['status'],
             'slug' => $data['slug']??$product->slug,
             'short_desc' => $data['short_desc'],

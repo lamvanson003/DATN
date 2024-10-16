@@ -5,13 +5,38 @@ import proImg from "../assets/images/iHome/image.png";
 import { CartContext } from "../context/Cart";
 import { memo } from "react";
 import { FavorContext } from "../context/Favor";
-const BoxPro = ({ pro }) => {
-  const { cartItems, addToCart } = useContext(CartContext);
+import icons from "../ultis/icon";
+const BoxPro = ({ pro, watched, hot }) => {
+  const { IoIosStar, IoIosStarHalf, IoIosStarOutline } = icons;
+  const { cartItems, addToCart, buyNow } = useContext(CartContext);
   const { favorItems, addToFavor } = useContext(FavorContext);
   const inCartItem = cartItems.find((cartItem) => cartItem.id === pro?.id);
   const cartItemQuantity = inCartItem && inCartItem.quantity;
   const inFavorItems = favorItems.find((favorItem) => favorItem.id === pro?.id);
 
+  const renderStars = (rating) => {
+    const maxStars = 5;
+    const fullStars = Math.floor(rating); // Số sao đầy (phần nguyên của rating)
+    const hasHalfStar = rating % 1 !== 0; // Kiểm tra nếu có sao nửa
+    const emptyStars = maxStars - fullStars - (hasHalfStar ? 1 : 0); // Số sao trống
+
+    return (
+      <span className="text-warning">
+        {Array(fullStars)
+          .fill(null)
+          .map((_, index) => (
+            <IoIosStar key={`full-${index}`} /> // Sao đầy với key unique
+          ))}
+        {hasHalfStar && <IoIosStarHalf key="half" />}
+        {/* Sao nửa với key unique */}
+        {Array(emptyStars)
+          .fill(null)
+          .map((_, index) => (
+            <IoIosStarOutline key={`empty-${index}`} /> // Sao trống với key unique
+          ))}
+      </span>
+    );
+  };
   return (
     <div className="card">
       <div className="badge-hot">Hot</div>
@@ -26,56 +51,77 @@ const BoxPro = ({ pro }) => {
           />
         </Link>
       </div>
-      <div className="card-body">
-        <p className="card-text">Điện thoại</p>
+      <div className="card-body mt-3">
         <Link to={`/detail/${pro?.id}`} style={{ textDecoration: "none" }}>
           <h5 className="card-title text-center" style={{ cursor: "pointer" }}>
             {pro?.name ? pro?.name : "Not found"}
           </h5>
         </Link>
 
-        <p className="price text-center">
-          <span className="me-2">{pro?.sale ? pro?.sale : "Not found"}</span>
-          <span className="old-price">
-            {pro?.price ? pro?.price : "Not found"}
-          </span>
-        </p>
-        <p className="card-text">
-          Hãng
-          <span
-            style={{
-              color: "#007bff",
-              marginLeft: 20,
-            }}
-          >
-            {pro?.brand ? pro?.brand : "Not found"}
-          </span>
-        </p>
-        <div className="d-flex justify-content-between align-items-center">
-          <button
-            className="icon-btn"
-            onClick={() => {
-              addToCart(pro);
-            }}
-          >
-            <i className="fas fa-shopping-cart fw-semibold" />
-            <span className="fw-bold text-danger ms-1">
-              {cartItemQuantity ? `(${cartItemQuantity})` : ""}
+        <div>
+          <p className="price text-center">
+            <span className="me-2">{pro?.sale ? pro?.sale : "Not found"}</span>
+            <span className="old-price">
+              {pro?.price ? pro?.price : "Not found"}
             </span>
-          </button>
-          <button className="icon-btn">
-            <i className="fas fa-exchange-alt" />
-          </button>
-          <button
-            className="icon-btn"
-            onClick={() => {
-              addToFavor(pro);
-            }}
+          </p>
+          <div
+            className="card-text d-flex justify-content-between"
+            style={{ fontSize: 14 }}
           >
-            <i className={`fas fa-heart ${inFavorItems && "text-danger"}`} />
-          </button>
+            <span>
+              hãng:
+              <span
+                style={{
+                  color: "#007bff",
+                  marginLeft: 5,
+                }}
+              >
+                {pro?.brand ? pro?.brand : "Not found"}
+              </span>
+            </span>
+
+            {renderStars(3)}
+          </div>
+          {!hot && (
+            <div className="d-flex justify-content-between align-items-center mt-2">
+              <button
+                className="icon-btn"
+                onClick={() => {
+                  addToCart(pro);
+                }}
+              >
+                <i className="fas fa-shopping-cart fw-semibold" />
+                <span className="fw-bold text-danger ms-1">
+                  {cartItemQuantity ? `(${cartItemQuantity})` : ""}
+                </span>
+              </button>
+              <button className="icon-btn">
+                <i className="fas fa-exchange-alt" />
+              </button>
+              <button
+                className="icon-btn"
+                onClick={() => {
+                  addToFavor(pro);
+                }}
+              >
+                <i
+                  className={`fas fa-heart ${inFavorItems && "text-danger"}`}
+                />
+              </button>
+            </div>
+          )}
+          {!hot && (
+            <button
+              className="btn btn-buy mt-3"
+              onClick={() => {
+                buyNow(pro);
+              }}
+            >
+              Mua ngay
+            </button>
+          )}
         </div>
-        <button className="btn btn-buy mt-3">Mua ngay</button>
       </div>
     </div>
   );

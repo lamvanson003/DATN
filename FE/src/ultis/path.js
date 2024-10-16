@@ -9,8 +9,13 @@ const path = {
   ABOUT: "about",
   CONTACT: "contact",
   PAYMENT: "payment",
+  USER: "user",
+  ACCOUNT: "account",
   HISTORY: "history",
   PROFILE: "profile",
+  FAVOR: "favor",
+  BANKINGONLINE: "banking-online",
+
   //
 };
 export default path;

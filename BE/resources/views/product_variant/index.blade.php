@@ -56,10 +56,10 @@
               <table id="add-row" class="display table table-hover fix_table">
                 <thead>
                   <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên biến thể</th>
+                    <th>Mã SP</th>
                     <th>Dung lượng</th>
                     <th>Giá</th>
+                    <th>Khuyến mãi</th>
                     <th>Số lượng</th>
                     <th>Thời gian bảo hành</th>
                     <th style="width: 10%">Hành động</th>
@@ -67,10 +67,10 @@
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên biến thể</th>
+                    <th>Mã SP</th>
                     <th>Dung lượng</th>
                     <th>Giá</th>
+                    <th>Khuyến mãi</th>
                     <th>Số lượng</th>
                     <th>Thời gian bảo hành</th>
                     <th style="width: 10%">Hành động</th>
@@ -79,20 +79,17 @@
                 <tbody>
                   @foreach ($product_variant as $item)
                     <tr>
-                      <td><a href="{{ route('admin.product.product_item.edit',$item->id) }}">{{ $item->sku }}</a></td> 
+                      <td><a href="{{ route('admin.product.product_item.edit',[$product->id,$item->id]) }}">{{ $item->sku }}</a></td> 
                       <td>{{ $item->storage }}</td> 
-                      <td>{{ $item->price }}</td> 
-                      <td>{{ $item->sale }}</td> 
+                      <td>{{ number_format($item->price) }}</td> 
+                      <td><span class="red">{{ number_format($item->sale)??'N/A' }}</span></td> 
                       <td>{{ $item->instock }}</td> 
                       <td>{{ $item->memory }}</td> 
                       <td>
-                        <div class="form-button-action gap-2">
-                          <a href="{{ route('admin.product.product_item.edit', $item->id) }}">
-                            <button type="button" data-bs-toggle="tooltip" title="Chỉnh sửa" class="btn btn-info btn-icon">
-                              <i class="fa fa-pencil-alt"></i>
-                            </button>
-                          </a>
-                        </div>                        
+                        
+                        <button type="button" class="btn btn-primary btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                          <i class="fa fa-pencil-alt"></i>
+                        </button>                       
                       </td>
                     </tr>
 
@@ -105,14 +102,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                              Xóa dữ liệu này khỏi dữ liệu hệ thống?
+                              Bạn đang thêm Biến thể cho <span class="red">{{ $item->name }}</span>
                           </div>
                           <div class="modal-footer">
-                            <form action="{{ route('admin.product.product_item.delete',[$item->id,$product->id]) }}" method="POST">
-                              @csrf
-                              <input type="hidden" name="_method" value="DELETE">
-                              <button type="submit" class="btn btn-danger">Xóa</button>
-                            </form>
+                          <a href="{{ route('admin.product.product_item.create',[$item->id, $product->id]) }}">
+                              <button type="submit" class="btn btn-danger">Tiếp tục</button>
+                          </a>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                           </div>
                         </div>

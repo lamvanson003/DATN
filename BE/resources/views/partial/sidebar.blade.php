@@ -143,6 +143,29 @@
             </div>
           </li>
           <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#comment">
+              <i class="fas fa-tags"></i>
+              <p>Bình luận</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="comment">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('admin.comment.create') }}">
+                    <i class="fas fa-plus"></i>
+                    <span>Thêm bình luận</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.comment.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS bình luận</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
             <a data-bs-toggle="collapse" href="#category">
               <i class="fas fa-bars"></i>
               <p>Danh mục</p>

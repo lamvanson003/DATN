@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('variant_colors', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_variant_id');
             $table->unsignedBigInteger('color_id');
             $table->timestamps();
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('product_variant_id')->references('id')->on('product_variants')->onDelete('cascade');
             $table->foreign('color_id')->references('id')->on('colors')->onDelete('cascade');
         });
     }

@@ -2,23 +2,45 @@
 namespace App\Http\Controllers\Api\Product;
 use App\Http\Controllers\Controller;
 use Exception;
-use App\Models\Product;
+
+use App\Enums\Category\CategoryStatus;
+use App\Enums\Brand\BrandStatus;
+use App\Enums\Status;
 use App\Enums\Product\ProductStatus;
+use App\Http\Resources\Api\Product\ProductResource;
+use App\Http\Resources\Api\Product\ProductDetailResource;
+use App\Models\Product;
+
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends controller{
 
     public function index() {
         try {
-            $products = Product::all()->where('status',ProductStatus::Active);
+            $products = Product::with(
+                ['category' => function ($query) {
+                $query->where('status', CategoryStatus::Active);
+                }, 
+                'brand'=> function ($query){
+                    $query->where('status', BrandStatus::Active);
+                }, 
+                'product_variant', 
+                'product_image_items' => function ($query){
+                    $query->where('status', Status::Active);
+                }, 
+                'product_variant.variantColor.color' => function ($query){
+                    $query->where('status', Status::Active);
+                },
+                ])->where('status', ProductStatus::Active)->get();
 
             return response()->json([
                 'success' => true,
-                'data' => $products
+                'data' => ProductResource::collection($products)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to fetch categories',
+                'message' => 'Failed to fetch data',
                 'error' => $th->getMessage()
             ], 500);
         }
@@ -26,19 +48,36 @@ class ProductController extends controller{
 
     public function detail($id) {
         try {
-            $products = Product::findOrFail($id);
 
+            $product = Product::with(
+                [
+                'category' => function ($query) {
+                    $query->where('status', CategoryStatus::Active);
+                }, 
+                'brand'=> function ($query){
+                    $query->where('status', BrandStatus::Active);
+                }, 
+                'product_image_items' => function ($query){
+                    $query->where('status', Status::Active);
+                }, 
+                'product_variant.variant_color.color' => function ($query){
+                    $query->where('status', Status::Active);
+                },
+                ])
+                ->where('status', ProductStatus::Active)->findOrFail($id);
             return response()->json([
                 'success' => true,
-                'data' => $products
+                'data' => new ProductDetailResource($product)
             ], 200);
-        } catch (\Throwable $th) {
+        } catch (\Throwable $e) {
+            Log::info('mess',['mess'=> $e]);
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to fetch categories',
-                'error' => $th->getMessage()
+                'message' => 'Failed to fetch product details',
+                'error' => $e->getMessage()
             ], 500);
         }
     }
+    
     
 }

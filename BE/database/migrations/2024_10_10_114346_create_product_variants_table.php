@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('memory')->nullable();
             $table->integer('sold')->default(0);
             $table->integer('instock')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

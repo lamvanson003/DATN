@@ -19,7 +19,7 @@ const Banner = () => {
   }, []);
 
   return (
-    <div className="d-flex justify-content-center mt-5">
+    <div className="d-flex justify-content-center mt-5 mb-5">
       <div className="banner-slide m-0">
         <div className="banner-content">
           <img
