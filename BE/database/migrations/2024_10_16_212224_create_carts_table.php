@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("product_variant_id");
             $table->integer("quantity");
             $table->integer("total");
-            $table->tinyInteger("status")->default('Pending');
+            $table->string("status")->default('Pending');
             $table->timestamps();
             $table->foreign('product_variant_id')->references('id')->on('product_variants')->onDelete('cascade');
 
