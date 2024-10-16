@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 const filters = [
   {
     title: "RAM",
@@ -25,8 +26,18 @@ const filters = [
     options: ["Kháng nước, bụi", "Hỗ trợ 5G", "Bảo mật khuôn mặt 3D"],
   },
 ];
+
+const filterKeyMap = {
+  RAM: "RAM",
+  "Độ phân giải": "resolution",
+  "Tần số quét": "refreshRate",
+  "Dung lượng lưu trữ": "storage",
+  "Tính năng sạc": "charging",
+  "Tính năng đặc biệt": "specialFeatures",
+};
+
 const Filter = () => {
-  const [selectedFilter, setSelectedFilter] = useState({
+  const [selectedFilters, setSelectedFilters] = useState({
     RAM: null,
     resolution: null,
     refreshRate: null,
@@ -34,34 +45,64 @@ const Filter = () => {
     charging: null,
     specialFeatures: [],
   });
+
   const handleSelect = (filterTitle, value) => {
-    selectedFilter((prev) => {
-      if (filterTitle === "Tính năng đặc biệt") {
-        const currentSelection = prev[filterTitle];
+    const key = filterKeyMap[filterTitle];
+
+    setSelectedFilters((prev) => {
+      if (key === "specialFeatures") {
+        // Kiểm tra nếu đã chọn tính năng đó, thì bỏ chọn, ngược lại thì thêm vào
+        const currentSelection = prev.specialFeatures;
+        if (currentSelection.includes(value)) {
+          return {
+            ...prev,
+            specialFeatures: currentSelection.filter((item) => item !== value),
+          };
+        } else {
+          return {
+            ...prev,
+            specialFeatures: [...currentSelection, value],
+          };
+        }
       }
+      return {
+        ...prev,
+        [key]: value,
+      };
     });
   };
+
+  const handleFilter = () => {
+    console.log("Các tùy chọn lọc: ", selectedFilters);
+  };
+
   return (
     <div className="filter-container">
       {filters.map((filter, index) => (
         <div
           className="check-box mb-4 p-3 rounded"
-          key={index}
+          key={filter.title} // Sử dụng filter.title làm key vì nó duy nhất
           style={{ boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.2)" }}
         >
           <h5>
             <strong>{filter.title}</strong>
           </h5>
           {filter.options.map((option, optionIndex) => (
-            <div className="form-check" key={optionIndex}>
+            <div className="form-check" key={option}>
               <input
                 className="form-check-input"
                 id={`${filter.title
                   .toLowerCase()
                   .replace(/\s+/g, "-")}-${optionIndex}`}
-                type="radio" // Thay đổi thành radio để chỉ chọn 1 option
-                // checked={selectedFilters[filter.title] === option}
-                // onChange={() => handleSelect(filter.title, option)}
+                type={
+                  filter.title === "Tính năng đặc biệt" ? "checkbox" : "radio"
+                }
+                checked={
+                  filter.title === "Tính năng đặc biệt"
+                    ? selectedFilters.specialFeatures.includes(option) // Kiểm tra nếu option đã được chọn trong mảng specialFeatures
+                    : selectedFilters[filterKeyMap[filter.title]] === option
+                }
+                onChange={() => handleSelect(filter.title, option)}
               />
               <label
                 className="form-check-label"
@@ -76,7 +117,11 @@ const Filter = () => {
         </div>
       ))}
       <div className="filter-button mt-2">
-        <button className="btn btn-primary" type="button">
+        <button
+          className="btn btn-primary"
+          type="button"
+          onClick={handleFilter}
+        >
           Lọc
         </button>
       </div>

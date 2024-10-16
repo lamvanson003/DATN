@@ -22,9 +22,18 @@ const BoxPro = ({ pro, watched, hot }) => {
 
     return (
       <span className="text-warning">
-        {Array(fullStars).fill(<IoIosStar />)} {/* Sao đầy */}
-        {hasHalfStar && <IoIosStarHalf />} {/* Sao nửa nếu có */}
-        {Array(emptyStars).fill(<IoIosStarOutline />)} {/* Sao trống */}
+        {Array(fullStars)
+          .fill(null)
+          .map((_, index) => (
+            <IoIosStar key={`full-${index}`} /> // Sao đầy với key unique
+          ))}
+        {hasHalfStar && <IoIosStarHalf key="half" />}
+        {/* Sao nửa với key unique */}
+        {Array(emptyStars)
+          .fill(null)
+          .map((_, index) => (
+            <IoIosStarOutline key={`empty-${index}`} /> // Sao trống với key unique
+          ))}
       </span>
     );
   };

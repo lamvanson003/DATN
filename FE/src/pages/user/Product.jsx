@@ -159,10 +159,7 @@ const Product = () => {
       </section>
       <section id="body-product mt-5">
         <div className="row">
-          <div
-            className="col-md-3 p-3"
-            style={{ borderRight: "3px solid blue" }}
-          >
+          <div className="col-md-3 p-3">
             <div className="category">
               <h3>Danh mục</h3>
               <hr />
