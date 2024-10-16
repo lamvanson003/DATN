@@ -15,13 +15,13 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="{{ route('admin.product.index') }}">DS sản phẩm</a>
+              <a href="{{ route('admin.product.edit',$product_image_item->product->id) }}">{{ $product_image_item->product->name }}</a>
             </li>
             <li class="separator">
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="">{{ $product_image_item->name }}</a>
+              <a href="">{{ $product_image_item->name ?? 'N/A' }}</a>
             </li>
           </ul>
         </div>
