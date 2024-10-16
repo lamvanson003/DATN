@@ -36,79 +36,28 @@
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Thông tin sản phẩm</h3>
+                                <h3 class="mb-0 strong text-center">Thông tin sản phẩm và Thông tin Biến thể</h3>
                             </div>
-                            <div class="row card-body">
-                                <!-- Name and Slug in the same row -->
-                                <div class="col-md-12 col-sm-12 d-flex mb-3">
-                                    <div class="me-2 flex-grow-1">
-                                        <label class="control-label">Tên sản phẩm<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" placeholder="VD: Iphone 13 Pro Max">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="slug" placeholder="VD: iphone-13-promax">
-                                    </div>
-                                </div>
+                            <div class="card-body"> 
+                                <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                                            Thông tin sản phẩm
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                                            Thông tin biến thể
+                                        </button>
+                                    </li>
+                                </ul>
 
-                                <!-- Short Description -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Mô tả ngắn:</label>
-                                        <input type="text" class="form-control" name="short_desc" placeholder="Mô tả ngắn về sản phẩm">
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                                        @include('product.form.createProduct')
                                     </div>
-                                </div>
-
-                                <!-- Description -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Mô tả chi tiết:</label>
-                                        <textarea class="form-control" name="description" rows="4" placeholder="Mô tả chi tiết về sản phẩm"></textarea>
-                                    </div>
-                                </div>
-                                
-                                @if ((isset($colors)))
-                                    <!-- Color -->
-                                    <div class="col-md-12 col-sm-12">
-                                        <div id="color-select">
-                                            <div class="mb-3">
-                                                <label for="color" class="form-label">Chọn Màu Sắc</label>
-                                                <select class="form-select select2" name="color[]" id="colorSL" multiple>
-
-                                                    @foreach ($colors as $item)
-                                                        <option value="{{ $item->id }}">{{$item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div> 
-                                    </div>
-                                @else
-                                    <div class="col-md-12 col-sm-12 mb-3">
-                                        <a href="{{ route('admin.color.create') }}" class="red">
-                                            <span class="badge text-bg-danger">Thêm màu sắc</span>
-                                        </a>
-                                    </div>
-                                @endif
-
-
-
-                                <!-- Category ID and Brand ID in the same row -->
-                                <div class="col-md-12 col-sm-12 d-flex mb-3">
-                                    <div class="me-2 flex-grow-1">
-                                        <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
-                                        <select class="form-select" name="category_id" required>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <label class="control-label">Thương hiệu<span style="color: red">*</span>:</label>
-                                        <select class="form-select" name="brand_id" required>
-                                            @foreach ($brands as $brand)
-                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                                        @include('product.form.createProductVariant')
                                     </div>
                                 </div>
                             </div>

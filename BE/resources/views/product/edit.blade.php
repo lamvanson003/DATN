@@ -31,27 +31,26 @@
 
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.product.update',$product->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="_method" value="PUT">
+                @method('PUT')
                 <input type="hidden" name="id" value="{{ $product->id }}">
-
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Chỉnh sửa sản phẩm</h3>
+                                <h3 class="mb-0 strong text-center red">Chỉnh sửa sản phẩm</h3>
                             </div>
                             <div class="row card-body">
                                 <!-- Name and Slug in the same row -->
                                 <div class="col-md-12 d-flex mb-3">
                                     <div class="me-2 flex-grow-1">
                                         <label class="control-label">Tên sản phẩm<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control text-capitalize" name="name" value="{{ $product->name }}" placeholder="VD: Iphone 13 Pro Max">
+                                        <input type="text" class="form-control text-capitalize" name="name" value="{{ $product->name }}" placeholder="VD: Iphone 13 Pro Max">
                                     </div>
                                     <div class="flex-grow-1">
                                         <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control text-capitalize" name="slug" value="{{ $product->slug }}" placeholder="VD: iphone-13-promax">
+                                        <input type="text"  class="form-control text-capitalize" name="slug" value="{{ $product->slug }}" placeholder="VD: iphone-13-promax">
                                     </div>
                                 </div>
 
@@ -168,7 +167,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Bạn có chắc chắn muốn xóa sản phẩm này không?
+                Chuyển trạng thái sản phẩm thành Đã xóa?
             </div>
             <div class="modal-footer">
                 <form action="{{ route('admin.product.delete', $product->id) }}" method="POST">
