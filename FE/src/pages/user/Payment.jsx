@@ -43,29 +43,24 @@ const Payment = () => {
         );
         setWards(res.data.wards);
       };
+
       fetchWards();
     }
   }, [selectedDistrict]);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const customerInfo = {
-      name: e.target.name.value,
-      phone: e.target.phone.value,
-      province: selectedProvince ? selectedProvince.name : "",
-      district: selectedDistrict ? selectedDistrict.name : "",
-      ward: selectedWard ? selectedWard.name : "",
-      street: e.target.street.value,
-    };
-    const orderInfo = cartItems.map((cartItem) => ({
-      id: cartItem.id,
-      name: cartItem.name,
-      quantity: cartItem.quantity,
-      price: cartItem.sale,
-      color: "vàng", // Hoặc bạn có thể lấy thông tin màu từ dữ liệu
-      storage: "512gb", // Tương tự với dung lượng
+  const [customerInfo, setCustomerInfo] = useState({
+    name: "",
+    phone: "",
+    province: "",
+    district: "",
+    ward: "",
+    street: "",
+  });
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setCustomerInfo((prev) => ({
+      ...prev,
+      [id]: value,
     }));
-    console.log("Thông tin khách hàng: ", customerInfo);
-    console.log("Sản phẩm: ", orderInfo);
   };
   return (
     <>
@@ -85,6 +80,8 @@ const Payment = () => {
                     id="name"
                     type="text"
                     className="input-style rounded"
+                    value={customerInfo.name}
+                    onChange={handleInputChange}
                   />
                 </div>
 
@@ -96,6 +93,8 @@ const Payment = () => {
                     id="phone"
                     type="text"
                     className="input-style rounded"
+                    value={customerInfo.phone}
+                    onChange={handleInputChange}
                   />
                 </div>
 
@@ -107,14 +106,27 @@ const Payment = () => {
                     <select
                       id="province"
                       className="form-control"
-                      onChange={(e) =>
-                        setSelectedProvince(
-                          provinces.find(
-                            (p) => p.code === Number(e.target.value)
-                          )
-                        )
+                      onChange={(e) => {
+                        const selectedProvince = provinces.find(
+                          (p) => p.code === Number(e.target.value)
+                        );
+                        setSelectedProvince(selectedProvince);
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          province: selectedProvince
+                            ? selectedProvince.name
+                            : "",
+                          district: "",
+                          ward: "",
+                        }));
+                      }}
+                      value={
+                        customerInfo.province
+                          ? provinces.find(
+                              (p) => p.name === customerInfo.province
+                            )?.code
+                          : ""
                       }
-                      value={selectedProvince ? selectedProvince.code : ""}
                     >
                       <option value="">Chọn tỉnh thành phố</option>
                       {provinces.map((province) => (
@@ -134,14 +146,26 @@ const Payment = () => {
                     <select
                       id="district"
                       className="form-control"
-                      onChange={(e) =>
-                        setSelectedDistrict(
-                          districts.find(
-                            (d) => d.code === Number(e.target.value)
-                          )
-                        )
+                      onChange={(e) => {
+                        const selectedDistrict = districts.find(
+                          (d) => d.code === Number(e.target.value)
+                        );
+                        setSelectedDistrict(selectedDistrict);
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          district: selectedDistrict
+                            ? selectedDistrict.name
+                            : "",
+                          ward: "",
+                        }));
+                      }}
+                      value={
+                        customerInfo.district
+                          ? districts.find(
+                              (d) => d.name === customerInfo.district
+                            )?.code
+                          : ""
                       }
-                      value={selectedDistrict ? selectedDistrict.code : ""}
                     >
                       <option value="">Chọn quận huyện</option>
                       {districts.map((district) => (
@@ -161,12 +185,22 @@ const Payment = () => {
                     <select
                       id="ward"
                       className="form-control"
-                      onChange={(e) =>
-                        setSelectedWard(
-                          wards.find((w) => w.code === Number(e.target.value))
-                        )
+                      onChange={(e) => {
+                        const selectedWard = wards.find(
+                          (w) => w.code === Number(e.target.value)
+                        );
+                        setSelectedDistrict(selectedDistrict);
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          ward: selectedWard ? selectedWard.name : "",
+                        }));
+                      }}
+                      value={
+                        customerInfo.ward
+                          ? wards.find((w) => w.code === customerInfo.ward)
+                              ?.code
+                          : ""
                       }
-                      value={selectedWard ? selectedWard.code : ""}
                     >
                       <option value="">Chọn phường xã</option>
                       {wards.map((ward) => (
@@ -186,8 +220,17 @@ const Payment = () => {
                     id="street"
                     type="text"
                     className="input-style rounded"
+                    value={customerInfo.street}
+                    onChange={handleInputChange}
                   />
                 </div>
+                <span
+                  onClick={() => {
+                    console.log(customerInfo);
+                  }}
+                >
+                  In thông tin
+                </span>
               </form>
             </div>
           </div>
@@ -286,7 +329,7 @@ const Payment = () => {
                     </span>
                   </div>
                 </div>
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between align-items-center">
                   <span style={{ width: "60%" }}>
                     <input
                       style={{ height: 50, width: "100%" }}
@@ -297,7 +340,7 @@ const Payment = () => {
                   </span>
                   <span
                     style={{ height: 50 }}
-                    className="px-4 py-2 d-flex algin-items-center border border-secondary rounded text-light bg-primary fw-semibold "
+                    className="px-4 py-2 d-flex algin-items-center  border border-secondary rounded text-light bg-primary fw-semibold "
                   >
                     Áp dụng mã
                   </span>

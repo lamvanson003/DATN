@@ -84,7 +84,7 @@ const Filter = () => {
           key={filter.title} // Sử dụng filter.title làm key vì nó duy nhất
           style={{ boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.2)" }}
         >
-          <h5>
+          <h5 style={{ borderBottom: "1px solid gray", paddingBottom: 10 }}>
             <strong>{filter.title}</strong>
           </h5>
           {filter.options.map((option, optionIndex) => (

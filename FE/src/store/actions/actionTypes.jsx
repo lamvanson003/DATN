@@ -1,5 +1,5 @@
 export const actionTypes = {
   LOADING: "LOADING",
-  PRODUCT: "PRODUCT",
+  PRODUCTS: "PRODUCTS",
   //App
 };
