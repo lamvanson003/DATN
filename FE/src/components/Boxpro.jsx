@@ -6,7 +6,7 @@ import { CartContext } from "../context/Cart";
 import { memo } from "react";
 import { FavorContext } from "../context/Favor";
 import icons from "../ultis/icon";
-const BoxPro = ({ pro, watched }) => {
+const BoxPro = ({ pro, watched, hot }) => {
   const { IoIosStar, IoIosStarHalf, IoIosStarOutline } = icons;
   const { cartItems, addToCart, buyNow } = useContext(CartContext);
   const { favorItems, addToFavor } = useContext(FavorContext);
@@ -22,9 +22,18 @@ const BoxPro = ({ pro, watched }) => {
 
     return (
       <span className="text-warning">
-        {Array(fullStars).fill(<IoIosStar />)} {/* Sao đầy */}
-        {hasHalfStar && <IoIosStarHalf />} {/* Sao nửa nếu có */}
-        {Array(emptyStars).fill(<IoIosStarOutline />)} {/* Sao trống */}
+        {Array(fullStars)
+          .fill(null)
+          .map((_, index) => (
+            <IoIosStar key={`full-${index}`} /> // Sao đầy với key unique
+          ))}
+        {hasHalfStar && <IoIosStarHalf key="half" />}
+        {/* Sao nửa với key unique */}
+        {Array(emptyStars)
+          .fill(null)
+          .map((_, index) => (
+            <IoIosStarOutline key={`empty-${index}`} /> // Sao trống với key unique
+          ))}
       </span>
     );
   };
@@ -42,8 +51,7 @@ const BoxPro = ({ pro, watched }) => {
           />
         </Link>
       </div>
-      <div className="card-body">
-        <p className="card-text">Điện thoại</p>
+      <div className="card-body mt-3">
         <Link to={`/detail/${pro?.id}`} style={{ textDecoration: "none" }}>
           <h5 className="card-title text-center" style={{ cursor: "pointer" }}>
             {pro?.name ? pro?.name : "Not found"}
@@ -75,38 +83,44 @@ const BoxPro = ({ pro, watched }) => {
 
             {renderStars(3)}
           </div>
-          <div className="d-flex justify-content-between align-items-center">
+          {!hot && (
+            <div className="d-flex justify-content-between align-items-center mt-2">
+              <button
+                className="icon-btn"
+                onClick={() => {
+                  addToCart(pro);
+                }}
+              >
+                <i className="fas fa-shopping-cart fw-semibold" />
+                <span className="fw-bold text-danger ms-1">
+                  {cartItemQuantity ? `(${cartItemQuantity})` : ""}
+                </span>
+              </button>
+              <button className="icon-btn">
+                <i className="fas fa-exchange-alt" />
+              </button>
+              <button
+                className="icon-btn"
+                onClick={() => {
+                  addToFavor(pro);
+                }}
+              >
+                <i
+                  className={`fas fa-heart ${inFavorItems && "text-danger"}`}
+                />
+              </button>
+            </div>
+          )}
+          {!hot && (
             <button
-              className="icon-btn"
+              className="btn btn-buy mt-3"
               onClick={() => {
-                addToCart(pro);
+                buyNow(pro);
               }}
             >
-              <i className="fas fa-shopping-cart fw-semibold" />
-              <span className="fw-bold text-danger ms-1">
-                {cartItemQuantity ? `(${cartItemQuantity})` : ""}
-              </span>
+              Mua ngay
             </button>
-            <button className="icon-btn">
-              <i className="fas fa-exchange-alt" />
-            </button>
-            <button
-              className="icon-btn"
-              onClick={() => {
-                addToFavor(pro);
-              }}
-            >
-              <i className={`fas fa-heart ${inFavorItems && "text-danger"}`} />
-            </button>
-          </div>
-          <button
-            className="btn btn-buy mt-3"
-            onClick={() => {
-              buyNow(pro);
-            }}
-          >
-            Mua ngay
-          </button>
+          )}
         </div>
       </div>
     </div>
