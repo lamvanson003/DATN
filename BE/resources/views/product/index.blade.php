@@ -67,18 +67,22 @@
                       <td><a href="{{ route('admin.product.edit', $item->id) }}">{{ $item->name }}</a></td> 
                       <td>
                         <div class="d-flex" style="flex-direction: column ; align-items: flex-start">
-                          <ul class="product_variant">
+                          <div class="product_variant">
                             @foreach ($item->product_variant as $variant)
-                                <li>{{ $variant->storage }}</li>
+                                <div>
+                                <span href="{{ route('admin.product.item.edit',$variant->id) }}">
+                                  <strong>{{ $variant->storage }}</strong>
+                                </span>
+                                </div>
                             @endforeach
-                          </ul>
-                          <div class="d-flex justify-between gap-3">
-                            <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          </div>
+                          <div class="d-flex justify-between gap-3 text-dark">
+                            <a href="" dspanta-bs-toggle="modal" data-bs-target="#exampleModal" style="colo">
                               Thêm
-                            </a href="">
-                            <a href="{{ route('admin.product.product_item.index',$item->id) }}" data-bs-toggle="modalView" data-bs-target="#exampleModalView">
+                            </a >
+                            <a  href="{{ route('admin.product.product_item.index',$item->id) }}" data-bs-toggle="modalView" data-bs-target="#exampleModalView">
                               Xem
-                            </a href="">
+                            </a>
                           </div>
                         </div>
                       </td> 

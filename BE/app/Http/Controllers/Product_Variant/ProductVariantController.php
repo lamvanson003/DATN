@@ -24,7 +24,7 @@ class ProductVariantController extends Controller
 
     public function create($product_id)
     {  
-        $product = Product::with('variantColor.color')->findOrFail($product_id);
+        $product = Product::findOrFail($product_id);
         return view('product_variant.create',
         compact('product')
         );
