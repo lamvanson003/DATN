@@ -33,6 +33,19 @@ class ProductResource extends JsonResource
                     'storage' => $item->storage,
                     'sale' => $item->sale,
                     'price' => $item->price,
+                    'colors' => $item->variantColor->map(function($variantColor) {
+                        return [
+                            'id' => $variantColor->id,
+                            'color' => $variantColor->color->name,
+                        ];
+                    }),
+                ];
+            }),
+            'product_image_items' => $this->product_image_items->map(function($item){
+                return [
+                    'id' => $item->id,
+                    'name' => $item->name??'chưa có thông tin',
+                    'images' => $item->images??'chưa có thông tin',
                 ];
             }),
         ];
