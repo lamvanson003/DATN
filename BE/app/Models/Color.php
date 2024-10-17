@@ -12,7 +12,7 @@ class Color extends Model
     use HasFactory;
 
     protected $table = 'colors';
-    protected $fillable = ['images','name','status'];
+    protected $fillable = ['desc','color','status'];
     public $timestamps = false;
     
     protected $casts = [

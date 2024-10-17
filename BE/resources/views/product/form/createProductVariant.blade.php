@@ -41,24 +41,25 @@
         </div>
 
         
-            <!-- Color -->
-            <div class="col-md-12 col-sm-12">
-                <div id="color-select">
-                    <label for="color" class="form-label">Màu Sắc</label>
-                    <select class="form-select select2 form-control" name="color[]" id="colorSL" multiple style="width: 100% !important;">
-                        @foreach ($colors as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+        <!-- Color -->
+        <div class="col-md-12 col-sm-12">
+            <div id="color-select">
+                <label for="color" class="form-label">Màu Sắc Sẵn Có</label>
+                <select class="form-select select2 form-control" name="color[]" id="colorSL" multiple style="width: 100% !important;">
+                    @foreach ($colors as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
+                </select>
             </div>
+        </div>
 
-
-            <div class="col-md-12 col-sm-12 text-center mt-3">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <span class="badge rounded-pill badge-danger">Thêm màu sắc</span> 
-                </a>
+        <div class="col-md-12 col-sm-12 gap-2 d-flex mt-3">
+            <!-- memory -->
+            <div class="mb-3 col-6">
+                <label class="control-label">Thêm màu<span style="color: red">*</span>:</label>
+                <input type="text" required class="form-control" name="namecl" placeholder="Thêm màu mới">
             </div>
+        </div>
 
     </div>
 </div>
