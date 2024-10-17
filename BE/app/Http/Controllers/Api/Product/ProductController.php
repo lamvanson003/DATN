@@ -31,6 +31,9 @@ class ProductController extends controller{
                 'product_variant.variantColor.color' => function ($query){
                     $query->where('status', Status::Active);
                 },
+                'product_variant.comments' => function($query){
+                    $query->selectRaw('AVG(rating) as average_rating');
+                },
                 ])->where('status', ProductStatus::Active)->get();
 
             return response()->json([
@@ -60,9 +63,13 @@ class ProductController extends controller{
                 'product_image_items' => function ($query){
                     $query->where('status', Status::Active);
                 }, 
-                'product_variant.variant_color.color' => function ($query){
+                'product_variant.variantColor.color' => function ($query){
                     $query->where('status', Status::Active);
                 },
+                'product_variant.comments' => function($query){
+                    $query->selectRaw('AVG(rating) as average_rating');
+                },
+
                 ])
                 ->where('status', ProductStatus::Active)->findOrFail($id);
             return response()->json([
@@ -70,7 +77,6 @@ class ProductController extends controller{
                 'data' => new ProductDetailResource($product)
             ], 200);
         } catch (\Throwable $e) {
-            Log::info('mess',['mess'=> $e]);
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to fetch product details',

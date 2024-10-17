@@ -80,7 +80,7 @@
                                         <label for="gender" class="form-label">Giới tính:</label>
                                         <select name="gender" id="gender" class="form-control cursor-pointer">
                                             @foreach ($gender as $key => $value)
-                                                <option {{ $key == $admin->gender ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
+                                                <option {{ $key == $admin->gender->value ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
                                             @endforeach
                                         </select>
                                     </div>                                    

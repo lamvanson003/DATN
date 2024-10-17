@@ -74,9 +74,6 @@
                                 <button type="submit" class="btn btn-primary p-1-2" title="Sửa">
                                     Sửa
                                 </button>
-                                <button type="button" class="btn btn-danger p-1-2" title="Xóa" data-bs-toggle="modal" data-bs-target="#confirmDeleteProduct{{ $product->id }}">
-                                    Xóa
-                                </button>
                             </div>
                         </div>
             
@@ -132,27 +129,5 @@
     </div>
 </div>
 
-{{-- Modal xác nhận xóa --}}
-<div class="modal fade" id="confirmDeleteProduct{{ $product->id }}" tabindex="-1" aria-labelledby="confirmDeleteLabel{{ $product->id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="confirmDeleteLabel{{ $product->id }}">Thông báo</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Chuyển trạng thái sản phẩm thành Đã xóa?
-            </div>
-            <div class="modal-footer">
-                <form action="{{ route('admin.product.delete', $product->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE') 
-                    <button type="submit" class="btn btn-danger">Xóa</button>
-                </form>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 @endsection
