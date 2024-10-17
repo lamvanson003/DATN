@@ -46,7 +46,7 @@ class ColorController extends Controller
                 'name' => $request['name'],
                 'images' => $imagePath,
             ]);
-            return redirect()->route('admin.color.index')->with('success', 'Thêm thành công.');
+            return redirect()->back()->with('success', 'Thêm thành công.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
