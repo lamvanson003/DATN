@@ -18,6 +18,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    use HasFactory;
+    protected $table = 'users';
+
     protected $fillable = [
         'username',
         'fullname',
@@ -31,7 +34,7 @@ class User extends Authenticatable
         'avatar',
         'status'
     ];
-    
+
     public function hasRole($role)
     {
         return $this->roles === $role;
@@ -45,7 +48,7 @@ class User extends Authenticatable
         return $query->where('roles',UserRole::Admin)
                     ->orderBy('id','desc')->get();
     }
-    
+
     protected $casts = [
         'status' => UserStatus::class,
         'gender' => UserGender::class,
