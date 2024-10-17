@@ -103,24 +103,91 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Thêm màu sắc mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('admin.color.create') }}" method="POST">
+                    @csrf
+                    <!-- Tên màu sắc -->
+                    <div class="mb-3">
+                        <label class="form-label" for="colorName">Tên màu sắc <span class="text-danger">*</span>:</label>
+                        <input type="text" id="colorName" required class="form-control" name="name" placeholder="VD: Midnight (Đen)">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Thêm màu</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.dandev_insert_attach').click(function() {
+        if ($('.list_attach').hasClass('show-btn') === false) {
+            $('.list_attach').addClass('show-btn');
+        }
+        var _lastimg = jQuery('.dandev_attach_view li').last().find('input[type="file"]').val();
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('.image-container').addEventListener('click', function() {
-            document.getElementById('fileInput').click();
-        });
-
-        document.getElementById('fileInput').addEventListener('change', function(event) {
-            const imagePreview = document.getElementById('imagePreview');
-            const file = event.target.files[0];
-
-            if (file) {
-                imagePreview.src = URL.createObjectURL(file);
+        if (_lastimg != '') {
+            var d = new Date();
+            var _time = d.getTime();
+            var _html = '<li id="li_files_' + _time + '" class="li_file_hide">';
+            _html += '<div class="img-wrap">';
+            _html += '<span class="close" onclick="DelImg(this)">×</span>';
+            _html += ' <div class="img-wrap-box"></div>';
+            _html += '</div>';
+            _html += '<div class="' + _time + '">';
+            _html += '<input type="file" name="image_items[]" class="hidden"  onchange="uploadImg(this)" id="files_' + _time + '"   />';
+            _html += '</div>';
+            _html += '</li>';
+            jQuery('.dandev_attach_view').append(_html);
+            jQuery('.dandev_attach_view li').last().find('input[type="file"]').click();
+        } else {
+            if (_lastimg == '') {
+                jQuery('.dandev_attach_view li').last().find('input[type="file"]').click();
             } else {
-                imagePreview.src = "{{ asset('/images/default-image.png') }}";
+                if ($('.list_attach').hasClass('show-btn') === true) {
+                    $('.list_attach').removeClass('show-btn');
+                }
             }
-        });
+        }
     });
+
+    function uploadImg(el) {
+        var file_data = $(el).prop('files')[0];
+        var type = file_data.type;
+        var fileToLoad = file_data;
+
+        var fileReader = new FileReader();
+
+        fileReader.onload = function(fileLoadedEvent) {
+            var srcData = fileLoadedEvent.target.result;
+
+            var newImage = document.createElement('img');
+            newImage.src = srcData;
+            var _li = $(el).closest('li');
+            if (_li.hasClass('li_file_hide')) {
+                _li.removeClass('li_file_hide');
+            }
+            _li.find('.img-wrap-box').append(newImage.outerHTML);
+
+
+        }
+        fileReader.readAsDataURL(fileToLoad);
+
+    }
+
+    function DelImg(el) {
+        jQuery(el).closest('li').remove();
+
+    }
 </script>
 
 @endsection

@@ -1,8 +1,8 @@
-<div class="card">
+<div class="card mt-3">
     <div class="card-header">
         <h5 class="red">Thông tin Sản phẩm</h5>
     </div>
-    <div class="row card-body">
+    <div class="card-body">
         <!-- Name and Slug in the same row -->
         <div class="col-md-12 col-sm-12 d-flex mb-3">
             <div class="me-2 flex-grow-1">
@@ -12,6 +12,25 @@
             <div class="flex-grow-1">
                 <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
                 <input type="text" required class="form-control" name="slug" placeholder="VD: iphone-13-promax">
+            </div>
+        </div>
+       <!-- Category ID and Brand ID in the same row -->
+        <div class="col-md-12 col-sm-12 d-flex mb-3">
+            <div class="me-2 flex-grow-1">
+                <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
+                <select class="form-select" name="category_id" required>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="flex-grow-1">
+                <label class="control-label">Thương hiệu<span style="color: red">*</span>:</label>
+                <select class="form-select" name="brand_id" required>
+                    @foreach ($brands as $brand)
+                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
 
@@ -31,24 +50,28 @@
             </div>
         </div>
 
-        <!-- Category ID and Brand ID in the same row -->
-        <div class="col-md-12 col-sm-12 d-flex mb-3">
-            <div class="me-2 flex-grow-1">
-                <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
-                <select class="form-select" name="category_id" required>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="flex-grow-1">
-                <label class="control-label">Thương hiệu<span style="color: red">*</span>:</label>
-                <select class="form-select" name="brand_id" required>
-                    @foreach ($brands as $brand)
-                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                    @endforeach
-                </select>
+        <!-- Image-item -->
+        <div class="col-md-12 col-sm-12">
+            <div class="mb-3">
+                <label class="control-label">Hình ảnh chi tiết:</label>
+                <div class="wrap">
+                    <div class="dandev-reviews" >
+                        <div class="form_upload">
+                            <label class="dandev_insert_attach">
+                                <span  style=" background: url('{{ asset('images/camera.png') }}') no-repeat;">Đính kèm ảnh</span>
+                            </label>
+                        </div>
+                        <div class="list_attach">
+                            <ul class="dandev_attach_view">
+            
+                            </ul>
+                            <span class="dandev_insert_attach"><i class="dandev-plus">+</i></span>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </div>
+        
     </div>
 </div>

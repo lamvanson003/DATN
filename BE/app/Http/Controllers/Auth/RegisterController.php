@@ -29,6 +29,7 @@ class RegisterController extends Controller
                 'phone' => $data['phone'],
                 'roles' => UserRole::Admin,
                 'status' => UserStatus::Pendding,
+                'gender' => $data['gender'],
                 'password' => bcrypt($data['password']),
             ]);
         return redirect()->route('admin.index')->with('success', 'Đăng ký thành công. Vui lòng chờ Admin DUYỆT ');

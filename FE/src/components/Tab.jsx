@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import InfoPro from "./InfoPro";
 const Tab = ({ proData }) => {
   const [activeTab, setActiveTab] = useState("tab1");
 
@@ -10,7 +10,7 @@ const Tab = ({ proData }) => {
 
   return (
     <div>
-      <ul className="nav nav-pills ">
+      <ul className="nav nav-pills">
         <li className="nav-item">
           <a
             className={`nav-link ${activeTab === "tab1" ? "active" : ""}`}
@@ -31,13 +31,19 @@ const Tab = ({ proData }) => {
         </li>
       </ul>
 
-      <div className="tab-content mt-3">
+      <div className="tab-content mt-4">
         <div
           className={`tab-pane fade ${
             activeTab === "tab1" ? "show active" : ""
           }`}
         >
-          <h4>Content for Tab 1</h4>
+          <InfoPro />
+        </div>
+        <div
+          className={`tab-pane fade ${
+            activeTab === "tab2" ? "show active" : ""
+          }`}
+        >
           <div className="container">
             <h1 className="title_desc">Đặc Điểm Nổi Bật Của {proData?.name}</h1>
             <ul className="features-list">
@@ -89,22 +95,6 @@ const Tab = ({ proData }) => {
               </a>
             </div>
           </div>
-        </div>
-        <div
-          className={`tab-pane fade ${
-            activeTab === "tab2" ? "show active" : ""
-          }`}
-        >
-          <h4>Content for Tab 2</h4>
-          <p>This is the content of Tab 2.</p>
-        </div>
-        <div
-          className={`tab-pane fade ${
-            activeTab === "tab3" ? "show active" : ""
-          }`}
-        >
-          <h4>Content for Tab 3</h4>
-          <p>This is the content of Tab 3.</p>
         </div>
       </div>
     </div>

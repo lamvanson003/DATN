@@ -85,7 +85,6 @@ const Detail = () => {
       setLoadingComment(false);
     }
   };
-  console.log(comment);
 
   return (
     <>

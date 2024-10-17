@@ -305,6 +305,9 @@
 <script src="{{ asset('/admin/assets/js/kaiadmin.min.js') }}"></script>
 <!-- Kaiadmin DEMO methods, don't include it in your project! -->
 <script src="{{ asset("/admin/assets/js/setting-demo2.js") }}"></script>
+
+<!-- API tỉnh thành -->
+<script src="{{ asset("/admin/api/api.js") }}"></script>
    
 <!-- Thêm JS cho Select2 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>

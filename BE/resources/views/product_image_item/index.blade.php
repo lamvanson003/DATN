@@ -50,7 +50,7 @@
               <table id="add-row" class="display table table-hover fix_table">
                 <thead>
                   <tr>
-                    <th>Hình ảnh</th>
+                    <th></th>
                     <th>Tên sản phẩm</th>
                     <th>Vị trí</th>
                     <th>Trạng thái</th>
@@ -59,7 +59,7 @@
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Hình ảnh</th>
+                    <th></th>
                     <th>Tên sản phẩm</th>
                     <th>Vị trí</th>
                     <th>Trạng thái</th>
@@ -69,9 +69,10 @@
                 <tbody>
                   @foreach ($product_image_item as $item)
                     <tr>
-                      <td><a href="{{ route('admin.product.item.edit', $item->id) }}">{{ $item->name }}</a></td> 
-                      <td><span>{{ $item->posittion }}</span></td> 
                       <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt=""></td> 
+                      <td><a href="{{ route('admin.product.item.edit', $item->id) }}">{{ $item->name ?? 'N/A'}}</a></td> 
+                      <td><span>{{ $item->posittion ?? 'N/A' }}</span></td> 
+                     
                       <td>
                         @switch($item->status->value)
                           @case(\App\Enums\Status::Active)
