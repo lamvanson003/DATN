@@ -1,0 +1,9 @@
+.collapse-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out; /* Chỉnh thời gian và hiệu ứng */
+}
+
+.collapse-content.open {
+  max-height: 1500px; /* Đặt giá trị lớn để đảm bảo đủ cho nội dung */
+}

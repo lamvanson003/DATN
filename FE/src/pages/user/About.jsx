@@ -178,16 +178,8 @@ const About = () => {
 
       <div className="row g-5 mt-5">
         <div className="col-md-6 d-flex align-items-center">
-          <img
-            alt="Image description"
-            className="img-fluid rounded-start mb-3 w-50 h-50"
-            src={spro1}
-          />
-          <img
-            alt="Image description"
-            className="img-fluid rounded-start w-75 h-75"
-            src={spro2}
-          />
+          <img alt="Image description" className="w-50 h-50" src={spro1} />
+          <img alt="Image description" className="w-75 h-75" src={spro2} />
         </div>
         <div className="col-md-6">
           <h2>dịch vụ của chúng tôi</h2>
@@ -222,7 +214,7 @@ const About = () => {
               <img alt="" src={plane} />
             </span>
             <input
-              className="form-control"
+              className="form-control p-0 m-0"
               placeholder="Địa chỉ email của bạn"
               type="email"
             />

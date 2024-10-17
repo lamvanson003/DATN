@@ -1,22 +1,107 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, act } from "react";
 import { Outlet } from "react-router-dom";
 import "./css/Product.css";
 import { BoxPro } from "../../components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUpZA } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import * as action from "../../store/actions";
+import { Brand, Filter } from "../../components";
+import axios from "axios";
 const Product = () => {
+  const { isLoading } = useSelector((state) => state.app);
+  const dispatch = useDispatch();
   const [Pros, setPros] = useState([]);
+  const [phone, setPhone] = useState([]);
+  const [laptop, setLaptop] = useState([]);
+
+  const [active, setActive] = useState(0);
+  const [curPage, setCurPage] = useState(1);
+  const [itemsPerPage] = useState(8);
+  const indexOfLastItem = curPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(Pros.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+  const paginate = (pageNumber) => setCurPage(pageNumber);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("../../../public/data.json");
-      if (!res.ok) {
-        console.error("Lỗi");
-        return;
+      dispatch(action.loading(true)); // Bắt đầu loading
+
+      try {
+        const [resPhone, resLaptop] = await Promise.all([
+          fetch("/data.json"),
+          fetch("/datalaptop.json"),
+        ]);
+        dispatch(action.loading(false));
+
+        if (!resPhone.ok || !resLaptop.ok) {
+          throw new Error("Lỗi khi fetch dữ liệu");
+        }
+
+        const dataPhone = await resPhone.json();
+        const dataLaptop = await resLaptop.json();
+
+        setPhone(dataPhone);
+        setLaptop(dataLaptop);
+      } catch (error) {
+        console.error(error);
       }
-      const data = await res.json();
-      setPros(data);
-      console.log(data);
     };
+
     fetchData();
-  }, []);
+    dispatch(action.loading(false));
+  }, [dispatch]);
+
+  const [minPrice, setMinPrice] = useState(100);
+  const [maxPrice, setMaxPrice] = useState(2000);
+  const filteredPros = useMemo(() => {
+    return Pros.filter((pro) => pro.price > minPrice && pro.price < maxPrice);
+  }, [Pros, minPrice, maxPrice]);
+  const curItems = useMemo(() => {
+    return filteredPros.slice(indexOfFirstItem, indexOfLastItem);
+  }, [filteredPros, indexOfFirstItem, indexOfLastItem]);
+  useEffect(() => {
+    if (active === 0) {
+      setPros(phone);
+    } else {
+      setPros(laptop);
+    }
+  }, [active, phone, laptop]);
+  const handleRangeChange = (e) => {
+    setMaxPrice(e.target.value);
+  };
+  const [sortOrder, setSortOrder] = useState(1); // 1: tăng dần, 0: giảm dần
+  const [sortedItems, setSortedItems] = useState([]);
+
+  const handleSort = () => {
+    const sorted = [...curItems]; // Tạo một bản sao của curItems để tránh thay đổi trực tiếp
+    if (sortOrder) {
+      sorted.sort((a, b) => a.sale - b.sale); // Sắp xếp tăng dần
+    } else {
+      sorted.sort((a, b) => b.sale - a.sale); // Sắp xếp giảm dần
+    }
+    setSortedItems(sorted); // Cập nhật sortedItems
+  };
+
+  useEffect(() => {
+    handleSort(); // Gọi hàm sắp xếp mỗi khi sortOrder hoặc curItems thay đổi
+  }, [sortOrder, curItems]);
+  // useEffect(() => {
+  //   const fetchCate = async () => {
+  //     try {
+  //       const res = await axios.get(" http://localhost:8000/api/categories");
+  //       setCategory(res.data.data);
+  //     } catch (error) {
+  //       console.log("Error fetching data", error);
+  //     }
+  //   };
+  //   fetchCate();
+  // }, []);
+
   return (
     <div className="container mt-5">
       <section id="header">
@@ -43,40 +128,30 @@ const Product = () => {
               <h2>Thương hiệu</h2>
             </div>
             <div className="col-md-8">
-              <div className="brand-container">
-                <div className="dropdown">
-                  <button
-                    className="btn dropdown-toggle"
-                    type="button"
-                    id="dropdownBrand"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Chọn thương hiệu
-                  </button>
-                  <ul className="dropdown-menu" aria-labelledby="dropdownBrand">
-                    <li>
-                      <a className="dropdown-item" href="#!">
-                        Thương hiệu 1
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#!">
-                        Thương hiệu 2
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#!">
-                        Thương hiệu 3
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#!">
-                        Thương hiệu 4
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+              <div
+                className="d-flex align-items-center justify-content-end gap-4"
+                style={{ height: "100%" }}
+              >
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setSortOrder(1)}
+                >
+                  <FontAwesomeIcon
+                    icon={faArrowUpZA}
+                    size="xl"
+                    className={`increase ${sortOrder === 1 ? "fa-active" : ""}`}
+                  />
+                </span>
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setSortOrder(0)}
+                >
+                  <FontAwesomeIcon
+                    icon={faArrowDownAZ}
+                    size="xl"
+                    className={`decrease ${sortOrder === 0 ? "fa-active" : ""}`}
+                  />
+                </span>
               </div>
             </div>
           </div>
@@ -84,15 +159,25 @@ const Product = () => {
       </section>
       <section id="body-product mt-5">
         <div className="row">
-          <div className="col-md-3">
+          <div className="col-md-3 p-3">
             <div className="category">
               <h3>Danh mục</h3>
               <hr />
               <div className="category-name">
-                <button className="btn btn-primary" type="button">
+                <button
+                  className={`btn ${
+                    active === 0 ? "btn-primary" : "btn-secondary"
+                  }`}
+                  onClick={() => setActive(0)}
+                >
                   Điện thoại
                 </button>
-                <button className="btn btn-light" type="button">
+                <button
+                  className={`btn ${
+                    active === 1 ? "btn-primary" : "btn-secondary"
+                  }`}
+                  onClick={() => setActive(1)}
+                >
                   Laptop
                 </button>
               </div>
@@ -100,80 +185,28 @@ const Product = () => {
             <div className="range-prices">
               <h3>Lọc theo giá</h3>
               <hr />
-              <input className="form-range" id="customRange1" type="range" />
-              <label className="form-label" htmlFor="customRange1">
-                Từ:
-              </label>
-              <label className="form-label" htmlFor="customRange2">
-                Đến:
-              </label>
-              <div className="check-box">
-                <h5>
-                  <strong>Tình trạng hàng</strong>
-                </h5>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    defaultValue=""
-                    id="flexCheckDefault"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    Mới
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    defaultValue=""
-                    id="flexCheckDefault"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    Hàng cũ
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    defaultChecked
-                    defaultValue=""
-                    id="flexCheckChecked"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckChecked"
-                  >
-                    Sắp ra mắt
-                  </label>
-                </div>
-                <div className="filter-button">
-                  <button className="btn btn-primary" type="button">
-                    Lọc
-                  </button>
-                </div>
-              </div>
+              <input
+                className="form-range"
+                id="customRange1"
+                type="range"
+                value={maxPrice}
+                onChange={handleRangeChange}
+                min="100"
+                max="2000"
+              />
+              <span>
+                từ: {minPrice} đến: {maxPrice}
+              </span>
             </div>
+            <Filter />
           </div>
           <div className="col-md-9 p-3">
             <div className="row justify-content gap-3">
-              {Pros &&
-                Pros.map((item) => (
+              <Brand />
+              {sortedItems &&
+                sortedItems.map((item) => (
                   <div key={item.id} className="col-md-2-product">
-                    <BoxPro
-                      name={item.name + " " + item.sku}
-                      id={item.id}
-                      price={item.price}
-                      sale={item.sale}
-                      brand={item.brand}
-                    />
+                    <BoxPro pro={item} />
                   </div>
                 ))}
             </div>
@@ -191,21 +224,17 @@ const Product = () => {
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li className="page-item">
-                  <a className="page-link rounded-circle" href="#">
-                    1
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link rounded-circle" href="#">
-                    2
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link rounded-circle" href="#">
-                    3
-                  </a>
-                </li>
+                {pageNumbers.map((number) => (
+                  <li key={number} className="page-item">
+                    <a
+                      onClick={() => paginate(number)}
+                      href="#"
+                      className="page-link"
+                    >
+                      {number}
+                    </a>
+                  </li>
+                ))}
                 <li className="page-item">
                   <a className="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>

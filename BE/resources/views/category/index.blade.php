@@ -4,10 +4,10 @@
 <div class="container">
   <div class="page-inner">
     <div class="page-header">
-      <h3 class="fw-bold mb-3">DataTables.Net</h3>
+      <h3 class="fw-bold mb-3">CloudLab</h3>
       <ul class="breadcrumbs mb-3">
         <li class="nav-home">
-          <a href="#">
+          <a href="{{ route('admin.dashboard.index') }}">
             <i class="icon-home"></i>
           </a>
         </li>
@@ -15,13 +15,13 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Tables</a>
+          <a href="#">Category</a>
         </li>
         <li class="separator">
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Datatables</a>
+          <a href="#">DS danh mục</a>
         </li>
       </ul>
     </div>
@@ -30,404 +30,115 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Add Row</h4>
-              <button
-                class="btn btn-primary btn-round ms-auto"
-                data-bs-toggle="modal"
-                data-bs-target="#addRowModal"
-              >
-                <i class="fa fa-plus"></i>
-                Add Row
-              </button>
+              <h4 class="card-title">DS danh mục</h4>
+              <a href="{{ route('admin.category.create') }}" class="ms-auto">
+                <button  type="submit" class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#addRowModal" >
+                  <i class="fa fa-plus"></i>
+                  Thêm
+                </button>
+              </a>
             </div>
           </div>
           <div class="card-body">
             <!-- Modal -->
-            <div
-              class="modal fade"
-              id="addRowModal"
-              tabindex="-1"
-              role="dialog"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header border-0">
-                    <h5 class="modal-title">
-                      <span class="fw-mediumbold"> New</span>
-                      <span class="fw-light"> Row </span>
-                    </h5>
-                    <button
-                      type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <p class="small">
-                      Create a new row using this form, make sure you
-                      fill them all
-                    </p>
-                    <form>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <div class="form-group form-group-default">
-                            <label>Name</label>
-                            <input
-                              id="addName"
-                              type="text"
-                              class="form-control"
-                              placeholder="fill name"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-6 pe-0">
-                          <div class="form-group form-group-default">
-                            <label>Position</label>
-                            <input
-                              id="addPosition"
-                              type="text"
-                              class="form-control"
-                              placeholder="fill position"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group form-group-default">
-                            <label>Office</label>
-                            <input
-                              id="addOffice"
-                              type="text"
-                              class="form-control"
-                              placeholder="fill office"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="modal-footer border-0">
-                    <button
-                      type="button"
-                      id="addRowButton"
-                      class="btn btn-primary"
-                    >
-                      Add
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      data-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <div class="table-responsive">
-              <table
-                id="add-row"
-                class="display table table-striped table-hover"
-              >
+              <table id="add-row" class="display table table-hover fix_table text-center">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th style="width: 10%">Action</th>
+                    <th>Hình ảnh</th>
+                    <th>Tên danh mục</th>
+                    <th>Đường dẫn</th>
+                    <th>Mô tả</th>
+                    <th>Trạng thái</th>
+                    <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Action</th>
+                    <th>Hình ảnh</th>
+                    <th>Tên danh mục</th>
+                    <th>Đường dẫn</th>
+                    <th>Mô tả</th>
+                    <th>Trạng thái</th>
+                    <th style="width: 10%">Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
+                  @foreach ($category as $item)
                   <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
                     <td>
-                      <div class="form-button-action">
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-primary btn-lg"
-                          data-original-title="Edit Task"
-                        >
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-danger"
-                          data-original-title="Remove"
-                        >
-                          <i class="fa fa-times"></i>
-                        </button>
+                      <img class="text-center fix-image mx-auto" src="{{ asset($item->images) }}" alt="{{ $item->name }}">
+                    </td>
+                    <td>
+                      <a class="fix_size_text" href="{{ route('admin.category.edit',$item->id) }}">
+                        {{ $item->name }}
+                      </a>
+                    </td>
+                    <td>
+                        {{ $item->slug }}
+                    </td>
+                    <td>{{ $item->description }}</td>
+                    <td>
+                      @switch($item->status->value)
+                      @case(\App\Enums\Category\CategoryStatus::Active)
+                      <span class="badge rounded-pill badge-success">{{ $item->status->description }}</span>
+                      @break
+                      @case(\App\Enums\Category\CategoryStatus::Inactive)
+                      <span class="badge rounded-pill badge-warning">{{ $item->status->description }}</span>
+                      @break
+                      @case(\App\Enums\Category\CategoryStatus::Deleted)
+                      <span class="badge rounded-pill badge-danger">{{ $item->status->description }}</span>
+                      @break
+                      @default
+                      @endswitch
+                    </td>
+                    <td>
+                      <div class="form-button-action gap-2">
+                        <a href="{{ route('admin.category.edit',$item->id) }}">
+                          <button type="button" data-bs-toggle="tooltip" class="btn btn-info btn-icon" title="Chỉnh sửa">
+                            <i class="fa fa-pencil-alt"></i>
+                          </button>
+                        </a>
+                        
+                          <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="fa fa-trash-alt"></i>
+                          </button>
+
                       </div>
                     </td>
                   </tr>
-                  <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>
-                      <div class="form-button-action">
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-primary btn-lg"
-                          data-original-title="Edit Task"
-                        >
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-danger"
-                          data-original-title="Remove"
-                        >
-                          <i class="fa fa-times"></i>
-                        </button>
+
+                  <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              Chuyển trạng thái thành đã xóa
+                          </div>
+                          <div class="modal-footer">
+                            <form action="{{ route('admin.category.delete',$item->id) }}" method="POST">
+                              @csrf
+                              <input type="hidden" name="_method" value="DELETE">
+                              <button type="submit" class="btn btn-danger">Xóa</button>
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                          </div>
+                        </div>
                       </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
-                    <td>San Francisco</td>
-                    <td>
-                      <div class="form-button-action">
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-primary btn-lg"
-                          data-original-title="Edit Task"
-                        >
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-danger"
-                          data-original-title="Remove"
-                        >
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
-                    <td>Edinburgh</td>
-                    <td>
-                      <div class="form-button-action">
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-primary btn-lg"
-                          data-original-title="Edit Task"
-                        >
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-danger"
-                          data-original-title="Remove"
-                        >
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Airi Satou</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>
-                      <div class="form-button-action">
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-primary btn-lg"
-                          data-original-title="Edit Task"
-                        >
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-danger"
-                          data-original-title="Remove"
-                        >
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
-                    <td>New York</td>
-                    <td>
-                      <div class="form-button-action">
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-primary btn-lg"
-                          data-original-title="Edit Task"
-                        >
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-danger"
-                          data-original-title="Remove"
-                        >
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Herrod Chandler</td>
-                    <td>Sales Assistant</td>
-                    <td>San Francisco</td>
-                    <td>
-                      <div class="form-button-action">
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-primary btn-lg"
-                          data-original-title="Edit Task"
-                        >
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-danger"
-                          data-original-title="Remove"
-                        >
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Rhona Davidson</td>
-                    <td>Integration Specialist</td>
-                    <td>Tokyo</td>
-                    <td>
-                      <div class="form-button-action">
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-primary btn-lg"
-                          data-original-title="Edit Task"
-                        >
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-danger"
-                          data-original-title="Remove"
-                        >
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Colleen Hurst</td>
-                    <td>Javascript Developer</td>
-                    <td>San Francisco</td>
-                    <td>
-                      <div class="form-button-action">
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-primary btn-lg"
-                          data-original-title="Edit Task"
-                        >
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-danger"
-                          data-original-title="Remove"
-                        >
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Sonya Frost</td>
-                    <td>Software Engineer</td>
-                    <td>Edinburgh</td>
-                    <td>
-                      <div class="form-button-action">
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-primary btn-lg"
-                          data-original-title="Edit Task"
-                        >
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button
-                          type="button"
-                          data-bs-toggle="tooltip"
-                          title=""
-                          class="btn btn-link btn-danger"
-                          data-original-title="Remove"
-                        >
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                    </div>
+                  @endforeach
                 </tbody>
               </table>
-            </div>
+            </div>            
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 @endsection

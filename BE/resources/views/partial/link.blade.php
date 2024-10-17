@@ -20,9 +20,15 @@
 
 <!-- CSS Files -->
 <link rel="stylesheet" href="{{ asset('/admin/assets/css/bootstrap.min.css') }}" />
-<link rel="stylesheet" href="{{ asset('/admin/assets/css/plugins.min.css') }}" />
+
 <link rel="stylesheet" href="{{ asset('/admin/assets/css/kaiadmin.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('/admin/assets/css/plugins.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('/admin/assets/css/admin.css') }}" />
 
 <!-- CSS Just for demo purpose, don't include it in your project -->
 <link rel="stylesheet" href="{{ asset('/admin/assets/css/demo.css') }}" />
+
+ <!-- Thêm CSS cho Select2 -->
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+ <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>

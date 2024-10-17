@@ -1,15 +1,19 @@
 import React from "react";
 import login from "../../assets/images/log.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./css/Login.css";
 const Login = () => {
+  const navigate = useNavigate();
+  const navigateSignup = () => {
+    navigate("/signup");
+  };
   return (
     <div className="container">
       <section className="vh-100">
         <div className="container py-5 h-100">
           <div className="row d-flex align-items-center justify-content-center h-100">
             <div className="col-md-8 col-lg-7 col-xl-6">
-              <img alt="Phone image" className="img-fluid" src={login} />
+              <img alt="Phone image" style={{ width: "100%" }} src={login} />
             </div>
             <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
               <h3 className="fw-bold text-center text-primary my-4 custom-title">
@@ -46,7 +50,7 @@ const Login = () => {
                     }}
                   />
                 </div>
-                <div className="d-flex justify-content-around align-items-center mb-4">
+                <div className="d-flex justify-content-between align-items-center mb-4">
                   <div className="form-check">
                     <label
                       className="form-check-label "
@@ -62,9 +66,10 @@ const Login = () => {
                       type="checkbox"
                     />
                   </div>
-                  <a href="#!" style={{ textDecoration: "none" }}>
-                    Quên mật khẩu ?
-                  </a>
+                  <span>Quên mật khẩu ?</span>
+                  <span onClick={navigateSignup} style={{ cursor: "pointer" }}>
+                    Chưa có tài khoản ?
+                  </span>
                 </div>
                 <button
                   className="btn btn-primary btn-lg btn-block"

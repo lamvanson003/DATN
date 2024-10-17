@@ -7,3 +7,7 @@ export { default as Sbanner } from "./Sbanner";
 export { default as Countdown } from "./Countdown";
 export { default as Commercial } from "./Commercial";
 export { default as News } from "./News";
+export { default as Loading } from "./Loading";
+export { default as Tab } from "./Tab";
+export { default as Filter } from "./Filter";
+export { default as InfoPro } from "./InfoPro";

@@ -235,33 +235,61 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-      var successNotification = document.querySelector('.alert-success');
-      var errorNotification = document.querySelector('.alert-danger');
+    var successNotification = document.querySelector('.alert-success');
+    var errorNotification = document.querySelector('.alert-danger');
 
-      if (successNotification) {
-          showToast(successNotification, '.jq-toast-loader', 2600); 
-      }
+    if (successNotification) {
+        showToast(successNotification, '.jq-toast-loader', 2600); 
+    }
 
-      if (errorNotification) {
-          showToast(errorNotification, '.jq-toast-loader', 2600); 
-  }});
+    if (errorNotification) {
+        showToast(errorNotification, '.jq-toast-loader', 2600); 
+    }
+  });
 
   function showToast(notification, loaderSelector, duration) {
-      const loader = notification.querySelector(loaderSelector);
-      notification.style.display = 'block';
-  
-      
-      loader.style.width = '0%';
-      setTimeout(() => {
-          loader.style.width = '100%';
-      }, 10); 
-        
-      setTimeout(() => {
-          notification.style.display = 'none'; 
-      }, duration); 
-  }
-</script>  
+    const loader = notification.querySelector(loaderSelector);
 
+    if (loader) { // Kiểm tra nếu loader tồn tại
+        notification.style.display = 'block';
+        loader.style.width = '0%';
+        
+        setTimeout(() => {
+            loader.style.width = '100%';
+        }, 10); 
+        
+        setTimeout(() => {
+            notification.style.display = 'none'; 
+        }, duration); 
+    } else {
+        console.warn('Loader element not found for selector: ', loaderSelector);
+    }
+  }
+</script>
+
+<!--   Show Image   -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      function loadFile(event) {
+          const imagePreview = document.getElementById('imagePreview');
+          const file = event.target.files[0];
+          
+          if (file) {
+              imagePreview.src = URL.createObjectURL(file);
+              document.getElementById('imageUrl').value = 'path/to/uploaded/image.jpg';                                    
+          } else {
+              imagePreview.src = "asset('/images/default-image.png')";
+              document.getElementById('imageUrl').value = " ";                                    
+          }
+      }
+
+      document.querySelector('.image-container').addEventListener('click', function() {
+          document.getElementById('fileInput').click();
+      });
+
+      document.getElementById('fileInput').addEventListener('change', loadFile);
+  });
+</script>  
 
 
 <!--   Core JS Files   -->
@@ -277,6 +305,22 @@
 <script src="{{ asset('/admin/assets/js/kaiadmin.min.js') }}"></script>
 <!-- Kaiadmin DEMO methods, don't include it in your project! -->
 <script src="{{ asset("/admin/assets/js/setting-demo2.js") }}"></script>
+
+<!-- API tỉnh thành -->
+<script src="{{ asset("/admin/api/api.js") }}"></script>
+   
+<!-- Thêm JS cho Select2 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Khởi tạo Select2 cho dropdown màu sắc
+        $('#colorSL').select2({
+            placeholder: "Vui lòng chọn màu", // Placeholder cho dropdown
+            allowClear: true // Cho phép xóa lựa chọn
+        });
+    });
+</script>
+
 <script>
   $(document).ready(function () {
     $("#basic-datatables").DataTable({});
@@ -334,5 +378,6 @@
     });
   });
 </script>
+
 </body>
 </html>

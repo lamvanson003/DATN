@@ -1,11 +1,67 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import icons from "../../ultis/icon";
 import MyImage from "../../assets/images/image.png";
 import LogoVisa from "../../assets/images/logovisa.png";
 import logomastercard from "../../assets/images/logomastercard.png";
 import logovcb from "../../assets/images/logovcb.png";
+import { CartContext } from "../../context/Cart";
+import axios from "axios";
+import "./css/Payment.css";
 const Payment = () => {
   const { IoIosArrowDropdown, RiBankCardFill, PiHandPalm } = icons;
+  const { cartItems, getCartTotal, buyNowItem } = useContext(CartContext);
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [selectedWard, setSelectedWard] = useState(null);
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      const res = await axios.get("https://provinces.open-api.vn/api/p/");
+      setProvinces(res.data);
+    };
+    fetchProvinces();
+  }, []);
+  useEffect(() => {
+    if (selectedProvince) {
+      const fetchDistricts = async () => {
+        const res = await axios.get(
+          `https://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`
+        );
+        setDistricts(res.data.districts);
+        setWards([]);
+      };
+      fetchDistricts();
+    }
+  }, [selectedProvince]);
+  useEffect(() => {
+    if (selectedDistrict) {
+      const fetchWards = async () => {
+        const res = await axios.get(
+          `https://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`
+        );
+        setWards(res.data.wards);
+      };
+
+      fetchWards();
+    }
+  }, [selectedDistrict]);
+  const [customerInfo, setCustomerInfo] = useState({
+    name: "",
+    phone: "",
+    province: "",
+    district: "",
+    ward: "",
+    street: "",
+  });
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setCustomerInfo((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
   return (
     <>
       <div style={{ paddingLeft: 90, marginTop: 50, marginBottom: 50 }}>
@@ -15,195 +71,167 @@ const Payment = () => {
         <div className="row" style={{ width: 1300 }}>
           <div className="col-md-6">
             <div className="d-flex flex-column">
-              <span className="my-2">
-                <label
-                  htmlFor="name"
-                  style={{
-                    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                  }}
-                  className="my-2"
-                >
-                  Họ tên:
-                </label>
-                <br />
-                <input
-                  id="phone"
-                  type="text"
-                  style={{
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                    border: "none", // Bỏ border
-                    outline: "none",
-
-                    height: 40,
-                    width: 520,
-                  }}
-                  className="rounded"
-                />
-              </span>
-
-              <span className="my-2">
-                <label
-                  htmlFor="phone"
-                  style={{
-                    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                  }}
-                  className="my-2"
-                >
-                  Số điện thoại:
-                </label>
-                <br />
-                <input
-                  id="phone"
-                  type="text"
-                  style={{
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                    border: "none", // Bỏ border
-                    outline: "none",
-
-                    height: 40,
-                    width: 520,
-                  }}
-                  className="rounded"
-                />
-              </span>
-              <span className="my-2">
-                <label
-                  htmlFor="province"
-                  style={{
-                    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                  }}
-                  className="my-2"
-                >
-                  Tỉnh, thành phố:
-                </label>
-                <div
-                  className="input-group rounded"
-                  style={{
-                    width: 520,
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                  }}
-                >
+              <form className="form-container">
+                <div>
+                  <label htmlFor="name" className="label-style">
+                    Họ tên:
+                  </label>
                   <input
+                    id="name"
                     type="text"
-                    className="form-control"
-                    placeholder="Enter data"
-                    style={{
-                      border: "none", // Bỏ border
-                      outline: "none",
-                    }}
+                    className="input-style rounded"
+                    value={customerInfo.name}
+                    onChange={handleInputChange}
                   />
-                  <button
-                    className="btn text-primary"
-                    type="button"
-                    style={{
-                      outline: "none", // Bỏ outline
-                      boxShadow: "none", // Bỏ box-shadow khi nhấn
-                    }}
-                  >
-                    <IoIosArrowDropdown size={24} />
-                  </button>
                 </div>
-              </span>
-              <span className="my-2">
-                <label
-                  htmlFor="district"
-                  style={{
-                    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                  }}
-                  className="my-2"
-                >
-                  Quận, huyện:
-                </label>
-                <div
-                  className="input-group rounded"
-                  style={{
-                    width: 520,
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                  }}
-                >
+
+                <div>
+                  <label htmlFor="phone" className="label-style">
+                    Số điện thoại:
+                  </label>
                   <input
+                    id="phone"
                     type="text"
-                    className="form-control"
-                    placeholder="Enter data"
-                    style={{
-                      border: "none", // Bỏ border
-                      outline: "none",
-                    }}
+                    className="input-style rounded"
+                    value={customerInfo.phone}
+                    onChange={handleInputChange}
                   />
-                  <button
-                    className="btn text-primary"
-                    type="button"
-                    style={{
-                      outline: "none", // Bỏ outline
-                      boxShadow: "none", // Bỏ box-shadow khi nhấn
-                    }}
-                  >
-                    <IoIosArrowDropdown size={24} />
-                  </button>
                 </div>
-              </span>
-              <span className="my-2">
-                <label
-                  htmlFor="ward"
-                  style={{
-                    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                  }}
-                  className="my-2"
-                >
-                  Phường, xã:
-                </label>
-                <div
-                  className="input-group rounded"
-                  style={{
-                    width: 520,
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                  }}
-                >
+
+                <div>
+                  <label htmlFor="province" className="label-style">
+                    Tỉnh, thành phố:
+                  </label>
+                  <div className="input-group input-group-style">
+                    <select
+                      id="province"
+                      className="form-control"
+                      onChange={(e) => {
+                        const selectedProvince = provinces.find(
+                          (p) => p.code === Number(e.target.value)
+                        );
+                        setSelectedProvince(selectedProvince);
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          province: selectedProvince
+                            ? selectedProvince.name
+                            : "",
+                          district: "",
+                          ward: "",
+                        }));
+                      }}
+                      value={
+                        customerInfo.province
+                          ? provinces.find(
+                              (p) => p.name === customerInfo.province
+                            )?.code
+                          : ""
+                      }
+                    >
+                      <option value="">Chọn tỉnh thành phố</option>
+                      {provinces.map((province) => (
+                        <option key={province.code} value={province.code}>
+                          {province.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="district" className="label-style">
+                    Quận huyện:
+                  </label>
+                  <div className="input-group input-group-style">
+                    <select
+                      id="district"
+                      className="form-control"
+                      onChange={(e) => {
+                        const selectedDistrict = districts.find(
+                          (d) => d.code === Number(e.target.value)
+                        );
+                        setSelectedDistrict(selectedDistrict);
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          district: selectedDistrict
+                            ? selectedDistrict.name
+                            : "",
+                          ward: "",
+                        }));
+                      }}
+                      value={
+                        customerInfo.district
+                          ? districts.find(
+                              (d) => d.name === customerInfo.district
+                            )?.code
+                          : ""
+                      }
+                    >
+                      <option value="">Chọn quận huyện</option>
+                      {districts.map((district) => (
+                        <option key={district.code} value={district.code}>
+                          {district.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="ward" className="label-style">
+                    Phường xã:
+                  </label>
+                  <div className="input-group input-group-style">
+                    <select
+                      id="ward"
+                      className="form-control"
+                      onChange={(e) => {
+                        const selectedWard = wards.find(
+                          (w) => w.code === Number(e.target.value)
+                        );
+                        setSelectedDistrict(selectedDistrict);
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          ward: selectedWard ? selectedWard.name : "",
+                        }));
+                      }}
+                      value={
+                        customerInfo.ward
+                          ? wards.find((w) => w.code === customerInfo.ward)
+                              ?.code
+                          : ""
+                      }
+                    >
+                      <option value="">Chọn phường xã</option>
+                      {wards.map((ward) => (
+                        <option key={ward.code} value={ward.code}>
+                          {ward.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="street" className="label-style">
+                    Số nhà, tên đường:
+                  </label>
                   <input
+                    id="street"
                     type="text"
-                    className="form-control"
-                    placeholder="Enter data"
-                    style={{
-                      border: "none", // Bỏ border
-                      outline: "none",
-                    }}
+                    className="input-style rounded"
+                    value={customerInfo.street}
+                    onChange={handleInputChange}
                   />
-                  <button
-                    className="btn text-primary"
-                    type="button"
-                    style={{
-                      outline: "none", // Bỏ outline
-                      boxShadow: "none", // Bỏ box-shadow khi nhấn
-                    }}
-                  >
-                    <IoIosArrowDropdown size={24} />
-                  </button>
                 </div>
-              </span>
-              <span className="my-2">
-                <label
-                  htmlFor="street"
-                  style={{
-                    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                <span
+                  onClick={() => {
+                    console.log(customerInfo);
                   }}
-                  className="my-2"
                 >
-                  Số nhà, tên đường:
-                </label>
-                <br />
-                <input
-                  id="street"
-                  type="text"
-                  style={{
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                    border: "none", // Bỏ border
-                    outline: "none",
-                    height: 40,
-                    width: 520,
-                  }}
-                  className="rounded"
-                />
-              </span>
+                  In thông tin
+                </span>
+              </form>
             </div>
           </div>
           <div className="col-md-6">
@@ -219,103 +247,60 @@ const Payment = () => {
                 }}
               >
                 <div className="d-flex flex-column gap-3">
-                  <div className="d-flex align-items-center gap-3 my-3">
-                    <span style={{ width: "20%" }}>
-                      <img
-                        src={MyImage}
-                        alt="ảnh sản phẩm"
-                        style={{ height: 65 }}
-                      />
-                    </span>
-                    <span
-                      style={{ width: "60%" }}
-                      className="d-flex flex-column gap-2 fw-semibold"
+                  {cartItems.map((cartItem) => (
+                    <div
+                      key={cartItem.id}
+                      className="d-flex align-items-center gap-3 my-3"
                     >
-                      <span className="text-start">Iphone 16 promax</span>
-                      <span
-                        className="opacity-75 flex-wrap"
-                        style={{
-                          whiteSpace: "normal",
-                          wordBreak: "break-word",
-                        }}
-                      >
-                        Màu sắc: vàng, dung lượng: 512gb
-                      </span>
-                    </span>
-                    <span style={{ width: "20%" }} className="text-end">
-                      25.000.000đ
-                    </span>
-                  </div>
-                  <div className="d-flex align-items-center gap-3 my-3">
-                    <span style={{ width: "20%" }}>
-                      <img
-                        src={MyImage}
-                        alt="ảnh sản phẩm"
-                        style={{ height: 65 }}
-                      />
-                    </span>
-                    <span
-                      style={{ width: "60%" }}
-                      className="d-flex flex-column gap-2 "
-                    >
-                      <span className="text-start fw-semibold">
-                        Iphone 16 promax
+                      <span style={{ width: "20%" }}>
+                        <img
+                          src={MyImage}
+                          alt="ảnh sản phẩm"
+                          style={{ height: 65 }}
+                        />
                       </span>
                       <span
-                        className="opacity-75 flex-wrap"
-                        style={{
-                          whiteSpace: "normal",
-                          wordBreak: "break-word",
-                        }}
+                        style={{ width: "60%" }}
+                        className="d-flex flex-column gap-2 fw-semibold"
                       >
-                        Màu sắc: vàng, dung lượng: 512gb
+                        <span className="text-start">{cartItem.name}</span>
+                        <span
+                          className="opacity-75 flex-wrap"
+                          style={{
+                            whiteSpace: "normal",
+                            wordBreak: "break-word",
+                          }}
+                        >
+                          Màu sắc: vàng, dung lượng: 512gb
+                        </span>
                       </span>
-                    </span>
-                    <span style={{ width: "20%" }} className="text-end">
-                      25.000.000đ
-                    </span>
-                  </div>
-                  <div className="d-flex align-items-center gap-3 my-3">
-                    <span style={{ width: "20%" }}>
-                      <img
-                        src={MyImage}
-                        alt="ảnh sản phẩm"
-                        style={{ height: 65 }}
-                      />
-                    </span>
-                    <span
-                      style={{ width: "60%" }}
-                      className="d-flex flex-column gap-2 fw-semibold"
-                    >
-                      <span className="text-start">Iphone 16 promax</span>
-                      <span
-                        className="opacity-75 flex-wrap"
-                        style={{
-                          whiteSpace: "normal",
-                          wordBreak: "break-word",
-                        }}
-                      >
-                        Màu sắc: vàng, dung lượng: 512gb
+                      <span style={{ width: "10%" }} className="text-center">
+                        {cartItem.quantity}
                       </span>
-                    </span>
-                    <span style={{ width: "20%" }} className="text-end">
-                      25.000.000đ
-                    </span>
-                  </div>
+                      <span style={{ width: "10%" }} className="text-end">
+                        {cartItem.sale}
+                      </span>
+                    </div>
+                  ))}
                 </div>
 
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Giá: </span>
-                    <span>50.000.000đ</span>
+                    <span>${getCartTotal()}</span>
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Phí vận chuyển: </span>
-                    <span>100.000đ</span>
+                    <span>$2.99</span>
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Tổng: </span>
-                    <span>50.100.000đ</span>
+                    <span
+                      className="text-danger fw-bold"
+                      style={{ fontSize: 20 }}
+                    >
+                      ${getCartTotal() + 2.99}
+                    </span>
                   </div>
                   <div>
                     <span className="d-flex justify-content-between align-items-center">
@@ -344,7 +329,7 @@ const Payment = () => {
                     </span>
                   </div>
                 </div>
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between align-items-center">
                   <span style={{ width: "60%" }}>
                     <input
                       style={{ height: 50, width: "100%" }}
@@ -355,7 +340,7 @@ const Payment = () => {
                   </span>
                   <span
                     style={{ height: 50 }}
-                    className="px-4 py-2 d-flex algin-items-center border border-secondary rounded text-light bg-primary fw-semibold "
+                    className="px-4 py-2 d-flex algin-items-center  border border-secondary rounded text-light bg-primary fw-semibold "
                   >
                     Áp dụng mã
                   </span>

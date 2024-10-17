@@ -1,11 +1,20 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./css/Header.css";
 import path from "../ultis/path";
 import icons from "../ultis/icon";
 import { navMenu } from "../ultis/menu";
 import logoCloudLab from "../assets/images/logo.svg";
-const Header = () => {
+
+const Header = ({ cartItemAmout, favorItemAmount }) => {
+  const navigate = useNavigate();
+
+  const handleNaCart = () => {
+    navigate("/cart");
+  };
+  const handleNaFa = () => {
+    navigate("/favor");
+  };
   const {
     BsSearch,
     CiLocationOn,
@@ -65,7 +74,11 @@ const Header = () => {
               <span className="">Địa chỉ cửa hảng</span>
             </div>
             <div className="d-flex align-items-center gap-2">
-              <div className="d-flex gap-2">
+              <div
+                className="d-flex gap-2"
+                style={{ cursor: "pointer" }}
+                onClick={handleNaFa}
+              >
                 <div
                   className="position-relative"
                   style={{ display: "inline-block" }}
@@ -74,17 +87,21 @@ const Header = () => {
                   <span
                     className="position-absolute badge rounded-pill bg-primary"
                     style={{
-                      top: "-7px", // Tùy chỉnh khoảng cách từ trên xuống
-                      right: "-7px", // Tùy chỉnh khoảng cách từ bên phải
+                      top: "-7px",
+                      right: "-7px",
                     }}
                   >
-                    6
+                    {favorItemAmount}
                   </span>
                 </div>
-                <div>Yêu thích</div>
+                <span>Yêu thích</span>
               </div>
 
-              <div className="d-flex gap-2">
+              <div
+                className="d-flex gap-2"
+                style={{ cursor: "pointer" }}
+                onClick={handleNaCart}
+              >
                 <div
                   className="position-relative"
                   style={{ display: "inline-block" }}
@@ -97,10 +114,10 @@ const Header = () => {
                       right: "-7px", // Tùy chỉnh khoảng cách từ bên phải
                     }}
                   >
-                    6
+                    {cartItemAmout}
                   </span>
                 </div>
-                <div>Giỏ hàng</div>
+                <span>Giỏ hàng</span>
               </div>
               <div className="d-flex gap-2">
                 <span className="d-flex align-items-center gap-1">

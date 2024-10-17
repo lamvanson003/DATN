@@ -176,7 +176,7 @@
 }
 .brand-container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 15px;
   flex-wrap: wrap;
 }
@@ -191,6 +191,7 @@
 
 .dropdown-toggle:hover {
   background-color: #0056b3;
+  color: white;
 }
 
 .dropdown-menu {
@@ -209,4 +210,13 @@
 .dropdown-item:hover {
   background-color: #f0f0f0;
   color: #0056b3;
+}
+.increase:hover {
+  color: #007bff;
+}
+.decrease:hover {
+  color: #007bff;
+}
+.fa-active {
+  color: #007bff;
 }
