@@ -36,79 +36,28 @@
                     <div class="col-12 col-md-9">
                         <div class="card">
                             <div class="card-header justify-content-center">
-                                <h3 class="mb-0 strong text-center">Thông tin sản phẩm</h3>
+                                <h3 class="mb-0 strong text-center">Thông tin sản phẩm và Thông tin Biến thể</h3>
                             </div>
-                            <div class="row card-body">
-                                <!-- Name and Slug in the same row -->
-                                <div class="col-md-12 col-sm-12 d-flex mb-3">
-                                    <div class="me-2 flex-grow-1">
-                                        <label class="control-label">Tên sản phẩm<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" placeholder="VD: Iphone 13 Pro Max">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="slug" placeholder="VD: iphone-13-promax">
-                                    </div>
-                                </div>
+                            <div class="card-body"> 
+                                <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                                            Thông tin sản phẩm
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                                            Thông tin biến thể
+                                        </button>
+                                    </li>
+                                </ul>
 
-                                <!-- Short Description -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Mô tả ngắn:</label>
-                                        <input type="text" class="form-control" name="short_desc" placeholder="Mô tả ngắn về sản phẩm">
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                                        @include('product.form.createProduct')
                                     </div>
-                                </div>
-
-                                <!-- Description -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Mô tả chi tiết:</label>
-                                        <textarea class="form-control" name="description" rows="4" placeholder="Mô tả chi tiết về sản phẩm"></textarea>
-                                    </div>
-                                </div>
-                                
-                                @if ((isset($colors)))
-                                    <!-- Color -->
-                                    <div class="col-md-12 col-sm-12">
-                                        <div id="color-select">
-                                            <div class="mb-3">
-                                                <label for="color" class="form-label">Chọn Màu Sắc</label>
-                                                <select class="form-select select2" name="color[]" id="colorSL" multiple>
-
-                                                    @foreach ($colors as $item)
-                                                        <option value="{{ $item->id }}">{{$item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div> 
-                                    </div>
-                                @else
-                                    <div class="col-md-12 col-sm-12 mb-3">
-                                        <a href="{{ route('admin.color.create') }}" class="red">
-                                            <span class="badge text-bg-danger">Thêm màu sắc</span>
-                                        </a>
-                                    </div>
-                                @endif
-
-
-
-                                <!-- Category ID and Brand ID in the same row -->
-                                <div class="col-md-12 col-sm-12 d-flex mb-3">
-                                    <div class="me-2 flex-grow-1">
-                                        <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
-                                        <select class="form-select" name="category_id" required>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <label class="control-label">Thương hiệu<span style="color: red">*</span>:</label>
-                                        <select class="form-select" name="brand_id" required>
-                                            @foreach ($brands as $brand)
-                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                                        @include('product.form.createProductVariant')
                                     </div>
                                 </div>
                             </div>
@@ -154,24 +103,91 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Thêm màu sắc mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('admin.color.create') }}" method="POST">
+                    @csrf
+                    <!-- Tên màu sắc -->
+                    <div class="mb-3">
+                        <label class="form-label" for="colorName">Tên màu sắc <span class="text-danger">*</span>:</label>
+                        <input type="text" id="colorName" required class="form-control" name="name" placeholder="VD: Midnight (Đen)">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Thêm màu</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.dandev_insert_attach').click(function() {
+        if ($('.list_attach').hasClass('show-btn') === false) {
+            $('.list_attach').addClass('show-btn');
+        }
+        var _lastimg = jQuery('.dandev_attach_view li').last().find('input[type="file"]').val();
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('.image-container').addEventListener('click', function() {
-            document.getElementById('fileInput').click();
-        });
-
-        document.getElementById('fileInput').addEventListener('change', function(event) {
-            const imagePreview = document.getElementById('imagePreview');
-            const file = event.target.files[0];
-
-            if (file) {
-                imagePreview.src = URL.createObjectURL(file);
+        if (_lastimg != '') {
+            var d = new Date();
+            var _time = d.getTime();
+            var _html = '<li id="li_files_' + _time + '" class="li_file_hide">';
+            _html += '<div class="img-wrap">';
+            _html += '<span class="close" onclick="DelImg(this)">×</span>';
+            _html += ' <div class="img-wrap-box"></div>';
+            _html += '</div>';
+            _html += '<div class="' + _time + '">';
+            _html += '<input type="file" name="image_items[]" class="hidden"  onchange="uploadImg(this)" id="files_' + _time + '"   />';
+            _html += '</div>';
+            _html += '</li>';
+            jQuery('.dandev_attach_view').append(_html);
+            jQuery('.dandev_attach_view li').last().find('input[type="file"]').click();
+        } else {
+            if (_lastimg == '') {
+                jQuery('.dandev_attach_view li').last().find('input[type="file"]').click();
             } else {
-                imagePreview.src = "{{ asset('/images/default-image.png') }}";
+                if ($('.list_attach').hasClass('show-btn') === true) {
+                    $('.list_attach').removeClass('show-btn');
+                }
             }
-        });
+        }
     });
+
+    function uploadImg(el) {
+        var file_data = $(el).prop('files')[0];
+        var type = file_data.type;
+        var fileToLoad = file_data;
+
+        var fileReader = new FileReader();
+
+        fileReader.onload = function(fileLoadedEvent) {
+            var srcData = fileLoadedEvent.target.result;
+
+            var newImage = document.createElement('img');
+            newImage.src = srcData;
+            var _li = $(el).closest('li');
+            if (_li.hasClass('li_file_hide')) {
+                _li.removeClass('li_file_hide');
+            }
+            _li.find('.img-wrap-box').append(newImage.outerHTML);
+
+
+        }
+        fileReader.readAsDataURL(fileToLoad);
+
+    }
+
+    function DelImg(el) {
+        jQuery(el).closest('li').remove();
+
+    }
 </script>
 
 @endsection

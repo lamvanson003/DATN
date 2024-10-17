@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, act } from "react";
 import { Outlet } from "react-router-dom";
 import "./css/Product.css";
 import { BoxPro } from "../../components";
@@ -7,9 +7,10 @@ import { faArrowUpZA } from "@fortawesome/free-solid-svg-icons";
 import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import * as action from "../../store/actions";
+import { Brand, Filter } from "../../components";
 import axios from "axios";
 const Product = () => {
-  const { loading } = useSelector((state) => state.app);
+  const { isLoading } = useSelector((state) => state.app);
   const dispatch = useDispatch();
   const [Pros, setPros] = useState([]);
   const [phone, setPhone] = useState([]);
@@ -28,12 +29,14 @@ const Product = () => {
   const paginate = (pageNumber) => setCurPage(pageNumber);
   useEffect(() => {
     const fetchData = async () => {
-      // dispatch(action.loading(true)); // Bắt đầu loading
+      dispatch(action.loading(true)); // Bắt đầu loading
+
       try {
         const [resPhone, resLaptop] = await Promise.all([
           fetch("/data.json"),
           fetch("/datalaptop.json"),
         ]);
+        dispatch(action.loading(false));
 
         if (!resPhone.ok || !resLaptop.ok) {
           throw new Error("Lỗi khi fetch dữ liệu");
@@ -50,6 +53,7 @@ const Product = () => {
     };
 
     fetchData();
+    dispatch(action.loading(false));
   }, [dispatch]);
 
   const [minPrice, setMinPrice] = useState(100);
@@ -155,7 +159,7 @@ const Product = () => {
       </section>
       <section id="body-product mt-5">
         <div className="row">
-          <div className="col-md-3">
+          <div className="col-md-3 p-3">
             <div className="category">
               <h3>Danh mục</h3>
               <hr />
@@ -178,36 +182,6 @@ const Product = () => {
                 </button>
               </div>
             </div>
-            <div className="brand-container my-3">
-              <div className="dropdown">
-                <button
-                  className="btn dropdown-toggle"
-                  type="button"
-                  id="dropdownBrand"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Chọn thương hiệu
-                </button>
-                <ul className="dropdown-menu" aria-labelledby="dropdownBrand">
-                  <li>
-                    <a className="dropdown-item" href="#!">
-                      Thương hiệu 1
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#!">
-                      Thương hiệu 2
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#!">
-                      Thương hiệu 3
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
             <div className="range-prices">
               <h3>Lọc theo giá</h3>
               <hr />
@@ -223,63 +197,12 @@ const Product = () => {
               <span>
                 từ: {minPrice} đến: {maxPrice}
               </span>
-              <div className="check-box">
-                <h5>
-                  <strong>Tình trạng hàng</strong>
-                </h5>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    defaultValue=""
-                    id="flexCheckDefault"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    Mới
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    defaultValue=""
-                    id="flexCheckDefault"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    Hàng cũ
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    defaultChecked
-                    defaultValue=""
-                    id="flexCheckChecked"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckChecked"
-                  >
-                    Sắp ra mắt
-                  </label>
-                </div>
-                <div className="filter-button">
-                  <button className="btn btn-primary" type="button">
-                    Lọc
-                  </button>
-                </div>
-              </div>
             </div>
+            <Filter />
           </div>
           <div className="col-md-9 p-3">
             <div className="row justify-content gap-3">
+              <Brand />
               {sortedItems &&
                 sortedItems.map((item) => (
                   <div key={item.id} className="col-md-2-product">

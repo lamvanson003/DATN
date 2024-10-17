@@ -53,4 +53,9 @@ class User extends Authenticatable
         'status' => UserStatus::class,
         'gender' => UserGender::class,
     ];
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

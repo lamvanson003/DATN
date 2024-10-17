@@ -6,7 +6,8 @@ import mainImg3 from "../../assets/images/k3.jpeg";
 import mainImg4 from "../../assets/images/k1.jpeg";
 import varImg1 from "../../assets/images/iphone1.jpg";
 import varImg2 from "../../assets/images/iphone2.jpg";
-import { getCommentByPid } from "../../apis/comment";
+import { commentApi } from "../../apis";
+import { Tab, BoxPro } from "../../components";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
 const Detail = () => {
@@ -15,6 +16,8 @@ const Detail = () => {
   const [cmts, setCmts] = useState([]);
   const ref = useRef();
   const [proDatas, setProDatas] = useState([]);
+  const [comment, setComment] = useState("");
+  const [loadingComment, setLoadingComment] = useState(false);
   useEffect(() => {
     const fetchProData = async () => {
       try {
@@ -37,7 +40,7 @@ const Detail = () => {
   useEffect(() => {
     try {
       const fetchCmtpid = async () => {
-        const data = await getCommentByPid(+pid);
+        const data = await commentApi.getCommentByPid(+pid);
         setCmts(data);
       };
       fetchCmtpid();
@@ -68,6 +71,19 @@ const Detail = () => {
   const handleColorClick = (color) => {
     setActiveColor(color);
     console.log("Active Color:", color);
+  };
+
+  const handleSubmitComment = async (e) => {
+    e.preventDefault();
+    setLoadingComment(true);
+    try {
+      const data = await commentApi.postComment(1, pid, comment);
+      console.log("Bình luận đã được đăng !", data);
+    } catch (err) {
+      console.log("Lỗi", err);
+    } finally {
+      setLoadingComment(false);
+    }
   };
 
   return (
@@ -103,16 +119,22 @@ const Detail = () => {
           <div className="container">
             <div className="row ">
               <div className="single_pro_image col-lg-6 col-md-5">
-                <div className="d-flex flex-column align-items-center">
+                <div
+                  className="d-flex flex-column align-items-center p-3"
+                  style={{ boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.2)" }}
+                >
                   <div
                     style={{ width: "100%" }}
                     className="d-flex  justify-content-center"
                   >
                     <img src={mainImage} style={{ width: "60%" }} alt="" />
                   </div>
-                  <div className="row">
+                  <div className="d-flex align-items-center justify-content-center gap-1">
                     {imgList.map((item, index) => (
-                      <div key={index} className="col-sm-3 mt-3">
+                      <div
+                        key={index}
+                        className=" mt-3 d-flex align-items-center justify-content-center"
+                      >
                         <img
                           src={item}
                           style={{ width: "70%", cursor: "pointer" }}
@@ -124,7 +146,7 @@ const Detail = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-6 pt-3">
+              <div className="col-lg-6 col-md-7 pt-3">
                 <div className="product__details__text">
                   <div className="product-tag">
                     <div className="bestseller-tag">#Bán chạy</div>
@@ -234,72 +256,55 @@ const Detail = () => {
             </div>
           </div>
         </section>
-        <section className="mt-3" id="Description">
-          <div className="container">
-            <h1 className="title_desc">Đặc Điểm Nổi Bật Của {proData?.name}</h1>
-            <ul className="features-list">
-              <li>
-                Hiệu năng vượt trội - Chip Apple A15 Bionic mạnh mẽ, hỗ trợ mạng
-                5G tốc độ cao
-              </li>
-              <li>
-                Không gian hiển thị sống động - Màn hình 6.1’’ Super Retina XDR
-                độ sáng cao, sắc nét
-              </li>
-              <li>
-                Trải nghiệm điện ảnh đỉnh cao - Camera kép 12MP, hỗ trợ ổn định
-                hình ảnh quang học
-              </li>
-              <li>
-                Tối ưu điện năng - Sạc nhanh 20 W, đầy 50% pin trong khoảng 30
-                phút
-              </li>
-            </ul>
-            <div className="review-section">
-              <h2 className="review-title">
-                Đánh giá iPhone 13 - Flagship được mong chờ năm 2021
-              </h2>
-              <p>
-                Cuối năm 2020, bộ 4 iPhone 12 đã được ra mắt với nhiều cải tiến.
-                Sau đó, mọi sự quan tâm lại đổ dồn vào sản phẩm tiếp theo -
-                iPhone 13. Vậy iPhone 13 sẽ có những gì nổi bật, hãy tìm hiểu
-                ngay sau đây nhé!
-              </p>
-              <h3 className="review-subtitle">Thiết kế với nhiều đột phá</h3>
-              <p>
-                Về kích thước, iPhone 13 sẽ có 4 phiên bản khác nhau và kích
-                thước không đổi so với series iPhone 12 hiện tại. Nếu iPhone 12
-                có sự thay đổi trong thiết kế với cạnh viền bo tròn (Thiết kế
-                được duy trì từ thời iPhone 6 đến iPhone 11 Pro Max) sang thiết
-                kế vuông vắn (và lần đầu tiên trên iPhone 4 đến iPhone 5S, SE).
-              </p>
-              <p className="p_details">
-                Điện thoại iPhone 13 vẫn được duy trì tốt mặt thiết kế tuyệt
-                vời. Máy vẫn giữ phần khung viền thép, một số phiên bản khung
-                nhôm cùng mặt lưng kính. Tuy nhiên năm ngoái, Apple cũng sẽ cho
-                ra mắt 4 phiên bản là iPhone 13, 13 mini, 13 Pro và 13 Pro Max.
-              </p>
+        <section className=" container mt-5" id="Description">
+          <div className="row">
+            <div className="col-lg-8 col-md-8">
+              <Tab proData={proData} />
             </div>
-            <div className="see-more">
-              <a className="see-more-link" href="#">
-                Xem thêm
-              </a>
+            <div className="col-lg-4 col-md-4">
+              <div className="d-flex flex-column align-items-end">
+                <h3>Sản phẩm đã xem</h3>
+                <BoxPro watched={true} />
+              </div>
             </div>
           </div>
         </section>
-        <section id="Comments mt-3">
+        <section className="container mt-5">
+          <h3>Sản phẩm liên quan</h3>
+          <div className="d-flex justify-content-between">
+            <BoxPro />
+            <BoxPro />
+            <BoxPro />
+            <BoxPro />
+            <BoxPro />
+          </div>
+        </section>
+        <section id="Comments mt-5">
           <div className="container mt-5">
             <div>
               <span>Bạn cần đăng nhập để bình luận</span>
-              <textarea
-                placeholder="Hãy nêu suy nghĩ của bạn"
-                style={{
-                  width: "100%",
-                  height: 100,
-                  outline: "none",
-                  boxShadow: "none",
-                }}
-              />
+              <form action="" onSubmit={handleSubmitComment}>
+                <textarea
+                  placeholder="Hãy nêu suy nghĩ của bạn"
+                  style={{
+                    width: "100%",
+                    height: 100,
+                    outline: "none",
+                    boxShadow: "none",
+                  }}
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+                <span className="d-flex justify-content-end">
+                  <button
+                    className="btn btn-primary"
+                    disabled={loadingComment}
+                    type="submit"
+                  >
+                    {loadingComment ? "Đang gửi ..." : "Bình luận"}
+                  </button>
+                </span>
+              </form>
             </div>
             <div className="reviews">
               <h3>2 bình luận của {proData?.name}</h3>
@@ -312,14 +317,16 @@ const Detail = () => {
                       src={mainImg2}
                     />
                     <div>
-                      <h4>{cmt.username}</h4>
-                      <p>{cmt.createdAt}</p>
+                      <h4 className="m-0">{cmt.username} </h4>
+                      <div className="rating d-flex align-items-center">
+                        <span className="text-warning">★★★★☆</span>
+                      </div>
+                      <p className="text-secondary">
+                        {cmt.createdAt} | Phân loại hàng:
+                        {cmt?.product_variant_id}
+                      </p>
                       <p>{cmt.content}</p>
                     </div>
-                  </div>
-                  <div className="rating d-flex align-items-center gap-2">
-                    <span>{cmt.rating}</span>
-                    <span className="text-warning">★★★★☆</span>
                   </div>
                 </div>
               ))}

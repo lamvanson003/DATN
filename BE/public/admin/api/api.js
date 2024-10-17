@@ -112,5 +112,11 @@ function updateAddress() {
     document.getElementById('address').value = address;
 }
 
-// Gọi hàm fetch khi tải trang
-fetchTinhThanh();
+document.addEventListener('DOMContentLoaded', function() {
+    const tinhSelect = document.getElementById('tinhthanh');
+    if (tinhSelect) {
+        fetchTinhThanh();
+    } else {
+        console.log('Phần tử #tinhthanh không tồn tại trên trang này.');
+    }
+});

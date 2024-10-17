@@ -17,6 +17,12 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('admin.product.index') }}">Sản phẩm</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin.product.edit',$product->id) }}">{{ $product->name }}</a>
                 </li>
                 <li class="separator">
@@ -59,7 +65,7 @@
                                     <!-- price sale -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Giá khuyến mãi :</label>
-                                        <input type="number" required class="form-control" name="sale" placeholder="VND">
+                                        <input type="number" class="form-control" name="sale" placeholder="VND">
                                     </div>
                                 </div>
 

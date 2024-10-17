@@ -29,6 +29,7 @@ Route::controller(ProductController::class)->prefix('/products')
 });
 
 
+
 Route::controller(UsersLoginController::class)->prefix('/logins')
 ->as('login')
 ->group(function(){

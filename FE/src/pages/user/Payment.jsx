@@ -6,6 +6,7 @@ import logomastercard from "../../assets/images/logomastercard.png";
 import logovcb from "../../assets/images/logovcb.png";
 import { CartContext } from "../../context/Cart";
 import axios from "axios";
+import "./css/Payment.css";
 const Payment = () => {
   const { IoIosArrowDropdown, RiBankCardFill, PiHandPalm } = icons;
   const { cartItems, getCartTotal, buyNowItem } = useContext(CartContext);
@@ -42,10 +43,25 @@ const Payment = () => {
         );
         setWards(res.data.wards);
       };
+
       fetchWards();
     }
   }, [selectedDistrict]);
-
+  const [customerInfo, setCustomerInfo] = useState({
+    name: "",
+    phone: "",
+    province: "",
+    district: "",
+    ward: "",
+    street: "",
+  });
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setCustomerInfo((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
   return (
     <>
       <div style={{ paddingLeft: 90, marginTop: 50, marginBottom: 50 }}>
@@ -55,192 +71,167 @@ const Payment = () => {
         <div className="row" style={{ width: 1300 }}>
           <div className="col-md-6">
             <div className="d-flex flex-column">
-              <span className="my-2">
-                <label
-                  htmlFor="name"
-                  style={{
-                    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                  }}
-                  className="my-2"
-                >
-                  Họ tên:
-                </label>
-                <br />
-                <input
-                  id="phone"
-                  type="text"
-                  style={{
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                    border: "none",
-                    outline: "none",
-                    height: 40,
-                    width: 520,
-                  }}
-                  className="rounded"
-                />
-              </span>
-              <span className="my-2">
-                <label
-                  htmlFor="phone"
-                  style={{
-                    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                  }}
-                  className="my-2"
-                >
-                  Số điện thoại:
-                </label>
-                <br />
-                <input
-                  id="phone"
-                  type="text"
-                  style={{
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                    border: "none", // Bỏ border
-                    outline: "none",
-                    height: 40,
-                    width: 520,
-                  }}
-                  className="rounded"
-                />
-              </span>
-              <span className="my-2">
-                <label
-                  htmlFor="province"
-                  style={{ textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)" }}
-                  className="my-2"
-                >
-                  Tỉnh, thành phố:
-                </label>
-                <div
-                  className="input-group rounded"
-                  style={{
-                    width: 520,
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                  }}
-                >
-                  <select
-                    id="province"
-                    className="form-control"
-                    style={{
-                      border: "none", // Bỏ border
-                      outline: "none",
-                    }}
-                    onChange={(e) =>
-                      setSelectedProvince(
-                        provinces.find((p) => p.code === Number(e.target.value))
-                      )
-                    }
-                    value={selectedProvince ? selectedProvince.code : ""}
-                  >
-                    <option value="">Chọn tỉnh thành phố</option>
-                    {provinces.map((province) => (
-                      <option key={province.code} value={province.code}>
-                        {province.name}
-                      </option>
-                    ))}
-                  </select>
+              <form className="form-container">
+                <div>
+                  <label htmlFor="name" className="label-style">
+                    Họ tên:
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    className="input-style rounded"
+                    value={customerInfo.name}
+                    onChange={handleInputChange}
+                  />
                 </div>
-              </span>
-              <span className="my-2">
-                <label
-                  htmlFor="district"
-                  style={{ textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)" }}
-                  className="my-2"
-                >
-                  Quận huyện:
-                </label>
-                <div
-                  className="input-group rounded"
-                  style={{
-                    width: 520,
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                  }}
-                >
-                  <select
-                    id="district"
-                    className="form-control"
-                    style={{
-                      border: "none", // Bỏ border
-                      outline: "none",
-                    }}
-                    onChange={(e) =>
-                      setSelectedDistrict(
-                        districts.find((d) => d.code === Number(e.target.value))
-                      )
-                    }
-                    value={selectedDistrict ? selectedDistrict.code : ""}
-                  >
-                    <option value="">Chọn quận huyện</option>
-                    {districts.map((district) => (
-                      <option key={district.code} value={district.code}>
-                        {district.name}
-                      </option>
-                    ))}
-                  </select>
+
+                <div>
+                  <label htmlFor="phone" className="label-style">
+                    Số điện thoại:
+                  </label>
+                  <input
+                    id="phone"
+                    type="text"
+                    className="input-style rounded"
+                    value={customerInfo.phone}
+                    onChange={handleInputChange}
+                  />
                 </div>
-              </span>
-              <span className="my-2">
-                <label
-                  htmlFor="ward"
-                  style={{ textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)" }}
-                  className="my-2"
-                >
-                  Phường xã:
-                </label>
-                <div
-                  className="input-group rounded"
-                  style={{
-                    width: 520,
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                  }}
-                >
-                  <select
-                    id="ward"
-                    className="form-control"
-                    style={{
-                      border: "none", // Bỏ border
-                      outline: "none",
-                    }}
-                    onChange={(e) =>
-                      setSelectedWard(
-                        wards.find((w) => w.code === Number(e.target.value))
-                      )
-                    }
-                    value={selectedWard ? selectedWard.code : ""}
-                  >
-                    <option value="">Chọn phường xã</option>
-                    {wards.map((ward) => (
-                      <option key={ward.code} value={ward.code}>
-                        {ward.name}
-                      </option>
-                    ))}
-                  </select>
+
+                <div>
+                  <label htmlFor="province" className="label-style">
+                    Tỉnh, thành phố:
+                  </label>
+                  <div className="input-group input-group-style">
+                    <select
+                      id="province"
+                      className="form-control"
+                      onChange={(e) => {
+                        const selectedProvince = provinces.find(
+                          (p) => p.code === Number(e.target.value)
+                        );
+                        setSelectedProvince(selectedProvince);
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          province: selectedProvince
+                            ? selectedProvince.name
+                            : "",
+                          district: "",
+                          ward: "",
+                        }));
+                      }}
+                      value={
+                        customerInfo.province
+                          ? provinces.find(
+                              (p) => p.name === customerInfo.province
+                            )?.code
+                          : ""
+                      }
+                    >
+                      <option value="">Chọn tỉnh thành phố</option>
+                      {provinces.map((province) => (
+                        <option key={province.code} value={province.code}>
+                          {province.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              </span>
-              <span className="my-2">
-                <label
-                  htmlFor="street"
-                  style={{
-                    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+
+                <div>
+                  <label htmlFor="district" className="label-style">
+                    Quận huyện:
+                  </label>
+                  <div className="input-group input-group-style">
+                    <select
+                      id="district"
+                      className="form-control"
+                      onChange={(e) => {
+                        const selectedDistrict = districts.find(
+                          (d) => d.code === Number(e.target.value)
+                        );
+                        setSelectedDistrict(selectedDistrict);
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          district: selectedDistrict
+                            ? selectedDistrict.name
+                            : "",
+                          ward: "",
+                        }));
+                      }}
+                      value={
+                        customerInfo.district
+                          ? districts.find(
+                              (d) => d.name === customerInfo.district
+                            )?.code
+                          : ""
+                      }
+                    >
+                      <option value="">Chọn quận huyện</option>
+                      {districts.map((district) => (
+                        <option key={district.code} value={district.code}>
+                          {district.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="ward" className="label-style">
+                    Phường xã:
+                  </label>
+                  <div className="input-group input-group-style">
+                    <select
+                      id="ward"
+                      className="form-control"
+                      onChange={(e) => {
+                        const selectedWard = wards.find(
+                          (w) => w.code === Number(e.target.value)
+                        );
+                        setSelectedDistrict(selectedDistrict);
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          ward: selectedWard ? selectedWard.name : "",
+                        }));
+                      }}
+                      value={
+                        customerInfo.ward
+                          ? wards.find((w) => w.code === customerInfo.ward)
+                              ?.code
+                          : ""
+                      }
+                    >
+                      <option value="">Chọn phường xã</option>
+                      {wards.map((ward) => (
+                        <option key={ward.code} value={ward.code}>
+                          {ward.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="street" className="label-style">
+                    Số nhà, tên đường:
+                  </label>
+                  <input
+                    id="street"
+                    type="text"
+                    className="input-style rounded"
+                    value={customerInfo.street}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <span
+                  onClick={() => {
+                    console.log(customerInfo);
                   }}
-                  className="my-2"
                 >
-                  Số nhà, tên đường:
-                </label>
-                <br />
-                <input
-                  id="street"
-                  type="text"
-                  style={{
-                    boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                    border: "none", // Bỏ border
-                    outline: "none",
-                    height: 40,
-                    width: 520,
-                  }}
-                  className="rounded"
-                />
-              </span>
+                  In thông tin
+                </span>
+              </form>
             </div>
           </div>
           <div className="col-md-6">
@@ -338,7 +329,7 @@ const Payment = () => {
                     </span>
                   </div>
                 </div>
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between align-items-center">
                   <span style={{ width: "60%" }}>
                     <input
                       style={{ height: 50, width: "100%" }}
@@ -349,7 +340,7 @@ const Payment = () => {
                   </span>
                   <span
                     style={{ height: 50 }}
-                    className="px-4 py-2 d-flex algin-items-center border border-secondary rounded text-light bg-primary fw-semibold "
+                    className="px-4 py-2 d-flex algin-items-center  border border-secondary rounded text-light bg-primary fw-semibold "
                   >
                     Áp dụng mã
                   </span>
