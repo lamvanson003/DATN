@@ -9,10 +9,14 @@ import {
   News,
 } from "../../components";
 import "./css/Home.css";
-
+import { useSelector } from "react-redux";
 import { Brand } from "../../components";
 const Home = () => {
+  const { productsData } = useSelector((state) => state.pro);
   const [prosData, setProsData] = useState([]);
+
+  console.log(productsData);
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch("/data.json");
@@ -20,8 +24,11 @@ const Home = () => {
       setProsData(data);
     };
     fetchData();
-  }, []);
-  console.log(prosData);
+    // if (productsData) {
+    //   setProsData(productsData);
+    // }
+  }, [productsData]);
+
   return (
     <>
       {/* start banner */}

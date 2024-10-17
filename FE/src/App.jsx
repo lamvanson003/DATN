@@ -19,8 +19,15 @@ import {
 import { Routes, Route } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
 import path from "./ultis/path";
+import * as actions from "./store/actions";
+import { useEffect } from "react";
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(actions.getProductAll());
+  }, []);
   return (
     <>
       <div className="App">
