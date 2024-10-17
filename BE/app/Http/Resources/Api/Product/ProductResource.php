@@ -40,7 +40,8 @@ class ProductResource extends JsonResource
                             'color' => $variantColor->color->name,
                         ];
                     }),
-                    'average_rating' => round(optional($item->comments->first())->average_rating, 2) ?? 'No ratings',
+                    'average_rating' => round(optional($item->comments->first())->average_rating ?? 0 , 2),
+                    'total_comments' => $item->comments->first()->total_comments ?? 0,
                 ];
             }),
             'product_image_items' => $this->product_image_items->map(function($item){

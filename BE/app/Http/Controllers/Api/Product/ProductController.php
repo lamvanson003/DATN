@@ -32,7 +32,7 @@ class ProductController extends controller{
                     $query->where('status', Status::Active);
                 },
                 'product_variant.comments' => function($query){
-                    $query->selectRaw('AVG(rating) as average_rating');
+                    $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
                 },
                 ])->where('status', ProductStatus::Active)->get();
 
