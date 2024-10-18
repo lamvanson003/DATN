@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sliders', function (Blueprint $table) {
+        Schema::create('slider_items', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->text('images');
-            $table->integer('cate')->nullable();
-            $table->string('type')->nullable(); 
-            $table->tinyInteger('active')->default(1);
+            $table->unsignedBigInteger('slider_id');
+            $table->string('title');
+            $table->tinyInteger('posittion');
+            $table->string('images');
             $table->timestamps();
+
+            $table->foreign('slider_id')->references('id')->on('sliders')->onDelete('cascade');
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sliders');
+        Schema::dropIfExists('slider_items');
     }
 };
