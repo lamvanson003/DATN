@@ -1,12 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import login from "../../assets/images/log.svg";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Import Axios
+
 const Signup = () => {
   const navigate = useNavigate();
-  const handleNavigate = () => {
-    navigate("/login"); // Điều hướng đến trang đăng nhập
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [phone, setPhone] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(""); 
+    const data = {
+      username,
+      email,
+      password,
+      password_confirmation: passwordConfirmation, 
+      phone,
+    };
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/registers", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      
+      if (response.status === 200) {
+        
+        navigate("/login"); 
+      }
+    } catch (err) {
+      if (err.response && err.response.data) {
+        setError(err.response.data.message || "Registration failed");
+      } else {
+        setError("An error occurred. Please try again.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  const handleNavigate = () => {
+    navigate("/login"); 
+  };
+
   return (
     <div className="container">
       <section className="vh-100">
@@ -19,7 +64,7 @@ const Signup = () => {
               <h3 className="fw-bold text-center text-primary my-4 custom-title">
                 SIGN UP
               </h3>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="d-flex mb-2">
                   <div className="form-outline flex-fill mb-0">
                     <label className="form-label" htmlFor="form3Example1c">
@@ -30,6 +75,8 @@ const Signup = () => {
                       className="form-control"
                       id="form3Example1c"
                       type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
                       style={{
                         boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
                         border: "none",
@@ -38,16 +85,18 @@ const Signup = () => {
                     />
                   </div>
                 </div>
-                <div className="d-flex  mb-2">
+                <div className="d-flex mb-2">
                   <div className="form-outline flex-fill mb-0">
-                    <label className="form-label" htmlFor="form3Example1c">
-                      <i className="fas fa-user fa-lg me-2 fa-fw" />
+                    <label className="form-label" htmlFor="form3Example2c">
+                      <i className="fas fa-envelope fa-lg me-2 fa-fw" />
                       Email:
                     </label>
                     <input
                       className="form-control"
-                      id="form3Example1c"
-                      type="text"
+                      id="form3Example2c"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       style={{
                         boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
                         border: "none",
@@ -56,16 +105,18 @@ const Signup = () => {
                     />
                   </div>
                 </div>
-                <div className="d-flex  mb-2">
+                <div className="d-flex mb-2">
                   <div className="form-outline flex-fill mb-0">
-                    <label className="form-label" htmlFor="form3Example1c">
+                    <label className="form-label" htmlFor="form3Example3c">
                       <i className="fas fa-lock fa-lg me-3 fa-fw" />
                       Mật khẩu:
                     </label>
                     <input
                       className="form-control"
-                      id="form3Example1c"
-                      type="text"
+                      id="form3Example3c"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       style={{
                         boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
                         border: "none",
@@ -74,16 +125,18 @@ const Signup = () => {
                     />
                   </div>
                 </div>
-                <div className="d-flex  mb-2">
+                <div className="d-flex mb-2">
                   <div className="form-outline flex-fill mb-0">
-                    <label className="form-label" htmlFor="form3Example1c">
+                    <label className="form-label" htmlFor="form3Example4c">
                       <i className="fas fa-lock fa-lg me-3 fa-fw" />
                       Lặp lại mật khẩu:
                     </label>
                     <input
                       className="form-control"
-                      id="form3Example1c"
-                      type="text"
+                      id="form3Example4c"
+                      type="password"
+                      value={passwordConfirmation}
+                      onChange={(e) => setPasswordConfirmation(e.target.value)}
                       style={{
                         boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
                         border: "none",
@@ -92,11 +145,33 @@ const Signup = () => {
                     />
                   </div>
                 </div>
+                <div className="d-flex mb-2">
+                  <div className="form-outline flex-fill mb-0">
+                    <label className="form-label" htmlFor="form3Example5c">
+                      <i className="fas fa-phone fa-lg me-3 fa-fw" />
+                      Số điện thoại (nếu có):
+                    </label>
+                    <input
+                      className="form-control"
+                      id="form3Example5c"
+                      type="text"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      style={{
+                        boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
+                        border: "none",
+                        outline: "none",
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {error && <div className="text-danger">{error}</div>} 
+                
                 <div className="form-check d-flex justify-content-center mb-2">
                   <input
                     className="form-check-input me-2"
-                    defaultValue=""
-                    id="form2Example3c"
+                    id="form2Example3"
                     type="checkbox"
                   />
                   <label className="form-check-label" htmlFor="form2Example3">
@@ -107,6 +182,7 @@ const Signup = () => {
                   <button
                     className="btn btn-primary btn-lg btn-block"
                     type="submit"
+                    disabled={isSubmitting} 
                   >
                     Đăng ký
                   </button>
@@ -119,7 +195,7 @@ const Signup = () => {
                       textDecoration: "none",
                       color: "blue",
                       marginLeft: 5,
-                    }} // Thêm kiểu để giống với Link
+                    }}
                     onClick={handleNavigate}
                   >
                     tại đây

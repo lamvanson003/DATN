@@ -2,11 +2,13 @@
 
 namespace App\Enums\User;
 
-enum UserGender: int {
+use BenSampo\Enum\Enum;
 
-    case Male = 1;
-    case Female = 2;
-    case Other = 3;
+final class UserGender extends Enum
+{
+    const Male = 1;
+    const Female = 2;
+    const Other = 3;
 
     public static function asSelectArray(): array
     {

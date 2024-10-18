@@ -12,7 +12,7 @@ class Color extends Model
     use HasFactory;
 
     protected $table = 'colors';
-    protected $fillable = ['images','name','status'];
+    protected $fillable = ['desc','color','status'];
     public $timestamps = false;
     
     protected $casts = [
@@ -23,13 +23,13 @@ class Color extends Model
     // Quan hệ với bảng variant_colors
     public function variantColors()
     {
-        return $this->hasMany(Variant_Color::class);
+        return $this->hasMany(VariantColor::class);
     }
 
     // Quan hệ với bảng products qua bảng variant_colors
-    public function products()
+    public function ProductVariants()
     {
-        return $this->belongsToMany(Product::class, 'variant_colors', 'color_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'variant_colors', 'color_id', 'product_variant_id');
     }
 
 }

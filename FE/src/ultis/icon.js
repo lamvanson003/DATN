@@ -6,7 +6,13 @@ import {
   FaHistory,
 } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
-import { IoIosArrowDropdown, IoIosContacts } from "react-icons/io";
+import {
+  IoIosArrowDropdown,
+  IoIosContacts,
+  IoIosStar,
+  IoIosStarHalf,
+  IoIosStarOutline,
+} from "react-icons/io";
 import { MdNotificationsNone } from "react-icons/md";
 import { RiBankCardFill, RiProductHuntLine, RiTruckLine } from "react-icons/ri";
 import { PiHandPalm } from "react-icons/pi";
@@ -49,5 +55,8 @@ const icons = {
   FaTicketAlt,
   BsCashCoin,
   LuUser2,
+  IoIosStar,
+  IoIosStarHalf,
+  IoIosStarOutline,
 };
 export default icons;

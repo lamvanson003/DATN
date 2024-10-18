@@ -1,6 +1,5 @@
 .card {
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
   width: 228px;
@@ -9,6 +8,9 @@
   display: inline-block; /* thêm lớp này để các thẻ sản phẩm hiển thị cạnh nhau */
   vertical-align: top;
   height: 402px;
+}
+.card:hover {
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
 }
 .col-md-2 {
   padding: 10px; /* add some padding to create space between cards */
@@ -66,7 +68,7 @@
   background-color: white;
   color: #007bff;
   border-color: #007bff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   border-radius: 8px;
   padding: 5px 10px;
   font-size: 0.8rem;

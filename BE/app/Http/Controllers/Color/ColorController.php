@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Color;
 
 use App\Http\Controllers\Controller;
 use App\Models\Color;
+use App\Models\VariantColor;
 use App\Enums\Status;
 use Exception;
 use Illuminate\Http\Request;
@@ -21,6 +22,17 @@ class ColorController extends Controller
     {   
         $status = Status::asSelectArray();
         return view('color.create',compact(['status']));
+    }
+
+    public function storeByVariant(Request $request){
+        $color = Color::create([
+            'color' => $request['color'],
+        ]);
+        VariantColor::create([
+            'product_variant_id' =>  $request['product_variant_id'],
+            'color_id' =>  $color->id
+        ]);
+        return redirect()->route('admin.product.edit',$request['product_id'])->with('success', 'Thực hiện thành công.');
     }
 
     public function delete($id)
@@ -46,7 +58,7 @@ class ColorController extends Controller
                 'name' => $request['name'],
                 'images' => $imagePath,
             ]);
-            return redirect()->route('admin.color.index')->with('success', 'Thêm thành công.');
+            return redirect()->back()->with('success', 'Thêm thành công.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }

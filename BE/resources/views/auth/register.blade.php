@@ -25,6 +25,23 @@
                     <label class="form-label">Xác Nhận Mật khẩu <span style="color: red">*</span></label>
                     <input type="password" required class="form-control" placeholder="Mật khẩu" name="password_confirmation">
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">Giới tính <span style="color: red">*</span></label>
+                    <div>
+                        <label>
+                            <input type="radio" name="gender" value="1" required>
+                            Nam
+                        </label>
+                        <label class="ms-3">
+                            <input type="radio" name="gender" value="2" required>
+                            Nữ
+                        </label>
+                        <label class="ms-3">
+                            <input type="radio" name="gender" value="3" required>
+                            Khác
+                        </label>
+                    </div>
+                </div>
                 <span class="register">
                     <a href="{{ route('admin.index') }}">Đăng nhập</a>
                 </span>

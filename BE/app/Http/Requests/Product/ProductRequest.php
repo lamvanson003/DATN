@@ -16,6 +16,7 @@ class ProductRequest extends BaseRequest
     protected function methodPost()
     {
         return [
+            //product
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:products,slug',
             'short_desc' => 'nullable|string',
@@ -24,8 +25,23 @@ class ProductRequest extends BaseRequest
             'brand_id' => 'required|exists:brands,id',
             'status' => 'required|integer',
             'images' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
+
+            // color
             'color' => 'required|array',
-            'color.*' => 'integer|exists:colors,id'
+            'color.*' => 'integer|exists:colors,id',
+
+            // image_items
+            'images' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'image_items' => 'nullable|array', 
+            'image_items*.' => 'string|image|mimes:jpeg,png,jpg,gif|max:2048', 
+
+            // variant
+
+            'storage' => 'required|string',
+            'price' => 'required|integer',
+            'sale' => 'nullable|integer',
+            'memory' => 'nullable|string',
+            'instock' => 'required|integer',
         ];
     }
 

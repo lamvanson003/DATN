@@ -24,4 +24,24 @@ export const commentApi = {
       return []; // Trả về mảng rỗng nếu có lỗi xảy ra
     }
   },
+  postComment: async (uId, pId, comment) => {
+    try {
+      const response = await axios({
+        url: "https://api.example.com/comments",
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          uId,
+          pId,
+          comment,
+        },
+      });
+      console.log("bình luận đã được đăng !");
+      return response.data;
+    } catch (err) {
+      console.log("Không thể đăng tải bình luận", err);
+    }
+  },
 };
