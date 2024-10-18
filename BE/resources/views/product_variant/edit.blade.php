@@ -71,7 +71,7 @@
                                     <!-- price sale -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Giá khuyến mãi :</label>
-                                        <input type="number" value="{{ $product_variant->sale }}"  required class="form-control" name="sale" placeholder="VND">
+                                        <input type="number" value="{{ $product_variant->sale }}" class="form-control" name="sale" placeholder="VND">
                                     </div>
                                 </div>
 

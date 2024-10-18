@@ -1,12 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios"; 
 import login from "../../assets/images/log.svg";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Login.css";
+
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    event.preventDefault(); 
+
+    const loginData = { email, password };
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/logins", loginData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = response.data;
+      console.log(data); 
+
+      // Lưu token vào localStorage
+      if (data.token) {
+        localStorage.setItem("token", data.token); // Lưu token
+      }
+
+      // Điều hướng dựa trên quyền của người dùng
+      if (data.redirect_url) {
+        window.location.href = data.redirect_url; 
+      } else {
+        navigate("/"); 
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data); 
+        setErrorMessage(error.response.data.error || "Đăng nhập thất bại");
+      } else {
+        setErrorMessage("An unexpected error occurred.");
+      }
+    }
+  };
+
   const navigateSignup = () => {
     navigate("/signup");
   };
+
   return (
     <div className="container">
       <section className="vh-100">
@@ -19,7 +63,12 @@ const Login = () => {
               <h3 className="fw-bold text-center text-primary my-4 custom-title">
                 LOGIN
               </h3>
-              <form>
+              {errorMessage && (
+                <div className="alert alert-danger" role="alert">
+                  {errorMessage}
+                </div>
+              )}
+              <form onSubmit={handleLogin}>
                 <div className="form-outline mb-4">
                   <label className="form-label" htmlFor="form1Example13">
                     Email:
@@ -28,11 +77,14 @@ const Login = () => {
                     className="form-control form-control-lg"
                     id="form1Example13"
                     type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     style={{
                       boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
                       border: "none",
                       outline: "none",
                     }}
+                    required
                   />
                 </div>
                 <div className="form-outline mb-4">
@@ -43,25 +95,24 @@ const Login = () => {
                     className="form-control form-control-lg"
                     id="form1Example23"
                     type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     style={{
                       boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
                       border: "none",
                       outline: "none",
                     }}
+                    required
                   />
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <div className="form-check">
-                    <label
-                      className="form-check-label "
-                      htmlFor="form1Example3"
-                    >
+                    <label className="form-check-label " htmlFor="form1Example3">
                       Ghi nhớ đăng nhập
                     </label>
                     <input
                       className="form-check-input "
                       defaultChecked
-                      defaultValue=""
                       id="form1Example3"
                       type="checkbox"
                     />

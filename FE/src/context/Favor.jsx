@@ -7,18 +7,31 @@ export const FavorProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("favorItems"))
       : []
   );
-  const addToFavor = (item) => {
+  const generateVariantKey = (mainName, variantSku) =>
+    `${mainName}:${variantSku}`;
+  const addToFavor = (main, variant) => {
+    const variantKey = generateVariantKey(main.name, variant.sku);
     const isItemInFavor = favorItems.find(
-      (favorItem) => favorItem.id === item.id
+      (favorItem) => favorItem.variantKey === variantKey
     );
     if (isItemInFavor) {
       const updateFavorItems = favorItems.filter(
-        (favorItem) => favorItem.id !== item.id
+        (favorItem) => favorItem.variantKey !== variantKey
       );
       setFavorItems(updateFavorItems);
       toast.warning("Đã xóa khỏi mục yêu thích");
     } else {
-      setFavorItems([...favorItems, item]);
+      setFavorItems([
+        ...favorItems,
+        {
+          ...variant, // Dữ liệu biến thể
+          variantKey, // Key duy nhất cho mỗi sản phẩm biến thể
+          main: {
+            name: main.name,
+            image: main.image,
+          },
+        },
+      ]);
       toast.success("Đã thêm vào mục yêu thích");
     }
   };

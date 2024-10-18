@@ -234,29 +234,6 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#color">
-              <i class="fas fa-paint-brush"></i>
-              <p>Màu Sắc</p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse" id="color">
-              <ul class="nav nav-collapse">
-                <li>
-                  <a href="{{ route('admin.color.create') }}">
-                    <i class="fas fa-plus"></i>
-                    <span>Thêm màu sắc</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="{{ route('admin.color.index') }}">
-                    <i class="fas fa-list"></i>
-                    <span>DS bảng màu</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
           {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#order">
               <i class="fas fa-receipt"></i>
@@ -365,6 +342,52 @@
                   <a href="{{ route('admin.user.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS khách hàng</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#post_cate">
+              <i class="fas fa-user-friends"></i>
+              <p>Danh Mục Bài Viết</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="post_cate">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('admin.post_category.create') }}">
+                    <i class="fas fa-plus"></i>
+                    <span >Thêm danh mục</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.post_category.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS danh mục</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#post">
+              <i class="fas fa-user-friends"></i>
+              <p>Bài Viết</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="post">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('admin.post.create') }}">
+                    <i class="fas fa-plus"></i>
+                    <span >Thêm bài viết</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.post.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS bài viết</span>
                   </a>
                 </li>
               </ul>

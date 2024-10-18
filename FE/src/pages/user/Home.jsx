@@ -16,17 +16,16 @@ const Home = () => {
   const [prosData, setProsData] = useState([]);
 
   console.log(productsData);
-
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch("/data.json");
-      const data = await res.json();
-      setProsData(data);
-    };
-    fetchData();
-    // if (productsData) {
-    //   setProsData(productsData);
-    // }
+    // const fetchData = async () => {
+    //   const res = await fetch("/data.json");
+    //   const data = await res.json();
+    //   setProsData(data);
+    // };
+    // fetchData();
+    if (productsData) {
+      setProsData(productsData);
+    }
   }, [productsData]);
 
   return (
@@ -46,7 +45,14 @@ const Home = () => {
           <p className="custom-text">Điện thoại</p>
           {prosData.map((pro, index) => (
             <div key={index} className="col-md-2">
-              <BoxPro pro={pro} />
+              <BoxPro
+                pid={pro.id}
+                name={pro.name}
+                slug={pro.slug}
+                image={pro.images}
+                brand={pro.brand.name}
+                variant={pro.product_variant}
+              />
             </div>
           ))}
         </div>
@@ -147,7 +153,7 @@ const Home = () => {
           <p className="custom-text">Điện thoại</p>
           {prosData.map((pro, index) => (
             <div key={index} className="col-md-2">
-              <BoxPro pro={pro} />
+              <BoxPro />
             </div>
           ))}
         </div>

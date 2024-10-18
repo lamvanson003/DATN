@@ -16,11 +16,18 @@ class ProductVariantRequest extends BaseRequest
     {
         return [
             'product_id' => 'required|integer',
-            'storage' => 'required|string',
-            'price' => 'required|integer',
-            'sale' => 'nullable|integer',
-            'memory' => 'nullable|string',
-            'instock' => 'required|integer',
+            
+            // variants
+            'variants' => 'required|array',
+            'variants.*.storage' => 'required|string',
+            'variants.*.color' => 'required|string',
+            'variants.*.price' => 'required|integer',
+            'variants.*.sale' => 'nullable|integer',
+            'variants.*.memory' => 'nullable|string',
+            'variants.*.instock' => 'required|integer',
+            
+            'variants.*.image_color' => 'nullable|array',
+            'variants.*.image_color' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ];
     }
 

@@ -103,31 +103,7 @@
         </div>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Thêm màu sắc mới</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('admin.color.create') }}" method="POST">
-                    @csrf
-                    <!-- Tên màu sắc -->
-                    <div class="mb-3">
-                        <label class="form-label" for="colorName">Tên màu sắc <span class="text-danger">*</span>:</label>
-                        <input type="text" id="colorName" required class="form-control" name="name" placeholder="VD: Midnight (Đen)">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Thêm màu</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 <script type="text/javascript">
     $('.dandev_insert_attach').click(function() {
         if ($('.list_attach').hasClass('show-btn') === false) {

@@ -43,20 +43,22 @@
                 <thead>
                   <tr>
                     <th></th>
-                    <th>sản phẩm</th>
-                    <th>Các biến thể</th>
+                    <th>Sản phẩm</th>
+                    <th>Biến thể</th>
                     <th >Hình ảnh </th>
                     <th>Trạng thái</th>
+                    <th>Lượt bán</th>
                     <th>Hành động</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
                     <th></th>
-                    <th>sản phẩm</th>
-                    <th>Các biến thể</th>
+                    <th>Sản phẩm</th>
+                    <th>Biến thể</th>
                     <th >Hình ảnh </th>
                     <th>Trạng thái</th>
+                    <th>Lượt bán</th>
                     <th>Hành động</th>
                   </tr>
                 </tfoot>
@@ -68,20 +70,8 @@
                       <td>
                         <div class="d-flex" style="flex-direction: column ; align-items: flex-start">
                           <div class="product_variant">
-                            @foreach ($item->product_variant as $variant)
-                                <div>
-                                <span href="{{ route('admin.product.item.edit',$variant->id) }}">
-                                  <strong>{{ $variant->storage }}</strong>
-                                </span>
-                                </div>
-                            @endforeach
-                          </div>
-                          <div class="d-flex justify-between gap-3 text-dark">
-                            <a href="" dspanta-bs-toggle="modal" data-bs-target="#exampleModal" style="colo">
-                              Thêm
-                            </a >
                             <a  href="{{ route('admin.product.product_item.index',$item->id) }}" data-bs-toggle="modalView" data-bs-target="#exampleModalView">
-                              Xem
+                              DS biến thể 
                             </a>
                           </div>
                         </div>
@@ -111,6 +101,7 @@
                                 <span class="badge rounded-pill badge-secondary">Không xác định</span>
                         @endswitch
                     </td>
+                    <td>{{ $item->product_variant->sum('sold') }}</td>
                     <td>
                       <div class="form-button-action gap-2">
                         <a href="{{ route('admin.product.edit', $item->id) }}">
