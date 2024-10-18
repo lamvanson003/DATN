@@ -8,6 +8,7 @@ import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import * as action from "../../store/actions";
 import { Brand, Filter } from "../../components";
+import { Link } from "react-router-dom";
 import axios from "axios";
 const Product = () => {
   const { isLoading } = useSelector((state) => state.app);
@@ -106,19 +107,15 @@ const Product = () => {
     <div className="container mt-5">
       <section id="header">
         <div className="row">
-          <div className=" p-3 bg-Breadcrumb row my-3">
+          <div className="d-flex"></div>
+          <div className=" p-3 bg-Breadcrumb row">
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb mb-0">
                 <li className="breadcrumb-item">
-                  <a href="/">
-                    <i className="fa-solid fa-house" /> TRANG CHỦ
-                  </a>
+                  <Link to="/">TRANG CHỦ</Link>
                 </li>
                 <li className="breadcrumb-item">
-                  <a href="/product"> DANH MỤC </a>
-                </li>
-                <li className="breadcrumb-item">
-                  <a href="#"> SẢN PHẨM </a>
+                  <span>SẢN PHẨM</span>
                 </li>
               </ol>
             </nav>

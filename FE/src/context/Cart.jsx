@@ -11,30 +11,51 @@ export const CartProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("cartItems"))
       : []
   );
-  const addToCart = (item) => {
-    const isItemInCart = cartItems.find((cartItem) => cartItem.id === item.id);
+  const generateVariantKey = (mainName, variantSku) =>
+    `${mainName}:${variantSku}`;
+  const addToCart = (main, variant) => {
+    const variantKey = generateVariantKey(main.name, variant.sku);
+    const isItemInCart = cartItems.find(
+      (cartItem) => cartItem.variantKey === variantKey
+    );
     if (isItemInCart) {
       setCartItems(
         cartItems.map((cartItem) =>
-          cartItem.id === item.id
+          cartItem.variantKey === variantKey
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
         )
       );
     } else {
-      setCartItems([...cartItems, { ...item, quantity: 1 }]);
-      toast.success("Đã thêm sản phẩm vào giỏ hàng!");
+      setCartItems([
+        ...cartItems,
+        {
+          ...variant, // Dữ liệu biến thể
+          quantity: 1, // Số lượng khởi tạo
+          variantKey, // Key duy nhất cho mỗi sản phẩm biến thể
+          main: {
+            name: main.name,
+            image: main.image,
+          },
+        },
+      ]);
+      toast.success("Đã thêm sản phẩm mới vào giỏ hàng!");
     }
   };
-  const removeFromCart = (item) => {
-    const isItemInCart = cartItems.find((cartItem) => cartItem.id === item.id);
+  const removeFromCart = (main, variant) => {
+    const variantKey = generateVariantKey(main.name, variant.sku);
+    const isItemInCart = cartItems.find(
+      (cartItem) => cartItem.variantKey === variantKey
+    );
     if (isItemInCart) {
       if (isItemInCart.quantity === 1) {
-        setCartItems(cartItems.filter((cartItem) => cartItem.id !== item.id));
+        setCartItems(
+          cartItems.filter((cartItem) => cartItem.variantKey !== variantKey)
+        );
       } else {
         setCartItems(
           cartItems.map((cartItem) =>
-            cartItem.id === item.id
+            cartItem.variantKey === variantKey
               ? { ...cartItem, quantity: cartItem.quantity - 1 }
               : cartItem
           )

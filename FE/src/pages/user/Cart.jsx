@@ -3,7 +3,7 @@ import myImage from "../../assets/images/image.png";
 import icons from "../../ultis/icon";
 import { CartContext } from "../../context/Cart";
 import { Link, useNavigate } from "react-router-dom";
-
+import { formatCurrency } from "../../ultis/func";
 const Cart = () => {
   const { IoCartOutline, TiDeleteOutline, MdDeleteForever } = icons;
   const { cartItems, addToCart, removeFromCart, clearCart, getCartTotal } =
@@ -52,7 +52,7 @@ const Cart = () => {
             <div className="d-flex flex-column gap-5">
               {cartItems.map((item) => (
                 <div
-                  key={item.id}
+                  key={item.variantKey}
                   className="d-flex justify-content-between align-items-center product p-3 rounded"
                   style={{ boxShadow: "0 5px 10px rgba(0, 0, 0, 0.3)" }}
                 >
@@ -62,19 +62,23 @@ const Cart = () => {
                   >
                     <img
                       style={{ height: "90%" }}
-                      src={myImage}
-                      alt={item.name}
+                      src={item.main.image}
+                      alt={item.main.name}
                     />
                     <span className="d-flex flex-column gap-3">
-                      <span>{item.name}</span>
-                      <span className="opacity-75">Loại: </span>
+                      <span>{item.main.name}</span>
+                      <span className="opacity-75">
+                        Loại: <span>{item.storage}</span>
+                      </span>
                     </span>
                   </span>
                   <span className="text-center" style={{ width: "20%" }}>
                     <span className="opacity-75 me-2 text-decoration-line-through">
-                      ${item.price}
+                      {formatCurrency(item.price)}
                     </span>
-                    <span>${item.sale}</span>
+                    <span style={{ fontSize: 18 }}>
+                      {formatCurrency(item.sale)}
+                    </span>
                   </span>
                   <span
                     className="d-flex align-items-center justify-content-center fs-4"
@@ -91,7 +95,7 @@ const Cart = () => {
                           width: 30,
                           backgroundColor: "#fff",
                         }}
-                        onClick={() => removeFromCart(item)}
+                        onClick={() => removeFromCart(item.main, item)}
                       >
                         -
                       </button>
@@ -105,17 +109,17 @@ const Cart = () => {
                           width: 30,
                           backgroundColor: "#fff",
                         }}
-                        onClick={() => addToCart(item)}
+                        onClick={() => addToCart(item.main, item)}
                       >
                         +
                       </button>
                     </span>
                   </span>
                   <span
-                    className="text-center text-danger"
-                    style={{ width: "20%" }}
+                    className="text-center text-danger fw-bold"
+                    style={{ width: "20%", fontSize: 20 }}
                   >
-                    {item.sale * item.quantity} đ
+                    {formatCurrency(item.sale * item.quantity)}
                   </span>
                 </div>
               ))}
@@ -168,7 +172,9 @@ const Cart = () => {
                 </span>
                 <span className="d-flex justify-content-between py-2">
                   Tổng:
-                  <span className="fw-bold text-danger">${getCartTotal()}</span>
+                  <span className="fw-bold text-danger">
+                    {formatCurrency(getCartTotal())}
+                  </span>
                 </span>
                 <span className="d-flex justify-content-center">
                   <span
