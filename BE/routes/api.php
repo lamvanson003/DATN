@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Category\CategoryController;
 use App\Http\Controllers\Api\Brand\BrandController;
 use App\Http\Controllers\Api\Product\ProductController;
 use App\Http\Controllers\Api\Login\UsersLoginController;
+use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Register\UsersRegisterController;
 
 
@@ -28,12 +29,12 @@ Route::controller(ProductController::class)->prefix('/products')
     Route::get('/{id}', 'detail');
 });
 
-Route::controller(ProductController::class)->prefix('/products')
-->as('product')
+Route::controller(OrderController::class)->prefix('/orders')
+->as('order')
 ->group(function(){
     Route::get('/', 'index');
 
-    Route::get('/{id}', 'detail');
+    Route::post('/', 'create');
 });
 
 
