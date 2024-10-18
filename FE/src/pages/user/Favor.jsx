@@ -1,19 +1,24 @@
-import React, { useEffect, useState, useMemo, useContext } from "react";
+import React, { useEffect, useState, useMemo, act } from "react";
+import { Outlet } from "react-router-dom";
 import "./css/Product.css";
 import { BoxPro } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpZA } from "@fortawesome/free-solid-svg-icons";
 import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
-import { FavorContext } from "../../context/Favor";
+import { useDispatch, useSelector } from "react-redux";
+import * as action from "../../store/actions";
+import { Brand, Filter } from "../../components";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
 import axios from "axios";
-import icons from "../../ultis/icon";
+import { FavorContext } from "../../context/Favor";
 const Favor = () => {
-  const { favorItems } = useContext(FavorContext);
+  const { isLoading } = useSelector((state) => state.app);
+  const dispatch = useDispatch();
   const [Pros, setPros] = useState([]);
-  //   const [category, setCategory] = useState([]);
-  const { FaRegHeart } = icons;
-  //   const [active, setActive] = useState(0);
+  const [phone, setPhone] = useState([]);
+  const [laptop, setLaptop] = useState([]);
+  const { favorItems } = useContext(FavorContext);
   const [curPage, setCurPage] = useState(1);
   const [itemsPerPage] = useState(8);
   const indexOfLastItem = curPage * itemsPerPage;
@@ -23,78 +28,55 @@ const Favor = () => {
   for (let i = 1; i <= Math.ceil(Pros.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
+  const paginate = (pageNumber) => setCurPage(pageNumber);
 
   const [minPrice, setMinPrice] = useState(100);
-  const [maxPrice, setMaxPrice] = useState(2000);
+  const [maxPrice, setMaxPrice] = useState(50000000);
+  // Thiết lập giá trị ban đầu cho Pros từ favorItems
+  useEffect(() => {
+    setPros(favorItems);
+  }, [favorItems]); // Chỉ cập nhật khi favorItems thay đổi
+
   const filteredPros = useMemo(() => {
-    return Pros.filter((pro) => pro.price > minPrice && pro.price < maxPrice);
+    return Pros.filter((pro) => pro.sale >= minPrice && pro.sale <= maxPrice);
   }, [Pros, minPrice, maxPrice]);
   const curItems = useMemo(() => {
     return filteredPros.slice(indexOfFirstItem, indexOfLastItem);
   }, [filteredPros, indexOfFirstItem, indexOfLastItem]);
-  useEffect(() => {
-    setPros(favorItems);
-  }, []);
 
   const handleRangeChange = (e) => {
     setMaxPrice(e.target.value);
   };
   const [sortOrder, setSortOrder] = useState(1); // 1: tăng dần, 0: giảm dần
-  const [sortedItems, setSortedItems] = useState([]);
-
-  const handleSort = () => {
+  const sortedItems = useMemo(() => {
     const sorted = [...curItems]; // Tạo một bản sao của curItems để tránh thay đổi trực tiếp
     if (sortOrder) {
-      sorted.sort((a, b) => a.sale - b.sale); // Sắp xếp tăng dần
+      return sorted.sort((a, b) => a.sale - b.sale); // Sắp xếp tăng dần
     } else {
-      sorted.sort((a, b) => b.sale - a.sale); // Sắp xếp giảm dần
+      return sorted.sort((a, b) => b.sale - a.sale); // Sắp xếp giảm dần
     }
-    setSortedItems(sorted); // Cập nhật sortedItems
-  };
-
-  useEffect(() => {
-    handleSort(); // Gọi hàm sắp xếp mỗi khi sortOrder hoặc curItems thay đổi
-  }, [sortOrder, curItems]);
-  //   useEffect(() => {
-  //     const fetchCate = async () => {
-  //       try {
-  //         const res = await axios.get(" http://localhost:8000/api/categories");
-  //         setCategory(res.data.data);
-  //       } catch (error) {
-  //         console.log("Error fetching data", error);
-  //       }
-  //     };
-  //     fetchCate();
-  //   }, []);
-  const dispatch = useDispatch();
+  }, [curItems, sortOrder]);
 
   return (
     <div className="container mt-5">
       <section id="header">
         <div className="row">
-          <div className=" p-3 bg-Breadcrumb row my-3">
+          <div className="d-flex"></div>
+          <div className=" p-3 bg-Breadcrumb row">
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb mb-0">
                 <li className="breadcrumb-item">
-                  <a href="/">
-                    <i className="fa-solid fa-house" /> TRANG CHỦ
-                  </a>
+                  <Link to="/">TRANG CHỦ</Link>
                 </li>
                 <li className="breadcrumb-item">
-                  <a href="/product"> DANH MỤC </a>
-                </li>
-                <li className="breadcrumb-item">
-                  <a href="#"> SẢN PHẨM </a>
+                  <span>SẢN PHẨM</span>
                 </li>
               </ol>
             </nav>
           </div>
           <div className="row my-3">
             <div className="col-md-4">
-              <span className="d-flex align-items-center text-danger gap-2">
-                <h2>Sản phẩm yêu thích</h2>
-                <FaRegHeart size={30} className=" rounded-circle" />
-              </span>
+              <h2>SẢN PHẨM YÊU THÍCH</h2>
             </div>
             <div className="col-md-8">
               <div
@@ -128,11 +110,11 @@ const Favor = () => {
       </section>
       <section id="body-product mt-5">
         <div className="row">
-          <div className="col-md-3">
-            <div className="category">
+          <div className="col-md-3 p-3">
+            {/* <div className="category">
               <h3>Danh mục</h3>
               <hr />
-              {/* <div className="category-name">
+              <div className="category-name">
                 <button
                   className={`btn ${
                     active === 0 ? "btn-primary" : "btn-secondary"
@@ -149,38 +131,8 @@ const Favor = () => {
                 >
                   Laptop
                 </button>
-              </div> */}
-            </div>
-            <div className="brand-container my-3">
-              <div className="dropdown">
-                <button
-                  className="btn dropdown-toggle"
-                  type="button"
-                  id="dropdownBrand"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Chọn thương hiệu
-                </button>
-                <ul className="dropdown-menu" aria-labelledby="dropdownBrand">
-                  <li>
-                    <a className="dropdown-item" href="#!">
-                      Thương hiệu 1
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#!">
-                      Thương hiệu 2
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#!">
-                      Thương hiệu 3
-                    </a>
-                  </li>
-                </ul>
               </div>
-            </div>
+            </div> */}
             <div className="range-prices">
               <h3>Lọc theo giá</h3>
               <hr />
@@ -191,72 +143,28 @@ const Favor = () => {
                 value={maxPrice}
                 onChange={handleRangeChange}
                 min="100"
-                max="2000"
+                max="50000000"
               />
               <span>
                 từ: {minPrice} đến: {maxPrice}
               </span>
-              <div className="check-box">
-                <h5>
-                  <strong>Tình trạng hàng</strong>
-                </h5>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    defaultValue=""
-                    id="flexCheckDefault"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    Mới
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    defaultValue=""
-                    id="flexCheckDefault"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    Hàng cũ
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    defaultChecked
-                    defaultValue=""
-                    id="flexCheckChecked"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckChecked"
-                  >
-                    Sắp ra mắt
-                  </label>
-                </div>
-                <div className="filter-button">
-                  <button className="btn btn-primary" type="button">
-                    Lọc
-                  </button>
-                </div>
-              </div>
             </div>
+            <Filter />
           </div>
           <div className="col-md-9 p-3">
             <div className="row justify-content gap-3">
+              <Brand />
               {sortedItems &&
                 sortedItems.map((item) => (
-                  <div key={item.id} className="col-md-2-product">
-                    <BoxPro pro={item} />
+                  <div key={item?.id} className="col-md-2-product">
+                    <BoxPro
+                      pid={item?.id}
+                      name={item?.main?.name}
+                      slug={item?.slug}
+                      image={item?.images}
+                      brand={item?.brand?.name}
+                      variant={item?.product_variant}
+                    />
                   </div>
                 ))}
             </div>

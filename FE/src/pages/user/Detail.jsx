@@ -95,21 +95,17 @@ const Detail = () => {
               <ol className="breadcrumb mb-0">
                 <li className="breadcrumb-item">
                   <a href="/">
-                    <i className="fa-solid fa-house" />
-                    TRANG CHỦ
+                    <i className="fa-solid fa-house" /> TRANG CHỦ
                   </a>
                 </li>
-                <li aria-current="page" className="breadcrumb-item">
+                <li className="breadcrumb-item">
                   <a href="/product">DANH MỤC</a>
                 </li>
-                <li aria-current="page" className="breadcrumb-item ">
-                  <a href="#">SAN PHAM</a>
+                <li className="breadcrumb-item">
+                  <a href="#">SẢN PHẨM</a>
                 </li>
-                <li aria-current="page" className="breadcrumb-item IN">
-                  <a href="">CHI TIET</a>
-                </li>
-                <li aria-current="page" className="breadcrumb-item IN">
-                  <a href="">{proData?.name}</a>
+                <li className="breadcrumb-item" aria-current="page">
+                  <span>{proData?.name}</span>
                 </li>
               </ol>
             </nav>

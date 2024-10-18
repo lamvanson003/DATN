@@ -234,29 +234,6 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#color">
-              <i class="fas fa-paint-brush"></i>
-              <p>Màu Sắc</p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse" id="color">
-              <ul class="nav nav-collapse">
-                <li>
-                  <a href="{{ route('admin.color.create') }}">
-                    <i class="fas fa-plus"></i>
-                    <span>Thêm màu sắc</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="{{ route('admin.color.index') }}">
-                    <i class="fas fa-list"></i>
-                    <span>DS bảng màu</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
           {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#order">
               <i class="fas fa-receipt"></i>
