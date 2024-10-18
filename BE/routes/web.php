@@ -104,27 +104,16 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
             });
         });
        
-        Route::prefix('/colors')->as('color.')->group(function () {
-            Route::controller(App\Http\Controllers\Color\ColorController::class)->group(function () {
+        Route::prefix('/comments')->as('comment.')->group(function () {
+            Route::controller(App\Http\Controllers\Comment\CommentController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
-                Route::post('/them', 'storeByVariant')->name('storeByVariant');
                 Route::get('/sua/{id}', 'edit')->name('edit');
                 Route::put('/sua/{id}', 'update')->name('update');
-                Route::delete('/xoa/{id}', 'delete')->name('delete');
-                });
+                Route::delete('/xoa/{id}', 'delete')->name('delete'); 
             });
-            Route::prefix('/comments')->as('comment.')->group(function () {
-                Route::controller(App\Http\Controllers\Comment\CommentController::class)->group(function () {
-                    Route::get('/', 'index')->name('index');
-                    Route::get('/them', 'create')->name('create');
-                    Route::post('/them', 'store')->name('store');
-                    Route::get('/sua/{id}', 'edit')->name('edit');
-                    Route::put('/sua/{id}', 'update')->name('update');
-                    Route::delete('/xoa/{id}', 'delete')->name('delete'); 
-                });
-            });
+        });
             
             
 });

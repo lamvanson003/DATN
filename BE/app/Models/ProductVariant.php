@@ -11,7 +11,7 @@ class ProductVariant extends Model
 
     protected $table = 'product_variants';
 
-    protected $fillable = ['product_id','sku','storage','price','sale','memory','sold','instock',];
+    protected $fillable = ['product_id','sku','storage','price','sale','memory','sold','instock','color','images','status'];
 
     /**
      * Quan hệ với bảng Product
@@ -21,22 +21,9 @@ class ProductVariant extends Model
         return $this->belongsTo(Product::class,'product_id');
     }
 
-     /**
-     * Quan hệ với bảng trung gian variantColor
-     */
-    public function variantColor()
-    {
-        return $this->hasMany(VariantColor::class);
-    }
-
     public function comments()
     {
         return $this->hasMany(Comment::class);
-    }
-
-    public function colors()
-    {
-        return $this->belongsToMany(Color::class, 'variant_color', 'product_variant_id', 'color_id');
     }
 
 }

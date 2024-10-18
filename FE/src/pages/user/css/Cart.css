@@ -1,0 +1,8 @@
+.remove-item {
+  text-align: center;
+  width: 3%;
+  font-size: 24px;
+  color: red;
+  border-radius: 50%;
+  cursor: pointer;
+}

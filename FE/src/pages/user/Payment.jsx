@@ -5,11 +5,13 @@ import LogoVisa from "../../assets/images/logovisa.png";
 import logomastercard from "../../assets/images/logomastercard.png";
 import logovcb from "../../assets/images/logovcb.png";
 import { CartContext } from "../../context/Cart";
+import { formatCurrency } from "../../ultis/func";
 import axios from "axios";
 import "./css/Payment.css";
+const { IoIosArrowDropdown, RiBankCardFill, PiHandPalm } = icons;
 const Payment = () => {
-  const { IoIosArrowDropdown, RiBankCardFill, PiHandPalm } = icons;
   const { cartItems, getCartTotal, buyNowItem } = useContext(CartContext);
+  const orderItems = cartItems;
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -62,6 +64,43 @@ const Payment = () => {
       [id]: value,
     }));
   };
+  const [validFields, setValidFields] = useState({
+    name: true,
+    phone: true,
+    province: true,
+    district: true,
+    ward: true,
+    street: true,
+  });
+  const validateForm = () => {
+    const newValidFields = {
+      name: customerInfo.name !== "",
+      phone: customerInfo.phone !== "",
+      province: customerInfo.province !== "",
+      district: customerInfo.district !== "",
+      ward: customerInfo.ward !== "",
+      street: customerInfo.street !== "",
+    };
+    setValidFields(newValidFields);
+    const isFormValid = Object.values(newValidFields).every(Boolean);
+    if (!isFormValid) {
+      alert("Vui lòng điền đầy đủ thông tin");
+      return;
+    }
+
+    const phonePattern = /^[0-9]{10}$/;
+    if (!phonePattern.test(customerInfo.phone)) {
+      alert("Số điện thoại bao gồm 10 chữ số và không chứa ký tự đặc biệt");
+      return;
+    }
+    const namePattern = /^[A-Za-z\s]+$/;
+    if (!namePattern.test(customerInfo.name)) {
+      alert("Tên chỉ được chứa chữ cái và khoản trắng.");
+      return;
+    }
+    alert("Thông tin hợp lệ, bạn có thể tiến hành thanh toán");
+  };
+
   return (
     <>
       <div style={{ paddingLeft: 90, marginTop: 50, marginBottom: 50 }}>
@@ -82,6 +121,7 @@ const Payment = () => {
                     className="input-style rounded"
                     value={customerInfo.name}
                     onChange={handleInputChange}
+                    style={{ borderColor: validFields.name ? "" : "red" }}
                   />
                 </div>
 
@@ -95,6 +135,7 @@ const Payment = () => {
                     className="input-style rounded"
                     value={customerInfo.phone}
                     onChange={handleInputChange}
+                    style={{ borderColor: validFields.phone ? "" : "red" }}
                   />
                 </div>
 
@@ -127,6 +168,9 @@ const Payment = () => {
                             )?.code
                           : ""
                       }
+                      style={{
+                        borderColor: validFields.province ? "" : "red",
+                      }}
                     >
                       <option value="">Chọn tỉnh thành phố</option>
                       {provinces.map((province) => (
@@ -166,6 +210,9 @@ const Payment = () => {
                             )?.code
                           : ""
                       }
+                      style={{
+                        borderColor: validFields.district ? "" : "red",
+                      }}
                     >
                       <option value="">Chọn quận huyện</option>
                       {districts.map((district) => (
@@ -201,6 +248,9 @@ const Payment = () => {
                               ?.code
                           : ""
                       }
+                      style={{
+                        borderColor: validFields.ward ? "" : "red",
+                      }}
                     >
                       <option value="">Chọn phường xã</option>
                       {wards.map((ward) => (
@@ -217,6 +267,7 @@ const Payment = () => {
                     Số nhà, tên đường:
                   </label>
                   <input
+                    style={{ borderColor: validFields.street ? "" : "red" }}
                     id="street"
                     type="text"
                     className="input-style rounded"
@@ -247,38 +298,41 @@ const Payment = () => {
                 }}
               >
                 <div className="d-flex flex-column gap-3">
-                  {cartItems.map((cartItem) => (
+                  {orderItems.map((item) => (
                     <div
-                      key={cartItem.id}
-                      className="d-flex align-items-center gap-3 my-3"
+                      key={item.variantKey}
+                      className="d-flex align-items-center gap-2 my-3"
                     >
-                      <span style={{ width: "20%" }}>
+                      <span style={{ width: "15%" }}>
                         <img
-                          src={MyImage}
+                          src={item.main.image}
                           alt="ảnh sản phẩm"
                           style={{ height: 65 }}
                         />
                       </span>
                       <span
                         style={{ width: "60%" }}
-                        className="d-flex flex-column gap-2 fw-semibold"
+                        className="d-flex flex-column gap-1 "
                       >
-                        <span className="text-start">{cartItem.name}</span>
+                        <span className="text-start fw-semibold">
+                          {item.main.name}
+                        </span>
                         <span
-                          className="opacity-75 flex-wrap"
+                          className="opacity-75 flex-wrap d-flex flex-column"
                           style={{
                             whiteSpace: "normal",
                             wordBreak: "break-word",
                           }}
                         >
-                          Màu sắc: vàng, dung lượng: 512gb
+                          <span>Màu: vàng</span>
+                          <span>Dung lượng: {item.storage}</span>
                         </span>
                       </span>
-                      <span style={{ width: "10%" }} className="text-center">
-                        {cartItem.quantity}
+                      <span style={{ width: "5%" }} className="text-center">
+                        x {item.quantity}
                       </span>
-                      <span style={{ width: "10%" }} className="text-end">
-                        {cartItem.sale}
+                      <span style={{ width: "20%" }} className="text-end">
+                        {formatCurrency(item.sale * item.quantity)}
                       </span>
                     </div>
                   ))}
@@ -287,11 +341,11 @@ const Payment = () => {
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Giá: </span>
-                    <span>${getCartTotal()}</span>
+                    <span>{formatCurrency(getCartTotal())}</span>
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Phí vận chuyển: </span>
-                    <span>$2.99</span>
+                    <span></span>
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Tổng: </span>
@@ -299,7 +353,7 @@ const Payment = () => {
                       className="text-danger fw-bold"
                       style={{ fontSize: 20 }}
                     >
-                      ${getCartTotal() + 2.99}
+                      {formatCurrency(getCartTotal())}
                     </span>
                   </div>
                   <div>
@@ -347,6 +401,7 @@ const Payment = () => {
                 </div>
                 <div>
                   <span
+                    onClick={validateForm}
                     style={{ height: 50, fontSize: 24, cursor: "pointer" }}
                     className="px-4 py-2 d-flex align-items-center justify-content-center border border-secondary rounded text-light bg-primary fw-bold"
                   >

@@ -89,22 +89,22 @@
                                   </button>
                               </a>
 
-                              <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                              <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $item->id }}">
                                 <i class="fa fa-trash-alt"></i>
                               </button>
                           </div>                        
                         </td>
                     </tr>
                      <!-- Modal -->
-                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                     <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $item->id }}" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel{{ $item->id }}">Thông báo</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                              Chuyển trạng thái thành đã xóa
+                              Chuyển trạng thái <strong>{{ $item->name }}</strong> thành đã xóa
                           </div>
                           <div class="modal-footer">
                             <form action="{{ route('admin.brand.delete',$item->id) }}" method="POST">
