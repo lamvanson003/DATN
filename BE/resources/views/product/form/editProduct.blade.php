@@ -102,10 +102,6 @@
                                       <i class="fa fa-pencil-alt"></i>
                                     </button>
                                   </a>
-        
-                                  <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteMyModal{{ $item->id }}">
-                                    <i class="fa fa-trash-alt"></i>
-                                  </button>
                                 </div>                        
                               </td>
                             </tr>

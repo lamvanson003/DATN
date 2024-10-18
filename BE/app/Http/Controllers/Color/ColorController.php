@@ -26,7 +26,7 @@ class ColorController extends Controller
 
     public function storeByVariant(Request $request){
         $color = Color::create([
-            'name' => $request['name'],
+            'color' => $request['color'],
         ]);
         VariantColor::create([
             'product_variant_id' =>  $request['product_variant_id'],

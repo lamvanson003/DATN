@@ -63,7 +63,7 @@
                                                     <!-- Tên màu sắc -->
                                                     <div class="mb-3">
                                                         <label class="form-label" for="colorName{{ $item->id }}">Tên màu sắc <span class="text-danger">*</span>:</label>
-                                                        <input type="text" id="colorName{{ $item->id }}" required class="form-control" name="name" placeholder="VD: Midnight (Đen)">
+                                                        <input type="text" id="colorName{{ $item->id }}" class="form-control" name="namecl" placeholder="VD: Midnight (Đen)">
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="submit" class="btn btn-success">Thêm màu</button>
