@@ -28,7 +28,7 @@ Route::controller(ProductController::class)->prefix('/products')
 ->group(function(){
     Route::get('/', 'index');
 
-    Route::get('/{id}', 'detail');
+    Route::get('/{slug}', 'detail');
 });
 
 Route::controller(OrderController::class)->prefix('/orders')

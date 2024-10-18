@@ -46,7 +46,7 @@ class ProductController extends controller{
         }
     }
 
-    public function detail($id) {
+    public function detail($slug) {
         try {
 
             $product = Product::with(
@@ -59,13 +59,15 @@ class ProductController extends controller{
                 }, 
                 'product_image_items' => function ($query){
                     $query->where('status', Status::Active);
-                }, 
+                },              
                 'product_variant.comments' => function($query){
                     $query->selectRaw('AVG(rating) as average_rating');
                 },
 
                 ])
-                ->where('status', ProductStatus::Active)->findOrFail($id);
+                ->where('slug',$slug)
+                ->where('status', ProductStatus::Active)
+                ->firstOrFail();
             return response()->json([
                 'success' => true,
                 'data' => new ProductDetailResource($product)
