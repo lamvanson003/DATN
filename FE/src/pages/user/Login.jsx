@@ -24,6 +24,13 @@ const Login = () => {
 
       const data = response.data;
       console.log(data); 
+
+      // Lưu token vào localStorage
+      if (data.token) {
+        localStorage.setItem("token", data.token); // Lưu token
+      }
+
+      // Điều hướng dựa trên quyền của người dùng
       if (data.redirect_url) {
         window.location.href = data.redirect_url; 
       } else {
@@ -33,7 +40,7 @@ const Login = () => {
       console.error("Error during login:", error);
       if (error.response) {
         console.error("Response data:", error.response.data); 
-        setErrorMessage(error.response.data.error || "đăng nhập thất bại ");
+        setErrorMessage(error.response.data.error || "Đăng nhập thất bại");
       } else {
         setErrorMessage("An unexpected error occurred.");
       }

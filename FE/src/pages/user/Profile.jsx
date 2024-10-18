@@ -1,189 +1,212 @@
-import React, { useState } from "react";
-import login from "../../assets/images/log.svg";
-import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Import Axios
+import React, { useEffect, useState } from "react";
+import "./css/Profile.css";
+import icons from "../../ultis/icon";
 
-const Signup = () => {
-  const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const { LuUser2 } = icons;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError(""); 
-    const data = {
-      username,
-      email,
-      password,
-      password_confirmation: passwordConfirmation, 
-    };
+const Profile = () => {
+  const [userData, setUserData] = useState(null);  // Dữ liệu người dùng
+  const [loading, setLoading] = useState(true);    // Trạng thái loading
+  const [error, setError] = useState(null);        // Lưu trữ lỗi nếu có
 
+  // Fetch user data từ API khi component mount
+  const fetchUserData = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/api/registers", data, {
+      const response = await fetch("http://localhost:8000/api/profiles", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
-      if (response.status === 200) {
-        navigate("/login"); 
-      }
-    } catch (err) {
-      if (err.response && err.response.data) {
-        setError(err.response.data.message || "Registration failed");
+      const data = await response.json();
+      if (response.ok) {
+        setUserData(data.data);  // Lưu dữ liệu người dùng
       } else {
-        setError("An error occurred. Please try again.");
+        setError(data.message || "Có lỗi xảy ra khi fetch dữ liệu.");
       }
+    } catch (error) {
+      setError("Có lỗi xảy ra: " + error.message);
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
-  const handleNavigate = () => {
-    navigate("/login"); 
+  // Cập nhật thông tin người dùng
+  const updateUserData = async (e) => {
+    e.preventDefault();
+
+    // Lấy giá trị từ form
+    const fullname = document.getElementById("fullname").value;
+    const email = document.getElementById("email").value;
+    const username = document.getElementById("username").value;
+    const phone = document.getElementById("phone").value;
+    const address = document.getElementById("address").value;
+    const gender = document.querySelector('input[name="gender"]:checked')?.value;
+
+    const data = {
+      fullname,
+      email,
+      username,
+      phone,
+      address,
+      gender,
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/api/profiles", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        // Cập nhật state `userData` với dữ liệu mới
+        setUserData(result.data);  // Dùng result.data nếu API trả về dữ liệu người dùng đã được cập nhật
+        alert("Thông tin đã được cập nhật thành công!");
+      } else {
+        alert("Có lỗi xảy ra: " + result.message);
+      }
+    } catch (error) {
+      alert("Có lỗi xảy ra: " + error.message);
+    }
   };
 
-  return (
-    <div className="container">
-      <section className="vh-100">
-        <div className="container py-5 h-100">
-          <div className="row d-flex align-items-center justify-content-center h-100">
-            <div className="col-md-8 col-lg-7 col-xl-6">
-              <img alt="Phone image" style={{ width: "100%" }} src={login} />
-            </div>
-            <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-              <h3 className="fw-bold text-center text-primary my-4 custom-title">
-                SIGN UP
-              </h3>
-              <form onSubmit={handleSubmit}>
-                <div className="d-flex mb-2">
-                  <div className="form-outline flex-fill mb-0">
-                    <label className="form-label" htmlFor="form3Example1c">
-                      <i className="fas fa-user fa-lg me-2 fa-fw" />
-                      Họ tên:
-                    </label>
-                    <input
-                      className="form-control"
-                      id="form3Example1c"
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      style={{
-                        boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="d-flex mb-2">
-                  <div className="form-outline flex-fill mb-0">
-                    <label className="form-label" htmlFor="form3Example2c">
-                      <i className="fas fa-envelope fa-lg me-2 fa-fw" />
-                      Email:
-                    </label>
-                    <input
-                      className="form-control"
-                      id="form3Example2c"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      style={{
-                        boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="d-flex mb-2">
-                  <div className="form-outline flex-fill mb-0">
-                    <label className="form-label" htmlFor="form3Example3c">
-                      <i className="fas fa-lock fa-lg me-3 fa-fw" />
-                      Mật khẩu:
-                    </label>
-                    <input
-                      className="form-control"
-                      id="form3Example3c"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      style={{
-                        boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="d-flex mb-2">
-                  <div className="form-outline flex-fill mb-0">
-                    <label className="form-label" htmlFor="form3Example4c">
-                      <i className="fas fa-lock fa-lg me-3 fa-fw" />
-                      Lặp lại mật khẩu:
-                    </label>
-                    <input
-                      className="form-control"
-                      id="form3Example4c"
-                      type="password"
-                      value={passwordConfirmation}
-                      onChange={(e) => setPasswordConfirmation(e.target.value)}
-                      style={{
-                        boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.3)",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    />
-                  </div>
-                </div>
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
-                {error && <div className="text-danger">{error}</div>} 
-                
-                <div className="form-check d-flex justify-content-center mb-2">
-                  <input
-                    className="form-check-input me-2"
-                    id="form2Example3"
-                    type="checkbox"
-                  />
-                  <label className="form-check-label" htmlFor="form2Example3">
-                    Tôi đồng ý với <a href="#!">Điều khoản dịch vụ</a>
-                  </label>
-                </div>
-                <div className="d-flex justify-content-center">
-                  <button
-                    className="btn btn-primary btn-lg btn-block"
-                    type="submit"
-                    disabled={isSubmitting} 
-                  >
-                    Đăng ký
-                  </button>
-                </div>
-                <div className="mt-4">
-                  Đã có tài khoản? Đăng nhập
-                  <span
-                    style={{
-                      cursor: "pointer",
-                      textDecoration: "none",
-                      color: "blue",
-                      marginLeft: 5,
-                    }}
-                    onClick={handleNavigate}
-                  >
-                    tại đây
-                  </span>
-                </div>
-              </form>
+  if (loading) {
+    return <div>Loading...</div>;  // Hiển thị khi đang tải dữ liệu
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;  // Hiển thị lỗi nếu có
+  }
+
+  return (
+    <div className="row">
+      <div className="row" style={{ borderBottom: "1px solid gray", paddingBottom: 10 }}>
+        <h3>Hồ sơ của tôi</h3>
+        <span>Quản lý thông tin hồ sơ để bảo mật tài khoản</span>
+      </div>
+      <div className="row mt-3">
+        <div className="col-sm-9">
+          <form className="form-container" onSubmit={updateUserData}>
+            <div className="form-group">
+              <label htmlFor="fullname">Họ và tên:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="fullname"
+                defaultValue={userData?.fullname || ""}
+                required
+              />
             </div>
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                defaultValue={userData?.email || ""}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="username">Tên đăng nhập:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="username"
+                defaultValue={userData?.username || ""}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="phone">Số điện thoại:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="phone"
+                defaultValue={userData?.phone || ""}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="address">Địa chỉ:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="address"
+                defaultValue={userData?.address || ""}
+              />
+            </div>
+            <div className="form-group form-group-gender d-flex gap-3">
+              <label>Giới tính:</label>
+              <div>
+                <input
+                  type="radio"
+                  id="male"
+                  name="gender"
+                  value="1"
+                  defaultChecked={userData?.gender === "1"}
+                />
+                <label htmlFor="male">Nam</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="female"
+                  name="gender"
+                  value="2"
+                  defaultChecked={userData?.gender === "2"}
+                />
+                <label htmlFor="female">Nữ</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="other"
+                  name="gender"
+                  value="3"
+                  defaultChecked={userData?.gender === "3"}
+                />
+                <label htmlFor="other">Khác</label>
+              </div>
+            </div>
+
+            <div className="d-flex justify-content-center">
+              <button className="btn btn-primary" style={{ width: "20%" }} type="submit">
+                Lưu thay đổi
+              </button>
+            </div>
+          </form>
+        </div>
+        <div className="col-sm-3">
+          <div className="my-3 d-flex flex-column align-items-center">
+            <span className="m-3">
+              <LuUser2 size={120} className="p-3 border border-secondary rounded-circle" />
+            </span>
+            <input
+              type="file"
+              id="image-upload"
+              name="image-upload"
+              className="form-control"
+              accept="image/*"
+            />
+            <span className="opacity-75">
+              Dụng lượng file tối đa 1 MB Định dạng:.JPEG, .PNG
+            </span>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
 
-export default Signup;
+export default Profile;
