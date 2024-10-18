@@ -4,10 +4,18 @@ import icons from "../../ultis/icon";
 import { CartContext } from "../../context/Cart";
 import { Link, useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../ultis/func";
+import blankCart from "../../assets/images/iHome/blankcart.png";
+import "./css/Cart.css";
 const Cart = () => {
   const { IoCartOutline, TiDeleteOutline, MdDeleteForever } = icons;
-  const { cartItems, addToCart, removeFromCart, clearCart, getCartTotal } =
-    useContext(CartContext);
+  const {
+    cartItems,
+    addToCart,
+    removeFromCart,
+    clearCart,
+    getCartTotal,
+    removeOneProductOfCart,
+  } = useContext(CartContext);
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate("/product");
@@ -117,9 +125,15 @@ const Cart = () => {
                   </span>
                   <span
                     className="text-center text-danger fw-bold"
-                    style={{ width: "20%", fontSize: 20 }}
+                    style={{ width: "17%", fontSize: 20 }}
                   >
                     {formatCurrency(item.sale * item.quantity)}
+                  </span>
+                  <span
+                    className=" remove-item"
+                    onClick={() => removeOneProductOfCart(item.main, item)}
+                  >
+                    <TiDeleteOutline />
                   </span>
                 </div>
               ))}
@@ -194,7 +208,8 @@ const Cart = () => {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="d-flex align-items-center justify-content-center flex-column mt-5">
+          <img src={blankCart} alt="" style={{ width: "40%" }} />
           Giỏ hàng của bạn chưa có gì! Quay lại
           <span
             style={{ color: "blue", cursor: "pointer" }}
