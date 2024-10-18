@@ -348,6 +348,52 @@
             </div>
           </li>
           <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#post_cate">
+              <i class="fas fa-user-friends"></i>
+              <p>Danh Mục Bài Viết</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="post_cate">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('admin.post_category.create') }}">
+                    <i class="fas fa-plus"></i>
+                    <span >Thêm danh mục</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.post_category.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS danh mục</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#post">
+              <i class="fas fa-user-friends"></i>
+              <p>Bài Viết</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="post">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('admin.post.create') }}">
+                    <i class="fas fa-plus"></i>
+                    <span >Thêm bài viết</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.post.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS bài viết</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
             <a data-bs-toggle="collapse" href="#admin">
               <i class="fas fa-user-shield"></i>
               <p>Admin</p>
