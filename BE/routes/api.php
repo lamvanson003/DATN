@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\Brand\BrandController;
 use App\Http\Controllers\Api\Product\ProductController;
 use App\Http\Controllers\Api\Login\UsersLoginController;
 use App\Http\Controllers\Api\Register\UsersRegisterController;
+use App\Http\Controllers\Api\Profile\UserProfileController;
+
 
 
 
@@ -42,4 +44,13 @@ Route::controller(UsersRegisterController::class)->prefix('/registers')
 ->group(function(){
     Route::post('/', 'store');
 });
+Route::controller(UserProfileController::class)->prefix('/profiles')
+->as('profile')
+->group(function(){
+    Route::get('/', 'index');
+    Route::post('/', 'index');
+    Route::patch('/','index');
+
+});
+
 
