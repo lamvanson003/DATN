@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('colors', function (Blueprint $table) {
+        Schema::create('discounts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('images')->nullable();
+            $table->string('code',20);
+            $table->integer('discount_value');
+            $table->dateTime('date_start');
+            $table->dateTime('date_end');
+            $table->string('desc')->nullable();
+            $table->tinyInteger('type')->default(1);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('colors');
+        Schema::dropIfExists('discounts');
     }
 };

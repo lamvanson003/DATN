@@ -53,38 +53,50 @@
 
           <div class="card-body">
             <div class="table-responsive">
-              <table id="add-row" class="display table table-hover fix_table">
+              <table id="basic-datatables" class="display table table-hover fix_table">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>Mã SP</th>
                     <th>Dung lượng</th>
                     <th>Giá</th>
                     <th>Khuyến mãi</th>
                     <th>Số lượng</th>
                     <th>Thời gian bảo hành</th>
+                    <th>Lượt mua </th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
+                    <th></th>
                     <th>Mã SP</th>
                     <th>Dung lượng</th>
                     <th>Giá</th>
                     <th>Khuyến mãi</th>
                     <th>Số lượng</th>
                     <th>Thời gian bảo hành</th>
+                    <th>Lượt mua </th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
                   @foreach ($product_variant as $item)
                     <tr>
+                      <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt="{{ $item->name }}"></td>
                       <td><a href="{{ route('admin.product.product_item.edit',[$product->id,$item->id]) }}">{{ $item->sku }}</a></td> 
-                      <td>{{ $item->storage }}</td> 
+                      <td><strong>{{ $item->storage }}</strong></td> 
                       <td>{{ number_format($item->price) }}</td> 
                       <td><span class="red">{{ number_format($item->sale)??'N/A' }}</span></td> 
                       <td>{{ $item->instock }}</td> 
                       <td>{{ $item->memory }}</td> 
+                      <td>
+                        @if($item->sold > 0)
+                            {{ $item->sold }}
+                        @else
+                            <span class="badge text-danger">Chưa có lượt mua</span>
+                        @endif
+                    </td>
                       <td>
                         
                         <button type="button" class="btn btn-primary btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">

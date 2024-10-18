@@ -28,6 +28,14 @@ Route::controller(ProductController::class)->prefix('/products')
     Route::get('/{id}', 'detail');
 });
 
+Route::controller(ProductController::class)->prefix('/products')
+->as('product')
+->group(function(){
+    Route::get('/', 'index');
+
+    Route::get('/{id}', 'detail');
+});
+
 
 
 Route::controller(UsersLoginController::class)->prefix('/logins')
@@ -37,6 +45,7 @@ Route::controller(UsersLoginController::class)->prefix('/logins')
     Route::post('/', 'index');
 
 });
+
 Route::controller(UsersRegisterController::class)->prefix('/registers')
 ->as('register')
 ->group(function(){

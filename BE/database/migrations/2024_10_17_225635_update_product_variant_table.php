@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('colors', function (Blueprint $table) {
-            $table->renameColumn('colors', 'color');
+        Schema::table('product_variants', function (Blueprint $table) {
+            $table->string('color')->after('instock')->nullable(); 
+            $table->string('images')->after('color')->nullable(); 
         });
     }
 
@@ -21,8 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('colors', function (Blueprint $table) {
-            $table->renameColumn('color', 'colors');
-        });
+        //
     }
 };

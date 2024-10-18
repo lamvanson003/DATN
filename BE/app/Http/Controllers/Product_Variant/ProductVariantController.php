@@ -25,8 +25,9 @@ class ProductVariantController extends Controller
     public function create($product_id)
     {  
         $product = Product::findOrFail($product_id);
+        $storages = ['64GB', '128GB', '256GB', '512GB' ,'1T'];
         return view('product_variant.create',
-        compact('product')
+        compact('product','storages')
         );
     }
 
@@ -41,18 +42,32 @@ class ProductVariantController extends Controller
     {
         try {
             $data = $request->validated();
-            $sku = 'SKU-'. random_int(100, 999);
-
-            ProductVariant::create([
-                'product_id'=> $data['product_id'],
-                'sku' => $sku ,
-                'price' => $data['price'],
-                'storage' => $data['storage'],
-                'sale' => $data['sale'],
-                'memory' => $data['memory'],
-                'instock' => $data['instock'],
-            ]);
-            Log::info('mess',['mess'=> $data]);
+            $baseUrl = url()->to('/');
+            if ($request->has('variants')) {
+                foreach ($request->input('variants') as $key => $variant) {
+                    
+                    $variantImagePath = null;
+                    if ($request->hasFile("variants.$key.image_color")) {
+                        $variantImage = $request->file("variants.$key.image_color");
+                        $fileName = time() . '_' . $variantImage->getClientOriginalName(); 
+                        $variantImage->move(public_path('images/variant_images'), $fileName);
+                        $variantImagePath = $baseUrl . '/images/variant_images/' . $fileName;
+                    }
+    
+                    $sku = 'SKU-'. random_int(10, 9999);
+                    ProductVariant::create([
+                        'sku' =>   $sku,
+                        'product_id' => $data['product_id'],
+                        'storage' => $variant['storage'],
+                        'price' => $variant['price'],
+                        'sale' => $variant['sale'],
+                        'memory' => $variant['memory']??null,
+                        'instock' => $variant['instock'],
+                        'images' => $variantImagePath,
+                        'color' => $variant['color'],
+                    ]);
+                }
+            } 
             return redirect()->route('admin.product.product_item.index',$data['product_id'])->with('success', 'Thêm thành công.');
         } catch (Exception $e) {
             Log::info('mess',['mess'=> $e]);

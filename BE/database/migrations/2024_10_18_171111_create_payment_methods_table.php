@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('colors', function (Blueprint $table) {
-            $table->renameColumn('name', 'colors');
-            $table->renameColumn('images', 'desc');
+        Schema::create('payment_methods', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->tinyInteger('type');
+            $table->timestamps();
         });
     }
 
@@ -22,9 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('colors', function (Blueprint $table) {
-            $table->renameColumn('colors', 'name');
-            $table->renameColumn('desc', 'images');
-        });
+        Schema::dropIfExists('payment_methods');
     }
 };

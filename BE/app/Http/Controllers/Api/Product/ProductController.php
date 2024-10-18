@@ -28,9 +28,6 @@ class ProductController extends controller{
                 'product_image_items' => function ($query){
                     $query->where('status', Status::Active);
                 }, 
-                'product_variant.variantColor.color' => function ($query){
-                    $query->where('status', Status::Active);
-                },
                 'product_variant.comments' => function($query){
                     $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
                 },
@@ -63,9 +60,6 @@ class ProductController extends controller{
                 'product_image_items' => function ($query){
                     $query->where('status', Status::Active);
                 }, 
-                'product_variant.variantColor.color' => function ($query){
-                    $query->where('status', Status::Active);
-                },
                 'product_variant.comments' => function($query){
                     $query->selectRaw('AVG(rating) as average_rating');
                 },
