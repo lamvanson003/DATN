@@ -36,12 +36,8 @@ class ProductDetailResource extends JsonResource
                     'storage' => $item->storage,
                     'sale' => $item->sale,
                     'price' => $item->price,
-                    'colors' => $item->variantColor->map(function($variantColor) {
-                        return [
-                            'id' => $variantColor->id,
-                            'color' => $variantColor->color->name,
-                        ];
-                    }),
+                    'color' => $item->color,
+                    'images' => $item->images,
                     'average_rating' => round(optional($item->comments->first())->average_rating, 2) ?? 'No ratings',
                 ];
             }),
