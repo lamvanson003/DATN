@@ -68,8 +68,8 @@ export const setupSlider = (slidesRef, formRef, prevRef, nextRef) => {
   };
 };
 export const formatCurrency = (value) => {
-  return value.toLocaleString("en-US", {
+  return value.toLocaleString("vi-VN", {
     style: "currency",
-    currency: "USD",
+    currency: "VND",
   });
 };

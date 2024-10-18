@@ -11,12 +11,7 @@
   flex-basis: 24%;
   cursor: pointer;
 }
-.bg-Breadcrumb {
-  background: #e3e1e1;
-}
-.breadcrumb-item {
-  text-transform: uppercase;
-}
+
 #Product-detail .single_pro_image {
   max-width: fit-content;
 }

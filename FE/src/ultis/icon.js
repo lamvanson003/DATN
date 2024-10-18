@@ -4,6 +4,7 @@ import {
   FaRegHeart,
   FaRegUser,
   FaHistory,
+  FaFire,
 } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import {
@@ -58,5 +59,6 @@ const icons = {
   IoIosStar,
   IoIosStarHalf,
   IoIosStarOutline,
+  FaFire,
 };
 export default icons;

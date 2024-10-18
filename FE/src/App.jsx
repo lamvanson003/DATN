@@ -40,7 +40,7 @@ function App() {
             <Route path={path.ABOUT} element={<About />} />
             <Route path={path.CONTACT} element={<Contact />} />
             <Route path={path.PRODUCT} element={<Product />}></Route>
-            <Route path={path.PRODUCT__DETAIL__ID} element={<Detail />} />
+            <Route path={path.PRODUCT__DETAIL__SLUG} element={<Detail />} />
             <Route path={path.USER} element={<User />}>
               <Route path={path.ACCOUNT} element={<Account />}>
                 <Route path={path.PROFILE} element={<Profile />} />
