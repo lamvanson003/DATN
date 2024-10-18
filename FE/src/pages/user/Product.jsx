@@ -202,8 +202,15 @@ const Product = () => {
               <Brand />
               {sortedItems &&
                 sortedItems.map((item) => (
-                  <div key={item.id} className="col-md-2-product">
-                    <BoxPro pro={item} />
+                  <div key={item?.id} className="col-md-2-product">
+                    <BoxPro
+                      pid={item?.id}
+                      name={item?.main?.name}
+                      slug={item?.slug}
+                      image={item?.images}
+                      brand={item?.brand?.name}
+                      variant={item?.product_variant}
+                    />
                   </div>
                 ))}
             </div>

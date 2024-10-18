@@ -329,7 +329,7 @@ const Payment = () => {
                         </span>
                       </span>
                       <span style={{ width: "5%" }} className="text-center">
-                        {item.quantity}
+                        x {item.quantity}
                       </span>
                       <span style={{ width: "20%" }} className="text-end">
                         {formatCurrency(item.sale * item.quantity)}
