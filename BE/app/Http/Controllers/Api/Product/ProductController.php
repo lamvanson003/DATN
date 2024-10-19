@@ -15,6 +15,42 @@ use Illuminate\Support\Facades\Log;
 
 class ProductController extends controller{
 
+    // LẤY IPHONE
+    public function productByIphone() {
+        try {
+            $products = Product::with(
+                [
+                    'category' => function ($query) {
+                    $query->where('status', CategoryStatus::Active)
+                        ->where('id',2);
+                    }, 
+                    'brand'=> function ($query){
+                        $query->where('status', BrandStatus::Active);
+                    }, 
+                    'product_variant', 
+                    'product_image_items' => function ($query){
+                        $query->where('status', Status::Active);
+                    }, 
+                    'product_variant.comments' => function($query){
+                        $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
+                    },
+                ])
+                ->where('status', ProductStatus::Active)
+                ->where('')
+                    ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => ProductResource::collection($products)
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch data',
+                'error' => $th->getMessage()
+            ], 500);
+        }
+    }
     public function index() {
         try {
             $products = Product::with(

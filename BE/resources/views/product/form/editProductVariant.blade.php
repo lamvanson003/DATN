@@ -34,48 +34,7 @@
                         <td>{{ $item->storage }}</td>
                         <td>{{ number_format($item->price) }}</td>
                         <td><span class="red">{{ number_format($item->sale) ?? 'N/A' }}</span></td>
-                        <td style="flex-direction: column">
-                            <div style="text-align: left">
-                                <div class="mb-3">
-                                    @foreach ($item->variantColor as $variantColor)
-                                        <a href="{{ route('admin.color.edit', $variantColor->color->id) }}" class="badge bg-info text-white text-center">{{ $variantColor->color->name }}</a>
-                                    @endforeach
-                                </div>
-                                
-                                <span href="#" data-bs-toggle="modal" data-bs-target="#exampleModalColor{{ $item->id }}">
-                                    <span class="badge rounded-pill icon-plusss">
-                                        <i class="fas fa-plus"></i>
-                                    </span>
-                                </span>
-
-                                <div class="modal fade" id="exampleModalColor{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalColorLabel{{ $item->id }}" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-danger text-white">
-                                                <h5 class="modal-title" id="exampleModalColorLabel{{ $item->id }}">Thêm màu sắc mới</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{ route('admin.color.storeByVariant') }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="product_variant_id" value="{{ $item->id }}">
-                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                                    <!-- Tên màu sắc -->
-                                                    <div class="mb-3">
-                                                        <label class="form-label" for="colorName{{ $item->id }}">Tên màu sắc <span class="text-danger">*</span>:</label>
-                                                        <input type="text" id="colorName{{ $item->id }}" class="form-control" name="namecl" placeholder="VD: Midnight (Đen)">
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-success">Thêm màu</button>
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
+                        <td> {{ $item->color }} </td>
                         <td>{{ $item->memory }}</td>
                     </tr>
                 @endforeach
