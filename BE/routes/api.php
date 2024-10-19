@@ -17,18 +17,19 @@ Route::controller(CategoryController::class)->prefix('/categories')
     Route::get('/', 'index');
 });
 
+Route::controller(ProductController::class)->prefix('/products')
+    ->as('product')
+    ->group(function(){
+        Route::get('/', 'index');
+        Route::get('/{slug}', 'detail');
+
+        Route::get('/category/{slug}', 'productByCate');
+    });
+
 Route::controller(BrandController::class)->prefix('/brands')
 ->as('brand')
 ->group(function(){
     Route::get('/', 'index');
-});
-
-Route::controller(ProductController::class)->prefix('/products')
-->as('product')
-->group(function(){
-    Route::get('/', 'index');
-
-    Route::get('/{slug}', 'detail');
 });
 
 Route::controller(OrderController::class)->prefix('/orders')
