@@ -17,7 +17,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Sản phẩm</a>
+          <a href="{{ route('admin.product.index') }}">Sản phẩm</a>
         </li>
       </ul>
     </div>
