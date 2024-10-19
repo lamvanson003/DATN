@@ -144,7 +144,7 @@
           </li>
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#comment">
-              <i class="fas fa-tags"></i>
+              <i class="fas fa-book-open"></i>
               <p>Bình luận</p>
               <span class="caret"></span>
             </a>
@@ -231,6 +231,18 @@
                     <span>DS sản phẩm</span>
                   </a>
                 </li>
+                @php
+                    $brands = \App\Models\Brand::all();
+                @endphp
+                @foreach ($brands as $item)
+                  <li>
+                    <a href="{{ route('admin.product.getProductByBrand',$item->id) }}">
+                      <i class="fas fa-list"></i>
+                      <span>{{ $item->name }}</span>
+                    </a>
+                  </li>
+                @endforeach
+                
               </ul>
             </div>
           </li>
@@ -324,6 +336,53 @@
               </ul>
             </div>
           </li> --}}
+         
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#post_cate">
+              <i class="fas fa-list-alt"></i>
+              <p>Danh Mục Bài Viết</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="post_cate">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('admin.post_category.create') }}">
+                    <i class="fas fa-plus"></i>
+                    <span >Thêm danh mục</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.post_category.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS danh mục</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#post">
+              <i class="fas fa-pen-square"></i>
+              <p>Bài Viết</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="post">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('admin.post.create') }}">
+                    <i class="fas fa-plus"></i>
+                    <span >Thêm bài viết</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.post.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS bài viết</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#customer">
               <i class="fas fa-user-friends"></i>
