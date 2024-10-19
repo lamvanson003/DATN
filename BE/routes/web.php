@@ -141,4 +141,3 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
 
             
 });
-
