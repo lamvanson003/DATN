@@ -5,7 +5,7 @@ import proImg from "../assets/images/iHome/image.png";
 import { CartContext } from "../context/Cart";
 import { memo } from "react";
 import { FavorContext } from "../context/Favor";
-import { formatCurrency } from "../ultis/func";
+import { formatCurrency, handleNumber } from "../ultis/func";
 import icons from "../ultis/icon";
 const BoxPro = ({
   pid,
@@ -90,28 +90,34 @@ const BoxPro = ({
           <p className="price text-center my-1">
             <span className="me-2">
               {currentVariant?.sale
-                ? formatCurrency(currentVariant?.sale)
+                ? currentVariant?.sale > 100000000
+                  ? handleNumber(currentVariant?.sale)
+                  : formatCurrency(currentVariant?.sale)
                 : "Not found"}
             </span>
             <span className="old-price">
               {currentVariant?.price
-                ? formatCurrency(currentVariant?.price)
+                ? currentVariant?.price > 100000000
+                  ? handleNumber(currentVariant?.price)
+                  : formatCurrency(currentVariant?.price)
                 : "Not found"}
             </span>
           </p>
 
           <div className="storage-variant">
-            {variant?.map((v) => (
-              <span
-                key={v.sku}
-                onClick={() => handleChangeVariant(v.sku)}
-                className={`storage-option ${
-                  currentVariant?.sku === v.sku ? "storage-selected" : ""
-                }`}
-              >
-                {v?.storage}
-              </span>
-            ))}
+            {variant
+              ?.filter((v, index) => index < 4)
+              .map((v) => (
+                <span
+                  key={v.sku}
+                  onClick={() => handleChangeVariant(v.sku)}
+                  className={`storage-option ${
+                    currentVariant?.sku === v.sku ? "storage-selected" : ""
+                  }`}
+                >
+                  {v?.storage}
+                </span>
+              ))}
           </div>
           {!hot && (
             <div className="d-flex justify-content-between align-items-center my-2">

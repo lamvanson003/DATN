@@ -142,3 +142,8 @@
 .search-bar i {
   font-size: 1.2rem;
 }
+.active-class-header {
+  background-color: #007bff;
+  padding: 19px 19px;
+  color: #fff;
+}
