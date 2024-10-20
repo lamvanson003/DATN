@@ -98,4 +98,9 @@ class AdminController extends Controller
 
         return redirect()->route('admin.admin.edit', $admin->id)->with('success', 'Cập nhật thành công!');
     }
+
+
+    public function profile(){
+        return view('admin.profile');
+    }
 }
