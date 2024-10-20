@@ -100,7 +100,10 @@ class AdminController extends Controller
     }
 
 
-    public function profile(){
-        return view('admin.profile');
+    public function profile($admin_id){
+        $admin = User::findOrFail($admin_id);
+        $status = UserStatus::asSelectArray();
+        $gender = UserGender::asSelectArray();
+        return view('admin.profile',compact('admin','status','gender'));
     }
 }
