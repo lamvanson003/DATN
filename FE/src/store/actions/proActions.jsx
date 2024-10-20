@@ -3,24 +3,25 @@ import { actionTypes } from "./actionTypes";
 import { productApi } from "../../apis/product";
 export const getProductAll = () => async (dispatch) => {
   try {
-    const response = await productApi.getAll();
-    if (response) {
-      dispatch({
-        type: actionTypes.PRODUCTS,
-        productsData: response.data.data,
-      });
-    } else {
-      dispatch({
-        type: actionTypes.PRODUCTS,
-        productsData: null,
-      });
-      console.log("ko có sản phẩm");
-    }
+    const resPhone = await productApi.getAllphone();
+    const resLaptop = await productApi.getAlllaptop();
+
+    // Khởi tạo object chứa dữ liệu từ cả 2 API
+    const productsData = {
+      phone: resPhone ? resPhone.data.data : [],
+      laptop: resLaptop ? resLaptop.data.data : [],
+    };
+
+    // Dispatch object productsData với dữ liệu đã gộp
+    dispatch({
+      type: actionTypes.PRODUCTS,
+      productsData: productsData,
+    });
   } catch (err) {
     dispatch({
       type: actionTypes.PRODUCTS,
       productsData: null,
     });
-    console.log("Lỗi khi fetch dữ liệu");
+    console.log("Lỗi khi fetch dữ liệu:", err);
   }
 };

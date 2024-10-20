@@ -41,7 +41,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
           </span>
         </div>
         <div
-          style={{ height: 120 }}
+          style={{ height: 120, backgroundColor: "#fff" }}
           className="d-flex align-items-center justify-content-between px-5"
         >
           <div>
@@ -134,63 +134,30 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
           className="w-100  "
           style={{
             height: 60,
-
+            backgroundColor: "#fff",
             borderTop: "1px solid black",
             borderBottom: "1px solid black",
           }}
         >
-          <div className="d-flex fw-semibold px-5 align-items-center h-100 justify-content-between">
-            <div className=" col-md-4" style={{ width: 204 }}>
-              <div className="dropdown">
-                <a
-                  className="btn btn-primary dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+          <div
+            className="d-flex fw-semibold align-items-center h-100 justify-content-between"
+            style={{ marginLeft: 200, marginRight: 200 }}
+          >
+            {navMenu.map((item) => (
+              <div className="" key={item.path}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `base-class ${
+                      isActive ? "active-class-header" : "inactive-class"
+                    } additional-class`
+                  }
+                  style={{ textDecoration: "none" }}
                 >
-                  <BiCategoryAlt className="me-2" size={16} /> Tất cả danh mục
-                </a>
-
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
+                  <span style={{ height: "100%" }}>{item.text}</span>
+                </NavLink>
               </div>
-            </div>
-            <div className=" col-md-8 d-flex align-items-center">
-              <div className="row w-100">
-                {navMenu.map((item) => (
-                  <div className="col-sm-3 px-0" key={item.path}>
-                    <NavLink
-                      to={item.path}
-                      className={({ isActive }) =>
-                        `base-class ${
-                          isActive ? "active-class" : "inactive-class"
-                        } additional-class`
-                      }
-                      style={{ textDecoration: "none" }}
-                    >
-                      <span>{item.text}</span>
-                    </NavLink>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <span></span>
+            ))}
           </div>
         </div>
       </div>

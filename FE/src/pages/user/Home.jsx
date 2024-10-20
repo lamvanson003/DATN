@@ -13,18 +13,13 @@ import { useSelector } from "react-redux";
 import { Brand } from "../../components";
 const Home = () => {
   const { productsData } = useSelector((state) => state.pro);
-  const [prosData, setProsData] = useState([]);
-
+  const [phonesData, setPhonesData] = useState([]);
+  const [laptopsData, setLaptopsData] = useState([]);
   console.log(productsData);
   useEffect(() => {
-    // const fetchData = async () => {
-    //   const res = await fetch("/data.json");
-    //   const data = await res.json();
-    //   setProsData(data);
-    // };
-    // fetchData();
     if (productsData) {
-      setProsData(productsData);
+      setPhonesData(productsData.phone);
+      setLaptopsData(productsData.laptop);
     }
   }, [productsData]);
 
@@ -43,7 +38,7 @@ const Home = () => {
       <div className="container mt-5">
         <div className="row justify-content-center">
           <p className="custom-text">Điện thoại</p>
-          {prosData.map((pro, index) => (
+          {phonesData.map((pro, index) => (
             <div key={index} className="col-md-2">
               <BoxPro
                 pid={pro.id}
@@ -138,9 +133,6 @@ const Home = () => {
       </div>
       {/* end special product */}
 
-      {/* start banner */}
-      <Banner />
-      {/* end banner */}
       {/* start category */}
       <Brand />
       {/* end categoy */}
@@ -151,9 +143,16 @@ const Home = () => {
       <div className="container mt-5">
         <div className="row justify-content-center">
           <p className="custom-text">Điện thoại</p>
-          {prosData.map((pro, index) => (
+          {laptopsData.map((pro, index) => (
             <div key={index} className="col-md-2">
-              <BoxPro />
+              <BoxPro
+                pid={pro.id}
+                name={pro.name}
+                slug={pro.slug}
+                image={pro.images}
+                brand={pro.brand.name}
+                variant={pro.product_variant}
+              />
             </div>
           ))}
         </div>

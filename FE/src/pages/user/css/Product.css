@@ -101,15 +101,9 @@
   color: #007bff;
 }
 
-.card-img-top {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
 .img-container {
-  margin: 20px 0 0 55px;
-  width: 114px;
+  margin: 20px 0 0 43px;
+  width: 140px;
   height: 149px;
   align-items: center;
 }

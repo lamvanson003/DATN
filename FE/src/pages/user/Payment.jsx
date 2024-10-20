@@ -20,8 +20,10 @@ const Payment = () => {
   const [selectedWard, setSelectedWard] = useState(null);
   useEffect(() => {
     const fetchProvinces = async () => {
-      const res = await axios.get("https://provinces.open-api.vn/api/p/");
-      setProvinces(res.data);
+      const res = await axios.get("https://esgoo.net/api-tinhthanh/1/0.htm");
+      console.log(res.data.data);
+
+      setProvinces(res.data.data);
     };
     fetchProvinces();
   }, []);
@@ -29,9 +31,10 @@ const Payment = () => {
     if (selectedProvince) {
       const fetchDistricts = async () => {
         const res = await axios.get(
-          `https://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`
+          `https://esgoo.net/api-tinhthanh/2/${selectedProvince.id}.htm`
         );
-        setDistricts(res.data.districts);
+        console.log(res.data.data);
+        setDistricts(res.data.data);
         setWards([]);
       };
       fetchDistricts();
@@ -41,14 +44,16 @@ const Payment = () => {
     if (selectedDistrict) {
       const fetchWards = async () => {
         const res = await axios.get(
-          `https://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`
+          `https://esgoo.net/api-tinhthanh/3/${selectedDistrict.id}.htm`
         );
-        setWards(res.data.wards);
-      };
+        console.log(res.data.data);
 
+        setWards(res.data.data);
+      };
       fetchWards();
     }
   }, [selectedDistrict]);
+
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
     phone: "",
@@ -64,6 +69,7 @@ const Payment = () => {
       [id]: value,
     }));
   };
+
   const [validFields, setValidFields] = useState({
     name: true,
     phone: true,
@@ -93,11 +99,12 @@ const Payment = () => {
       alert("Số điện thoại bao gồm 10 chữ số và không chứa ký tự đặc biệt");
       return;
     }
-    const namePattern = /^[A-Za-z\s]+$/;
+    const namePattern = /^[\p{L}\s]+$/u;
     if (!namePattern.test(customerInfo.name)) {
-      alert("Tên chỉ được chứa chữ cái và khoản trắng.");
+      alert("Tên chỉ được chứa chữ cái và khoảng trắng.");
       return;
     }
+
     alert("Thông tin hợp lệ, bạn có thể tiến hành thanh toán");
   };
 
@@ -149,33 +156,30 @@ const Payment = () => {
                       className="form-control"
                       onChange={(e) => {
                         const selectedProvince = provinces.find(
-                          (p) => p.code === Number(e.target.value)
+                          (p) => p.full_name === e.target.value
                         );
+
                         setSelectedProvince(selectedProvince);
                         setCustomerInfo((prev) => ({
                           ...prev,
                           province: selectedProvince
-                            ? selectedProvince.name
+                            ? selectedProvince.full_name
                             : "",
                           district: "",
                           ward: "",
                         }));
                       }}
-                      value={
-                        customerInfo.province
-                          ? provinces.find(
-                              (p) => p.name === customerInfo.province
-                            )?.code
-                          : ""
-                      }
+                      value={customerInfo.province || ""}
                       style={{
                         borderColor: validFields.province ? "" : "red",
+                        marginBottom: 0,
+                        backgroundColor: "#fff",
                       }}
                     >
                       <option value="">Chọn tỉnh thành phố</option>
                       {provinces.map((province) => (
-                        <option key={province.code} value={province.code}>
-                          {province.name}
+                        <option key={province.id} value={province.full_name}>
+                          {province.full_name}
                         </option>
                       ))}
                     </select>
@@ -192,32 +196,31 @@ const Payment = () => {
                       className="form-control"
                       onChange={(e) => {
                         const selectedDistrict = districts.find(
-                          (d) => d.code === Number(e.target.value)
+                          (d) => d.full_name === e.target.value
                         );
+                        console.log(e.target.value);
+                        console.log(selectedDistrict);
+
                         setSelectedDistrict(selectedDistrict);
                         setCustomerInfo((prev) => ({
                           ...prev,
                           district: selectedDistrict
-                            ? selectedDistrict.name
+                            ? selectedDistrict.full_name
                             : "",
                           ward: "",
                         }));
                       }}
-                      value={
-                        customerInfo.district
-                          ? districts.find(
-                              (d) => d.name === customerInfo.district
-                            )?.code
-                          : ""
-                      }
+                      value={customerInfo.district || ""}
                       style={{
                         borderColor: validFields.district ? "" : "red",
+                        marginBottom: 0,
+                        backgroundColor: "#fff",
                       }}
                     >
                       <option value="">Chọn quận huyện</option>
                       {districts.map((district) => (
-                        <option key={district.code} value={district.code}>
-                          {district.name}
+                        <option key={district.id} value={district.full_name}>
+                          {district.full_name}
                         </option>
                       ))}
                     </select>
@@ -234,28 +237,25 @@ const Payment = () => {
                       className="form-control"
                       onChange={(e) => {
                         const selectedWard = wards.find(
-                          (w) => w.code === Number(e.target.value)
+                          (w) => w.full_name === e.target.value
                         );
-                        setSelectedDistrict(selectedDistrict);
+
                         setCustomerInfo((prev) => ({
                           ...prev,
-                          ward: selectedWard ? selectedWard.name : "",
+                          ward: selectedWard ? selectedWard.full_name : "",
                         }));
                       }}
-                      value={
-                        customerInfo.ward
-                          ? wards.find((w) => w.code === customerInfo.ward)
-                              ?.code
-                          : ""
-                      }
+                      value={customerInfo.ward || ""}
                       style={{
                         borderColor: validFields.ward ? "" : "red",
+                        marginBottom: 0,
+                        backgroundColor: "#fff",
                       }}
                     >
                       <option value="">Chọn phường xã</option>
                       {wards.map((ward) => (
-                        <option key={ward.code} value={ward.code}>
-                          {ward.name}
+                        <option key={ward.id} value={ward.full_name}>
+                          {ward.full_name}
                         </option>
                       ))}
                     </select>
@@ -295,6 +295,7 @@ const Payment = () => {
                 style={{
                   width: 600,
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+                  backgroundColor: "#fff",
                 }}
               >
                 <div className="d-flex flex-column gap-3">
@@ -324,7 +325,7 @@ const Payment = () => {
                             wordBreak: "break-word",
                           }}
                         >
-                          <span>Màu: vàng</span>
+                          <span>Màu: {item.color.color}</span>
                           <span>Dung lượng: {item.storage}</span>
                         </span>
                       </span>
@@ -332,7 +333,11 @@ const Payment = () => {
                         x {item.quantity}
                       </span>
                       <span style={{ width: "20%" }} className="text-end">
-                        {formatCurrency(item.sale * item.quantity)}
+                        {formatCurrency(
+                          item?.color.sale
+                            ? item?.color.sale
+                            : item?.color.price * item.quantity
+                        )}
                       </span>
                     </div>
                   ))}
