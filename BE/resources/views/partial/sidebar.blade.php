@@ -29,10 +29,8 @@
         <ul class="nav nav-secondary">
           <li class="nav-item active">
             <a
-              data-bs-toggle="collapse"
               href="{{ route('admin.dashboard.index') }}"
               class="collapsed"
-              aria-expanded="false"
             >
               <i class="fas fa-home"></i>
               <p>Dashboard</p>

@@ -7,10 +7,10 @@
         <div>
           <h3 class="fw-bold mb-3">Dashboard</h3>
         </div>
-        <div class="ms-md-auto py-2 py-md-0">
+        {{-- <div class="ms-md-auto py-2 py-md-0">
           <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
           <a href="#" class="btn btn-primary btn-round">Add Customer</a>
-        </div>
+        </div> --}}
       </div>
       <div class="row">
         <div class="col-sm-6 col-md-3">
@@ -27,7 +27,7 @@
                 <div class="col col-stats ms-3 ms-sm-0">
                   <div class="numbers">
                     <p class="card-category">Visitors</p>
-                    <h4 class="card-title">1,294</h4>
+                    <h4 class="card-title">{{ $countUser }}</h4>
                   </div>
                 </div>
               </div>
@@ -48,7 +48,7 @@
                 <div class="col col-stats ms-3 ms-sm-0">
                   <div class="numbers">
                     <p class="card-category">Subscribers</p>
-                    <h4 class="card-title">1303</h4>
+                    <h4 class="card-title">{{ $countSubcription }}</h4>
                   </div>
                 </div>
               </div>
@@ -68,8 +68,8 @@
                 </div>
                 <div class="col col-stats ms-3 ms-sm-0">
                   <div class="numbers">
-                    <p class="card-category">Sales</p>
-                    <h4 class="card-title">$ 1,345</h4>
+                    <p class="card-category">Product</p>
+                    <h4 class="card-title">{{ $countProduct }}</h4>
                   </div>
                 </div>
               </div>
@@ -90,7 +90,7 @@
                 <div class="col col-stats ms-3 ms-sm-0">
                   <div class="numbers">
                     <p class="card-category">Order</p>
-                    <h4 class="card-title">576</h4>
+                    <h4 class="card-title">{{ $countOrder }}</h4>
                   </div>
                 </div>
               </div>
@@ -131,117 +131,26 @@
                 </div>
               </div>
               <div class="card-list py-4">
-                <div class="item-list">
-                  <div class="avatar">
-                    <img
-                      src="assets/img/jm_denis.jpg"
-                      alt="..."
-                      class="avatar-img rounded-circle"
-                    />
+                @foreach ($getUser as $item)
+                  <div class="item-list">
+                    <div class="avatar">
+                      <img
+                        src="{{ $item->images ?? 'assets/img/jm_denis.jpg' }}"
+                        alt="{{ $item->fullname }}"
+                        class="avatar-img rounded-circle"
+                      />
+                    </div>
+                    <div class="info-user ms-3">
+                      <div class="username">{{ $item->fullname }}</div>
+                      <div class="status">{{ $item->email }}</div>
+                    </div>
+                    
+                    <a href="">View</a>
+                    <button class="btn btn-icon btn-link btn-danger op-8">
+                      <i class="fas fa-ban"></i>
+                    </button>
                   </div>
-                  <div class="info-user ms-3">
-                    <div class="username">Jimmy Denis</div>
-                    <div class="status">Graphic Designer</div>
-                  </div>
-                  <button class="btn btn-icon btn-link op-8 me-1">
-                    <i class="far fa-envelope"></i>
-                  </button>
-                  <button class="btn btn-icon btn-link btn-danger op-8">
-                    <i class="fas fa-ban"></i>
-                  </button>
-                </div>
-                <div class="item-list">
-                  <div class="avatar">
-                    <span
-                      class="avatar-title rounded-circle border border-white"
-                      >CF</span
-                    >
-                  </div>
-                  <div class="info-user ms-3">
-                    <div class="username">Chandra Felix</div>
-                    <div class="status">Sales Promotion</div>
-                  </div>
-                  <button class="btn btn-icon btn-link op-8 me-1">
-                    <i class="far fa-envelope"></i>
-                  </button>
-                  <button class="btn btn-icon btn-link btn-danger op-8">
-                    <i class="fas fa-ban"></i>
-                  </button>
-                </div>
-                <div class="item-list">
-                  <div class="avatar">
-                    <img
-                      src="assets/img/talha.jpg"
-                      alt="..."
-                      class="avatar-img rounded-circle"
-                    />
-                  </div>
-                  <div class="info-user ms-3">
-                    <div class="username">Talha</div>
-                    <div class="status">Front End Designer</div>
-                  </div>
-                  <button class="btn btn-icon btn-link op-8 me-1">
-                    <i class="far fa-envelope"></i>
-                  </button>
-                  <button class="btn btn-icon btn-link btn-danger op-8">
-                    <i class="fas fa-ban"></i>
-                  </button>
-                </div>
-                <div class="item-list">
-                  <div class="avatar">
-                    <img
-                      src="assets/img/chadengle.jpg"
-                      alt="..."
-                      class="avatar-img rounded-circle"
-                    />
-                  </div>
-                  <div class="info-user ms-3">
-                    <div class="username">Chad</div>
-                    <div class="status">CEO Zeleaf</div>
-                  </div>
-                  <button class="btn btn-icon btn-link op-8 me-1">
-                    <i class="far fa-envelope"></i>
-                  </button>
-                  <button class="btn btn-icon btn-link btn-danger op-8">
-                    <i class="fas fa-ban"></i>
-                  </button>
-                </div>
-                <div class="item-list">
-                  <div class="avatar">
-                    <span
-                      class="avatar-title rounded-circle border border-white bg-primary"
-                      >H</span
-                    >
-                  </div>
-                  <div class="info-user ms-3">
-                    <div class="username">Hizrian</div>
-                    <div class="status">Web Designer</div>
-                  </div>
-                  <button class="btn btn-icon btn-link op-8 me-1">
-                    <i class="far fa-envelope"></i>
-                  </button>
-                  <button class="btn btn-icon btn-link btn-danger op-8">
-                    <i class="fas fa-ban"></i>
-                  </button>
-                </div>
-                <div class="item-list">
-                  <div class="avatar">
-                    <span
-                      class="avatar-title rounded-circle border border-white bg-secondary"
-                      >F</span
-                    >
-                  </div>
-                  <div class="info-user ms-3">
-                    <div class="username">Farrah</div>
-                    <div class="status">Marketing</div>
-                  </div>
-                  <button class="btn btn-icon btn-link op-8 me-1">
-                    <i class="far fa-envelope"></i>
-                  </button>
-                  <button class="btn btn-icon btn-link btn-danger op-8">
-                    <i class="fas fa-ban"></i>
-                  </button>
-                </div>
+                @endforeach
               </div>
             </div>
           </div>
