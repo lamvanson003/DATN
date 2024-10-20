@@ -82,20 +82,21 @@
                                 </div>
 
                                <!-- Danh mục -->
-<div class="col-md-12 col-sm-12">
+                               <div class="col-md-12 col-sm-12">
     <div class="mb-3">
         <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
         <div class="checkbox-list">
             @foreach ($categories as $category)
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="category_id[]" value="{{ $category->id }}"
-                    {{ in_array($category->id, $post->categories->pluck('id')->toArray()) ? 'checked' : '' }}>
+                    {{ $post->categories && in_array($category->id, $post->categories->pluck('id')->toArray()) ? 'checked' : '' }}>
                     <label class="form-check-label">{{ $category->name }}</label>
                 </div>
             @endforeach
         </div>
     </div>
 </div>
+
 
 
                             </div>
