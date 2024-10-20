@@ -46,6 +46,8 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::put('/sua', 'update')->name('update');
                 Route::post('/them', 'store')->name('store');
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
+
+                Route::get('/profile', 'profile')->name('profile');
             });
         });
 
