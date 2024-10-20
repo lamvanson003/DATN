@@ -34,7 +34,7 @@ const DeviceSpecs = () => {
       <div className="mt-4 px-0">
         <div
           className="rounded border border-secondary p-2 my-1 d-flex align-items-center justify-content-between"
-          style={{ backgroundColor: "#f2f4f7", cursor: "pointer" }}
+          style={{ backgroundColor: "#fff", cursor: "pointer" }}
           onClick={toggleConfigCollapse}
         >
           <h3 style={{ fontSize: 24 }}>Cấu hình & Bộ nhớ</h3>
@@ -90,7 +90,7 @@ const DeviceSpecs = () => {
       <div className="mt-4 px-0">
         <div
           className="rounded border border-secondary p-2 my-1 d-flex align-items-center justify-content-between"
-          style={{ backgroundColor: "#f2f4f7", cursor: "pointer" }}
+          style={{ backgroundColor: "#fff", cursor: "pointer" }}
           onClick={toggleBatteryCollapse}
         >
           <h3 style={{ fontSize: 24 }}>Pin & Sạc</h3>
@@ -139,7 +139,7 @@ const DeviceSpecs = () => {
       <div className="mt-4 px-0">
         <div
           className="rounded border border-secondary p-2 my-1 d-flex align-items-center justify-content-between"
-          style={{ backgroundColor: "#f2f4f7", cursor: "pointer" }}
+          style={{ backgroundColor: "#fff", cursor: "pointer" }}
           onClick={toggleUtilityCollapse}
         >
           <h3 style={{ fontSize: 24 }}>Tiện ích</h3>
@@ -270,7 +270,7 @@ const DeviceSpecs = () => {
       <div className="mt-4 px-0">
         <div
           className="rounded border border-secondary p-2 my-1 d-flex align-items-center justify-content-between"
-          style={{ backgroundColor: "#f2f4f7", cursor: "pointer" }}
+          style={{ backgroundColor: "#fff", cursor: "pointer" }}
           onClick={toggleConnectCollapse}
         >
           <h3 style={{ fontSize: 24 }}>Kết nối</h3>
@@ -339,7 +339,7 @@ const DeviceSpecs = () => {
       <div className="mt-4 px-0">
         <div
           className="rounded border border-secondary p-2 my-1 d-flex align-items-center justify-content-between"
-          style={{ backgroundColor: "#f2f4f7", cursor: "pointer" }}
+          style={{ backgroundColor: "#fff", cursor: "pointer" }}
           onClick={toggleDesignCollapse}
         >
           <h3 style={{ fontSize: 24 }}>Thiết kế & Chất liệu</h3>

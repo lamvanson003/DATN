@@ -82,7 +82,10 @@ const Filter = () => {
         <div
           className="check-box mb-4 p-3 rounded"
           key={filter.title} // Sử dụng filter.title làm key vì nó duy nhất
-          style={{ boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.2)" }}
+          style={{
+            boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.2)",
+            backgroundColor: "#fff",
+          }}
         >
           <h5 style={{ borderBottom: "1px solid gray", paddingBottom: 10 }}>
             <strong>{filter.title}</strong>
