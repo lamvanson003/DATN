@@ -3,7 +3,7 @@
       <nav class="pull-left">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="{{ route(admin.dashboard.index) }}">
+            <a class="nav-link" href="{{ route('admin.dashboard.index') }}">
               CLOULAB
             </a>
           </li>
