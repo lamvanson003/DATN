@@ -30,7 +30,6 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        // Post::create($request->validated()); 
         $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|unique:posts,slug',
@@ -39,27 +38,28 @@ class PostController extends Controller
             'category_id' => 'required|exists:post_categories,id',
             'status' => 'required|in:' . implode(',', PostStatus::getValues()),
             'user_id' => 'required|exists:users,id',
-            'posted_at' => 'required|date', 
+            'posted_at' => 'required|date',
         ]);
     
-        $imagePath = null;
-        if ($request->hasFile('images')) {
-            $imagePath = $request->file('images')->store('post_images', 'public');
-        }
+        $imagePath = $request->hasFile('images') ? $request->file('images')->store('post_images', 'public') : null;
     
-        Post::create([
+        $post = Post::create([
             'title' => $request->input('title'),
             'slug' => $request->input('slug'),
             'content' => $request->input('content'),
             'images' => $imagePath,
-            'category_id' => $request->input('category_id'),
-            'posted_at' => $request->input('posted_at') ? $request->input('posted_at') : now(), // Gán giá trị mặc định là thời gian hiện tại
+            'posted_at' => $request->input('posted_at'),
             'status' => $request->input('status'),
             'user_id' => $request->input('user_id'),
+            'category_id' => $request->input('category_id')[0], // Thêm dòng này nếu bạn sử dụng category_id
         ]);
+    
+        // Ghi nhận danh mục vào bảng trung gian
+        $post->category()->sync($request->input('category_id'));
     
         return redirect()->route('admin.post.index')->with('success', 'Bài viết đã được tạo thành công.');
     }
+    
     
 
     public function edit($id)
@@ -73,31 +73,33 @@ class PostController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $post = Post::findOrFail($id);
+{
+    $post = Post::findOrFail($id);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'slug' => 'required|string|unique:posts,slug,' . $id,
-            'images' => 'nullable|string',
-            'status' => 'required|in:' . implode(',', PostStatus::getValues()),
-            'category_id' => 'required|exists:post_categories,id',
-        ]);
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'slug' => 'required|string|unique:posts,slug,' . $id,
+        'content' => 'required|string',
+        'images' => 'nullable|string',
+        'status' => 'required|in:' . implode(',', PostStatus::getValues()),
+        'category_id' => 'required|array',
+        'category_id.*' => 'exists:post_categories,id',
+    ]);
 
-        $post = Post::findOrFail($id);
-        $post->update([
-            'title' => $request->input('title'),
-            'slug' => $request->input('slug'),
-            'content' => $request->input('content'),
-            'images' => $request->input('images'),
-            'status' => $request->input('status'),
-            'category_id' => $request->input('category_id'),
+    $post->update([
+        'title' => $request->input('title'),
+        'slug' => $request->input('slug'),
+        'content' => $request->input('content'),
+        'images' => $request->input('images'),
+        'status' => $request->input('status'),
+    ]);
 
-        ]);
+    // Cập nhật danh mục cho bài viết
+    $post->categories()->sync($request->input('category_id'));
 
-        return redirect()->route('admin.post.index')->with('success', 'Bài viết đã được cập nhật thành công.');
-    }
+    return redirect()->route('admin.post.index')->with('success', 'Bài viết đã được cập nhật thành công.');
+}
+
 
     public function destroy($id)
     {
