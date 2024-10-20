@@ -159,7 +159,7 @@
           <div class="card card-round">
             <div class="card-header">
               <div class="card-head-row card-tools-still-right">
-                <div class="card-title">Transaction History</div>
+                <div class="card-title">Orders History</div>
                 <div class="card-tools">
                   <div class="dropdown">
                     <button
@@ -192,7 +192,7 @@
                 <table class="table align-items-center mb-0">
                   <thead class="thead-light">
                     <tr>
-                      <th scope="col">Payment Number</th>
+                      <th scope="col">Order Number</th>
                       <th scope="col" class="text-end">Date & Time</th>
                       <th scope="col" class="text-end">Amount</th>
                       <th scope="col" class="text-end">Status</th>
@@ -206,10 +206,10 @@
                         >
                           <i class="fa fa-check"></i>
                         </button>
-                        Payment from #10231
+                        Order from {{ $order->code }}
                       </th>
-                      <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                      <td class="text-end">$250.00</td>
+                      <td class="text-end">{{ $order->created_at }}</td>
+                      <td class="text-end">{{ $order->total_price }}</td>
                       <td class="text-end">
                         <span class="badge badge-success">Completed</span>
                       </td>
