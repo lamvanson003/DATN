@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class DashboardController extends Controller
 {
@@ -11,5 +12,12 @@ class DashboardController extends Controller
         return view('dashboard.dashboard'); 
     }
 
+
+
+
+    public function countProductInactive(){
+        $q = Product::countProductInactive();
+        return $q;
+    }
 }
 
