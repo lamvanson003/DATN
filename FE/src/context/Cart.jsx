@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 export const CartProvider = ({ children }) => {
   const navigate = useNavigate();
-
   const [cartItems, setCartItems] = useState(
     localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
@@ -13,16 +12,23 @@ export const CartProvider = ({ children }) => {
   );
   const generateVariantKey = (mainName, variantSku) =>
     `${mainName}:${variantSku}`;
-  const addToCart = (main, variant) => {
-    const variantKey = generateVariantKey(main.name, variant.sku);
+  const addToCart = (main, variant, quantity = 0) => {
+    const variantKey = generateVariantKey(main.name, variant.color.sku);
     const isItemInCart = cartItems.find(
       (cartItem) => cartItem.variantKey === variantKey
     );
+
+    // Chuyển đổi quantity thành số
+    const numericQuantity = Number(quantity) > 0 ? Number(quantity) : 1;
+
     if (isItemInCart) {
       setCartItems(
         cartItems.map((cartItem) =>
           cartItem.variantKey === variantKey
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            ? {
+                ...cartItem,
+                quantity: cartItem.quantity + numericQuantity, // Cộng thêm số lượng
+              }
             : cartItem
         )
       );
@@ -31,7 +37,7 @@ export const CartProvider = ({ children }) => {
         ...cartItems,
         {
           ...variant, // Dữ liệu biến thể
-          quantity: 1, // Số lượng khởi tạo
+          quantity: numericQuantity, // Số lượng khởi tạo
           variantKey, // Key duy nhất cho mỗi sản phẩm biến thể
           main: {
             name: main.name,
@@ -42,8 +48,9 @@ export const CartProvider = ({ children }) => {
       toast.success("Đã thêm sản phẩm mới vào giỏ hàng!");
     }
   };
+
   const removeFromCart = (main, variant) => {
-    const variantKey = generateVariantKey(main.name, variant.sku);
+    const variantKey = generateVariantKey(main.name, variant.color.sku);
     const isItemInCart = cartItems.find(
       (cartItem) => cartItem.variantKey === variantKey
     );
@@ -69,7 +76,7 @@ export const CartProvider = ({ children }) => {
     }
   };
   const removeOneProductOfCart = (main, variant) => {
-    const variantKey = generateVariantKey(main.name, variant.sku);
+    const variantKey = generateVariantKey(main.name, variant.color.sku);
     const confirmDelete = window.confirm(
       "Sản phẩm sẽ bị xóa khỏi giỏ hàng, bạn chắc chắc chứ ?"
     );
@@ -84,7 +91,10 @@ export const CartProvider = ({ children }) => {
   };
   const getCartTotal = () => {
     return cartItems.reduce(
-      (total, cartItem) => total + cartItem.sale * cartItem.quantity,
+      (total, cartItem) =>
+        total +
+        (cartItem.color.sale ? cartItem.color.sale : cartItem.color.price) *
+          cartItem.quantity,
       0
     );
   };

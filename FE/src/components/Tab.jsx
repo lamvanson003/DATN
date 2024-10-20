@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InfoPro from "./InfoPro";
-const Tab = ({ proData }) => {
+const Tab = ({ detailData }) => {
   const [activeTab, setActiveTab] = useState("tab1");
 
   const handleTabClick = (tab, event) => {
@@ -45,7 +45,9 @@ const Tab = ({ proData }) => {
           }`}
         >
           <div className="container">
-            <h1 className="title_desc">Đặc Điểm Nổi Bật Của {proData?.name}</h1>
+            <h1 className="title_desc">
+              Đặc Điểm Nổi Bật Của {detailData?.name}
+            </h1>
             <ul className="features-list">
               <li>
                 Hiệu năng vượt trội - Chip Apple A15 Bionic mạnh mẽ, hỗ trợ mạng
@@ -65,10 +67,9 @@ const Tab = ({ proData }) => {
               </li>
             </ul>
             <div className="review-section">
-              <h2 className="review-title">
-                Đánh giá iPhone 13 - Flagship được mong chờ năm 2021
-              </h2>
-              <p>
+              <h2 className="review-title">Tổng quát</h2>
+              {detailData?.description}
+              {/* <p>
                 Cuối năm 2020, bộ 4 iPhone 12 đã được ra mắt với nhiều cải tiến.
                 Sau đó, mọi sự quan tâm lại đổ dồn vào sản phẩm tiếp theo -
                 iPhone 13. Vậy iPhone 13 sẽ có những gì nổi bật, hãy tìm hiểu
@@ -87,7 +88,7 @@ const Tab = ({ proData }) => {
                 vời. Máy vẫn giữ phần khung viền thép, một số phiên bản khung
                 nhôm cùng mặt lưng kính. Tuy nhiên năm ngoái, Apple cũng sẽ cho
                 ra mắt 4 phiên bản là iPhone 13, 13 mini, 13 Pro và 13 Pro Max.
-              </p>
+              </p> */}
             </div>
             <div className="see-more">
               <a className="see-more-link" href="#">

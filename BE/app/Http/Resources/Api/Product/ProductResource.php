@@ -37,14 +37,14 @@ class ProductResource extends JsonResource
                     'average_rating' => round(optional($item->comments->first())->average_rating ?? 0 , 2),
                     'total_comments' => $item->comments->first()->total_comments ?? 0,
                 ];
-            }),
+            })->values(),
             'product_image_items' => $this->product_image_items->map(function($item){
                 return [
                     'id' => $item->id,
                     'name' => $item->name??'chưa có thông tin',
                     'images' => $item->images??'chưa có thông tin',
                 ];
-            }),
+            })->values(),
             
         ];
     }

@@ -20,91 +20,75 @@ const Brand = () => {
           <div className="carousel-item active">
             <div className="d-flex justify-content-between gap-2">
               {/* Apple Card */}
-              <div className="brand-card apple-card p-3">
-                <a className="" href="/apple">
-                  <img
-                    alt="Apple logo"
-                    className="card-img-top m-0"
-                    src={logoApple}
-                  />
-                </a>
+              <div className="brand-card apple-card p-4">
+                <img
+                  alt="Apple logo"
+                  className="card-img-top m-0"
+                  src={logoApple}
+                />
               </div>
 
               {/* Samsung Card */}
-              <div className="brand-card samsung-card p-3">
-                <a className="" href="/samsung">
-                  <img
-                    alt="Samsung logo"
-                    className="card-img-top m-0"
-                    src={logoSamSung}
-                  />
-                </a>
+              <div className="brand-card samsung-card p-4">
+                <img
+                  alt="Samsung logo"
+                  className="card-img-top m-0"
+                  src={logoSamSung}
+                />
               </div>
 
               {/* Microsoft Card */}
-              <div className="brand-card microsoft-card p-3">
-                <a className="" href="/microsoft">
-                  <img
-                    alt="Microsoft logo"
-                    className="card-img-top m-0"
-                    src={logoMic}
-                  />
-                </a>
+              <div className="brand-card microsoft-card p-4">
+                <img
+                  alt="Microsoft logo"
+                  className="card-img-top m-0"
+                  src={logoMic}
+                />
               </div>
 
               {/* Lenovo Card */}
-              <div className="brand-card lenovo-card p-3">
-                <a className="" href="/lenovo">
-                  <img
-                    alt="Lenovo logo"
-                    className="card-img-top m-0"
-                    src={logoLeno}
-                  />
-                </a>
+              <div className="brand-card lenovo-card p-4">
+                <img
+                  alt="Lenovo logo"
+                  className="card-img-top m-0"
+                  src={logoLeno}
+                />
               </div>
 
               {/* Amazon Card */}
-              <div className="brand-card amazon-card p-3">
-                <a className="" href="/amazon">
-                  <img
-                    alt="Amazon logo"
-                    className="card-img-top m-0"
-                    src={logoAmazon}
-                  />
-                </a>
+              <div className="brand-card amazon-card p-4">
+                <img
+                  alt="Amazon logo"
+                  className="card-img-top m-0"
+                  src={logoAmazon}
+                />
               </div>
 
               {/* Huawei Card */}
-              <div className="brand-card huawei-card p-3">
-                <a className="" href="/huawei">
-                  <img
-                    alt="Huawei logo"
-                    className="card-img-top m-0"
-                    src={logoHuW}
-                  />
-                </a>
+              <div className="brand-card huawei-card p-4">
+                <img
+                  alt="Huawei logo"
+                  className="card-img-top m-0"
+                  src={logoHuW}
+                />
               </div>
 
               {/* Xiaomi Card */}
-              <div className="brand-card xiaomi-card p-3">
-                <a className="" href="/xiaomi">
-                  <img
-                    alt="Xiaomi logo"
-                    className="card-img-top m-0"
-                    src={logoXiaomi}
-                  />
-                </a>
+              <div className="brand-card xiaomi-card p-4">
+                <img
+                  alt="Xiaomi logo"
+                  className="card-img-top m-0"
+                  src={logoXiaomi}
+                />
               </div>
 
               {/* Realme Card */}
-              <div className="brand-card realme-card p-3">
-                <a className="" href="/realme">
-                  <img
-                    alt="Realme logo"
-                    className="card-img-top m-0"
-                    src={logoReal}
-                  />
-                </a>
+              <div className="brand-card realme-card p-4">
+                <img
+                  alt="Realme logo"
+                  className="card-img-top m-0"
+                  src={logoReal}
+                />
               </div>
             </div>
           </div>

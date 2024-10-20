@@ -5,9 +5,9 @@ import icons from "../../ultis/icon";
 const { LuUser2 } = icons;
 
 const Profile = () => {
-  const [userData, setUserData] = useState(null);  // Dữ liệu người dùng
-  const [loading, setLoading] = useState(true);    // Trạng thái loading
-  const [error, setError] = useState(null);        // Lưu trữ lỗi nếu có
+  const [userData, setUserData] = useState(null); // Dữ liệu người dùng
+  const [loading, setLoading] = useState(true); // Trạng thái loading
+  const [error, setError] = useState(null); // Lưu trữ lỗi nếu có
 
   // Fetch user data từ API khi component mount
   const fetchUserData = async () => {
@@ -19,10 +19,9 @@ const Profile = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
       const data = await response.json();
       if (response.ok) {
-        setUserData(data.data);  // Lưu dữ liệu người dùng
+        setUserData(data.data); // Lưu dữ liệu người dùng
       } else {
         setError(data.message || "Có lỗi xảy ra khi fetch dữ liệu.");
       }
@@ -43,7 +42,9 @@ const Profile = () => {
     const username = document.getElementById("username").value;
     const phone = document.getElementById("phone").value;
     const address = document.getElementById("address").value;
-    const gender = document.querySelector('input[name="gender"]:checked')?.value;
+    const gender = document.querySelector(
+      'input[name="gender"]:checked'
+    )?.value;
 
     const data = {
       fullname,
@@ -67,7 +68,7 @@ const Profile = () => {
       const result = await response.json();
       if (response.ok) {
         // Cập nhật state `userData` với dữ liệu mới
-        setUserData(result.data);  // Dùng result.data nếu API trả về dữ liệu người dùng đã được cập nhật
+        setUserData(result.data); // Dùng result.data nếu API trả về dữ liệu người dùng đã được cập nhật
         alert("Thông tin đã được cập nhật thành công!");
       } else {
         alert("Có lỗi xảy ra: " + result.message);
@@ -82,16 +83,19 @@ const Profile = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;  // Hiển thị khi đang tải dữ liệu
+    return <div>Loading...</div>; // Hiển thị khi đang tải dữ liệu
   }
 
   if (error) {
-    return <div>Error: {error}</div>;  // Hiển thị lỗi nếu có
+    return <div>Error: {error}</div>; // Hiển thị lỗi nếu có
   }
 
   return (
     <div className="row">
-      <div className="row" style={{ borderBottom: "1px solid gray", paddingBottom: 10 }}>
+      <div
+        className="row"
+        style={{ borderBottom: "1px solid gray", paddingBottom: 10 }}
+      >
         <h3>Hồ sơ của tôi</h3>
         <span>Quản lý thông tin hồ sơ để bảo mật tài khoản</span>
       </div>
@@ -181,7 +185,11 @@ const Profile = () => {
             </div>
 
             <div className="d-flex justify-content-center">
-              <button className="btn btn-primary" style={{ width: "20%" }} type="submit">
+              <button
+                className="btn btn-primary"
+                style={{ width: "20%" }}
+                type="submit"
+              >
                 Lưu thay đổi
               </button>
             </div>
@@ -190,7 +198,10 @@ const Profile = () => {
         <div className="col-sm-3">
           <div className="my-3 d-flex flex-column align-items-center">
             <span className="m-3">
-              <LuUser2 size={120} className="p-3 border border-secondary rounded-circle" />
+              <LuUser2
+                size={120}
+                className="p-3 border border-secondary rounded-circle"
+              />
             </span>
             <input
               type="file"

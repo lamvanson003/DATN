@@ -20,8 +20,8 @@ const Payment = () => {
   const [selectedWard, setSelectedWard] = useState(null);
   useEffect(() => {
     const fetchProvinces = async () => {
-      const res = await axios.get("https://provinces.open-api.vn/api/p/");
-      setProvinces(res.data);
+      const res = await axios.get("https://esgoo.net/api-tinhthanh/1/0.htm");
+      setProvinces(res.data.data); // Lấy danh sách tỉnh thành từ thuộc tính `data`
     };
     fetchProvinces();
   }, []);
@@ -29,10 +29,10 @@ const Payment = () => {
     if (selectedProvince) {
       const fetchDistricts = async () => {
         const res = await axios.get(
-          `https://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`
+          `https://esgoo.net/api-tinhthanh/2/${selectedProvince.id}.htm`
         );
-        setDistricts(res.data.districts);
-        setWards([]);
+        setDistricts(res.data.data); // Lấy danh sách quận huyện từ thuộc tính `data`
+        setWards([]); // Xóa danh sách phường xã khi thay đổi tỉnh
       };
       fetchDistricts();
     }
@@ -41,11 +41,10 @@ const Payment = () => {
     if (selectedDistrict) {
       const fetchWards = async () => {
         const res = await axios.get(
-          `https://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`
+          `https://esgoo.net/api-tinhthanh/3/${selectedDistrict.id}.htm`
         );
-        setWards(res.data.wards);
+        setWards(res.data.data); // Lấy danh sách phường xã từ thuộc tính `data`
       };
-
       fetchWards();
     }
   }, [selectedDistrict]);
@@ -149,32 +148,31 @@ const Payment = () => {
                       className="form-control"
                       onChange={(e) => {
                         const selectedProvince = provinces.find(
-                          (p) => p.code === Number(e.target.value)
+                          (p) => p.id === Number(e.target.value)
                         );
+
                         setSelectedProvince(selectedProvince);
                         setCustomerInfo((prev) => ({
                           ...prev,
-                          province: selectedProvince
-                            ? selectedProvince.name
-                            : "",
+                          province: selectedProvince ? selectedProvince.id : "", // Lưu id của tỉnh
                           district: "",
                           ward: "",
                         }));
+                        console.log("Selected Province ID:", e.target.value);
+                        console.log(
+                          "Current Province in State:",
+                          customerInfo.province
+                        );
                       }}
-                      value={
-                        customerInfo.province
-                          ? provinces.find(
-                              (p) => p.name === customerInfo.province
-                            )?.code
-                          : ""
-                      }
+                      value={customerInfo.province || ""}
                       style={{
                         borderColor: validFields.province ? "" : "red",
+                        marginBottom: 0,
+                        backgroundColor: "#fff",
                       }}
                     >
-                      <option value="">Chọn tỉnh thành phố</option>
                       {provinces.map((province) => (
-                        <option key={province.code} value={province.code}>
+                        <option key={province.id} value={province.id}>
                           {province.name}
                         </option>
                       ))}
@@ -207,11 +205,13 @@ const Payment = () => {
                         customerInfo.district
                           ? districts.find(
                               (d) => d.name === customerInfo.district
-                            )?.code
+                            )?.id
                           : ""
                       }
                       style={{
                         borderColor: validFields.district ? "" : "red",
+                        marginBottom: 0,
+                        backgroundColor: "#fff",
                       }}
                     >
                       <option value="">Chọn quận huyện</option>
@@ -244,12 +244,13 @@ const Payment = () => {
                       }}
                       value={
                         customerInfo.ward
-                          ? wards.find((w) => w.code === customerInfo.ward)
-                              ?.code
+                          ? wards.find((w) => w.name === customerInfo.ward)?.id
                           : ""
                       }
                       style={{
                         borderColor: validFields.ward ? "" : "red",
+                        marginBottom: 0,
+                        backgroundColor: "#fff",
                       }}
                     >
                       <option value="">Chọn phường xã</option>
@@ -295,6 +296,7 @@ const Payment = () => {
                 style={{
                   width: 600,
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+                  backgroundColor: "#fff",
                 }}
               >
                 <div className="d-flex flex-column gap-3">
@@ -324,7 +326,7 @@ const Payment = () => {
                             wordBreak: "break-word",
                           }}
                         >
-                          <span>Màu: vàng</span>
+                          <span>Màu: {item.color.color}</span>
                           <span>Dung lượng: {item.storage}</span>
                         </span>
                       </span>
@@ -332,7 +334,11 @@ const Payment = () => {
                         x {item.quantity}
                       </span>
                       <span style={{ width: "20%" }} className="text-end">
-                        {formatCurrency(item.sale * item.quantity)}
+                        {formatCurrency(
+                          item?.color.sale
+                            ? item?.color.sale
+                            : item?.color.price * item.quantity
+                        )}
                       </span>
                     </div>
                   ))}
