@@ -60,9 +60,12 @@ const Cart = () => {
             <div className="d-flex flex-column gap-5">
               {cartItems.map((item) => (
                 <div
-                  key={item.variantKey}
+                  key={item?.color?.sku}
                   className="d-flex justify-content-between align-items-center product p-3 rounded"
-                  style={{ boxShadow: "0 5px 10px rgba(0, 0, 0, 0.3)" }}
+                  style={{
+                    boxShadow: "0 5px 10px rgba(0, 0, 0, 0.3)",
+                    backgroundColor: "#fff",
+                  }}
                 >
                   <span
                     style={{ width: "40%", height: 100 }}
@@ -70,22 +73,39 @@ const Cart = () => {
                   >
                     <img
                       style={{ height: "90%" }}
-                      src={item.main.image}
-                      alt={item.main.name}
+                      src={item?.main?.image}
+                      alt={item?.main?.name}
                     />
-                    <span className="d-flex flex-column gap-3">
-                      <span>{item.main.name}</span>
-                      <span className="opacity-75">
-                        Loại: <span>{item.storage}</span>
+                    <span className="d-flex flex-column gap-2">
+                      <span style={{ fontSize: 18, fontWeight: 600 }}>
+                        {item?.main.name}
+                      </span>
+                      <span className="opacity-75 d-flex flex-column gap-1">
+                        <span>
+                          {item?.storage
+                            ? `Dung lượng: ${item?.storage}`
+                            : null}
+                        </span>
+                        <span>
+                          {item?.color?.color
+                            ? `Màu sắc: ${item?.color?.color}`
+                            : null}
+                        </span>
                       </span>
                     </span>
                   </span>
                   <span className="text-center" style={{ width: "20%" }}>
                     <span className="opacity-75 me-2 text-decoration-line-through">
-                      {formatCurrency(item.price)}
+                      {item?.color?.price
+                        ? formatCurrency(item?.color?.price)
+                        : 0}
                     </span>
                     <span style={{ fontSize: 18 }}>
-                      {formatCurrency(item.sale)}
+                      {item?.color?.sale
+                        ? formatCurrency(item?.color?.sale)
+                        : item?.color?.price
+                        ? formatCurrency(item?.color?.price)
+                        : 0}
                     </span>
                   </span>
                   <span
@@ -93,7 +113,7 @@ const Cart = () => {
                     style={{ width: "20%" }}
                   >
                     <span
-                      style={{ width: "40%" }}
+                      style={{ width: "40%", backgroundColor: "#fff" }}
                       className="border rounded-start rounded-end d-flex justify-content-between "
                     >
                       <button
@@ -127,11 +147,14 @@ const Cart = () => {
                     className="text-center text-danger fw-bold"
                     style={{ width: "17%", fontSize: 20 }}
                   >
-                    {formatCurrency(item.sale * item.quantity)}
+                    {formatCurrency(
+                      ((item?.color?.sale ?? item?.color?.price) || 0) *
+                        (item?.quantity || 0)
+                    )}
                   </span>
                   <span
                     className=" remove-item"
-                    onClick={() => removeOneProductOfCart(item.main, item)}
+                    onClick={() => removeOneProductOfCart(item?.main, item)}
                   >
                     <TiDeleteOutline />
                   </span>
@@ -172,7 +195,7 @@ const Cart = () => {
               </div>
               <div
                 className="d-flex flex-column gap-3 border border-secondary rounded px-3 py-3"
-                style={{ width: "40%" }}
+                style={{ width: "40%", backgroundColor: "#fff" }}
               >
                 <span style={{ fontSize: 20 }} className="fw-semibold">
                   Tổng giỏ hàng

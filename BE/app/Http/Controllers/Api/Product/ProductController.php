@@ -10,11 +10,58 @@ use App\Enums\Product\ProductStatus;
 use App\Http\Resources\Api\Product\ProductResource;
 use App\Http\Resources\Api\Product\ProductDetailResource;
 use App\Models\Product;
+use App\Models\Category;
 
 use Illuminate\Support\Facades\Log;
 
 class ProductController extends controller{
 
+    // LẤY IPHONE
+    public function productByCate($slug) {
+        try {
+            $category = Category::where('slug', $slug)
+                ->where('status', CategoryStatus::Active)
+                ->first();
+
+            if (!$category) {
+                return response()->json([
+                'success' => false,
+                'message' => 'Category not found'
+                ], 404);
+            }
+
+            $products = Product::with(
+                [
+                    'category' => function ($query) {
+                    $query->where('status', CategoryStatus::Active);
+                    }, 
+                    'brand'=> function ($query){
+                        $query->where('status', BrandStatus::Active);
+                    }, 
+                    'product_variant', 
+                    'product_image_items' => function ($query){
+                        $query->where('status', Status::Active);
+                    }, 
+                    'product_variant.comments' => function($query){
+                        $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
+                    },
+                ])
+                ->where('status', ProductStatus::Active)
+                ->where('category_id', $category->id)
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => ProductResource::collection($products)
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch data',
+                'error' => $th->getMessage()
+            ], 500);
+        }
+    }
     public function index() {
         try {
             $products = Product::with(

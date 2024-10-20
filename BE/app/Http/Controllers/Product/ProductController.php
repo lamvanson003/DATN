@@ -18,9 +18,17 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('product_image_items','product_variant')->get();
+        $products = Product::with('product_image_items','product_variant',)->get();
         $status = ProductStatus::asSelectArray();
         return view('product.index', compact(['products', 'status']));
+    }
+
+    public function getProductByBrand($brand_id)
+    {
+        $products = Product::whereRelation('brand','id',$brand_id)->get();
+        $brand = Brand::findOrfail($brand_id);
+        $status = ProductStatus::asSelectArray();
+        return view('product.getProductByBrand', compact(['products', 'status','brand']));
     }
 
     public function create()

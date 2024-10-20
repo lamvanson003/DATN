@@ -26,6 +26,16 @@ class Product extends Model
     ];
 
 
+
+
+
+
+
+
+    public function countProductInactive(){
+        
+    }
+
     /**
      * Quan hệ với bảng Brand (Thương hiệu)
      */

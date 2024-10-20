@@ -1,9 +1,9 @@
 import axios from "axios";
 export const productApi = {
-  getAll: async () => {
+  getAllphone: async () => {
     try {
       const response = await axios({
-        url: "http://127.0.0.1:8000/api/products",
+        url: " http://127.0.0.1:8000/api/products/category/dien-thoai",
         method: "get",
       });
       return response;
@@ -12,16 +12,25 @@ export const productApi = {
       return [];
     }
   },
-  getOne: async (pid) => {
+  getAlllaptop: async () => {
     try {
       const response = await axios({
-        url: "/api/detailproduct",
+        url: " http://127.0.0.1:8000/api/products/category/laptop",
         method: "get",
-        params: {
-          pid: pid,
-        },
       });
-      return response.data;
+      return response;
+    } catch (err) {
+      console.log("Ko thể fetch được dữ liệu", err);
+      return [];
+    }
+  },
+  getOne: async (slug) => {
+    try {
+      const response = await axios({
+        url: `http://127.0.0.1:8000/api/products/${slug}`, // Sử dụng slug trực tiếp trong URL
+        method: "get",
+      });
+      return response.data.data;
     } catch (err) {
       console.log("Không thể fetch được dữ liệu", err);
     }

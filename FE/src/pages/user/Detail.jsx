@@ -1,90 +1,132 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { CartContext } from "../../context/Cart";
-import mainImg1 from "../../assets/images/k1.jpeg";
-import mainImg2 from "../../assets/images/k2.jpeg";
-import mainImg3 from "../../assets/images/k3.jpeg";
-import mainImg4 from "../../assets/images/k1.jpeg";
 import varImg1 from "../../assets/images/iphone1.jpg";
 import varImg2 from "../../assets/images/iphone2.jpg";
+import { productApi } from "../../apis";
 import { commentApi } from "../../apis";
 import { Tab, BoxPro } from "../../components";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
+import { formatCurrency } from "../../ultis/func";
 const Detail = () => {
+  const { slug } = useParams();
   const { addToCart } = useContext(CartContext);
-  const { pid } = useParams();
-  const [cmts, setCmts] = useState([]);
   const ref = useRef();
-  const [proDatas, setProDatas] = useState([]);
+  const [detailData, setDetailData] = useState([]);
   const [comment, setComment] = useState("");
   const [loadingComment, setLoadingComment] = useState(false);
+  const [activeStorage, setActiveStorage] = useState(null);
+  const [activeColor, setActiveColor] = useState(null);
+  const [mainImage, setMainImage] = useState(detailData.images || "");
+  const [currentVariant, setCurrentVariant] = useState();
+  const [quantity, setQuantity] = useState(1);
+  const [main, setMain] = useState();
   useEffect(() => {
-    const fetchProData = async () => {
+    const fetchDetailData = async () => {
       try {
-        const res = await fetch("/data.json");
-        const data = await res.json();
-        setProDatas(data);
+        const data = await productApi.getOne(slug);
+        console.log("detailData:", data); // Kiểm tra dữ liệu nhận được
+
+        // Thêm đối tượng hình ảnh mới vào product_image_items
+        if (data.product_image_items) {
+          const newImage = {
+            id: Math.floor(Math.random() * 1000), // Tạo ID ngẫu nhiên
+            name: "mainImg", // Đặt tên
+            images: data.images, // Giả sử data.images là đường dẫn hình ảnh
+          };
+          data.product_image_items.push(newImage); // Thêm vào mảng hình ảnh
+        }
+        setMain({
+          name: data.name,
+          image: data.images,
+        });
+        setDetailData(data);
       } catch (err) {
-        console.log(err);
+        console.log("Không thể lấy dữ liệu", err);
       }
     };
-    fetchProData();
-  }, [pid]);
+
+    fetchDetailData();
+  }, [slug]);
+
+  useEffect(() => {
+    if (detailData.product_variant && detailData.product_variant.length > 0) {
+      const firstStorage = detailData.product_variant[0];
+      const firstVariant = firstStorage.variants[0];
+      setActiveStorage(firstStorage.storage || "");
+      if (firstStorage.variants.length === 1) {
+        setActiveColor(firstVariant.color);
+      } else {
+        setActiveColor(firstVariant.color || "");
+      }
+      setMainImage(firstVariant.images || "");
+      setCurrentVariant({
+        storage: firstStorage.storage,
+        color: firstVariant,
+      });
+    }
+  }, [detailData, slug]);
+
+  const handleChangeVariant = (color) => {
+    const selectedStorage = detailData?.product_variant?.find(
+      (pv) => pv?.storage === activeStorage
+    );
+    if (selectedStorage) {
+      const selectedColor = selectedStorage.variants.find(
+        (v) => v.color === color
+      );
+      if (selectedColor) {
+        const selectedVariant = {
+          storage: selectedStorage.storage,
+          color: selectedColor,
+        };
+        setCurrentVariant(selectedVariant);
+        setActiveColor(selectedColor.color); // Cập nhật activeColor
+      } else {
+        console.log("Không tìm thấy màu tương ứng");
+      }
+    } else {
+      console.log("Không tìm thấy dung lượng tương ứng");
+    }
+  };
+
+  const handleStorageClick = (storage) => {
+    const selectedStorage = detailData?.product_variant?.find(
+      (pv) => pv?.storage === storage
+    );
+    if (selectedStorage) {
+      const firstVariant = selectedStorage.variants[0];
+      setActiveStorage(storage);
+      setActiveColor(firstVariant.color);
+      setCurrentVariant({
+        storage: selectedStorage.storage,
+        color: firstVariant,
+      });
+    } else {
+      console.log("Không tìm thấy dung lượng tương ứng");
+    }
+  };
+
+  const handleImageClick = (img) => {
+    setMainImage(img);
+  };
+
   useEffect(() => {
     ref.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
       inline: "nearest",
     });
-  }, [pid]);
-  useEffect(() => {
-    try {
-      const fetchCmtpid = async () => {
-        const data = await commentApi.getCommentByPid(+pid);
-        setCmts(data);
-      };
-      fetchCmtpid();
-    } catch (err) {
-      console.log("không thể fetch dữ liệu", err);
-    }
-  }, [pid]);
-
-  const proData = proDatas.find((item) => item.id === parseInt(pid));
-  const imgList = [mainImg1, mainImg2, mainImg3, mainImg4];
-  // State để lưu hình ảnh chính, dung lượng và màu sắc đang được chọn
-  const [mainImage, setMainImage] = useState(mainImg1);
-  const [activeStorage, setActiveStorage] = useState("64GB");
-  const [activeColor, setActiveColor] = useState(varImg1);
-
-  // Hàm thay đổi hình ảnh chính
-  const handleImageClick = (img) => {
-    setMainImage(img);
-  };
-
+  }, [slug]);
   // Hàm chọn dung lượng
-  const handleStorageClick = (storage) => {
-    setActiveStorage(storage);
-    console.log("Active Storage:", storage);
-  };
 
   // Hàm chọn màu sắc
   const handleColorClick = (color) => {
     setActiveColor(color);
-    console.log("Active Color:", color);
+    handleChangeVariant(color);
   };
-
-  const handleSubmitComment = async (e) => {
-    e.preventDefault();
-    setLoadingComment(true);
-    try {
-      const data = await commentApi.postComment(1, pid, comment);
-      console.log("Bình luận đã được đăng !", data);
-    } catch (err) {
-      console.log("Lỗi", err);
-    } finally {
-      setLoadingComment(false);
-    }
-  };
+  console.log(currentVariant);
+  console.log("main: ", main);
 
   return (
     <>
@@ -99,13 +141,10 @@ const Detail = () => {
                   </a>
                 </li>
                 <li className="breadcrumb-item">
-                  <a href="/product">DANH MỤC</a>
-                </li>
-                <li className="breadcrumb-item">
                   <a href="#">SẢN PHẨM</a>
                 </li>
                 <li className="breadcrumb-item" aria-current="page">
-                  <span>{proData?.name}</span>
+                  <span>{detailData?.name}</span>
                 </li>
               </ol>
             </nav>
@@ -117,28 +156,37 @@ const Detail = () => {
               <div className="single_pro_image col-lg-6 col-md-5">
                 <div
                   className="d-flex flex-column align-items-center p-3"
-                  style={{ boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.2)" }}
+                  style={{
+                    boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.2)",
+                    backgroundColor: "white",
+                  }}
                 >
                   <div
-                    style={{ width: "100%" }}
-                    className="d-flex  justify-content-center"
+                    style={{ width: "100%", height: 355.2 }}
+                    className="d-flex  justify-content-center mb-2"
                   >
-                    <img src={mainImage} style={{ width: "60%" }} alt="" />
+                    <img
+                      src={mainImage}
+                      style={{ width: "60%" }}
+                      alt=""
+                      id="MainImg"
+                    />
                   </div>
-                  <div className="d-flex align-items-center justify-content-center gap-1">
-                    {imgList.map((item, index) => (
-                      <div
-                        key={index}
-                        className=" mt-3 d-flex align-items-center justify-content-center"
-                      >
-                        <img
-                          src={item}
-                          style={{ width: "70%", cursor: "pointer" }}
-                          alt=""
-                          onClick={() => handleImageClick(item)}
-                        />
-                      </div>
-                    ))}
+                  <div className="d-flex align-items-center justify-content-center gap-1 mt-5">
+                    {detailData?.product_image_items &&
+                      detailData?.product_image_items.map((item, index) => (
+                        <div
+                          key={index}
+                          className=" mt-3 d-flex align-items-center justify-content-center"
+                        >
+                          <img
+                            src={item?.images}
+                            style={{ width: "70%", cursor: "pointer" }}
+                            alt=""
+                            onClick={() => handleImageClick(item?.images)}
+                          />
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -146,23 +194,26 @@ const Detail = () => {
                 <div className="product__details__text">
                   <div className="product-tag">
                     <div className="bestseller-tag">#Bán chạy</div>
-                    <div className="sold-tag">Đã bán: {proData?.sold}</div>
+                    <div className="sold-tag">Đã bán: {detailData?.sold}</div>
                   </div>
-                  <h1 className="text-uppercase">{proData?.name}</h1>
+                  <h1 className="text-uppercase">{detailData?.name}</h1>
                   <div className="info-product">
                     <div className="rate-sku">
                       <div className="rate">
+                        <b>
+                          {currentVariant?.rating ? currentVariant?.rating : 0}
+                        </b>
                         <i
                           className="bx bxs-star"
                           style={{
                             color: "#f1c123",
                           }}
                         />
-                        <b>{proData?.rating}</b>
-                        <span className="ml-2">({proData?.reviews})</span>
+
+                        <span className="ml-2">({detailData?.reviews})</span>
                       </div>
                       <div className="sku">
-                        <strong>Mã: {proData?.sku}</strong>
+                        <strong>Mã: {currentVariant?.color?.sku}</strong>
                       </div>
                       <div className="status">
                         <span className="badge text-bg-success">Còn hàng</span>
@@ -170,76 +221,89 @@ const Detail = () => {
                     </div>
                   </div>
 
-                  <div className="short_desc">{proData?.description}</div>
                   <div className="product-options">
                     <div className="option-group">
                       <label htmlFor="storage">Dung lượng</label>
-                      <div className="storage-options mt-3">
-                        {proData?.storage_options?.map((item, index) => (
+                      <div className="storage-options mt-2">
+                        {detailData?.product_variant?.map((item) => (
                           <button
-                            key={index}
+                            key={item.storage}
                             className={`option-btn ${
-                              activeStorage === item ? "storage badgeClick" : ""
+                              activeStorage === item.storage
+                                ? "storage badgeClick"
+                                : ""
                             }`}
-                            onClick={() => handleStorageClick(item)}
+                            onClick={() => handleStorageClick(item.storage)}
                           >
-                            {item}
-                            {/* Chỉ hiển thị span badge khi item được chọn */}
-                            {activeStorage === item && (
-                              <span
-                                className="badgeClick bx bx-check"
-                                style={{ display: "inline" }}
-                              />
-                            )}
+                            {item.storage}
                           </button>
                         ))}
                       </div>
                     </div>
                     <div className="option-group">
                       <label htmlFor="color">Màu sắc</label>
-                      <div className="color-options mt-3">
-                        {proData?.color_options?.map((item, index) => (
-                          <button
-                            key={index}
-                            className={`option-btn ${
-                              activeColor === varImg1
-                                ? "storage badgeClick"
-                                : ""
-                            }`}
-                            onClick={() => handleColorClick(varImg1)}
-                          >
-                            <img alt="Đen" src={varImg1} />
-                            <span>{item}</span>
-                            {activeColor === item && (
-                              <span
-                                className="badgeClick bx bx-check"
-                                style={{ display: "inline" }}
-                              />
-                            )}
-                          </button>
-                        ))}
+                      <div className="color-options mt-2">
+                        {detailData?.product_variant?.find(
+                          (v) => v.storage === activeStorage
+                        )?.variants?.length > 0 ? (
+                          detailData?.product_variant
+                            ?.find((v) => v.storage === activeStorage)
+                            .variants?.map((item, index) => (
+                              <button
+                                key={index}
+                                className={`option-btn ${
+                                  activeColor === item.color
+                                    ? "color badgeClick"
+                                    : ""
+                                }`}
+                                onClick={() => handleColorClick(item.color)}
+                              >
+                                <img alt={item.color} src={item.images} />
+                                <span>{item.color}</span>
+                                {activeColor === item.color && (
+                                  <span
+                                    className="badgeClick bx bx-check"
+                                    style={{ display: "inline" }}
+                                  />
+                                )}
+                              </button>
+                            ))
+                        ) : (
+                          <p>Không tìm thấy phiên bản cho dung lượng đã chọn</p>
+                        )}
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="info-product-price mt-2">
-                  <h4>Giá:</h4>
-                  <div className="sale">${proData?.sale}</div>
-                  <div className="price">${proData?.price}</div>
+                  <div className="sale">
+                    {currentVariant?.color?.sale
+                      ? formatCurrency(currentVariant?.color?.sale)
+                      : currentVariant?.color?.price
+                      ? formatCurrency(currentVariant?.color?.price)
+                      : "Not found"}
+                  </div>
+                  <div className="price">
+                    {currentVariant?.color?.price
+                      ? formatCurrency(currentVariant?.color?.price)
+                      : "Not found"}
+                  </div>
                 </div>
-                <div className="short_desc">
-                  Máy mới 100% , chính hãng Apple Việt Nam.Clound LAB hiện là
-                  đại lý bán lẻ uỷ quyền iPhone hãng VN/A của Apple Việt Nam
-                </div>
+                <div className="short_desc">{detailData?.short_desc}</div>
                 <div className="option-group">
                   <label htmlFor="title">Số lượng</label>
-                  <input defaultValue="1" id="quantity" type="number" />
+                  <input
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    id="quantity"
+                    type="number"
+                  />
                 </div>
                 <div className="action-buttons">
                   <button
                     className="cart-btn"
                     onClick={() => {
-                      addToCart(proData);
+                      addToCart(main, currentVariant, quantity);
                     }}
                   >
                     <i className="bx bx-cart-add" /> Thêm giỏ hàng
@@ -255,7 +319,7 @@ const Detail = () => {
         <section className=" container mt-5" id="Description">
           <div className="row">
             <div className="col-lg-8 col-md-8">
-              <Tab proData={proData} />
+              <Tab detailData={detailData} />
             </div>
             <div className="col-lg-4 col-md-4">
               <div className="d-flex flex-column align-items-end">
@@ -279,7 +343,7 @@ const Detail = () => {
           <div className="container mt-5">
             <div>
               <span>Bạn cần đăng nhập để bình luận</span>
-              <form action="" onSubmit={handleSubmitComment}>
+              <form action="">
                 <textarea
                   placeholder="Hãy nêu suy nghĩ của bạn"
                   style={{
@@ -303,29 +367,7 @@ const Detail = () => {
               </form>
             </div>
             <div className="reviews">
-              <h3>2 bình luận của {proData?.name}</h3>
-              {cmts.map((cmt) => (
-                <div key={cmt.id} className="review">
-                  <div className="reviewer-info">
-                    <img
-                      alt="Reviewer 1"
-                      className="reviewer-img"
-                      src={mainImg2}
-                    />
-                    <div>
-                      <h4 className="m-0">{cmt.username} </h4>
-                      <div className="rating d-flex align-items-center">
-                        <span className="text-warning">★★★★☆</span>
-                      </div>
-                      <p className="text-secondary">
-                        {cmt.createdAt} | Phân loại hàng:
-                        {cmt?.product_variant_id}
-                      </p>
-                      <p>{cmt.content}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              <h3>2 bình luận của {detailData?.name}</h3>
             </div>
           </div>
         </section>

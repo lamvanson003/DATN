@@ -43,9 +43,9 @@ class ProductDetailResource extends JsonResource
                             'images' => $item->images,
                             'average_rating' => round(optional($item->comments->first())->average_rating, 2) ?? 'No ratings',
                         ];
-                    })
+                    })->values()
                 ];
-            }),
+            })->values(),
             'product_image_items' => $this->product_image_items->map(function($item){
                 return [
                     'id' => $item->id,

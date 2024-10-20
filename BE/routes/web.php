@@ -85,6 +85,9 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
 
             Route::controller(App\Http\Controllers\Product\ProductController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
+
+                Route::get('/brand/{id}', 'getProductByBrand')->name('getProductByBrand');
+
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
                 Route::get('/sua/{id}', 'edit')->name('edit');

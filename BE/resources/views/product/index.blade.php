@@ -17,7 +17,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Sản phẩm</a>
+          <a href="{{ route('admin.product.index') }}">Sản phẩm</a>
         </li>
       </ul>
     </div>
@@ -103,17 +103,13 @@
                     </td>
                     <td>{{ $item->product_variant->sum('sold') }}</td>
                     <td>
-                      <div class="form-button-action gap-2">
-                        <a href="{{ route('admin.product.edit', $item->id) }}">
-                          <button type="button" data-bs-toggle="tooltip" title="Chỉnh sửa" class="btn btn-info btn-icon">
-                            <i class="fa fa-pencil-alt"></i>
-                          </button>
-                        </a>
-                      </div>   
+                        <button type="button" data-bs-toggle="modal" title="Chỉnh sửa" class="btn btn-danger btn-icon" data-bs-target="#exampleModal{{ $item->id }}">
+                          <i class="fa fa-trash-alt"></i>
+                        </button>
                     </td>
                     </tr>
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -121,15 +117,15 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                              Chuyển trạng thái thành đã xóa
+                              Chuyển trạng thái <strong>{{ $item->name }}</strong> thành đã xóa
                           </div>
                           <div class="modal-footer">
-                            <form action="{{ route('admin.category.delete',$item->id) }}" method="POST">
+                            <form action="{{ route('admin.product.delete',$item->id) }}" method="POST">
                               @csrf
                               <input type="hidden" name="_method" value="DELETE">
                               <button type="submit" class="btn btn-danger">Xóa</button>
                             </form>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
                           </div>
                         </div>
                       </div>

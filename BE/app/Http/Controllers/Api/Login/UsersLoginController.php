@@ -16,7 +16,15 @@ class UsersLoginController extends Controller
         if ($request->has('email') && $request->has('password')) {
             $credentials = $request->only('email', 'password');
 
-            // Thử đăng nhập với email và password
+            // Thử lấy thông tin người dùng với email đã cung cấp
+            $user = User::where('email', $request->email)->first();
+
+            // Nếu người dùng không tồn tại hoặc là admin, từ chối đăng nhập
+            if (!$user || $user->roles === UserRole::Admin) {
+                return response()->json(['error' => 'Bạn không có quyền hạn để đăng nhập.'], 403);
+            }
+
+            // Nếu người dùng hợp lệ, thực hiện xác thực với email và password
             if (!Auth::attempt($credentials)) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
@@ -27,43 +35,21 @@ class UsersLoginController extends Controller
             // Tạo token
             $token = $user->createToken('API Token')->plainTextToken;
 
-            // Kiểm tra quyền của người dùng
-            if ($user->roles === UserRole::Admin) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Login successful',
-                    'token' => $token,  // Trả về token
-                    'redirect_url' => route('admin.dashboard.index'),
-                    'user_data' => [
-                        'fullname' => $user->fullname,
-                        'email' => $user->email,
-                        'username' => $user->username,
-                        'gender' => $user->gender,
-                        'phone' => $user->phone,
-                        'avatar' => $user->avatar,
-                        'address' => $user->address,
-                    ]
-                ]);
-            } elseif ($user->roles === UserRole::User) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Login successful',
-                    'token' => $token,  // Trả về token
-                    'user_data' => [
-                        'fullname' => $user->fullname,
-                        'email' => $user->email,
-                        'username' => $user->username,
-                        'gender' => $user->gender,
-                        'phone' => $user->phone,
-                        'avatar' => $user->avatar,
-                        'address' => $user->address,
-                    ]
-                ]);
-            }
-
-            // Nếu không có quyền phù hợp, đăng xuất người dùng
-            Auth::logout();
-            return response()->json(['error' => 'You do not have access.'], 403);
+            // Trả về thông tin người dùng
+            return response()->json([
+                'success' => true,
+                'message' => 'Login successful',
+                'token' => $token,  // Trả về token
+                'user_data' => [
+                    'fullname' => $user->fullname,
+                    'email' => $user->email,
+                    'username' => $user->username,
+                    'gender' => $user->gender,
+                    'phone' => $user->phone,
+                    'avatar' => $user->avatar,
+                    'address' => $user->address,
+                ]
+            ]);
         }
 
         // Nếu không có thông tin đăng nhập trong request
@@ -72,6 +58,7 @@ class UsersLoginController extends Controller
             'message' => 'Invalid credentials.',
         ], 401);
     }
+
 
     // Hàm logout
     public function logout()
