@@ -81,19 +81,23 @@
                                     </div>
                                 </div>
 
-                                <!-- Danh mục -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
-                                        <select required class="form-select" name="category_id">
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}" {{ $post->category_id == $category->id ? 'selected' : '' }}>
-                                                    {{ $category->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                               <!-- Danh mục -->
+                               <div class="col-md-12 col-sm-12">
+    <div class="mb-3">
+        <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
+        <div class="checkbox-list">
+            @foreach ($categories as $category)
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="category_id[]" value="{{ $category->id }}"
+                    {{ $post->categories && in_array($category->id, $post->categories->pluck('id')->toArray()) ? 'checked' : '' }}>
+                    <label class="form-check-label">{{ $category->name }}</label>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+
+
 
                             </div>
                         </div>

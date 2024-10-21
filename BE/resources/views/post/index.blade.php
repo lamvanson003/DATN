@@ -49,6 +49,7 @@
                     <th>Lượt xem</th>
                     <th>Trạng thái</th>
                     <th>Người tạo</th>
+                    <th>Danh mục</th>
                     <th>Hành động</th>
                   </tr>
                 </thead>
@@ -61,55 +62,62 @@
                     <th>Lượt xem</th>
                     <th>Trạng thái</th>
                     <th>Người tạo</th>
+                    <th>Danh mục</th>
                     <th>Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  @foreach ($posts as $post)
-    <tr>
-        <td>{{ $post->title }}</td>
-        <td>{{ $post->slug }}</td>
-        <td>
-            <img src="{{ $post->images }}" alt="Hình ảnh" width="50">
-        </td>
-        <td>{{ $post->views }}</td>
-        <td>{{ $post->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
-        <td>{{ $post->user->fullname }}</td>
-        <td>
-            <a href="{{ route('admin.post.edit', $post->id) }}" class="btn btn-primary btn-sm">
-                <i class="fa fa-pencil-alt"></i>
-            </a>
-            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $post->id }}">
-                <i class="fa fa-trash"></i>
-            </button>
-        </td>
-    </tr>
+                    @foreach ($posts as $post)
+                    <tr>
+                        <td>{{ $post->title }}</td>
+                        <td>{{ $post->slug }}</td>
+                        <td>
+                            <img src="{{ asset('storage/' . $post->images) }}" alt="Hình ảnh" width="50">
+                        </td>
+                        <td>{{ $post->views }}</td>
+                        <td>{{ $post->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                        <td>{{ $post->user->fullname }}</td>
+                        <td>
+                  
+                            @foreach ($post->categories as $category)
+                                <span class="badge bg-info">{{ $category->name }}</span>
+                            @endforeach
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.post.edit', $post->id) }}" class="btn btn-primary btn-sm">
+                                <i class="fa fa-pencil-alt"></i>
+                            </a>
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $post->id }}">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
 
-            <!-- Modal -->
-            <div class="modal fade" id="deleteModal{{ $post->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="deleteModalLabel">Thông báo</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Chuyển trạng thái thành đã xóa
-                        </div>
-                        <div class="modal-footer">
-                            <form action="{{ route('admin.post.delete', $post->id) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-danger">Xóa</button>
-                            </form>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                    <div class="modal fade" id="deleteModal{{ $post->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="deleteModalLabel">Thông báo</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Chuyển trạng thái thành đã xóa
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="{{ route('admin.post.delete', $post->id) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                    </form>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        @endforeach
-
+                    @endforeach
                 </tbody>
+
               </table>
             </div>
           </div>
