@@ -19,6 +19,7 @@ class DashboardController extends Controller
         $countOrder = $this->countOrder();
 
         $getUser = $this->getUserDash();
+        $getOrder = $this->getOrderDash();
         return view('dashboard.dashboard',
         compact(
             'countUser',
@@ -26,7 +27,8 @@ class DashboardController extends Controller
             'countSubcription',
             'countOrder',
 
-            'getUser'
+            'getUser',
+            'getOrder'
         )
         ); 
     }
@@ -57,6 +59,10 @@ class DashboardController extends Controller
         return $q;
     }
 
+    public function getOrderDash(){
+        $q = Order::orderBy('id','desc')->limit(10)->get();
+        return $q;
+    }
     
 
 
