@@ -34,7 +34,7 @@ class OrderController extends Controller {
         ]);
         try {
             DB::beginTransaction();
-            $code = random_int(1,999);
+            $code = random_int(1,9999);
             $order = Order::create([
                 'code' => $code,
                 'user_id' => $validatedData['user_id'],
@@ -61,6 +61,7 @@ class OrderController extends Controller {
                 $productVariant = ProductVariant::find($productData['product_variant_id']);
                 if ($productVariant) {
                     $productVariant->instock -= $productData['quantity']; 
+                    $productVariant->sold += $productData['quantity']; 
                     $productVariant->save();
                 }
             }
