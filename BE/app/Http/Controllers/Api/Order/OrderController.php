@@ -17,7 +17,7 @@ class OrderController extends Controller {
 
     public function create(Request $request){
         $validatedData = $request->validate([
-            'user_id' => 'required|integer',
+            'user_id' => 'nullable|integer',
             'payment_method_id' => 'required|integer',
             'discount_id' => 'nullable|integer',
             'fullname' => 'nullable|string',
