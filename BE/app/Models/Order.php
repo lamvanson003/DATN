@@ -28,5 +28,5 @@ class Order extends Model
 
     protected $cast = [
         'status' => OrderStatus::class,
-    ]
+    ];
 }
