@@ -23,7 +23,7 @@ class OrderController extends Controller {
             'fullname' => 'nullable|string',
             'phone' => 'nullable|string',
             'address' => 'nullable|string',
-            'email' => 'nullable|email',
+            'email' => 'required|email',
             'note' => 'nullable|string',
             'total_price' => 'required|numeric',
             'products' => 'required|array',
