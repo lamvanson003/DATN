@@ -41,7 +41,7 @@ const Home = () => {
           {phonesData.map((pro, index) => (
             <div key={index} className="col-md-2">
               <BoxPro
-                pid={pro.id}
+                id={pro.id}
                 name={pro.name}
                 slug={pro.slug}
                 image={pro.images}
@@ -146,7 +146,7 @@ const Home = () => {
           {laptopsData.map((pro, index) => (
             <div key={index} className="col-md-2">
               <BoxPro
-                pid={pro.id}
+                id={pro.id}
                 name={pro.name}
                 slug={pro.slug}
                 image={pro.images}

@@ -4,6 +4,7 @@ import icons from "../../ultis/icon";
 import { CartContext } from "../../context/Cart";
 import { Link, useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../ultis/func";
+import { discountApi } from "../../apis";
 import blankCart from "../../assets/images/iHome/blankcart.png";
 import "./css/Cart.css";
 const Cart = () => {
@@ -15,10 +16,26 @@ const Cart = () => {
     clearCart,
     getCartTotal,
     removeOneProductOfCart,
+    applyDiscount,
   } = useContext(CartContext);
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate("/product");
+  };
+  const [discountCode, setDiscountCode] = useState("");
+  const [finalPrice, setFinalPrice] = useState(0);
+  const [applyStatus, setApplyStatus] = useState(false);
+  const handleDiscount = async () => {
+    try {
+      const discountData = await discountApi.getOne(discountCode);
+      if (discountData) {
+        setFinalPrice(applyDiscount(getCartTotal(), discountData));
+      } else {
+        console.log("Không tồn tại");
+      }
+    } catch (err) {
+      console.log("Có vấn đề!", err);
+    }
   };
   const navigatePayment = () => {
     navigate("/payment");
@@ -182,12 +199,15 @@ const Cart = () => {
                   <input
                     style={{ width: "100%", height: "100%" }}
                     type="text"
+                    value={discountCode}
+                    onChange={(e) => setDiscountCode(e.target.value)}
                     placeholder="Nhập mã giảm giá"
                     className="text-center rounded border-0"
                   />
                 </span>
                 <span
                   style={{ backgroundColor: "#016AFF", height: "100%" }}
+                  onClick={handleDiscount}
                   className="px-3 py-1 rounded text-light d-flex align-items-center fw-bold"
                 >
                   Áp dụng
@@ -202,15 +222,18 @@ const Cart = () => {
                 </span>
                 <span className="d-flex justify-content-between py-2 border-bottom border-secondary">
                   Giá gốc:
-                  <span>đ</span>
+                  <span>{formatCurrency(getCartTotal())}</span>
                 </span>
                 <span className="d-flex justify-content-between py-2 border-bottom border-secondary">
                   Phí vận chuyển: <span>100.000đ</span>
                 </span>
+                <span className="d-flex justify-content-between py-2 border-bottom border-secondary">
+                  Giảm giá: <span>100.000đ</span>
+                </span>
                 <span className="d-flex justify-content-between py-2">
                   Tổng:
                   <span className="fw-bold text-danger">
-                    {formatCurrency(getCartTotal())}
+                    {/* {formatCurrency(finalPrice)} */}
                   </span>
                 </span>
                 <span className="d-flex justify-content-center">

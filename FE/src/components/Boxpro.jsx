@@ -7,18 +7,7 @@ import { memo } from "react";
 import { FavorContext } from "../context/Favor";
 import { formatCurrency, handleNumber } from "../ultis/func";
 import icons from "../ultis/icon";
-const BoxPro = ({
-  pid,
-  name,
-  image,
-  rating,
-  slug,
-  brand,
-  totalrate,
-  watched,
-  variant,
-  hot,
-}) => {
+const BoxPro = ({ id, name, image, slug, brand, watched, variant, hot }) => {
   const { IoIosStar, IoIosStarHalf, IoIosStarOutline, FaFire } = icons;
   const [currentVariant, setCurrentVariant] = useState();
   const [activeStorage, setActiveStorage] = useState(null);
@@ -34,11 +23,17 @@ const BoxPro = ({
         setActiveColor(null); // Set null nếu không có variant nào
       }
       setCurrentVariant({
-        storage: firstStorage.storage,
+        storage: firstStorage?.storage,
         color: firstVariant,
       });
     }
   }, [variant]);
+  const handleAddToCart = () => {
+    if (currentVariant && currentVariant?.color?.instock !== undefined) {
+      console.log(currentVariant?.color?.instock);
+      addToCart(main, currentVariant, 1, currentVariant?.color?.instock);
+    }
+  };
   const handleChangeVariant = (selectedStorage) => {
     const selectedStorageObj = variant.find(
       (v) => v.storage === selectedStorage
@@ -58,16 +53,19 @@ const BoxPro = ({
       setCurrentVariant(null);
     }
   };
+
   const { cartItems, addToCart, buyNow } = useContext(CartContext);
   const { favorItems, addToFavor } = useContext(FavorContext);
   const inCartItem = cartItems.find(
-    (cartItem) => cartItem.id === currentVariant?.id
+    (cartItem) => cartItem.color.sku === currentVariant?.color.sku
   );
   const cartItemQuantity = inCartItem && inCartItem.quantity;
   const inFavorItems = favorItems.find(
     (favorItem) => favorItem.id === currentVariant?.id
   );
-  const main = { name, image };
+  const main = { id, name, image };
+  console.log(main);
+
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
   return (
     <div className="card">
@@ -109,9 +107,10 @@ const BoxPro = ({
               {name
                 ? name.length > 40
                   ? name.slice(0, 40) + "..."
-                  : `${name} ${
-                      currentVariant?.color?.color &&
+                  : `${name}${
                       currentVariant?.color?.color
+                        ? ` ${currentVariant?.color?.color}`
+                        : ""
                     }`
                 : testname.length > 40
                 ? testname.slice(0, 40) + "..."
@@ -165,12 +164,7 @@ const BoxPro = ({
           </div>
           {!hot && (
             <div className="d-flex justify-content-between align-items-center my-2">
-              <button
-                className="icon-btn"
-                onClick={() => {
-                  addToCart(main, currentVariant);
-                }}
-              >
+              <button className="icon-btn" onClick={handleAddToCart}>
                 <i className="fas fa-shopping-cart fw-semibold" />
                 <span className="fw-bold text-primary ms-1">
                   {cartItemQuantity ? `(${cartItemQuantity})` : ""}
