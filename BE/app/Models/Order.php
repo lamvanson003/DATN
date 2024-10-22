@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enum\Order\OrderStatus;
 
 class Order extends Model
 {
@@ -24,4 +25,8 @@ class Order extends Model
     public function order_details(){
         return $this->hasMany(OrderDetail::class,'order_id');
     }
+
+    protected $cast = [
+        'status' => OrderStatus::class,
+    ]
 }
