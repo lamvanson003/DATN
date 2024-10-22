@@ -37,6 +37,7 @@ const Detail = () => {
           data.product_image_items.push(newImage); // Thêm vào mảng hình ảnh
         }
         setMain({
+          id: data.id,
           name: data.name,
           image: data.images,
         });
