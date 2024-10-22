@@ -32,11 +32,11 @@ class OrderController extends Controller {
             'products.*.price' => 'required|numeric',
             'products.*.sale' => 'nullable|numeric',
         ]);
-
         try {
             DB::beginTransaction();
-    
+            $code = random_int(1,999);
             $order = Order::create([
+                'code' => $code,
                 'user_id' => $validatedData['user_id'],
                 'payment_method_id' => $validatedData['payment_method_id'],
                 'discount_id' => $validatedData['discount_id'] ?? null,
