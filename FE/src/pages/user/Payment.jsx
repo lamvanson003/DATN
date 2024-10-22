@@ -91,7 +91,7 @@ const Payment = () => {
       product_variant_id: item?.color?.id,
       quantity: item.quantity || 1,
       price: item?.color?.price,
-      sale: item?.color?.sale ? item?.color?.sale : item?.color?.price,
+      sale: item?.color?.sale ? item?.color?.sale : 0,
     }));
     setProducts(updatedProducts);
   }, []);
@@ -121,12 +121,12 @@ const Payment = () => {
       return;
     }
     const orderData = {
-      user_id: 1,
+      user_id: null,
       payment_method_id: paymentMethod,
       discount_id: 1,
       shipping_method: 0,
-      phone: customerInfo.phone,
       fullname: customerInfo.name,
+      phone: customerInfo.phone,
       address: `${customerInfo.province}, ${customerInfo.district}, ${customerInfo.ward}, ${customerInfo.street}`,
       email: "",
       note: "",
