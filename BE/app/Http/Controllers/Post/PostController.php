@@ -11,7 +11,6 @@ use App\Models\User;
 
 class PostController extends Controller
 {
-  
     public function index()
     {
         $posts = Post::with('categories', 'user')->get();  
@@ -40,8 +39,13 @@ class PostController extends Controller
             'posted_at' => 'required|date',
         ]);
 
-        
-        $imagePath = $request->hasFile('images') ? $request->file('images')->store('post_images', 'public') : null;
+        $imagePath = null;
+        if ($request->hasFile('images')) {
+            $image = $request->file('images');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/post/'), $imageName);  
+            $imagePath = 'images/post/' . $imageName; 
+        }
     
         $post = Post::create([
             'title' => $request->input('title'),
@@ -53,7 +57,6 @@ class PostController extends Controller
             'user_id' => $request->input('user_id'),
         ]);
 
-       
         $post->categories()->sync($request->input('category_id')); 
     
         return redirect()->route('admin.post.index')->with('success', 'Bài viết đã được tạo thành công.');
@@ -83,10 +86,11 @@ class PostController extends Controller
             'category_id.*' => 'exists:post_categories,id',
         ]);
 
-       
         if ($request->hasFile('images')) {
-            $imagePath = $request->file('images')->store('post_images', 'public');
-            $post->images = $imagePath;
+            $image = $request->file('images');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/post/'), $imageName);  
+            $post->images = 'images/post/' . $imageName;  
         }
 
         $post->update([
@@ -96,7 +100,6 @@ class PostController extends Controller
             'status' => $request->input('status'),
         ]);
 
-        
         $post->categories()->sync($request->input('category_id'));
 
         return redirect()->route('admin.post.index')->with('success', 'Bài viết đã được cập nhật thành công.');

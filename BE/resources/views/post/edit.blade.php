@@ -38,7 +38,7 @@
                                 <h3 class="mb-0 strong text-center">Thông Tin Bài Viết</h3>
                             </div>
                             <div class="row card-body">
-                                <!-- Tiêu đề bài viết -->
+                      
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Tiêu đề bài viết<span style="color: red">*</span>:</label>
@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Slug -->
+                      
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Đường dẫn (Slug)<span style="color: red">*</span>:</label>
@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Nội dung -->
+          
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Nội dung<span style="color: red">*</span>:</label>
@@ -62,7 +62,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Ảnh đại diện -->
+                    
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Ảnh đại diện:</label>
@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Ngày đăng -->
+                 
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Ngày sửa<span style="color: red">*</span>:</label>
@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
 
-                               <!-- Danh mục -->
+                     
                                <div class="col-md-12 col-sm-12">
     <div class="mb-3">
         <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
@@ -104,7 +104,7 @@
                     </div>
 
                     <div class="col-12 col-md-3">
-                        <!-- Trạng thái -->
+      
                         <div class="card mb-3">
                             <div class="card-header">Trạng thái</div>
                             <div class="card-body p-2">
@@ -116,7 +116,7 @@
                             </div>
                         </div>
 
-                        <!-- Button lưu -->
+
                         <div class="card mb-3">
                             <div class="card-header">Lưu</div>
                             <div class="card-body p-2">
