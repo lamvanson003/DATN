@@ -64,7 +64,8 @@
                 <tbody>
                   @foreach ($postCategories as $category)
                     <tr>
-                        <td><img class="text-center fix-image" src="{{ asset('storage/' . $category->images) }}" ></td>
+                    <td><img class="text-center fix-image" src="{{ asset($category->images) }}" ></td>
+
                         <td><a href="{{ route('admin.post_category.edit', $category->id) }}">{{ $category->name }}</a></td>
                         <td>{{ $category->slug }}</td>
                         <td>

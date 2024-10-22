@@ -72,7 +72,7 @@
                         <td>{{ $post->title }}</td>
                         <td>{{ $post->slug }}</td>
                         <td>
-                            <img src="{{ asset('storage/' . $post->images) }}" alt="Hình ảnh" width="50">
+                            <img src="{{ asset($post->images) }}" alt="Hình ảnh" width="50">
                         </td>
                         <td>{{ $post->views }}</td>
                         <td>{{ $post->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>

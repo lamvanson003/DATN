@@ -11,7 +11,6 @@ use Exception;
 
 class PostCategoryController extends Controller
 {
-    // Display a listing of post categories
     public function index()
     {
         $postCategories = PostCategory::all();
@@ -25,7 +24,6 @@ class PostCategoryController extends Controller
         ]);
     }
 
-    // Store a newly created post category
     public function store(Request $request)
     {
         $request->validate([
@@ -37,7 +35,10 @@ class PostCategoryController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('images')) {
-            $imagePath = $request->file('images')->store('post_category_images', 'public'); 
+            $image = $request->file('images');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/post_category'), $imageName);  
+            $imagePath = 'images/post_category/' . $imageName;  
         }
 
         PostCategory::create([
@@ -59,7 +60,6 @@ class PostCategoryController extends Controller
         ]);
     }
 
-    
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -73,8 +73,10 @@ class PostCategoryController extends Controller
 
         $imagePath = $postCategory->images; 
         if ($request->hasFile('images')) {
-            
-            $imagePath = $request->file('images')->store('post_category_images', 'public');
+            $image = $request->file('images');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/post_category'), $imageName);  
+            $imagePath = 'images/post_category/' . $imageName;  
         }
 
         $postCategory->update([
