@@ -105,13 +105,13 @@
             <div class="collapse" id="slider">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="#themmagiamgia">
+                  <a href="{{ route('admin.slider.create') }}">
                     <i class="fas fa-plus"></i>
                     <span>Thêm Slider</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#dsmagiamgia">
+                  <a href="{{ route('admin.slider.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS Slider</span>
                   </a>
