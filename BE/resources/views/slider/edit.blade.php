@@ -42,13 +42,13 @@
                                 <!-- name -->
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
-                                        <label class="control-label">Tên thương hiệu<span style="color: red">*</span>:</label>
+                                        <label class="control-label">Tên slider<span style="color: red">*</span>:</label>
                                         <input type="text" required class="form-control text-capitalize" name="name" value="{{ $slider->name }}" placeholder="VD: Iphone 13promax">
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12">
                                     <div class="mb-3">
-                                        <label class="control-label">desc<span style="color: red">*</span>:</label>
+                                        <label class="control-label">Mô tả<span style="color: red">*</span>:</label>
                                         <input type="text" required class="form-control text-capitalize" name="desc" value="{{ $slider->desc }}" placeholder="VD: Iphone 13promax">
                                     </div>
                                 </div>

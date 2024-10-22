@@ -116,6 +116,17 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::put('/sua/{id}', 'update')->name('update');
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
             });
+
+            Route::controller(App\Http\Controllers\Slider\ItemController::class)
+            ->as('item.')
+            ->group(function () {
+                Route::get('/{slider_id}/item/them', 'create')->name('create');
+                Route::get('/{slider_id}/item', 'index')->name('index');
+                Route::get('/item/sua/{id}', 'edit')->name('edit');
+                Route::put('/item/sua', 'update')->name('update');
+                Route::post('/{slider_id}/item/them', 'store')->name('store');
+                Route::delete('/{slider_id}/item/xoa/{id}', 'delete')->name('delete');
+            });
         });
 
         Route::prefix('/comments')->as('comment.')->group(function () {

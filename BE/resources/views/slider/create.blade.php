@@ -1,6 +1,6 @@
 @extends('layout_admin')
 
-@section('title', 'Slider')
+@section('title', 'Thêm slider')
 
 @section('content_admin')
 <div class="container">
@@ -34,16 +34,16 @@
                 @csrf
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
-                        <div class="card mt-3">
-                            <div class="card-header">
-                                <h5 class="red">Thông tin Sản phẩm</h5>
+                        <div class="card">
+                            <div class="card-header justify-content-center">
+                                <h3 class="mb-0 strong text-center">Thông Tin Slider</h3>
                             </div>
                             <div class="card-body">
                                 <!-- Name and Slug in the same row -->
                                 <div class="col-md-12 col-sm-12 d-flex mb-3">
                                     <div class="me-2 flex-grow-1">
-                                        <label class="control-label">Tên sản phẩm<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" placeholder="VD: Iphone 13 Pro Max">
+                                        <label class="control-label">Tên slider<span style="color: red">*</span>:</label>
+                                        <input type="text" required class="form-control" name="name" placeholder="VD: Khuyến mãi tháng 11">
                                     </div>
                                 </div>
                         
@@ -51,7 +51,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Mô tả chi tiết:</label>
-                                        <textarea class="form-control" name="desc" rows="4" placeholder="Mô tả chi tiết về sản phẩm"></textarea>
+                                        <textarea class="form-control" name="desc" rows="4" placeholder="Mô tả về slider"></textarea>
                                     </div>
                                 </div>
                         

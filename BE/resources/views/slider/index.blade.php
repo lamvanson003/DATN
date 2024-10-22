@@ -43,7 +43,7 @@
                 <thead>
                   <tr>
                     <th>Ảnh đại diện</th>
-                    <th>Sản phẩm</th>
+                    <th>Tên</th>
                     <th>Mô tả</th>
                     <th >Hình ảnh </th>
                     <th>Trạng thái</th>
@@ -53,7 +53,7 @@
                 <tfoot>
                   <tr>
                     <th>Ảnh đại diện</th>
-                    <th>Sản phẩm</th>
+                    <th>Tên</th>
                     <th>Mô tả</th>
                     <th >Hình ảnh </th>
                     <th>Trạng thái</th>
@@ -73,7 +73,7 @@
                                 <img class="text-center fix-image" src="{{ asset($imageItem->images) }}" alt="{{ $item->name }}">
                               @endforeach
                             </div>
-                            <a href="{{ route('admin.product.item.index',$item->id) }}">DS hình ảnh</a>
+                            <a href="{{ route('admin.slider.item.index',$item->id) }}">DS hình ảnh</a>
                         </div>                  
                     </td>
                       <td>

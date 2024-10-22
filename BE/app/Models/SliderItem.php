@@ -14,11 +14,7 @@ class SliderItem extends Model
         'slider_id',
         'title', 
         'images',
-        'position',
-    ];
-
-    protected $casts = [
-        'status'=> Status::class,
+        'posittion',
     ];
 
     public function slider()

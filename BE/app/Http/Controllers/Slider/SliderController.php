@@ -45,7 +45,7 @@ class SliderController extends Controller
                 $image = $request->file('image');
                 $fileName = time() . '_' . $image->getClientOriginalName();
                 $image->move(public_path('images/slider'), $fileName);
-                $imagePath = $baseUrl . '/image/slider/' . $fileName;
+                $imagePath = $baseUrl . '/images/slider/' . $fileName;
             }
 
             $slider = Slider::create([
@@ -91,7 +91,7 @@ class SliderController extends Controller
             }
             $newImage = $request->file('new_image');
             $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
-            $newImage->move(public_path('image/slider'), $newImageName);
+            $newImage->move(public_path('images/slider'), $newImageName);
 
             $slider->image = 'http://127.0.0.1:8000/images/slider/' . $newImageName;
         }
@@ -102,6 +102,6 @@ class SliderController extends Controller
 
         $slider->save();
 
-        return redirect()->route('admin.slider.edit', $slider->id)->with('success', 'Slider đã được cập nhật thành công!');
+        return redirect()->route('admin.slider.index', $slider->id)->with('success', 'Slider đã được cập nhật thành công!');
     }
 }
