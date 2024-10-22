@@ -107,22 +107,7 @@ export const CartProvider = ({ children }) => {
     setCartItems([{ ...item, quantity: 1 }]);
     navigate("/payment");
   };
-  const applyDiscount = async (total_price, discountData) => {
-    if (discountData) {
-      if (discountData.type === "percentage") {
-        const discountValue = (total_price * discountData.value) / 100;
-        return discountValue;
-      } else if (discountData.type === "fixed") {
-        const discountValue = discountData.value;
-        return discountValue;
-      } else {
-        console.log("Mã giảm giá ko hợp lệ!");
-        return 0;
-      }
-    } else {
-      console.log("Không tìm thấy mã giảm giảm giá!");
-    }
-  };
+
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
@@ -142,7 +127,6 @@ export const CartProvider = ({ children }) => {
         getCartTotal,
         buyNow,
         removeOneProductOfCart,
-        applyDiscount,
       }}
     >
       {children}

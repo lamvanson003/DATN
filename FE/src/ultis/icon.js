@@ -19,7 +19,7 @@ import { RiBankCardFill, RiProductHuntLine, RiTruckLine } from "react-icons/ri";
 import { PiHandPalm } from "react-icons/pi";
 import { BsSearch } from "react-icons/bs";
 import { CiLocationOn, CiShop } from "react-icons/ci";
-import { BiCategoryAlt } from "react-icons/bi";
+import { BiCategoryAlt, BiSolidDiscount } from "react-icons/bi";
 import { FcAbout } from "react-icons/fc";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { TiDeleteOutline } from "react-icons/ti";
@@ -29,6 +29,7 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { BsCashCoin } from "react-icons/bs";
 import { LuUser2 } from "react-icons/lu";
 const icons = {
+  BiSolidDiscount,
   FaShoppingCart,
   FaRegUser,
   IoCartOutline,

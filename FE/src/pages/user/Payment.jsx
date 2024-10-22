@@ -12,7 +12,8 @@ import "./css/Payment.css";
 import { useNavigate } from "react-router-dom";
 import sending from "../../assets/images/iHome/sending.png";
 import { discountApi } from "../../apis";
-const { IoIosArrowDropdown, RiBankCardFill, PiHandPalm } = icons;
+const { IoIosArrowDropdown, RiBankCardFill, PiHandPalm, BiSolidDiscount } =
+  icons;
 const Payment = () => {
   const navigate = useNavigate();
   const { cartItems, getCartTotal, buyNowItem } = useContext(CartContext);
@@ -25,6 +26,25 @@ const Payment = () => {
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedWard, setSelectedWard] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [discountCode, setDiscountCode] = useState(null);
+  const [applyingDiscount, setApplyingDiscount] = useState(false);
+  const handleDiscount = async () => {
+    try {
+      setApplyingDiscount(true);
+      const discountData = await discountApi.getOne(discountCode);
+      setApplyingDiscount(false);
+      if (discountData.type === "percentage") {
+        const discountValue = (getCartTotal() * discountData.value) / 100;
+        const discountPrice = getCartTotal() - discountValue;
+        setFinalPrice(discountPrice);
+      } else if (discountData === " fixed") {
+        const discountPrice = getCartTotal() - discountData.value;
+        setFinalPrice(discountPrice);
+      }
+    } catch (err) {
+      console.log("Lỗi khi handle mã", err);
+    }
+  };
   const handleChangePaymentMethod = (e) => {
     const selectedValue = Number(e.target.value);
     setPaymentMethod(selectedValue);
@@ -122,13 +142,13 @@ const Payment = () => {
     }
     const orderData = {
       user_id: null,
-      payment_method_id: paymentMethod,
-      discount_id: 1,
+      payment_method_id: 1,
+      discount_id: null,
       shipping_method: 0,
       fullname: customerInfo.name,
       phone: customerInfo.phone,
       address: `${customerInfo.province}, ${customerInfo.district}, ${customerInfo.ward}, ${customerInfo.street}`,
-      email: "",
+      email: "euuring0110@gmail.com",
       note: "",
       total_price: getCartTotal(),
       products: products,
@@ -396,7 +416,19 @@ const Payment = () => {
                     </div>
                   ))}
                 </div>
-
+                <div>
+                  <label htmlFor="discountCode" className="fw-semibold">
+                    <BiSolidDiscount size={24} className="text-danger" /> Nhập
+                    mã giảm giá
+                  </label>
+                  <input
+                    id="discountCode"
+                    type="text"
+                    value={discountCode}
+                    onChange={(e) => setDiscountCode(e.target.value)}
+                    onClick={handleDiscount}
+                  />
+                </div>
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Giá: </span>
