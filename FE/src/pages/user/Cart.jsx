@@ -59,19 +59,33 @@ const Cart = () => {
                 <IoCartOutline fontSize={40} />
               </span>
             </span>
-            {cartItems.length >= 1 && (
-              <span>
-                <button
-                  onClick={clearCart}
-                  className="btn bg-danger text-light d-flex align-items-center"
-                >
-                  <span>
-                    <MdDeleteForever size={24} />
-                  </span>
-                  Xóa hết
-                </button>
-              </span>
-            )}
+            <span>
+              <button
+                onClick={clearCart}
+                className="btn bg-danger text-light d-flex align-items-center"
+              >
+                <span>
+                  <MdDeleteForever size={24} />
+                </span>
+                Xóa hết
+              </button>
+            </span>
+          </div>
+          <div
+            className="d-flex align-items-center p-3 mb-3"
+            style={{
+              backgroundColor: " #007bff",
+              color: "#fff",
+              fontWeight: 600,
+            }}
+          >
+            <span style={{ width: "40%", textAlign: "center" }}>Sản phẩm</span>
+            <span style={{ width: "20%", textAlign: "center" }}>Giá tiền</span>
+            <span style={{ width: "20%", textAlign: "center" }}>Số lượng</span>
+            <span style={{ width: "13%", textAlign: "center" }}>
+              Thành tiền
+            </span>
+            <span style={{ width: "7%", textAlign: "center" }}>Hành động</span>
           </div>
           <div>
             <div className="d-flex flex-column gap-5">

@@ -12,8 +12,14 @@ import "./css/Payment.css";
 import { useNavigate } from "react-router-dom";
 import sending from "../../assets/images/iHome/sending.png";
 import { discountApi } from "../../apis";
-const { IoIosArrowDropdown, RiBankCardFill, PiHandPalm, BiSolidDiscount } =
-  icons;
+const {
+  IoIosArrowDropdown,
+  RiBankCardFill,
+  PiHandPalm,
+  BiSolidDiscount,
+  MdOutlineSmsFailed,
+  FaCheckDouble,
+} = icons;
 const Payment = () => {
   const navigate = useNavigate();
   const { cartItems, getCartTotal, buyNowItem } = useContext(CartContext);
@@ -26,8 +32,9 @@ const Payment = () => {
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedWard, setSelectedWard] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [discountCode, setDiscountCode] = useState(null);
+  const [discountCode, setDiscountCode] = useState("");
   const [applyingDiscount, setApplyingDiscount] = useState(false);
+  const [isSuccessDiscount, setIsSuccessDiscount] = useState(0);
   const handleDiscount = async () => {
     try {
       setApplyingDiscount(true);
@@ -41,8 +48,12 @@ const Payment = () => {
         const discountPrice = getCartTotal() - discountData.value;
         setFinalPrice(discountPrice);
       }
+      setDiscountCode("");
+      setIsSuccessDiscount(1);
     } catch (err) {
       console.log("Lỗi khi handle mã", err);
+      setDiscountCode("");
+      setIsSuccessDiscount(2);
     }
   };
   const handleChangePaymentMethod = (e) => {
@@ -416,7 +427,7 @@ const Payment = () => {
                     </div>
                   ))}
                 </div>
-                <div>
+                <div className="position-relative">
                   <label htmlFor="discountCode" className="fw-semibold">
                     <BiSolidDiscount size={24} className="text-danger" /> Nhập
                     mã giảm giá
@@ -426,9 +437,45 @@ const Payment = () => {
                     type="text"
                     value={discountCode}
                     onChange={(e) => setDiscountCode(e.target.value)}
-                    onClick={handleDiscount}
+                    style={{ outline: "none", boxShadow: "none" }}
                   />
+                  <button
+                    onClick={handleDiscount}
+                    style={{
+                      position: "absolute",
+                      right: "0px",
+                      top: "64%",
+                      transform: "translateY(-50%)",
+                      padding: "10px 10px",
+                      border: "none",
+                      borderRadius: "0 0.25rem 0.25rem 0",
+                      outline: "none",
+                      boxShadow: "none",
+                    }}
+                  >
+                    Áp dụng
+                  </button>
                 </div>
+                {isSuccessDiscount !== 0 && (
+                  <span
+                    className={`${
+                      isSuccessDiscount === 1
+                        ? "applyDiscountSuccess"
+                        : "applyDiscountFail"
+                    } defaultDiscount`}
+                  >
+                    {isSuccessDiscount === 1 ? (
+                      <>
+                        <FaCheckDouble size={24} /> Áp dụng mã thành công
+                      </>
+                    ) : (
+                      <>
+                        Có lỗi xảy ra
+                        <MdOutlineSmsFailed size={24} />
+                      </>
+                    )}
+                  </span>
+                )}
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Giá: </span>

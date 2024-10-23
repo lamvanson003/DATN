@@ -23,9 +23,9 @@ import { BiCategoryAlt, BiSolidDiscount } from "react-icons/bi";
 import { FcAbout } from "react-icons/fc";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { TiDeleteOutline } from "react-icons/ti";
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdOutlineSmsFailed } from "react-icons/md";
 import { FaRocketchat, FaPencilAlt, FaTicketAlt } from "react-icons/fa";
-import { FaRegCircleUser } from "react-icons/fa6";
+import { FaRegCircleUser, FaCheckDouble } from "react-icons/fa6";
 import { BsCashCoin } from "react-icons/bs";
 import { LuUser2 } from "react-icons/lu";
 const icons = {
@@ -61,5 +61,7 @@ const icons = {
   IoIosStarHalf,
   IoIosStarOutline,
   FaFire,
+  MdOutlineSmsFailed,
+  FaCheckDouble,
 };
 export default icons;
