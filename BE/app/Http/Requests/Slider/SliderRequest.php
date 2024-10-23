@@ -11,7 +11,7 @@ class SliderRequest extends BaseRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'desc' => 'required|string|max:255',
+            'desc' => 'nullable|string|max:255',
             'status' => 'required|integer',
         ];
     }
