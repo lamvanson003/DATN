@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Comment\CommentController;
 use App\Http\Controllers\Api\Register\UsersRegisterController;
 use App\Http\Controllers\Api\Profile\UserProfileController;
-
+use App\Http\Controllers\Api\Discount\DiscountController;
 
 
 
@@ -69,5 +69,13 @@ Route::controller(UserProfileController::class)->prefix('/profiles')
     Route::patch('/','index');
 
 });
-
+Route::controller(DiscountController::class)->prefix('/discounts')
+    ->as('discount')
+    ->group(function(){
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::get('/{id}', 'show');
+        Route::put('/{id}', 'update');
+        Route::delete('/{id}', 'destroy');
+    });
 
