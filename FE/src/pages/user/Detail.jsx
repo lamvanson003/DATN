@@ -4,13 +4,13 @@ import varImg1 from "../../assets/images/iphone1.jpg";
 import varImg2 from "../../assets/images/iphone2.jpg";
 import { productApi } from "../../apis";
 import { commentApi } from "../../apis";
-import { Tab, BoxPro } from "../../components";
+import { Tab, BoxPro, Brand } from "../../components";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
 import { formatCurrency } from "../../ultis/func";
 const Detail = () => {
   const { slug } = useParams();
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, buyNow } = useContext(CartContext);
   const ref = useRef();
   const [detailData, setDetailData] = useState([]);
   const [comment, setComment] = useState("");
@@ -27,7 +27,6 @@ const Detail = () => {
         const data = await productApi.getOne(slug);
         console.log("detailData:", data); // Kiểm tra dữ liệu nhận được
 
-        // Thêm đối tượng hình ảnh mới vào product_image_items
         if (data.product_image_items) {
           const newImage = {
             id: Math.floor(Math.random() * 1000), // Tạo ID ngẫu nhiên
@@ -40,6 +39,11 @@ const Detail = () => {
           id: data.id,
           name: data.name,
           image: data.images,
+          brand: data.brand,
+          category: data.category,
+          slug: data.slug,
+          product_image_items: data.product_image_items,
+          product_variant: data.product_variant,
         });
         setDetailData(data);
       } catch (err) {
@@ -126,8 +130,6 @@ const Detail = () => {
     setActiveColor(color);
     handleChangeVariant(color);
   };
-  console.log(currentVariant);
-  console.log("main: ", main);
 
   return (
     <>
@@ -257,7 +259,10 @@ const Detail = () => {
                                     ? "color badgeClick"
                                     : ""
                                 }`}
-                                onClick={() => handleColorClick(item.color)}
+                                onClick={() => {
+                                  handleColorClick(item.color);
+                                  setMainImage(item.images);
+                                }}
                               >
                                 <img alt={item.color} src={item.images} />
                                 <span>{item.color}</span>
@@ -280,14 +285,12 @@ const Detail = () => {
                   <div className="sale">
                     {currentVariant?.color?.sale
                       ? formatCurrency(currentVariant?.color?.sale)
-                      : currentVariant?.color?.price
-                      ? formatCurrency(currentVariant?.color?.price)
-                      : "Not found"}
+                      : formatCurrency(currentVariant?.color?.price ?? 0)}
                   </div>
                   <div className="price">
-                    {currentVariant?.color?.price
+                    {currentVariant?.color?.price && currentVariant?.color?.sale
                       ? formatCurrency(currentVariant?.color?.price)
-                      : "Not found"}
+                      : null}
                   </div>
                 </div>
                 <div className="short_desc">{detailData?.short_desc}</div>
@@ -309,7 +312,10 @@ const Detail = () => {
                   >
                     <i className="bx bx-cart-add" /> Thêm giỏ hàng
                   </button>
-                  <button className="buy-btn">
+                  <button
+                    className="buy-btn"
+                    onClick={() => buyNow(main, currentVariant, quantity)}
+                  >
                     <i className="fas fa-shopping-cart" /> Mua ngay
                   </button>
                 </div>

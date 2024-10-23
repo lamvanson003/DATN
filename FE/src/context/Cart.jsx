@@ -10,6 +10,7 @@ export const CartProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("cartItems"))
       : []
   );
+
   const generateVariantKey = (mainName, variantSku) =>
     `${mainName}:${variantSku}`;
   const addToCart = (main, variant, quantity = 0, inStock = 100) => {
@@ -103,8 +104,23 @@ export const CartProvider = ({ children }) => {
       0
     );
   };
-  const buyNow = (item) => {
-    setCartItems([{ ...item, quantity: 1 }]);
+  const buyNow = (main, variant, quantity) => {
+    const variantKey = generateVariantKey(main.name, variant.color.sku);
+    const buyNowItem = [
+      {
+        ...variant,
+        quantity: quantity ? quantity : 1,
+        variantKey,
+        main: {
+          id: main.id,
+          name: main.name,
+          image: main.image,
+        },
+      },
+    ];
+
+    localStorage.removeItem("buyNowItem");
+    localStorage.setItem("buyNowItem", JSON.stringify(buyNowItem));
     navigate("/payment");
   };
 

@@ -22,6 +22,26 @@ const Cart = () => {
   const handleNavigate = () => {
     navigate("/product");
   };
+  const [checkedItemsInCart, setCheckedItemsInCart] = useState([]);
+
+  const handleCheckboxChange = (item) => {
+    if (
+      checkedItemsInCart.some(
+        (checkedItem) => checkedItem.color.sku === item.color.sku
+      )
+    ) {
+      // Nếu đã có trong danh sách checked, thì xóa nó ra
+      setCheckedItemsInCart((prevCheckedItems) =>
+        prevCheckedItems.filter(
+          (checkedItem) => checkedItem.color.sku !== item.color.sku
+        )
+      );
+    } else {
+      // Nếu chưa có, thì thêm nó vào
+      setCheckedItemsInCart((prevCheckedItems) => [...prevCheckedItems, item]);
+    }
+  };
+
   const [discountCode, setDiscountCode] = useState("");
   const [finalPrice, setFinalPrice] = useState(0);
   const [applyStatus, setApplyStatus] = useState(false);
@@ -37,8 +57,13 @@ const Cart = () => {
       console.log("Có vấn đề!", err);
     }
   };
-  const navigatePayment = () => {
-    navigate("/payment");
+
+  const handleCheckout = () => {
+    if (checkedItemsInCart.length > 0) {
+      navigate("/payment", { state: { checkedItems: checkedItemsInCart } });
+    } else {
+      alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán.");
+    }
   };
   return (
     <div
@@ -92,101 +117,123 @@ const Cart = () => {
               {cartItems.map((item) => (
                 <div
                   key={item?.color?.sku}
-                  className="d-flex justify-content-between align-items-center product p-3 rounded"
-                  style={{
-                    boxShadow: "0 5px 10px rgba(0, 0, 0, 0.3)",
-                    backgroundColor: "#fff",
-                  }}
+                  className="d-flex align-items-center"
                 >
-                  <span
-                    style={{ width: "40%", height: 100 }}
-                    className="d-flex gap-4 align-items-center px-2"
+                  <div
+                    style={{ width: "5%", height: 100 }}
+                    className="d-flex align-items-center justify-content-center"
                   >
-                    <img
-                      style={{ height: "90%" }}
-                      src={item?.main?.image}
-                      alt={item?.main?.name}
-                    />
-                    <span className="d-flex flex-column gap-2">
-                      <span style={{ fontSize: 18, fontWeight: 600 }}>
-                        {item?.main.name}
-                      </span>
-                      <span className="opacity-75 d-flex flex-column gap-1">
-                        <span>
-                          {item?.storage
-                            ? `Dung lượng: ${item?.storage}`
-                            : null}
-                        </span>
-                        <span>
-                          {item?.color?.color
-                            ? `Màu sắc: ${item?.color?.color}`
-                            : null}
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                  <span className="text-center" style={{ width: "20%" }}>
-                    <span className="opacity-75 me-2 text-decoration-line-through">
-                      {item?.color?.price && item?.color?.sale
-                        ? formatCurrency(item?.color?.price)
-                        : null}
-                    </span>
-                    <span style={{ fontSize: 18 }}>
-                      {item?.color?.sale
-                        ? formatCurrency(item?.color?.sale)
-                        : formatCurrency(item?.color?.price)}
-                    </span>
-                  </span>
-                  <span
-                    className="d-flex align-items-center justify-content-center fs-4"
-                    style={{ width: "20%" }}
-                  >
-                    <span
-                      style={{ width: "40%", backgroundColor: "#fff" }}
-                      className="border rounded-start rounded-end d-flex justify-content-between "
+                    <label style={{ cursor: "pointer" }}>
+                      <input
+                        type="checkbox"
+                        style={{ width: "25px", height: "25px" }}
+                        checked={checkedItemsInCart.some(
+                          (checkedItem) =>
+                            checkedItem.color.sku === item.color.sku
+                        )}
+                        onChange={() => handleCheckboxChange(item)} // Gọi hàm khi checkbox thay đổi
+                      />
+                    </label>
+                  </div>
+                  <div style={{ width: "95%" }}>
+                    <div
+                      className="d-flex justify-content-between align-items-center product p-3 rounded"
+                      style={{
+                        boxShadow: "0 5px 10px rgba(0, 0, 0, 0.3)",
+                        backgroundColor: "#fff",
+                      }}
                     >
-                      <button
-                        className="rounded-start border-0"
-                        style={{
-                          height: 50,
-                          width: 30,
-                          backgroundColor: "#fff",
-                        }}
-                        onClick={() => removeFromCart(item.main, item)}
+                      <span
+                        style={{ width: "40%", height: 100 }}
+                        className="d-flex gap-4 align-items-center px-2"
                       >
-                        -
-                      </button>
-                      <span className="d-flex align-items-center">
-                        {item.quantity}
+                        <img
+                          style={{ height: "90%" }}
+                          src={item?.color?.images}
+                          alt={item?.main?.name}
+                        />
+                        <span className="d-flex flex-column gap-2">
+                          <span style={{ fontSize: 18, fontWeight: 600 }}>
+                            {item?.main.name}
+                          </span>
+                          <span className="opacity-75 d-flex flex-column gap-1">
+                            <span>
+                              {item?.storage
+                                ? `Dung lượng: ${item?.storage}`
+                                : null}
+                            </span>
+                            <span>
+                              {item?.color?.color
+                                ? `Màu sắc: ${item?.color?.color}`
+                                : null}
+                            </span>
+                          </span>
+                        </span>
                       </span>
-                      <button
-                        className="rounded-end border-0"
-                        style={{
-                          height: 50,
-                          width: 30,
-                          backgroundColor: "#fff",
-                        }}
-                        onClick={() => addToCart(item.main, item)}
+                      <span className="text-center" style={{ width: "20%" }}>
+                        <span className="opacity-75 me-2 text-decoration-line-through">
+                          {item?.color?.price && item?.color?.sale
+                            ? formatCurrency(item?.color?.price)
+                            : null}
+                        </span>
+                        <span style={{ fontSize: 18 }}>
+                          {item?.color?.sale
+                            ? formatCurrency(item?.color?.sale)
+                            : formatCurrency(item?.color?.price)}
+                        </span>
+                      </span>
+                      <span
+                        className="d-flex align-items-center justify-content-center fs-4"
+                        style={{ width: "20%" }}
                       >
-                        +
-                      </button>
-                    </span>
-                  </span>
-                  <span
-                    className="text-center text-danger fw-bold"
-                    style={{ width: "17%", fontSize: 20 }}
-                  >
-                    {formatCurrency(
-                      ((item?.color?.sale ?? item?.color?.price) || 0) *
-                        (item?.quantity || 0)
-                    )}
-                  </span>
-                  <span
-                    className=" remove-item"
-                    onClick={() => removeOneProductOfCart(item?.main, item)}
-                  >
-                    <TiDeleteOutline />
-                  </span>
+                        <span
+                          style={{ width: "40%", backgroundColor: "#fff" }}
+                          className="border rounded-start rounded-end d-flex justify-content-between "
+                        >
+                          <button
+                            className="rounded-start border-0"
+                            style={{
+                              height: 50,
+                              width: 30,
+                              backgroundColor: "#fff",
+                            }}
+                            onClick={() => removeFromCart(item.main, item)}
+                          >
+                            -
+                          </button>
+                          <span className="d-flex align-items-center">
+                            {item.quantity}
+                          </span>
+                          <button
+                            className="rounded-end border-0"
+                            style={{
+                              height: 50,
+                              width: 30,
+                              backgroundColor: "#fff",
+                            }}
+                            onClick={() => addToCart(item.main, item)}
+                          >
+                            +
+                          </button>
+                        </span>
+                      </span>
+                      <span
+                        className="text-center text-danger fw-bold"
+                        style={{ width: "17%", fontSize: 20 }}
+                      >
+                        {formatCurrency(
+                          ((item?.color?.sale ?? item?.color?.price) || 0) *
+                            (item?.quantity || 0)
+                        )}
+                      </span>
+                      <span
+                        className=" remove-item"
+                        onClick={() => removeOneProductOfCart(item?.main, item)}
+                      >
+                        <TiDeleteOutline />
+                      </span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -203,7 +250,7 @@ const Cart = () => {
                   cursor: "pointer",
                 }}
                 className="d-flex justify-content-center align-items-center px-2 py-2 rounded text-light fw-bold"
-                onClick={() => navigatePayment()}
+                onClick={() => handleCheckout()}
               >
                 Tiến hành thanh toán
               </span>

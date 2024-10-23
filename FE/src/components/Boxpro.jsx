@@ -61,7 +61,6 @@ const BoxPro = ({
         color: firstVariant,
       });
     } else {
-      // Nếu không tìm thấy storage, đặt currentVariant về null hoặc xử lý lỗi
       setCurrentVariant(null);
     }
   };

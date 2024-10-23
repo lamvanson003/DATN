@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import icons from "../../ultis/icon";
-import MyImage from "../../assets/images/image.png";
 import LogoVisa from "../../assets/images/logovisa.png";
 import logomastercard from "../../assets/images/logomastercard.png";
 import logovcb from "../../assets/images/logovcb.png";
@@ -9,7 +8,7 @@ import { formatCurrency } from "../../ultis/func";
 import axios from "axios";
 import { orderApi } from "../../apis";
 import "./css/Payment.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import sending from "../../assets/images/iHome/sending.png";
 import { discountApi } from "../../apis";
 const {
@@ -22,7 +21,9 @@ const {
 } = icons;
 const Payment = () => {
   const navigate = useNavigate();
-  const { cartItems, getCartTotal, buyNowItem } = useContext(CartContext);
+  const location = useLocation();
+  const { checkedItems } = location.state || { checkedItems: [] };
+  const { cartItems, getCartTotal, buyNow } = useContext(CartContext);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
   const [finalPrice, setFinalPrice] = useState(getCartTotal());
   const [provinces, setProvinces] = useState([]);
@@ -98,7 +99,7 @@ const Payment = () => {
       [id]: value,
     }));
   };
-  const orderItems = cartItems;
+
   const [validFields, setValidFields] = useState({
     name: true,
     phone: true,
@@ -167,11 +168,22 @@ const Payment = () => {
     orderApi.excutePayment(orderData);
     setIsSendingSuccess(true);
   };
-
   const closeModal = () => {
     setIsSendingSuccess(false);
   };
-
+  useEffect(() => {
+    // Khi rời khỏi trang thanh toán, xóa buyNowItem
+    return () => {
+      if (location.pathname === "/payment") {
+        localStorage.removeItem("buyNowItem");
+      }
+    };
+  }, [location.pathname]);
+  const orderItems = localStorage.getItem("buyNowItem")
+    ? JSON.parse(localStorage.getItem("buyNowItem"))
+    : checkedItems.length > 0
+    ? checkedItems
+    : [];
   return (
     <>
       {isSendingSuccess && (
@@ -391,7 +403,7 @@ const Payment = () => {
                     >
                       <span style={{ width: "15%" }}>
                         <img
-                          src={item.main.image}
+                          src={item.color.images}
                           alt="ảnh sản phẩm"
                           style={{ height: 65 }}
                         />
