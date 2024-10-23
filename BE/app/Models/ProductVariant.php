@@ -26,4 +26,9 @@ class ProductVariant extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function order_details()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }

@@ -110,7 +110,7 @@
                 <li>
                   <div class="message-notif-scroll scrollbar-outer">
                     <div class="notif-center">
-                      <a href="#">
+                      <a href="">
                         <div class="notif-img">
                           <img
                             src="{{ asset('/admin/assets/img/jm_denis.jpg') }}"
@@ -246,7 +246,7 @@
                         <h4>{{ Auth::user()->username }}</h4>
                         <p class="text-muted">{{ Auth::user()->email }}</p>
                         <a
-                          href="profile.html"
+                          href="{{ route('admin.admin.profile',Auth::user()->id) }}"
                           class="btn btn-xs btn-secondary btn-sm"
                           >View Profile</a
                         >

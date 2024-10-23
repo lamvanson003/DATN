@@ -15,7 +15,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Post Category</a>
+          <a href="#">Danh muc</a>
         </li>
         <li class="separator">
           <i class="icon-arrow-right"></i>
@@ -64,7 +64,8 @@
                 <tbody>
                   @foreach ($postCategories as $category)
                     <tr>
-                        <td><img class="text-center fix-image" src="{{ asset($category->images) }}" ></td>
+                    <td><img class="text-center fix-image" src="{{ asset($category->images) }}" ></td>
+
                         <td><a href="{{ route('admin.post_category.edit', $category->id) }}">{{ $category->name }}</a></td>
                         <td>{{ $category->slug }}</td>
                         <td>

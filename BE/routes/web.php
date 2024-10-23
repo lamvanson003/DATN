@@ -46,6 +46,8 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::put('/sua', 'update')->name('update');
                 Route::post('/them', 'store')->name('store');
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
+
+                Route::get('/profile/{id}', 'profile')->name('profile');
             });
         });
 
@@ -161,6 +163,16 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                     Route::delete('/xoa/{id}', 'destroy')->name('delete'); 
                 });
             });
+        Route::prefix('/orders')->as('order.')->group(function () {
+            Route::controller(App\Http\Controllers\Order\OrderController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+                Route::put('/sua/{id}', 'update')->name('update');
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+        });
 
             
 

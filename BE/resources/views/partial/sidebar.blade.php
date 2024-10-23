@@ -28,12 +28,7 @@
       <div class="sidebar-content">
         <ul class="nav nav-secondary">
           <li class="nav-item active">
-            <a
-              data-bs-toggle="collapse"
-              href="{{ route('admin.dashboard.index') }}"
-              class="collapsed"
-              aria-expanded="false"
-            >
+            <a href="{{ route('admin.dashboard.index') }}" class="collapsed">
               <i class="fas fa-home"></i>
               <p>Dashboard</p>
             </a>
@@ -44,7 +39,7 @@
             </span>
             <h4 class="text-section">Components</h4>
           </li>
-          {{-- <li class="nav-item">
+          <li class="nav-item">
             <a data-bs-toggle="collapse" href="#notification">
               <i class="fas fa-bell"></i>
               <p>Thông báo</p>
@@ -66,7 +61,7 @@
                 </li>
               </ul>
             </div>
-          </li> --}}
+          </li>
           {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#sidebarLayouts">
               <i class="fas fa-pencil-ruler"></i>
@@ -137,6 +132,46 @@
                   <a href="#dsmagiamgia">
                     <i class="fas fa-list"></i>
                     <span>DS mã giảm giá</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#slider">
+              <i class="fas fa-sliders-h"></i>
+              <p>Slider</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="slider">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="#themslider">
+                    <i class="fas fa-plus"></i>
+                    <span>Thêm Slider</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#dsslider">
+                    <i class="fas fa-list"></i>
+                    <span>DS Slider</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#order">
+              <i class="fas fa-truck"></i>
+              <p>Đơn hàng</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="order">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{route('admin.order.index')}}">
+                    <i class="fas fa-list"></i>
+                    <span>DS đơn hàng</span>
                   </a>
                 </li>
               </ul>

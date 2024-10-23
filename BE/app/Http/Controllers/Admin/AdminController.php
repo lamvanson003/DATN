@@ -98,4 +98,12 @@ class AdminController extends Controller
 
         return redirect()->route('admin.admin.edit', $admin->id)->with('success', 'Cập nhật thành công!');
     }
+
+
+    public function profile($admin_id){
+        $admin = User::findOrFail($admin_id);
+        $status = UserStatus::asSelectArray();
+        $gender = UserGender::asSelectArray();
+        return view('admin.profile',compact('admin','status','gender'));
+    }
 }

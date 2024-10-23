@@ -17,13 +17,13 @@ class OrderController extends Controller {
 
     public function create(Request $request){
         $validatedData = $request->validate([
-            'user_id' => 'required|integer',
+            'user_id' => 'nullable|integer',
             'payment_method_id' => 'required|integer',
             'discount_id' => 'nullable|integer',
-            'fullname' => 'nullable|string',
-            'phone' => 'nullable|string',
-            'address' => 'nullable|string',
-            'email' => 'nullable|email',
+            'fullname' => 'required|string',
+            'phone' => 'required|string',
+            'address' => 'required|string',
+            'email' => 'required|email',
             'note' => 'nullable|string',
             'total_price' => 'required|numeric',
             'products' => 'required|array',
@@ -32,11 +32,11 @@ class OrderController extends Controller {
             'products.*.price' => 'required|numeric',
             'products.*.sale' => 'nullable|numeric',
         ]);
-
         try {
             DB::beginTransaction();
-    
+            $code = random_int(1,9999);
             $order = Order::create([
+                'code' => $code,
                 'user_id' => $validatedData['user_id'],
                 'payment_method_id' => $validatedData['payment_method_id'],
                 'discount_id' => $validatedData['discount_id'] ?? null,
@@ -61,6 +61,7 @@ class OrderController extends Controller {
                 $productVariant = ProductVariant::find($productData['product_variant_id']);
                 if ($productVariant) {
                     $productVariant->instock -= $productData['quantity']; 
+                    $productVariant->sold += $productData['quantity']; 
                     $productVariant->save();
                 }
             }

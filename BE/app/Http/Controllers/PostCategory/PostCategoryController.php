@@ -11,14 +11,12 @@ use Exception;
 
 class PostCategoryController extends Controller
 {
-    // Display a listing of post categories
     public function index()
     {
         $postCategories = PostCategory::all();
         return view('post_category.index', compact('postCategories'));
     }
 
- 
     public function create()
     {
         return view('post_category.create', [
@@ -26,10 +24,8 @@ class PostCategoryController extends Controller
         ]);
     }
 
-  
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|unique:post_categories,slug',
@@ -37,13 +33,14 @@ class PostCategoryController extends Controller
             'status' => 'required|in:' . implode(',', PostCategoryStatus::getValues()),
         ]);
 
-
         $imagePath = null;
         if ($request->hasFile('images')) {
-            $imagePath = $request->file('images')->store('post_category_images', 'public'); 
+            $image = $request->file('images');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/post_category'), $imageName);  
+            $imagePath = 'images/post_category/' . $imageName;  
         }
 
-    
         PostCategory::create([
             'name' => $request->input('name'),
             'slug' => $request->input('slug'),
@@ -54,8 +51,6 @@ class PostCategoryController extends Controller
         return redirect()->route('admin.post_category.index')->with('success', 'Danh mục bài viết đã được tạo thành công.');
     }
 
-
- 
     public function edit($id)
     {
         $postCategory = PostCategory::findOrFail($id);
@@ -65,28 +60,35 @@ class PostCategoryController extends Controller
         ]);
     }
 
-    // Update a post category
     public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|unique:post_categories,slug,' . $id,
-            'images' => 'nullable|string',
+            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
             'status' => 'required|in:' . implode(',', PostCategoryStatus::getValues()),
         ]);
 
         $postCategory = PostCategory::findOrFail($id);
+
+        $imagePath = $postCategory->images; 
+        if ($request->hasFile('images')) {
+            $image = $request->file('images');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/post_category'), $imageName);  
+            $imagePath = 'images/post_category/' . $imageName;  
+        }
+
         $postCategory->update([
             'name' => $request->input('name'),
             'slug' => $request->input('slug'),
-            'images' => $request->input('images'),
+            'images' => $imagePath, 
             'status' => $request->input('status'),
         ]);
 
-        return redirect()->route('admin.post_category.index')->with('success', 'Danh mục bài viết được cập nhật thành công');
+        return redirect()->route('admin.post_category.index')->with('success', 'Danh mục bài viết được cập nhật thành công.');
     }
 
-    // Delete a post category
     public function delete($id)
     {
         $postCategory = PostCategory::findOrFail($id);

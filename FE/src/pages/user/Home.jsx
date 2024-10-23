@@ -41,11 +41,13 @@ const Home = () => {
           {phonesData.map((pro, index) => (
             <div key={index} className="col-md-2">
               <BoxPro
-                pid={pro.id}
+                id={pro.id}
                 name={pro.name}
+                category={pro.category}
+                brand={pro.brand}
                 slug={pro.slug}
                 image={pro.images}
-                brand={pro.brand.name}
+                product_image_items={pro.product_image_items}
                 variant={pro.product_variant}
               />
             </div>
@@ -146,11 +148,13 @@ const Home = () => {
           {laptopsData.map((pro, index) => (
             <div key={index} className="col-md-2">
               <BoxPro
-                pid={pro.id}
+                id={pro.id}
                 name={pro.name}
+                category={pro.category}
+                brand={pro.brand}
                 slug={pro.slug}
                 image={pro.images}
-                brand={pro.brand.name}
+                product_image_items={pro.product_image_items}
                 variant={pro.product_variant}
               />
             </div>

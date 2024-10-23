@@ -8,15 +8,12 @@ use Illuminate\Http\Request;
 use App\Enums\Post\PostStatus;
 use App\Models\PostCategory;
 use App\Models\User;
-use App\Http\Requests\Post\PostRequest;
-use Exception;
 
 class PostController extends Controller
 {
-    // Display a listing of posts
     public function index()
     {
-        $posts = Post::with('category', 'user')->get(); 
+        $posts = Post::with('categories', 'user')->get();  
         return view('post.index', compact('posts'));
     }
 
@@ -30,37 +27,40 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        // Post::create($request->validated()); 
         $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|unique:posts,slug',
             'content' => 'required|string',
-            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'category_id' => 'required|exists:post_categories,id',
+            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'category_id' => 'required|array',
+            'category_id.*' => 'exists:post_categories,id',
             'status' => 'required|in:' . implode(',', PostStatus::getValues()),
             'user_id' => 'required|exists:users,id',
-            'posted_at' => 'required|date', 
+            'posted_at' => 'required|date',
         ]);
-    
+
         $imagePath = null;
         if ($request->hasFile('images')) {
-            $imagePath = $request->file('images')->store('post_images', 'public');
+            $image = $request->file('images');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/post/'), $imageName);  
+            $imagePath = 'images/post/' . $imageName; 
         }
     
-        Post::create([
+        $post = Post::create([
             'title' => $request->input('title'),
             'slug' => $request->input('slug'),
             'content' => $request->input('content'),
             'images' => $imagePath,
-            'category_id' => $request->input('category_id'),
-            'posted_at' => $request->input('posted_at') ? $request->input('posted_at') : now(), // Gán giá trị mặc định là thời gian hiện tại
+            'posted_at' => $request->input('posted_at'),
             'status' => $request->input('status'),
             'user_id' => $request->input('user_id'),
         ]);
+
+        $post->categories()->sync($request->input('category_id')); 
     
         return redirect()->route('admin.post.index')->with('success', 'Bài viết đã được tạo thành công.');
     }
-    
 
     public function edit($id)
     {
@@ -78,23 +78,29 @@ class PostController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
             'slug' => 'required|string|unique:posts,slug,' . $id,
-            'images' => 'nullable|string',
+            'content' => 'required|string',
+            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
             'status' => 'required|in:' . implode(',', PostStatus::getValues()),
-            'category_id' => 'required|exists:post_categories,id',
+            'category_id' => 'required|array',
+            'category_id.*' => 'exists:post_categories,id',
         ]);
 
-        $post = Post::findOrFail($id);
+        if ($request->hasFile('images')) {
+            $image = $request->file('images');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/post/'), $imageName);  
+            $post->images = 'images/post/' . $imageName;  
+        }
+
         $post->update([
             'title' => $request->input('title'),
             'slug' => $request->input('slug'),
             'content' => $request->input('content'),
-            'images' => $request->input('images'),
             'status' => $request->input('status'),
-            'category_id' => $request->input('category_id'),
-
         ]);
+
+        $post->categories()->sync($request->input('category_id'));
 
         return redirect()->route('admin.post.index')->with('success', 'Bài viết đã được cập nhật thành công.');
     }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Enums\Comment\CommentStatus;
 class Comment extends Model
 {
     use HasFactory;
@@ -22,4 +22,8 @@ class Comment extends Model
     {
         return $this->belongsTo(ProductVariant::class);
     }
+
+    protected $cast = [
+        'status'=> CommentStatus::class,
+    ];
 }

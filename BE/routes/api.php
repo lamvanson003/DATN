@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Brand\BrandController;
 use App\Http\Controllers\Api\Product\ProductController;
 use App\Http\Controllers\Api\Login\UsersLoginController;
 use App\Http\Controllers\Api\Order\OrderController;
+use App\Http\Controllers\Api\Comment\CommentController;
 use App\Http\Controllers\Api\Register\UsersRegisterController;
 use App\Http\Controllers\Api\Profile\UserProfileController;
 
@@ -40,6 +41,11 @@ Route::controller(OrderController::class)->prefix('/orders')
     Route::post('/', 'create');
 });
 
+Route::controller(CommentController::class)->prefix('/comments')
+->as('comment')
+->group(function(){
+    Route::post('/', 'create');
+});
 
 
 Route::controller(UsersLoginController::class)->prefix('/logins')

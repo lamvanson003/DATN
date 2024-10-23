@@ -26,15 +26,13 @@ class Product extends Model
     ];
 
 
+    // public function countProductInactive($query){
+    //     $count = $query->COUNT('');
+    // }  
 
-
-
-
-
-
-    public function countProductInactive(){
-        
-    }
+    public function countUser($query){
+        return $query->COUNT('id');
+    }       
 
     /**
      * Quan hệ với bảng Brand (Thương hiệu)
