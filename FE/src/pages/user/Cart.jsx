@@ -59,19 +59,33 @@ const Cart = () => {
                 <IoCartOutline fontSize={40} />
               </span>
             </span>
-            {cartItems.length >= 1 && (
-              <span>
-                <button
-                  onClick={clearCart}
-                  className="btn bg-danger text-light d-flex align-items-center"
-                >
-                  <span>
-                    <MdDeleteForever size={24} />
-                  </span>
-                  Xóa hết
-                </button>
-              </span>
-            )}
+            <span>
+              <button
+                onClick={clearCart}
+                className="btn bg-danger text-light d-flex align-items-center"
+              >
+                <span>
+                  <MdDeleteForever size={24} />
+                </span>
+                Xóa hết
+              </button>
+            </span>
+          </div>
+          <div
+            className="d-flex align-items-center p-3 mb-3"
+            style={{
+              backgroundColor: " #007bff",
+              color: "#fff",
+              fontWeight: 600,
+            }}
+          >
+            <span style={{ width: "40%", textAlign: "center" }}>Sản phẩm</span>
+            <span style={{ width: "20%", textAlign: "center" }}>Giá tiền</span>
+            <span style={{ width: "20%", textAlign: "center" }}>Số lượng</span>
+            <span style={{ width: "13%", textAlign: "center" }}>
+              Thành tiền
+            </span>
+            <span style={{ width: "7%", textAlign: "center" }}>Hành động</span>
           </div>
           <div>
             <div className="d-flex flex-column gap-5">
@@ -176,9 +190,22 @@ const Cart = () => {
                 </div>
               ))}
             </div>
-            <div className="mt-5" style={{ height: 50 }}>
+            <div
+              className="mt-5 d-flex justify-content-between"
+              style={{ height: 50 }}
+            >
               <span className="px-2 py-3 bg-primary text-light rounded">
                 Tiếp tục mua hàng
+              </span>
+              <span
+                style={{
+                  backgroundColor: "#016AFF",
+                  cursor: "pointer",
+                }}
+                className="d-flex justify-content-center align-items-center px-2 py-2 rounded text-light fw-bold"
+                onClick={() => navigatePayment()}
+              >
+                Tiến hành thanh toán
               </span>
             </div>
             <div className="d-flex justify-content-between mt-5">
@@ -209,43 +236,6 @@ const Cart = () => {
                   className="px-3 py-1 rounded text-light d-flex align-items-center fw-bold"
                 >
                   Áp dụng
-                </span>
-              </div>
-              <div
-                className="d-flex flex-column gap-3 border border-secondary rounded px-3 py-3"
-                style={{ width: "40%", backgroundColor: "#fff" }}
-              >
-                <span style={{ fontSize: 20 }} className="fw-semibold">
-                  Tổng giỏ hàng
-                </span>
-                <span className="d-flex justify-content-between py-2 border-bottom border-secondary">
-                  Giá gốc:
-                  <span>{formatCurrency(getCartTotal())}</span>
-                </span>
-                <span className="d-flex justify-content-between py-2 border-bottom border-secondary">
-                  Phí vận chuyển: <span>100.000đ</span>
-                </span>
-                <span className="d-flex justify-content-between py-2 border-bottom border-secondary">
-                  Giảm giá: <span>100.000đ</span>
-                </span>
-                <span className="d-flex justify-content-between py-2">
-                  Tổng:
-                  <span className="fw-bold text-danger">
-                    {/* {formatCurrency(finalPrice)} */}
-                  </span>
-                </span>
-                <span className="d-flex justify-content-center">
-                  <span
-                    style={{
-                      backgroundColor: "#016AFF",
-                      width: "50%",
-                      cursor: "pointer",
-                    }}
-                    className="text-center px-2 py-2 rounded text-light fw-bold"
-                    onClick={() => navigatePayment()}
-                  >
-                    Tiến hành thanh toán
-                  </span>
                 </span>
               </div>
             </div>

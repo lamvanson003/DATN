@@ -157,3 +157,20 @@
 .modal-img {
   width: 30%;
 }
+.defaultDiscount {
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+.applyDiscountSuccess {
+  background-color: #28a745;
+  color: #fff;
+}
+.applyDiscountFail {
+  background-color: #dc3545;
+  color: #fff;
+}
