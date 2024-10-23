@@ -82,7 +82,7 @@
                             <tr>
                               <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt=""></td> 
                               <td><a href="{{ route('admin.product.item.edit',$item->id) }}">{{ $item->name ?? 'N/A'}}</a></td> 
-                              <td><span>{{ $item->posittion ?? 'N/A' }}</span></td> 
+                              <td><span>{{ $item->position ?? 'N/A' }}</span></td> 
                              
                               <td>
                                 @switch($item->status->value)

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import icons from "../../ultis/icon";
-import MyImage from "../../assets/images/image.png";
 import LogoVisa from "../../assets/images/logovisa.png";
 import logomastercard from "../../assets/images/logomastercard.png";
 import logovcb from "../../assets/images/logovcb.png";
@@ -9,13 +8,22 @@ import { formatCurrency } from "../../ultis/func";
 import axios from "axios";
 import { orderApi } from "../../apis";
 import "./css/Payment.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import sending from "../../assets/images/iHome/sending.png";
 import { discountApi } from "../../apis";
-const { IoIosArrowDropdown, RiBankCardFill, PiHandPalm } = icons;
+const {
+  IoIosArrowDropdown,
+  RiBankCardFill,
+  PiHandPalm,
+  BiSolidDiscount,
+  MdOutlineSmsFailed,
+  FaCheckDouble,
+} = icons;
 const Payment = () => {
   const navigate = useNavigate();
-  const { cartItems, getCartTotal, buyNowItem } = useContext(CartContext);
+  const location = useLocation();
+  const { checkedItems } = location.state || { checkedItems: [] };
+  const { cartItems, getCartTotal, buyNow } = useContext(CartContext);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
   const [finalPrice, setFinalPrice] = useState(getCartTotal());
   const [provinces, setProvinces] = useState([]);
@@ -25,6 +33,30 @@ const Payment = () => {
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedWard, setSelectedWard] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [discountCode, setDiscountCode] = useState("");
+  const [applyingDiscount, setApplyingDiscount] = useState(false);
+  const [isSuccessDiscount, setIsSuccessDiscount] = useState(0);
+  const handleDiscount = async () => {
+    try {
+      setApplyingDiscount(true);
+      const discountData = await discountApi.getOne(discountCode);
+      setApplyingDiscount(false);
+      if (discountData.type === "percentage") {
+        const discountValue = (getCartTotal() * discountData.value) / 100;
+        const discountPrice = getCartTotal() - discountValue;
+        setFinalPrice(discountPrice);
+      } else if (discountData === " fixed") {
+        const discountPrice = getCartTotal() - discountData.value;
+        setFinalPrice(discountPrice);
+      }
+      setDiscountCode("");
+      setIsSuccessDiscount(1);
+    } catch (err) {
+      console.log("Lỗi khi handle mã", err);
+      setDiscountCode("");
+      setIsSuccessDiscount(2);
+    }
+  };
   const handleChangePaymentMethod = (e) => {
     const selectedValue = Number(e.target.value);
     setPaymentMethod(selectedValue);
@@ -67,7 +99,7 @@ const Payment = () => {
       [id]: value,
     }));
   };
-  const orderItems = cartItems;
+
   const [validFields, setValidFields] = useState({
     name: true,
     phone: true,
@@ -122,13 +154,13 @@ const Payment = () => {
     }
     const orderData = {
       user_id: null,
-      payment_method_id: paymentMethod,
-      discount_id: 1,
+      payment_method_id: 1,
+      discount_id: null,
       shipping_method: 0,
       fullname: customerInfo.name,
       phone: customerInfo.phone,
       address: `${customerInfo.province}, ${customerInfo.district}, ${customerInfo.ward}, ${customerInfo.street}`,
-      email: "",
+      email: "euuring0110@gmail.com",
       note: "",
       total_price: getCartTotal(),
       products: products,
@@ -136,11 +168,22 @@ const Payment = () => {
     orderApi.excutePayment(orderData);
     setIsSendingSuccess(true);
   };
-
   const closeModal = () => {
     setIsSendingSuccess(false);
   };
-
+  useEffect(() => {
+    // Khi rời khỏi trang thanh toán, xóa buyNowItem
+    return () => {
+      if (location.pathname === "/payment") {
+        localStorage.removeItem("buyNowItem");
+      }
+    };
+  }, [location.pathname]);
+  const orderItems = localStorage.getItem("buyNowItem")
+    ? JSON.parse(localStorage.getItem("buyNowItem"))
+    : checkedItems.length > 0
+    ? checkedItems
+    : [];
   return (
     <>
       {isSendingSuccess && (
@@ -360,7 +403,7 @@ const Payment = () => {
                     >
                       <span style={{ width: "15%" }}>
                         <img
-                          src={item.main.image}
+                          src={item.color.images}
                           alt="ảnh sản phẩm"
                           style={{ height: 65 }}
                         />
@@ -396,7 +439,55 @@ const Payment = () => {
                     </div>
                   ))}
                 </div>
-
+                <div className="position-relative">
+                  <label htmlFor="discountCode" className="fw-semibold">
+                    <BiSolidDiscount size={24} className="text-danger" /> Nhập
+                    mã giảm giá
+                  </label>
+                  <input
+                    id="discountCode"
+                    type="text"
+                    value={discountCode}
+                    onChange={(e) => setDiscountCode(e.target.value)}
+                    style={{ outline: "none", boxShadow: "none" }}
+                  />
+                  <button
+                    onClick={handleDiscount}
+                    style={{
+                      position: "absolute",
+                      right: "0px",
+                      top: "64%",
+                      transform: "translateY(-50%)",
+                      padding: "10px 10px",
+                      border: "none",
+                      borderRadius: "0 0.25rem 0.25rem 0",
+                      outline: "none",
+                      boxShadow: "none",
+                    }}
+                  >
+                    Áp dụng
+                  </button>
+                </div>
+                {isSuccessDiscount !== 0 && (
+                  <span
+                    className={`${
+                      isSuccessDiscount === 1
+                        ? "applyDiscountSuccess"
+                        : "applyDiscountFail"
+                    } defaultDiscount`}
+                  >
+                    {isSuccessDiscount === 1 ? (
+                      <>
+                        <FaCheckDouble size={24} /> Áp dụng mã thành công
+                      </>
+                    ) : (
+                      <>
+                        Có lỗi xảy ra
+                        <MdOutlineSmsFailed size={24} />
+                      </>
+                    )}
+                  </span>
+                )}
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Giá: </span>

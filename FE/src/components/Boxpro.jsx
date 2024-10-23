@@ -7,7 +7,18 @@ import { memo } from "react";
 import { FavorContext } from "../context/Favor";
 import { formatCurrency, handleNumber } from "../ultis/func";
 import icons from "../ultis/icon";
-const BoxPro = ({ id, name, image, slug, brand, watched, variant, hot }) => {
+const BoxPro = ({
+  id,
+  name,
+  image,
+  slug,
+  brand,
+  category,
+  product_image_items,
+  watched,
+  variant,
+  hot,
+}) => {
   const { IoIosStar, IoIosStarHalf, IoIosStarOutline, FaFire } = icons;
   const [currentVariant, setCurrentVariant] = useState();
   const [activeStorage, setActiveStorage] = useState(null);
@@ -15,12 +26,12 @@ const BoxPro = ({ id, name, image, slug, brand, watched, variant, hot }) => {
   useEffect(() => {
     if (variant && variant.length > 0) {
       const firstStorage = variant[0];
-      const firstVariant = firstStorage.variants[0];
+      const firstVariant = firstStorage?.variants[0];
       setActiveStorage(firstStorage || null);
       if (firstStorage.variants.length > 0) {
-        setActiveColor(firstStorage.variants[0]); // Sửa ở đây để truy cập đúng biến
+        setActiveColor(firstStorage.variants[0]);
       } else {
-        setActiveColor(null); // Set null nếu không có variant nào
+        setActiveColor(null);
       }
       setCurrentVariant({
         storage: firstStorage?.storage,
@@ -33,6 +44,7 @@ const BoxPro = ({ id, name, image, slug, brand, watched, variant, hot }) => {
       console.log(currentVariant?.color?.instock);
       addToCart(main, currentVariant, 1, currentVariant?.color?.instock);
     }
+    console.log(currentVariant);
   };
   const handleChangeVariant = (selectedStorage) => {
     const selectedStorageObj = variant.find(
@@ -49,7 +61,6 @@ const BoxPro = ({ id, name, image, slug, brand, watched, variant, hot }) => {
         color: firstVariant,
       });
     } else {
-      // Nếu không tìm thấy storage, đặt currentVariant về null hoặc xử lý lỗi
       setCurrentVariant(null);
     }
   };
@@ -61,10 +72,22 @@ const BoxPro = ({ id, name, image, slug, brand, watched, variant, hot }) => {
   );
   const cartItemQuantity = inCartItem && inCartItem.quantity;
   const inFavorItems = favorItems.find(
-    (favorItem) => favorItem.id === currentVariant?.id
+    (favorItem) =>
+      favorItem.product_variant[0]?.variants[0]?.sku ===
+      currentVariant?.color?.sku
   );
-  const main = { id, name, image };
-  console.log(main);
+
+  const product_variant = variant;
+  const main = {
+    id,
+    name,
+    image,
+    brand,
+    category,
+    slug,
+    product_image_items,
+    product_variant,
+  };
 
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
   return (
@@ -86,7 +109,11 @@ const BoxPro = ({ id, name, image, slug, brand, watched, variant, hot }) => {
             alt="Image of iPhone 14 Pro Max 128GB"
             className="card-img-top "
             style={{ cursor: "pointer" }}
-            src={currentVariant?.image ? currentVariant?.image : image}
+            src={
+              currentVariant?.color?.images
+                ? currentVariant?.color?.images
+                : image
+            }
           />
         </Link>
       </div>
@@ -176,6 +203,8 @@ const BoxPro = ({ id, name, image, slug, brand, watched, variant, hot }) => {
               <button
                 className="icon-btn"
                 onClick={() => {
+                  console.log("Main: ", main);
+                  console.log("currentV: ", currentVariant);
                   addToFavor(main, currentVariant);
                 }}
               >

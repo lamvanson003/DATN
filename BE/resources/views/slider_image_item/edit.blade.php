@@ -15,24 +15,24 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="{{ route('admin.product.edit',$product_image_item->product->id) }}">{{ $product_image_item->product->name }}</a>
+              <a href="{{ route('admin.slider.edit',$slider_image_item->slider->id) }}">{{ $slider_image_item->slider->name }}</a>
             </li>
             <li class="separator">
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="">{{ $product_image_item->name ?? 'N/A' }}</a>
+              <a href="">{{ $slider_image_item->name ?? 'N/A' }}</a>
             </li>
           </ul>
         </div>
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product.item.update') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.slider.item.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT') 
-                <input type="hidden" name="id" value="{{ $product_image_item->id }}">   
-                <input type="hidden" name="old_image" value="{{ $product_image_item->images }}">
+                <input type="hidden" name="id" value="{{ $slider_image_item->id }}">   
+                <input type="hidden" name="old_image" value="{{ $slider_image_item->images }}">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
@@ -44,7 +44,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3 ">
                                         <label class="control-label">Tên Items<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" value="{{ $product_image_item->name }}" placeholder="VD: Item-1">
+                                        <input type="text" required class="form-control" name="title" value="{{ $slider_image_item->title }}" placeholder="VD: Item-1">
                                     </div>
                                 </div>
 
@@ -52,7 +52,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Vị trí sắp xếp:</label>
-                                        <input type="number" required class="form-control" name="position" value="{{ $product_image_item->position }}" placeholder="VD: 1">
+                                        <input type="number" required class="form-control" name="position" value="{{ $slider_image_item->position }}" placeholder="VD: 1">
                                     </div>
                                 </div>
                             </div>
@@ -68,24 +68,13 @@
                                 </button>
                             </div>
                         </div>
-            
-                        <div class="card mb-3">
-                            <div class="card-header">Trạng thái</div>
-                            <div class="card-body p-2">
-                                <select required class="form-select" name="status">
-                                    @foreach ($status as $key => $value)
-                                        <option value="{{ $key }}" {{ $key == $product_image_item->status->value ? 'selected' : '' }}> {{ $value }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
 
                         <div class="card mb-3">
                             <div class="card-header">Ảnh đại diện</div>
                             <div class="card-body p-2">
                                 <input type="file" id="fileInput" name="new_image" class="d-none" accept="image/*">
                                 <div class="image-container" style="cursor: pointer;">
-                                    <img id="imagePreview" src="{{ asset($product_image_item->images ?? 'images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
+                                    <img id="imagePreview" src="{{ asset($slider_image_item->images ?? 'images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>
                             </div>
                         </div>
@@ -99,7 +88,7 @@
                                     if (file) {
                                         imagePreview.src = URL.createObjectURL(file);
                                     } else {
-                                        imagePreview.src = "{{ asset($product_image_item->images ?? 'images/default-image.png') }}";
+                                        imagePreview.src = "{{ asset($slider_image_item->images ?? 'images/default-image.png') }}";
                                     }
                                 }
                                 document.querySelector('.image-container').addEventListener('click', function() {

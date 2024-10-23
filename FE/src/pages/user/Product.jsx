@@ -46,7 +46,7 @@ const Product = () => {
   const filteredPros = useMemo(() => {
     return pros.filter((pro) => {
       const price =
-        pro.product_variant[0].variants[0].sale ||
+        pro.product_variant[0].variants[0].sale ??
         pro.product_variant[0].variants[0].price;
       return price >= minPrice && price <= maxPrice;
     });
@@ -174,12 +174,14 @@ const Product = () => {
               {sortedItems.map((item) => (
                 <div key={item?.id} className="col-md-2-product">
                   <BoxPro
-                    id={item?.id}
-                    name={item?.name}
-                    slug={item?.slug}
-                    image={item?.images}
-                    brand={item?.brand?.name}
-                    variant={item?.product_variant}
+                    id={item.id}
+                    name={item.name}
+                    category={item.category}
+                    brand={item.brand}
+                    slug={item.slug}
+                    image={item.images}
+                    product_image_items={item.product_image_items}
+                    variant={item.product_variant}
                   />
                 </div>
               ))}
