@@ -113,16 +113,14 @@ const Cart = () => {
                   </span>
                   <span className="text-center" style={{ width: "20%" }}>
                     <span className="opacity-75 me-2 text-decoration-line-through">
-                      {item?.color?.price
+                      {item?.color?.price && item?.color?.sale
                         ? formatCurrency(item?.color?.price)
-                        : 0}
+                        : null}
                     </span>
                     <span style={{ fontSize: 18 }}>
                       {item?.color?.sale
                         ? formatCurrency(item?.color?.sale)
-                        : item?.color?.price
-                        ? formatCurrency(item?.color?.price)
-                        : 0}
+                        : formatCurrency(item?.color?.price)}
                     </span>
                   </span>
                   <span

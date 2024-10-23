@@ -111,14 +111,13 @@ export const CartProvider = ({ children }) => {
     if (discountData) {
       if (discountData.type === "percentage") {
         const discountValue = (total_price * discountData.value) / 100;
-        const discountPrice = total_price - discountValue;
-        return discountPrice;
+        return discountValue;
       } else if (discountData.type === "fixed") {
-        const discountPrice = total_price - discountData.value;
-        return discountPrice;
+        const discountValue = discountData.value;
+        return discountValue;
       } else {
         console.log("Mã giảm giá ko hợp lệ!");
-        return total_price;
+        return 0;
       }
     } else {
       console.log("Không tìm thấy mã giảm giảm giá!");
