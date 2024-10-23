@@ -1,6 +1,6 @@
 @extends('layout_admin')
 
-@section('title', 'DS Image Items')
+@section('title', 'Danh sách sliders')
 
 @section('content_admin')
 <div class="container">
@@ -9,7 +9,7 @@
       <h3 class="fw-bold mb-3">CloudLab</h3>
       <ul class="breadcrumbs mb-3">
         <li class="nav-item">
-          <a href="{{ route('admin.product.index') }}">
+          <a href="{{ route('admin.slider.index') }}">
             Sản phẩm
             </a>
         </li>
@@ -17,8 +17,8 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="{{ route('admin.product.edit',$product->id) }}">
-            {{ $product->name }}
+          <a href="{{ route('admin.slider.edit',$slider->id) }}">
+            {{ $slider->name }}
             </a>
         </li>
         <li class="separator">
@@ -36,7 +36,7 @@
           <div class="card-header">
             <div class="d-flex align-items-center">
               <h4 class="card-title red">DS Image Items</h4>
-              <a href="{{ route('admin.product.item.create',$product->id)}}" class="ms-auto">
+              <a href="{{ route('admin.slider.item.create',$slider->id)}}" class="ms-auto">
                 <button type="button" class="btn btn-primary btn-round">
                   <i class="fa fa-plus"></i>
                   Thêm
@@ -50,43 +50,32 @@
               <table id="add-row" class="display table table-hover fix_table">
                 <thead>
                   <tr>
-                    <th></th>
-                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Slider_id</th>
+                    <th>Tiêu đề</th>
                     <th>Vị trí</th>
-                    <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th></th>
-                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Slider_id</th>
+                    <th>Tiêu đề</th>
                     <th>Vị trí</th>
-                    <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  @foreach ($product_image_item as $item)
+                  @foreach ($slider_image_item as $item)
                     <tr>
                       <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt=""></td> 
-                      <td><a href="{{ route('admin.product.item.edit', $item->id) }}">{{ $item->name ?? 'N/A'}}</a></td> 
-                      <td><span>{{ $item->position ?? 'N/A' }}</span></td> 
-                     
-                      <td>
-                        @switch($item->status->value)
-                          @case(\App\Enums\Status::Active)
-                          <span class="badge rounded-pill badge-success">{{ $item->status->description }}</span>
-                          @break
-                          @case(\App\Enums\Status::Inactive)
-                          <span class="badge rounded-pill badge-warning">{{ $item->status->description }}</span>
-                          @break
-                          @default
-                        @endswitch
-                      </td> 
+                      <td><span>{{ $item->slider_id }}</span></td> 
+                      <td><span>{{ $item->title ?? 'Chưa có'}}</span></td> 
+                      <td><span>{{ $item->position ?? 'Chưa có'}}</span></td> 
                       <td>
                         <div class="form-button-action gap-2">
-                          <a href="{{ route('admin.product.item.edit', $item->id) }}">
+                          <a href="{{ route('admin.slider.item.edit', $item->id) }}">
                             <button type="button" data-bs-toggle="tooltip" title="Chỉnh sửa" class="btn btn-info btn-icon">
                               <i class="fa fa-pencil-alt"></i>
                             </button>
@@ -111,8 +100,8 @@
                               Xóa dữ liệu này khỏi dữ liệu hệ thống?
                           </div>
                           <div class="modal-footer">
-                            <form action="{{ route('admin.product.item.delete', [
-                                          'product_id' => $product->id,
+                            <form action="{{ route('admin.slider.item.delete', [
+                                          'slider_id' => $slider->id,
                                           'id' => $item->id
                                       ]) }}" method="POST">
                               @csrf

@@ -15,7 +15,7 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="{{ route('admin.product.index',$product->id) }}">{{ $product->name }}</a>
+              <a href="{{ route('admin.slider.index',$slider->id) }}">{{ $slider->name }}</a>
             </li>
             <li class="separator">
               <i class="icon-arrow-right"></i>
@@ -28,9 +28,9 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product.item.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.slider.item.store', $slider->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="product_id" value="{{ $product->id }}">   
+                <input type="hidden" name="slider_id" value="{{ $slider->id }}">   
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
@@ -38,11 +38,11 @@
                                 <h3 class="mb-0 strong text-center">Thông tin Items</h3>
                             </div>
                             <div class="row card-body">
-                                <!-- name -->
+                                <!-- title -->
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3 ">
-                                        <label class="control-label">Tên Items<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" placeholder="VD: Item 1">
+                                        <label class="control-label">Tiêu đề<span style="color: red">*</span>:</label>
+                                        <input type="text" required class="form-control" name="title" placeholder="VD: Mẫu 1">
                                     </div>
                                 </div>
                                 <!-- position -->
@@ -63,17 +63,6 @@
                                 <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
                                     Thêm
                                 </button>
-                            </div>
-                        </div>
-            
-                        <div class="card mb-3">
-                            <div class="card-header">Trạng thái</div>
-                            <div class="card-body p-2">
-                                <select required class="form-select" name="status">
-                                    @foreach ($status as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
-                                    @endforeach
-                                </select>
                             </div>
                         </div>
 
