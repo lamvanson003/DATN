@@ -79,22 +79,6 @@
                                 </select>                                
                             </div>
                         </div>
-
-                        <div class="card mb-3">
-                            <div class="card-header">Ảnh đại diện</div>
-                            <div class="card-body p-2">
-                                <!-- Input ẩn để chọn file -->
-                                <input type="file" id="fileInput" name="new_image" class="d-none" accept="image/*">
-                                <!-- Input ẩn để lưu URL hình ảnh ban đầu -->
-                                <input type="hidden" name="old_image" value="{{ $slider->images }}">
-                                <div class="image-container" style="cursor: pointer;">
-                                    <!-- Hình ảnh đại diện ban đầu -->
-                                    <img id="imagePreview" 
-                                         src="{{ asset($slider->images ?? 'images/default-image.png') }}" 
-                                         alt="Ảnh đại diện" style="max-width: 100%;">
-                                </div>
-                            </div>                                                      
-                        </div>
                         
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {

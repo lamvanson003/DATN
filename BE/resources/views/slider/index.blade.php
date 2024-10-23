@@ -42,7 +42,6 @@
               <table id="add-row" class="display table table-hover fix_table">
                 <thead>
                   <tr>
-                    <th>Ảnh đại diện</th>
                     <th>Tên</th>
                     <th>Mô tả</th>
                     <th >Hình ảnh </th>
@@ -52,7 +51,6 @@
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Ảnh đại diện</th>
                     <th>Tên</th>
                     <th>Mô tả</th>
                     <th >Hình ảnh </th>
@@ -63,7 +61,6 @@
                 <tbody>
                   @foreach ($sliders as $item)
                     <tr>
-                      <td><img class="text-center fix-image" src="{{ asset($item->image) }}" alt="{{ $item->name }}"></td>
                       <td><a href="{{ route('admin.slider.edit', $item->id) }}">{{ $item->name }}</a></td> 
                       <td>{{ $item->desc }}</td> 
                       <td>

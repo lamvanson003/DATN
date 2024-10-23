@@ -46,12 +46,12 @@ class ItemController extends Controller
                 $imagePath =  $baseUrl . '/images/slider_image_item/' . $fileName;
             }
 
-            $posittion = $request->input('posittion');
+            $position = $request->input('position');
             
             SliderItem::create([
                 'title' => $request->title,
                 'slider_id' => $slider_id,
-                'posittion' => $posittion,
+                'position' => $position,
                 'images' => $imagePath,
             ]);
             return redirect()->route('admin.slider.item.index',$slider_id)->with('success', 'Thêm thành công.');
@@ -78,7 +78,7 @@ class ItemController extends Controller
         $request->validate([
             'id' => 'required|exists:slider_items,id',
             'title' => 'required|string|max:255',
-            'posittion' => 'nullable|integer',
+            'position' => 'nullable|integer',
             'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'old_image' => 'nullable|string',
         ]);
@@ -97,7 +97,7 @@ class ItemController extends Controller
             $slider_image_item->images = $baseUrl . '/images/slider/' . $newImageName;
         }
 
-        $slider_image_item->posittion = $request['posittion'];
+        $slider_image_item->position = $request['position'];
 
         $slider_image_item->update([
             'title' => $request['title'],

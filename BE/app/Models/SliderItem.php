@@ -14,7 +14,7 @@ class SliderItem extends Model
         'slider_id',
         'title', 
         'images',
-        'posittion',
+        'position',
     ];
 
     public function slider()

@@ -45,11 +45,11 @@
                                         <input type="text" required class="form-control" name="title" placeholder="VD: Mẫu 1">
                                     </div>
                                 </div>
-                                <!-- posittion -->
+                                <!-- position -->
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Vị trí sắp xếp:</label>
-                                        <input type="number" required class="form-control" name="posittion" placeholder="VD: 1">
+                                        <input type="number" required class="form-control" name="position" placeholder="VD: 1">
                                     </div>
                                 </div>
                             </div>

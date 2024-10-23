@@ -11,7 +11,6 @@ class SliderRequest extends BaseRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'desc' => 'required|string|max:255',
             'status' => 'required|integer',
         ];

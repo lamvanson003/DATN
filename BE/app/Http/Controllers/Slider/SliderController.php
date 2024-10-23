@@ -39,20 +39,11 @@ class SliderController extends Controller
         try {
             $data = $request->validated();
             $baseUrl = url()->to('/');
-            $imagePath = '';
-
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $fileName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('images/slider'), $fileName);
-                $imagePath = $baseUrl . '/images/slider/' . $fileName;
-            }
 
             $slider = Slider::create([
                 'name' => $data['name'],
                 'desc' => $data['desc'],
                 'status' => $data['status'],
-                'image' => $imagePath,
             ]);
 
             if ($request->hasFile('image_items')) {
@@ -84,18 +75,6 @@ class SliderController extends Controller
     public function update(SliderRequest $request)
     {
         $slider =  Slider::find($request['id']);
-
-        if ($request->hasFile('new_image')) {
-            if ($slider->image && file_exists(public_path($slider->image))) {
-                unlink(public_path($slider->image));
-            }
-            $newImage = $request->file('new_image');
-            $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
-            $newImage->move(public_path('images/slider'), $newImageName);
-
-            $slider->image = 'http://127.0.0.1:8000/images/slider/' . $newImageName;
-        }
-        $slider->image = $slider->image ?? $request->input('old_image');
         $slider->name = $request->input('name');
         $slider->status = $request->input('status');
         $slider->desc = $request->input('desc');

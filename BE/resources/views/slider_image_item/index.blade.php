@@ -36,7 +36,7 @@
           <div class="card-header">
             <div class="d-flex align-items-center">
               <h4 class="card-title red">DS Image Items</h4>
-              <a href="{{ route('admin.slider.item.index',$slider->id)}}" class="ms-auto">
+              <a href="{{ route('admin.slider.item.create',$slider->id)}}" class="ms-auto">
                 <button type="button" class="btn btn-primary btn-round">
                   <i class="fa fa-plus"></i>
                   Thêm
@@ -72,7 +72,7 @@
                       <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt=""></td> 
                       <td><span>{{ $item->slider_id }}</span></td> 
                       <td><span>{{ $item->title ?? 'Chưa có'}}</span></td> 
-                      <td><span>{{ $item->posittion ?? 'Chưa có'}}</span></td> 
+                      <td><span>{{ $item->position ?? 'Chưa có'}}</span></td> 
                       <td>
                         <div class="form-button-action gap-2">
                           <a href="{{ route('admin.slider.item.edit', $item->id) }}">
