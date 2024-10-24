@@ -21,6 +21,27 @@ const Detail = () => {
   const [currentVariant, setCurrentVariant] = useState();
   const [quantity, setQuantity] = useState(1);
   const [main, setMain] = useState();
+  const [viewedProducts, setViewedProducts] = useState([]);
+  useEffect(() => {
+    const storedProducts = localStorage.getItem("viewedProducts");
+    const viewedProducts = storedProducts ? JSON.parse(storedProducts) : [];
+    setViewedProducts(viewedProducts);
+  }, []);
+  useEffect(() => {
+    const storedProducts = localStorage.getItem("viewedProducts");
+    const viewedProducts = storedProducts ? JSON.parse(storedProducts) : [];
+    if (detailData && detailData.id) {
+      const isWatchedP = viewedProducts.find((p) => p.id === detailData.id);
+      if (!isWatchedP) {
+        if (viewedProducts.length > 3) {
+          viewedProducts.pop();
+        }
+        viewedProducts.unshift(detailData);
+        localStorage.setItem("viewedProducts", JSON.stringify(viewedProducts));
+      }
+    }
+  }, [detailData]);
+
   useEffect(() => {
     const fetchDetailData = async () => {
       try {
@@ -329,9 +350,27 @@ const Detail = () => {
               <Tab detailData={detailData} />
             </div>
             <div className="col-lg-4 col-md-4">
-              <div className="d-flex flex-column align-items-end">
-                <h3>Sản phẩm đã xem</h3>
-                <BoxPro watched={true} />
+              <div className="d-flex flex-column justify-content-center">
+                <div className="d-flex align-items-center justify-content-center mb-3">
+                  <h3>Sản phẩm đã xem</h3>
+                </div>
+
+                {viewedProducts.length > 0 &&
+                  viewedProducts.map((item) => (
+                    <div
+                      key={item.id}
+                      className="d-flex justify-content-center"
+                    >
+                      <BoxPro
+                        viewed={true}
+                        slug={item.slug}
+                        image={item.images}
+                        id={item.id}
+                        name={item.name}
+                        variant={item.product_variant}
+                      />
+                    </div>
+                  ))}
               </div>
             </div>
           </div>

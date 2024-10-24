@@ -16,7 +16,7 @@ const path = {
   PROFILE: "profile",
   FAVOR: "favor",
   BANKINGONLINE: "banking-online",
-
+  PAYMENTURL: "create_payment_url",
   //
 };
 export default path;

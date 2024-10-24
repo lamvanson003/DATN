@@ -6,7 +6,7 @@ import logovcb from "../../assets/images/logovcb.png";
 import { CartContext } from "../../context/Cart";
 import { formatCurrency } from "../../ultis/func";
 import axios from "axios";
-import { orderApi } from "../../apis";
+import { orderApi, paymentApi } from "../../apis";
 import "./css/Payment.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import sending from "../../assets/images/iHome/sending.png";
@@ -36,6 +36,7 @@ const Payment = () => {
   const [discountCode, setDiscountCode] = useState("");
   const [applyingDiscount, setApplyingDiscount] = useState(false);
   const [isSuccessDiscount, setIsSuccessDiscount] = useState(0);
+
   const handleDiscount = async () => {
     try {
       setApplyingDiscount(true);
@@ -164,15 +165,16 @@ const Payment = () => {
       note: "",
       total_price: getCartTotal(),
       products: products,
+      ipAddr: "127.0.0.1", // IP của người dùng, thường lấy từ backend
     };
-    orderApi.excutePayment(orderData);
-    setIsSendingSuccess(true);
+    // orderApi.excutePayment(orderData);
+    // setIsSendingSuccess(true);
+    paymentApi.create(orderData);
   };
   const closeModal = () => {
     setIsSendingSuccess(false);
   };
   useEffect(() => {
-    // Khi rời khỏi trang thanh toán, xóa buyNowItem
     return () => {
       if (location.pathname === "/payment") {
         localStorage.removeItem("buyNowItem");

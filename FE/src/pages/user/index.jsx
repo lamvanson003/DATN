@@ -15,3 +15,4 @@ export { default as Account } from "./Account";
 export { default as BankingOnline } from "./BankingOnline";
 export { default as Contact } from "./Contact";
 export { default as OrderDetail } from "./OrderDetail";
+export { default as PaymentUrl } from "./PaymentUrl";
