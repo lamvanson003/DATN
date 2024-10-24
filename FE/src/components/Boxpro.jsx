@@ -97,7 +97,7 @@ const BoxPro = ({
           className="d-flex justify-content-between p-2 my-2 rounded viewedP"
           style={{ backgroundColor: "#fff", cursor: "pointer" }}
         >
-          <span className="me-4">
+          <span className="me-4 d-flex align-items-center">
             <Link to={`/detail/${slug ? slug : ""}`}>
               <img
                 src={image}
@@ -108,7 +108,7 @@ const BoxPro = ({
           </span>
           <span
             className="p-2 d-flex flex-column justify-content-center gap-2"
-            style={{ width: 250 }}
+            style={{ width: 200 }}
           >
             <span className="fw-semibold">
               <Link

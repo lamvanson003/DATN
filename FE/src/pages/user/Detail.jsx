@@ -8,11 +8,16 @@ import { Tab, BoxPro, Brand } from "../../components";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
 import { formatCurrency } from "../../ultis/func";
+import { useSelector } from "react-redux";
+import icons from "../../ultis/icon";
 const Detail = () => {
+  const { productsData } = useSelector((state) => state.pro);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const { slug } = useParams();
+  const { TiDeleteOutline } = icons;
   const { addToCart, buyNow } = useContext(CartContext);
   const ref = useRef();
-  const [detailData, setDetailData] = useState([]);
+  const [detailData, setDetailData] = useState({});
   const [comment, setComment] = useState("");
   const [loadingComment, setLoadingComment] = useState(false);
   const [activeStorage, setActiveStorage] = useState(null);
@@ -22,6 +27,20 @@ const Detail = () => {
   const [quantity, setQuantity] = useState(1);
   const [main, setMain] = useState();
   const [viewedProducts, setViewedProducts] = useState([]);
+  useEffect(() => {
+    const rePhonePro = productsData?.phone.filter(
+      (p) =>
+        p?.brand?.name === detailData?.brand?.name && p?.id !== detailData?.id
+    );
+    const reLaptopPro = productsData?.laptop.filter(
+      (p) =>
+        p?.brand?.name === detailData?.brand?.name && p?.id !== detailData?.id
+    );
+    const reAllPro = [...(rePhonePro || []), ...(reLaptopPro || [])];
+    setRelatedProducts(reAllPro);
+  }, [productsData, detailData]);
+  console.log(relatedProducts);
+
   useEffect(() => {
     const storedProducts = localStorage.getItem("viewedProducts");
     const viewedProducts = storedProducts ? JSON.parse(storedProducts) : [];
@@ -41,7 +60,10 @@ const Detail = () => {
       }
     }
   }, [detailData]);
-
+  const clearViewedProducts = () => {
+    localStorage.removeItem("viewedProducts");
+    setViewedProducts([]);
+  };
   useEffect(() => {
     const fetchDetailData = async () => {
       try {
@@ -352,7 +374,22 @@ const Detail = () => {
             <div className="col-lg-4 col-md-4">
               <div className="d-flex flex-column justify-content-center">
                 <div className="d-flex align-items-center justify-content-center mb-3">
-                  <h3>Sản phẩm đã xem</h3>
+                  <h3
+                    style={{
+                      borderRight: "2px solid black",
+                      paddingRight: 10,
+                      marginBottom: 0,
+                    }}
+                  >
+                    Sản phẩm đã xem
+                  </h3>
+                  <span
+                    className="d-flex justify-content-center "
+                    style={{ cursor: "pointer" }}
+                    onClick={() => clearViewedProducts()}
+                  >
+                    <TiDeleteOutline size={24} style={{ marginLeft: 10 }} />
+                  </span>
                 </div>
 
                 {viewedProducts.length > 0 &&
@@ -377,12 +414,24 @@ const Detail = () => {
         </section>
         <section className="container mt-5">
           <h3>Sản phẩm liên quan</h3>
-          <div className="d-flex justify-content-between">
-            <BoxPro />
-            <BoxPro />
-            <BoxPro />
-            <BoxPro />
-            <BoxPro />
+          <div className="row">
+            {relatedProducts.length > 0 &&
+              relatedProducts
+                .filter((v, i) => i <= 4)
+                .map((item) => (
+                  <div key={item.id} className="col-md-2">
+                    <BoxPro
+                      id={item.id}
+                      name={item.name}
+                      category={item.category}
+                      brand={item.brand}
+                      slug={item.slug}
+                      image={item.images}
+                      product_image_items={item.product_image_items}
+                      variant={item.product_variant}
+                    />
+                  </div>
+                ))}
           </div>
         </section>
         <section id="Comments mt-5">
