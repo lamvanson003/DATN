@@ -92,6 +92,29 @@
             </div>
           </li> --}}
           <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#slider">
+              <i class="fas fa-sliders-h"></i>
+              <p>Slider</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="slider">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('admin.slider.create') }}">
+                    <i class="fas fa-plus"></i>
+                    <span>Thêm Slider</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.slider.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS Slider</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
             <a data-bs-toggle="collapse" href="#discount">
               <i class="fas fa-tags"></i>
               <p>Mã giảm giá</p>

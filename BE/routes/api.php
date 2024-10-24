@@ -5,9 +5,10 @@ use App\Http\Controllers\Api\Brand\BrandController;
 use App\Http\Controllers\Api\Product\ProductController;
 use App\Http\Controllers\Api\Login\UsersLoginController;
 use App\Http\Controllers\Api\Order\OrderController;
+use App\Http\Controllers\Api\Comment\CommentController;
 use App\Http\Controllers\Api\Register\UsersRegisterController;
 use App\Http\Controllers\Api\Profile\UserProfileController;
-
+use App\Http\Controllers\Api\Discount\DiscountController;
 
 
 
@@ -40,6 +41,11 @@ Route::controller(OrderController::class)->prefix('/orders')
     Route::post('/', 'create');
 });
 
+Route::controller(CommentController::class)->prefix('/comments')
+->as('comment')
+->group(function(){
+    Route::post('/', 'create');
+});
 
 
 Route::controller(UsersLoginController::class)->prefix('/logins')
@@ -63,5 +69,13 @@ Route::controller(UserProfileController::class)->prefix('/profiles')
     Route::patch('/','index');
 
 });
-
+Route::controller(DiscountController::class)->prefix('/discounts')
+    ->as('discount')
+    ->group(function(){
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::get('/{id}', 'show');
+        Route::put('/{id}', 'update');
+        Route::delete('/{id}', 'destroy');
+    });
 
