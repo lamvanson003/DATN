@@ -166,11 +166,7 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
         Route::prefix('/orders')->as('order.')->group(function () {
             Route::controller(App\Http\Controllers\Order\OrderController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
-                Route::get('/them', 'create')->name('create');
-                Route::post('/them', 'store')->name('store');
-                Route::get('/sua/{id}', 'edit')->name('edit');
-                Route::put('/sua/{id}', 'update')->name('update');
-                Route::delete('/xoa/{id}', 'delete')->name('delete');
+                Route::get('/status/{status}', 'getByStatus')->name('status');
             });
         });
         Route::prefix('/discounts')->as('discount.')->group(function () {

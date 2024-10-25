@@ -169,12 +169,54 @@
             <div class="collapse" id="order">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="{{route('admin.order.index')}}">
-                    <i class="fas fa-list"></i>
-                    <span>DS đơn hàng</span>
-                  </a>
+                    <a href="{{ route('admin.order.index') }}">
+                        <i class="fas fa-list"></i>
+                        <span>Tất cả đơn hàng</span>
+                    </a>
                 </li>
-              </ul>
+                <li>
+                    <a href="{{ route('admin.order.status',['status' => \App\Enums\Order\OrderStatus::Pendding]) }}">
+                        <i class="fas fa-hourglass-start"></i>
+                        <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Pendding) }}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::Confirm]) }}">
+                      <i class="fas fa-check"></i>
+                      <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Confirm) }}</span>
+                    </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::Awaiting]) }}">
+                      <i class="fas fa-box"></i>
+                      <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Awaiting) }}</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::InTransit]) }}">
+                      <i class="fas fa-truck"></i>
+                      <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::InTransit) }}</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::Delivered]) }}">
+                      <i class="fas fa-box-open"></i>
+                      <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Delivered) }}</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::Canceled]) }}">
+                      <i class="fas fa-times"></i>
+                      <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Canceled) }}</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::Returned]) }}">
+                      <i class="fas fa-undo-alt"></i>
+                      <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Returned) }}</span>
+                  </a>
+              </li>
+            </ul>
             </div>
           </li>
           <li class="nav-item">
