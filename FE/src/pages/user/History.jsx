@@ -78,23 +78,37 @@ const History = () => {
               <span>Trạng thái đơn hàng</span>
             </div>
           </div>
-          <div
-            className="d-flex align-items-center justify-content-between pb-2"
-            style={{ borderBottom: "1px solid rgb(234, 234, 234)" }}
-          >
-            <div className="d-flex gap-4">
-              <img src="" alt="ảnh sản phảm" />
-              <div className="d-flex flex-column">
-                <span>Tên sản phẩm</span>
-                <span className="opcaity-75">Phân loại</span>
-                <span>Số lượng</span>
-                <span>Ưu đãi</span>
-              </div>
-            </div>
-            <div>
-              <span>Giá tiền</span>
-            </div>
-          </div>
+          <table className="table">
+  <thead>
+    <tr style={{ borderBottom: "1px solid rgb(234, 234, 234)" }}>
+      <th style={{ width: '80px' }}>Ảnh sản phẩm</th>
+      <th>Tên sản phẩm</th>
+      <th>Phân loại</th>
+      <th>Số lượng</th>
+      <th>Ưu đãi</th>
+      <th style={{ textAlign: 'right' }}>Giá tiền</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <img 
+          src="https://via.placeholder.com/80" // Đường dẫn ảnh mẫu
+          alt="ảnh sản phẩm" 
+          style={{ width: '80px', height: '80px', objectFit: 'cover' }} 
+        />
+      </td>
+      <td>Giày thể thao Adidas</td> {/* Tên sản phẩm */}
+      <td>Giày</td> {/* Phân loại */}
+      <td>10</td> {/* Số lượng */}
+      <td>20%</td> {/* Ưu đãi */}
+      <td style={{ textAlign: 'right', fontWeight: 'bold' }}>1.200.000 VNĐ</td> {/* Giá tiền */}
+    </tr>
+  </tbody>
+</table>
+
+
+
           <div className="d-flex flex-column gap-4 pb-2">
             <div className="d-flex align-items-center justify-content-end">
               Thành tiền:

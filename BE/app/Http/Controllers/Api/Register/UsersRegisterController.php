@@ -19,7 +19,7 @@ class UsersRegisterController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users', // Kiểm tra email unique
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'nullable|string|max:15',
         ]);
@@ -33,6 +33,22 @@ class UsersRegisterController extends Controller
 
         try {
             $data = $validator->validated();
+
+            // Kiểm tra xem email đã tồn tại chưa
+            if (User::where('email', $data['email'])->exists()) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Email already exists',
+                ], 409); // Mã lỗi 409 cho xung đột dữ liệu
+            }
+
+            // Kiểm tra xem số điện thoại đã tồn tại chưa, nếu số điện thoại không null
+            if (!empty($data['phone']) && User::where('phone', $data['phone'])->exists()) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Phone number already exists',
+                ], 409); // Mã lỗi 409 cho xung đột dữ liệu
+            }
 
             $user = User::create([
                 'username' => $data['username'],

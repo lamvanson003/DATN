@@ -105,11 +105,11 @@ const Profile = () => {
             <div className="form-group">
               <label htmlFor="fullname">Họ và tên:</label>
               <input
-                type="text"
-                className="form-control"
-                id="fullname"
-                defaultValue={userData?.fullname || ""}
-                required
+               type="text"
+               className="form-control"
+               id="username"
+               defaultValue={userData?.username || ""}
+               required
               />
             </div>
             <div className="form-group">
@@ -125,10 +125,12 @@ const Profile = () => {
             <div className="form-group">
               <label htmlFor="username">Tên đăng nhập:</label>
               <input
+              
+
                 type="text"
                 className="form-control"
-                id="username"
-                defaultValue={userData?.username || ""}
+                id="fullname"
+                defaultValue={userData?.fullname || ""}
                 required
               />
             </div>
