@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class DiscountController extends Controller
 {
- 
     public function index() {
         try {
             $discounts = Discount::where('status', 1)->get();
@@ -27,10 +26,9 @@ class DiscountController extends Controller
         }
     }
 
-  
-    public function show($id) {
+    public function show($code) {
         try {
-            $discount = Discount::where('id', $id)
+            $discount = Discount::where('code', $code)
                 ->where('status', 1)
                 ->firstOrFail();
 
@@ -47,8 +45,8 @@ class DiscountController extends Controller
         }
     }
 
-  
     public function store(Request $request) {
+        
         try {
             $validated = $request->validate([
                 'code' => 'required|unique:discounts',
@@ -83,15 +81,13 @@ class DiscountController extends Controller
             ], 500);
         }
     }
-    
 
-
-    public function update(Request $request, $id) {
+    public function update(Request $request, $code) {
         try {
-            $discount = Discount::findOrFail($id);
+            $discount = Discount::where('code', $code)->firstOrFail();
             
             $validated = $request->validate([
-                'code' => 'required|unique:discounts,code,' . $id,
+                'code' => 'required|unique:discounts,code,' . $discount->id,
                 'discount_value' => 'required|numeric',
                 'discount_type' => 'required|in:percent,fixed', 
                 'date_start' => 'required|date',
@@ -101,7 +97,6 @@ class DiscountController extends Controller
     
             if ($validated['discount_type'] == 'percent') {
                 $validated['discount_value'] = round($validated['discount_value'], 2);
-               
                 if ($validated['discount_value'] > 99) {
                     return response()->json([
                         'success' => false,
@@ -125,10 +120,9 @@ class DiscountController extends Controller
         }
     }
 
-
-    public function destroy($id) {
+    public function destroy($code) {
         try {
-            $discount = Discount::findOrFail($id);
+            $discount = Discount::where('code', $code)->firstOrFail();
             $discount->delete();
 
             return response()->json([
