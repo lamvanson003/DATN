@@ -123,13 +123,13 @@
             <div class="collapse" id="discount">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="#themmagiamgia">
+                  <a href="{{ route('admin.discount.create') }}">
                     <i class="fas fa-plus"></i>
                     <span>Thêm mã giảm giá</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#dsmagiamgia">
+                  <a href="{{ route('admin.discount.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS mã giảm giá</span>
                   </a>
