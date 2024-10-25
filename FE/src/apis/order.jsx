@@ -1,11 +1,11 @@
 import axios from "axios";
 export const orderApi = {
-  excutePayment: async (orderData) => {
+  create: async (orderInfo) => {
     try {
       const response = await axios({
         url: "http://127.0.0.1:8000/api/orders",
         method: "post",
-        data: orderData,
+        data: orderInfo,
       });
       return response;
     } catch (err) {
