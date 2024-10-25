@@ -9,8 +9,7 @@ use App\Http\Controllers\Api\Comment\CommentController;
 use App\Http\Controllers\Api\Register\UsersRegisterController;
 use App\Http\Controllers\Api\Profile\UserProfileController;
 use App\Http\Controllers\Api\Discount\DiscountController;
-
-
+use App\Http\Controllers\Api\Payment\PaymentController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
 ->as('category')
@@ -82,8 +81,8 @@ Route::controller(DiscountController::class)->prefix('/discounts')
 Route::controller(PaymentController::class)->prefix('/payments')
 ->as('payment')
 ->group(function(){
-    Route::get('/', 'createPayment']);
-    Route::get('/callback', 'callback']);
+    Route::get('/', 'createPayment');
+    Route::get('/callback', 'callback');
 });
    
    
