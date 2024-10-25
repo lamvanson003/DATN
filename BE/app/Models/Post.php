@@ -9,6 +9,8 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $table = 'posts';
+
     protected $fillable = [
         'title',
         'slug',
@@ -16,17 +18,15 @@ class Post extends Model
         'images',
         'views',
         'status',
-        'category_id',
         'user_id',
         'posted_at'
     ];
 
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(PostCategory::class, 'category_id');
+        return $this->belongsToMany(PostCategory::class, 'post_category_post', 'post_id', 'category_id');
     }
-
 
     public function user()
     {

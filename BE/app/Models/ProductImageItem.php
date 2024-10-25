@@ -15,7 +15,7 @@ class ProductImageItem extends Model
         'product_id',
         'name',
         'images',
-        'posittion',
+        'position',
         'status',
     ];
 

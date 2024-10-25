@@ -31,4 +31,15 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'firebase' => [
+    'api_key' => env('FIREBASE_SERVER_KEY'),
+    'auth_domain' => 'your-project-id.firebaseapp.com',
+    'database_url' => 'https://your-project-id.firebaseio.com',
+    'project_id' => 'your-project-id',
+    'storage_bucket' => 'your-project-id.appspot.com',
+    'messaging_sender_id' => env('FIREBASE_SENDER_ID'),
+    'app_id' => 'your-app-id',
+    'measurement_id' => 'G-measurement-id',
+    ],
+
 ];

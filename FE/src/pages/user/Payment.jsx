@@ -1,28 +1,70 @@
 import React, { useContext, useEffect, useState } from "react";
 import icons from "../../ultis/icon";
-import MyImage from "../../assets/images/image.png";
 import LogoVisa from "../../assets/images/logovisa.png";
 import logomastercard from "../../assets/images/logomastercard.png";
 import logovcb from "../../assets/images/logovcb.png";
 import { CartContext } from "../../context/Cart";
 import { formatCurrency } from "../../ultis/func";
 import axios from "axios";
+import { orderApi } from "../../apis";
 import "./css/Payment.css";
-const { IoIosArrowDropdown, RiBankCardFill, PiHandPalm } = icons;
+import { useNavigate, useLocation } from "react-router-dom";
+import sending from "../../assets/images/iHome/sending.png";
+import { discountApi } from "../../apis";
+const {
+  IoIosArrowDropdown,
+  RiBankCardFill,
+  PiHandPalm,
+  BiSolidDiscount,
+  MdOutlineSmsFailed,
+  FaCheckDouble,
+} = icons;
 const Payment = () => {
-  const { cartItems, getCartTotal, buyNowItem } = useContext(CartContext);
-  const orderItems = cartItems;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { checkedItems } = location.state || { checkedItems: [] };
+  const { cartItems, getCartTotal, buyNow } = useContext(CartContext);
+  const [isSendingSuccess, setIsSendingSuccess] = useState(false);
+  const [finalPrice, setFinalPrice] = useState(getCartTotal());
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedWard, setSelectedWard] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [discountCode, setDiscountCode] = useState("");
+  const [applyingDiscount, setApplyingDiscount] = useState(false);
+  const [isSuccessDiscount, setIsSuccessDiscount] = useState(0);
+  const handleDiscount = async () => {
+    try {
+      setApplyingDiscount(true);
+      const discountData = await discountApi.getOne(discountCode);
+      setApplyingDiscount(false);
+      if (discountData.type === "percentage") {
+        const discountValue = (getCartTotal() * discountData.value) / 100;
+        const discountPrice = getCartTotal() - discountValue;
+        setFinalPrice(discountPrice);
+      } else if (discountData === " fixed") {
+        const discountPrice = getCartTotal() - discountData.value;
+        setFinalPrice(discountPrice);
+      }
+      setDiscountCode("");
+      setIsSuccessDiscount(1);
+    } catch (err) {
+      console.log("Lỗi khi handle mã", err);
+      setDiscountCode("");
+      setIsSuccessDiscount(2);
+    }
+  };
+  const handleChangePaymentMethod = (e) => {
+    const selectedValue = Number(e.target.value);
+    setPaymentMethod(selectedValue);
+    console.log(selectedValue);
+  };
   useEffect(() => {
     const fetchProvinces = async () => {
       const res = await axios.get("https://esgoo.net/api-tinhthanh/1/0.htm");
-      console.log(res.data.data);
-
       setProvinces(res.data.data);
     };
     fetchProvinces();
@@ -33,7 +75,6 @@ const Payment = () => {
         const res = await axios.get(
           `https://esgoo.net/api-tinhthanh/2/${selectedProvince.id}.htm`
         );
-        console.log(res.data.data);
         setDistricts(res.data.data);
         setWards([]);
       };
@@ -46,22 +87,11 @@ const Payment = () => {
         const res = await axios.get(
           `https://esgoo.net/api-tinhthanh/3/${selectedDistrict.id}.htm`
         );
-        console.log(res.data.data);
-
         setWards(res.data.data);
       };
       fetchWards();
     }
   }, [selectedDistrict]);
-
-  const [customerInfo, setCustomerInfo] = useState({
-    name: "",
-    phone: "",
-    province: "",
-    district: "",
-    ward: "",
-    street: "",
-  });
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setCustomerInfo((prev) => ({
@@ -78,7 +108,26 @@ const Payment = () => {
     ward: true,
     street: true,
   });
-  const validateForm = () => {
+  const [customerInfo, setCustomerInfo] = useState({
+    name: "",
+    phone: "",
+    province: "",
+    district: "",
+    ward: "",
+    street: "",
+    note: "",
+  });
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const updatedProducts = orderItems.map((item) => ({
+      product_variant_id: item?.color?.id,
+      quantity: item.quantity || 1,
+      price: item?.color?.price,
+      sale: item?.color?.sale ? item?.color?.sale : 0,
+    }));
+    setProducts(updatedProducts);
+  }, []);
+  const excutePayment = () => {
     const newValidFields = {
       name: customerInfo.name !== "",
       phone: customerInfo.phone !== "",
@@ -93,7 +142,6 @@ const Payment = () => {
       alert("Vui lòng điền đầy đủ thông tin");
       return;
     }
-
     const phonePattern = /^[0-9]{10}$/;
     if (!phonePattern.test(customerInfo.phone)) {
       alert("Số điện thoại bao gồm 10 chữ số và không chứa ký tự đặc biệt");
@@ -104,12 +152,58 @@ const Payment = () => {
       alert("Tên chỉ được chứa chữ cái và khoảng trắng.");
       return;
     }
-
-    alert("Thông tin hợp lệ, bạn có thể tiến hành thanh toán");
+    const orderData = {
+      user_id: null,
+      payment_method_id: 1,
+      discount_id: null,
+      shipping_method: 0,
+      fullname: customerInfo.name,
+      phone: customerInfo.phone,
+      address: `${customerInfo.province}, ${customerInfo.district}, ${customerInfo.ward}, ${customerInfo.street}`,
+      email: "euuring0110@gmail.com",
+      note: "",
+      total_price: getCartTotal(),
+      products: products,
+    };
+    orderApi.excutePayment(orderData);
+    setIsSendingSuccess(true);
   };
-
+  const closeModal = () => {
+    setIsSendingSuccess(false);
+  };
+  useEffect(() => {
+    // Khi rời khỏi trang thanh toán, xóa buyNowItem
+    return () => {
+      if (location.pathname === "/payment") {
+        localStorage.removeItem("buyNowItem");
+      }
+    };
+  }, [location.pathname]);
+  const orderItems = localStorage.getItem("buyNowItem")
+    ? JSON.parse(localStorage.getItem("buyNowItem"))
+    : checkedItems.length > 0
+    ? checkedItems
+    : [];
   return (
     <>
+      {isSendingSuccess && (
+        <div className="custom-modal-overlay">
+          <div className="custom-modal">
+            <h2>Thông báo đơn hàng</h2>
+            <p>Đơn hàng của bạn đã được gửi đi, Vui lòng chờ đợi xác nhận</p>
+            <div className="modal-img-container">
+              <img className="modal-img" src={sending} alt="" />
+            </div>
+            <div className="group-custom-modal-button">
+              <span className="custom-modal-button">chi tiết hóa đơn</span>
+              <span className="custom-modal-button">trang chủ</span>
+              <span className="custom-modal-button" onClick={closeModal}>
+                Đóng
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
       <div style={{ paddingLeft: 90, marginTop: 50, marginBottom: 50 }}>
         <h3 className="fw-semibold">Thông tin thanh toán</h3>
       </div>
@@ -198,8 +292,6 @@ const Payment = () => {
                         const selectedDistrict = districts.find(
                           (d) => d.full_name === e.target.value
                         );
-                        console.log(e.target.value);
-                        console.log(selectedDistrict);
 
                         setSelectedDistrict(selectedDistrict);
                         setCustomerInfo((prev) => ({
@@ -275,13 +367,18 @@ const Payment = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                <span
-                  onClick={() => {
-                    console.log(customerInfo);
-                  }}
-                >
-                  In thông tin
-                </span>
+                <div>
+                  <label htmlFor="note" className="label-style">
+                    Ghi chú:
+                  </label>
+                  <br />
+                  <textarea
+                    id="note"
+                    className=" rounded"
+                    value={customerInfo.note}
+                    onChange={handleInputChange}
+                  />
+                </div>
               </form>
             </div>
           </div>
@@ -306,7 +403,7 @@ const Payment = () => {
                     >
                       <span style={{ width: "15%" }}>
                         <img
-                          src={item.main.image}
+                          src={item.color.images}
                           alt="ảnh sản phẩm"
                           style={{ height: 65 }}
                         />
@@ -342,7 +439,55 @@ const Payment = () => {
                     </div>
                   ))}
                 </div>
-
+                <div className="position-relative">
+                  <label htmlFor="discountCode" className="fw-semibold">
+                    <BiSolidDiscount size={24} className="text-danger" /> Nhập
+                    mã giảm giá
+                  </label>
+                  <input
+                    id="discountCode"
+                    type="text"
+                    value={discountCode}
+                    onChange={(e) => setDiscountCode(e.target.value)}
+                    style={{ outline: "none", boxShadow: "none" }}
+                  />
+                  <button
+                    onClick={handleDiscount}
+                    style={{
+                      position: "absolute",
+                      right: "0px",
+                      top: "64%",
+                      transform: "translateY(-50%)",
+                      padding: "10px 10px",
+                      border: "none",
+                      borderRadius: "0 0.25rem 0.25rem 0",
+                      outline: "none",
+                      boxShadow: "none",
+                    }}
+                  >
+                    Áp dụng
+                  </button>
+                </div>
+                {isSuccessDiscount !== 0 && (
+                  <span
+                    className={`${
+                      isSuccessDiscount === 1
+                        ? "applyDiscountSuccess"
+                        : "applyDiscountFail"
+                    } defaultDiscount`}
+                  >
+                    {isSuccessDiscount === 1 ? (
+                      <>
+                        <FaCheckDouble size={24} /> Áp dụng mã thành công
+                      </>
+                    ) : (
+                      <>
+                        Có lỗi xảy ra
+                        <MdOutlineSmsFailed size={24} />
+                      </>
+                    )}
+                  </span>
+                )}
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Giá: </span>
@@ -353,18 +498,28 @@ const Payment = () => {
                     <span></span>
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
+                    <span className="fw-semibold">Giá giảm: </span>
+                    <span></span>
+                  </div>
+                  <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Tổng: </span>
                     <span
                       className="text-danger fw-bold"
                       style={{ fontSize: 20 }}
                     >
-                      {formatCurrency(getCartTotal())}
+                      {formatCurrency(finalPrice)}
                     </span>
                   </div>
                   <div>
                     <span className="d-flex justify-content-between align-items-center">
                       <span className="fw-semibold">
-                        <input type="radio" style={{ marginRight: 20 }} />
+                        <input
+                          type="radio"
+                          style={{ marginRight: 20 }}
+                          name="paymentMethod"
+                          value={0}
+                          onChange={handleChangePaymentMethod}
+                        />
                         thanh toán online
                       </span>
                       <span className="d-flex justify-content-between gap-3">
@@ -379,7 +534,13 @@ const Payment = () => {
                     </span>
                     <span className="d-flex justify-content-between">
                       <span className="fw-semibold">
-                        <input type="radio" style={{ marginRight: 20 }} />
+                        <input
+                          type="radio"
+                          style={{ marginRight: 20 }}
+                          name="paymentMethod"
+                          value={1}
+                          onChange={handleChangePaymentMethod}
+                        />
                         thanh toán khi nhận hàng (COD)
                       </span>
                       <span className="d-flex justify-content-between">
@@ -388,25 +549,10 @@ const Payment = () => {
                     </span>
                   </div>
                 </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span style={{ width: "60%" }}>
-                    <input
-                      style={{ height: 50, width: "100%" }}
-                      type="text"
-                      placeholder="Nhập mã"
-                      className="text-center"
-                    />
-                  </span>
-                  <span
-                    style={{ height: 50 }}
-                    className="px-4 py-2 d-flex algin-items-center  border border-secondary rounded text-light bg-primary fw-semibold "
-                  >
-                    Áp dụng mã
-                  </span>
-                </div>
+
                 <div>
                   <span
-                    onClick={validateForm}
+                    onClick={excutePayment}
                     style={{ height: 50, fontSize: 24, cursor: "pointer" }}
                     className="px-4 py-2 d-flex align-items-center justify-content-center border border-secondary rounded text-light bg-primary fw-bold"
                   >

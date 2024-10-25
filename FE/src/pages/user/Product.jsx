@@ -20,6 +20,7 @@ const Product = () => {
       setPhonesData(productsData.phone);
       setLaptopsData(productsData.laptop);
     }
+    console.log(productsData);
   }, [productsData]);
 
   const [active, setActive] = useState(0);
@@ -35,7 +36,6 @@ const Product = () => {
   }
 
   const paginate = (pageNumber) => setCurPage(pageNumber);
-
   useEffect(() => {
     setPros(active === 0 ? phonesData : laptopsData);
   }, [active, phonesData, laptopsData]);
@@ -45,7 +45,9 @@ const Product = () => {
 
   const filteredPros = useMemo(() => {
     return pros.filter((pro) => {
-      const price = pro.product_variant[0].sale || pro.product_variant[0].price;
+      const price =
+        pro.product_variant[0].variants[0].sale ??
+        pro.product_variant[0].variants[0].price;
       return price >= minPrice && price <= maxPrice;
     });
   }, [pros, minPrice, maxPrice]);
@@ -63,19 +65,23 @@ const Product = () => {
   const sortedItems = useMemo(() => {
     const itemsToSort = [...curItems];
     itemsToSort.sort((a, b) => {
-      const aPrice = a.product_variant[0].sale || a.product_variant[0].price;
-      const bPrice = b.product_variant[0].sale || b.product_variant[0].price;
+      const aPrice =
+        a.product_variant[0].variants[0].sale ||
+        a.product_variant[0].variants[0].price;
+      const bPrice =
+        b.product_variant[0].variants[0].sale ||
+        b.product_variant[0].variants[0].price;
       return sortOrder === 1 ? aPrice - bPrice : bPrice - aPrice;
     });
     return itemsToSort;
   }, [curItems, sortOrder]);
-  console.log(sortedItems);
+
   return (
     <div className="container mt-5">
       <section id="header">
         <div className="row">
           <div className="d-flex"></div>
-          <div className="p-3 bg-Breadcrumb row">
+          <div className=" bg-Breadcrumb row">
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb mb-0">
                 <li className="breadcrumb-item">
@@ -87,7 +93,7 @@ const Product = () => {
               </ol>
             </nav>
           </div>
-          <div className="row my-3">
+          <div className="row mb-3">
             <div className="col-md-4"></div>
             <div className="col-md-8">
               <div
@@ -168,12 +174,14 @@ const Product = () => {
               {sortedItems.map((item) => (
                 <div key={item?.id} className="col-md-2-product">
                   <BoxPro
-                    pid={item?.id}
-                    name={item?.name}
-                    slug={item?.slug}
-                    image={item?.images}
-                    brand={item?.brand?.name}
-                    variant={item?.product_variant}
+                    id={item.id}
+                    name={item.name}
+                    category={item.category}
+                    brand={item.brand}
+                    slug={item.slug}
+                    image={item.images}
+                    product_image_items={item.product_image_items}
+                    variant={item.product_variant}
                   />
                 </div>
               ))}

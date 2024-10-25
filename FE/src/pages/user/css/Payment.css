@@ -77,3 +77,100 @@
 .rounded {
   border-radius: 8px;
 }
+.custom-modal-overlay {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.custom-modal {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 50px 100px;
+  border-radius: 20px;
+}
+.custom-modal p {
+  font-size: 1.2rem; /* Kích thước vừa phải, không quá to */
+  color: #333; /* Màu tối hơn một chút để làm nổi bật trên nền trắng */
+  text-align: center; /* Căn giữa để đồng bộ với tiêu đề */
+  margin-bottom: 20px; /* Khoảng cách giữa đoạn văn và các nút */
+  line-height: 1.5; /* Tạo khoảng cách giữa các dòng để dễ đọc */
+}
+
+/* Nhóm chứa các nút */
+.group-custom-modal-button {
+  display: flex;
+  justify-content: center; /* Căn giữa tất cả các nút */
+  gap: 15px; /* Khoảng cách giữa các nút */
+}
+
+/* CSS cho nút (span) */
+.custom-modal-button {
+  padding: 10px 20px; /* Khoảng đệm bên trong nút */
+  background-color: #007bff; /* Màu nền xanh dương */
+  color: white; /* Màu chữ trắng để nổi bật trên nền */
+  border-radius: 5px; /* Bo góc nhẹ cho nút */
+  text-transform: uppercase; /* Viết hoa tất cả chữ trên nút */
+  font-size: 1rem; /* Kích thước vừa phải */
+  font-weight: bold; /* Chữ đậm */
+  cursor: pointer; /* Hiển thị con trỏ chuột khi hover */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Tạo hiệu ứng chuyển động khi hover */
+}
+
+/* Hiệu ứng hover cho nút */
+.custom-modal-button:hover {
+  background-color: #0056b3; /* Đổi sang màu xanh dương đậm khi hover */
+  transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
+
+.custom-modal h2 {
+  font-size: 2.5rem; /* Tăng kích thước chữ */
+  color: #007bff; /* Màu chủ đạo là xanh dương */
+  text-transform: uppercase; /* Viết hoa tất cả các chữ cái */
+  letter-spacing: 2px; /* Tạo khoảng cách giữa các chữ */
+  text-align: center; /* Căn giữa tiêu đề */
+  font-weight: bold; /* Đậm nét */
+  background: linear-gradient(
+    90deg,
+    #007bff,
+    #0056b3
+  ); /* Hiệu ứng chuyển màu từ xanh dương sáng sang xanh đậm */
+  -webkit-background-clip: text; /* Dùng để áp dụng gradient chỉ cho text */
+  -webkit-text-fill-color: transparent; /* Làm cho văn bản có màu gradient */
+  padding: 10px; /* Thêm khoảng đệm */
+  border-bottom: 5px solid #0056b3; /* Tạo đường gạch dưới tiêu đề với màu xanh đậm */
+  display: inline-block; /* Giữ kích thước inline nhưng có padding */
+}
+.modal-img-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.modal-img {
+  width: 30%;
+}
+.defaultDiscount {
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+.applyDiscountSuccess {
+  background-color: #28a745;
+  color: #fff;
+}
+.applyDiscountFail {
+  background-color: #dc3545;
+  color: #fff;
+}

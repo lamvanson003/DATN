@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios"; 
+import axios from "axios";
 import login from "../../assets/images/log.svg";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Login.css";
@@ -11,35 +11,37 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
 
     const loginData = { email, password };
 
     try {
-      const response = await axios.post("http://localhost:8000/api/logins", loginData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:8000/api/logins",
+        loginData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = response.data;
-      console.log(data); 
+      console.log(data);
 
-      // Lưu token vào localStorage
       if (data.token) {
-        localStorage.setItem("token", data.token); // Lưu token
+        localStorage.setItem("token", data.token);
       }
 
-      // Điều hướng dựa trên quyền của người dùng
-      if (data.redirect_url) {
-        window.location.href = data.redirect_url; 
-      } else {
-        navigate("/"); 
-      }
+      // if (data.redirect_url) {
+      //   window.location.href = data.redirect_url;
+      // } else {
+      //   navigate("/");
+      // }
     } catch (error) {
       console.error("Error during login:", error);
       if (error.response) {
-        console.error("Response data:", error.response.data); 
+        console.error("Response data:", error.response.data);
         setErrorMessage(error.response.data.error || "Đăng nhập thất bại");
       } else {
         setErrorMessage("An unexpected error occurred.");
@@ -107,7 +109,10 @@ const Login = () => {
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <div className="form-check">
-                    <label className="form-check-label " htmlFor="form1Example3">
+                    <label
+                      className="form-check-label "
+                      htmlFor="form1Example3"
+                    >
                       Ghi nhớ đăng nhập
                     </label>
                     <input

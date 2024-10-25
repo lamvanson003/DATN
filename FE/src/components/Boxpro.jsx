@@ -8,13 +8,13 @@ import { FavorContext } from "../context/Favor";
 import { formatCurrency, handleNumber } from "../ultis/func";
 import icons from "../ultis/icon";
 const BoxPro = ({
-  pid,
+  id,
   name,
   image,
-  rating,
   slug,
   brand,
-  totalrate,
+  category,
+  product_image_items,
   watched,
   variant,
   hot,
@@ -26,19 +26,26 @@ const BoxPro = ({
   useEffect(() => {
     if (variant && variant.length > 0) {
       const firstStorage = variant[0];
-      const firstVariant = firstStorage.variants[0];
+      const firstVariant = firstStorage?.variants[0];
       setActiveStorage(firstStorage || null);
       if (firstStorage.variants.length > 0) {
-        setActiveColor(firstStorage.variants[0]); // Sửa ở đây để truy cập đúng biến
+        setActiveColor(firstStorage.variants[0]);
       } else {
-        setActiveColor(null); // Set null nếu không có variant nào
+        setActiveColor(null);
       }
       setCurrentVariant({
-        storage: firstStorage.storage,
+        storage: firstStorage?.storage,
         color: firstVariant,
       });
     }
   }, [variant]);
+  const handleAddToCart = () => {
+    if (currentVariant && currentVariant?.color?.instock !== undefined) {
+      console.log(currentVariant?.color?.instock);
+      addToCart(main, currentVariant, 1, currentVariant?.color?.instock);
+    }
+    console.log(currentVariant);
+  };
   const handleChangeVariant = (selectedStorage) => {
     const selectedStorageObj = variant.find(
       (v) => v.storage === selectedStorage
@@ -54,20 +61,34 @@ const BoxPro = ({
         color: firstVariant,
       });
     } else {
-      // Nếu không tìm thấy storage, đặt currentVariant về null hoặc xử lý lỗi
       setCurrentVariant(null);
     }
   };
+
   const { cartItems, addToCart, buyNow } = useContext(CartContext);
   const { favorItems, addToFavor } = useContext(FavorContext);
   const inCartItem = cartItems.find(
-    (cartItem) => cartItem.id === currentVariant?.id
+    (cartItem) => cartItem.color.sku === currentVariant?.color.sku
   );
   const cartItemQuantity = inCartItem && inCartItem.quantity;
   const inFavorItems = favorItems.find(
-    (favorItem) => favorItem.id === currentVariant?.id
+    (favorItem) =>
+      favorItem.product_variant[0]?.variants[0]?.sku ===
+      currentVariant?.color?.sku
   );
-  const main = { name, image };
+
+  const product_variant = variant;
+  const main = {
+    id,
+    name,
+    image,
+    brand,
+    category,
+    slug,
+    product_image_items,
+    product_variant,
+  };
+
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
   return (
     <div className="card">
@@ -88,7 +109,11 @@ const BoxPro = ({
             alt="Image of iPhone 14 Pro Max 128GB"
             className="card-img-top "
             style={{ cursor: "pointer" }}
-            src={currentVariant?.image ? currentVariant?.image : image}
+            src={
+              currentVariant?.color?.images
+                ? currentVariant?.color?.images
+                : image
+            }
           />
         </Link>
       </div>
@@ -109,9 +134,10 @@ const BoxPro = ({
               {name
                 ? name.length > 40
                   ? name.slice(0, 40) + "..."
-                  : `${name} ${
-                      currentVariant?.color?.color &&
+                  : `${name}${
                       currentVariant?.color?.color
+                        ? ` ${currentVariant?.color?.color}`
+                        : ""
                     }`
                 : testname.length > 40
                 ? testname.slice(0, 40) + "..."
@@ -165,12 +191,7 @@ const BoxPro = ({
           </div>
           {!hot && (
             <div className="d-flex justify-content-between align-items-center my-2">
-              <button
-                className="icon-btn"
-                onClick={() => {
-                  addToCart(main, currentVariant);
-                }}
-              >
+              <button className="icon-btn" onClick={handleAddToCart}>
                 <i className="fas fa-shopping-cart fw-semibold" />
                 <span className="fw-bold text-primary ms-1">
                   {cartItemQuantity ? `(${cartItemQuantity})` : ""}
@@ -182,6 +203,8 @@ const BoxPro = ({
               <button
                 className="icon-btn"
                 onClick={() => {
+                  console.log("Main: ", main);
+                  console.log("currentV: ", currentVariant);
                   addToFavor(main, currentVariant);
                 }}
               >

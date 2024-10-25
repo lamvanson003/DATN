@@ -12,13 +12,12 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import axios from "axios";
 import { FavorContext } from "../../context/Favor";
+import { formatCurrency } from "../../ultis/func";
 const Favor = () => {
   const { isLoading } = useSelector((state) => state.app);
   const dispatch = useDispatch();
   const [Pros, setPros] = useState([]);
-  const [phone, setPhone] = useState([]);
-  const [laptop, setLaptop] = useState([]);
-  const { favorItems } = useContext(FavorContext);
+  const { favorItems, clearFavor } = useContext(FavorContext);
   const [curPage, setCurPage] = useState(1);
   const [itemsPerPage] = useState(8);
   const indexOfLastItem = curPage * itemsPerPage;
@@ -30,15 +29,21 @@ const Favor = () => {
   }
   const paginate = (pageNumber) => setCurPage(pageNumber);
 
-  const [minPrice, setMinPrice] = useState(100);
-  const [maxPrice, setMaxPrice] = useState(50000000);
-  // Thiết lập giá trị ban đầu cho Pros từ favorItems
+  const [minPrice, setMinPrice] = useState(1000000);
+  const [maxPrice, setMaxPrice] = useState(500000000);
+
   useEffect(() => {
     setPros(favorItems);
-  }, [favorItems]); // Chỉ cập nhật khi favorItems thay đổi
+  }, [favorItems]);
+  console.log(Pros);
 
   const filteredPros = useMemo(() => {
-    return Pros.filter((pro) => pro.sale >= minPrice && pro.sale <= maxPrice);
+    return Pros?.filter((pro) => {
+      const salePrice =
+        pro?.product_variant[0]?.variants[0]?.sale ??
+        pro?.product_variant[0]?.variants[0]?.price;
+      return salePrice >= minPrice && salePrice <= maxPrice;
+    });
   }, [Pros, minPrice, maxPrice]);
   const curItems = useMemo(() => {
     return filteredPros.slice(indexOfFirstItem, indexOfLastItem);
@@ -77,6 +82,7 @@ const Favor = () => {
           <div className="row my-3">
             <div className="col-md-4">
               <h2>SẢN PHẨM YÊU THÍCH</h2>
+              <span onClick={() => clearFavor()}>Xóa hết</span>
             </div>
             <div className="col-md-8">
               <div
@@ -142,11 +148,11 @@ const Favor = () => {
                 type="range"
                 value={maxPrice}
                 onChange={handleRangeChange}
-                min="100"
-                max="50000000"
+                min="1000000"
+                max="500000000"
               />
               <span>
-                từ: {minPrice} đến: {maxPrice}
+                từ: {formatCurrency(minPrice)} đến: {formatCurrency(maxPrice)}
               </span>
             </div>
             <Filter />
@@ -156,13 +162,18 @@ const Favor = () => {
               <Brand />
               {sortedItems &&
                 sortedItems.map((item) => (
-                  <div key={item?.id} className="col-md-2-product">
+                  <div
+                    key={item?.product_variant[0]?.variants[0]?.sku}
+                    className="col-md-2-product"
+                  >
                     <BoxPro
-                      pid={item?.id}
-                      name={item?.main?.name}
+                      id={item?.id}
+                      name={item?.name}
+                      category={item?.category}
+                      brand={item?.brand}
                       slug={item?.slug}
                       image={item?.images}
-                      brand={item?.brand?.name}
+                      product_image_items={item?.product_image_items}
                       variant={item?.product_variant}
                     />
                   </div>

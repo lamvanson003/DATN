@@ -10,7 +10,7 @@ export const FavorProvider = ({ children }) => {
   const generateVariantKey = (mainName, variantSku) =>
     `${mainName}:${variantSku}`;
   const addToFavor = (main, variant) => {
-    const variantKey = generateVariantKey(main.name, variant.sku);
+    const variantKey = generateVariantKey(main.name, variant.color.sku);
     const isItemInFavor = favorItems.find(
       (favorItem) => favorItem.variantKey === variantKey
     );
@@ -21,19 +21,33 @@ export const FavorProvider = ({ children }) => {
       setFavorItems(updateFavorItems);
       toast.warning("Đã xóa khỏi mục yêu thích");
     } else {
-      setFavorItems([
-        ...favorItems,
-        {
-          ...variant, // Dữ liệu biến thể
-          variantKey, // Key duy nhất cho mỗi sản phẩm biến thể
-          main: {
-            name: main.name,
-            image: main.image,
-          },
-        },
-      ]);
-      toast.success("Đã thêm vào mục yêu thích");
+      const matchedStorage = main.product_variant.find(
+        (p_variant) => p_variant.storage === variant.storage
+      );
+      if (matchedStorage) {
+        const newFavorItem = {
+          ...main,
+          product_variant: [
+            {
+              storage: matchedStorage.storage,
+              variants: [
+                matchedStorage.variants.find(
+                  (v) => v.sku === variant.color.sku
+                ),
+              ].filter(Boolean),
+            },
+          ],
+          variantKey: variantKey,
+        };
+        setFavorItems([...favorItems, newFavorItem]);
+        toast.success("Đã thêm vào mục yêu thích");
+      } else {
+        console.log("Ko tìm thấy storage");
+      }
     }
+  };
+  const clearFavor = () => {
+    setFavorItems([]);
   };
   useEffect(() => {
     localStorage.setItem("favorItems", JSON.stringify(favorItems));
@@ -45,7 +59,7 @@ export const FavorProvider = ({ children }) => {
     }
   }, []);
   return (
-    <FavorContext.Provider value={{ favorItems, addToFavor }}>
+    <FavorContext.Provider value={{ favorItems, addToFavor, clearFavor }}>
       {children}
     </FavorContext.Provider>
   );

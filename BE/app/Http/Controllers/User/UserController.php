@@ -31,7 +31,7 @@ class UserController extends Controller
     }
 
     public function store(UserRequest $request)
-    {   
+    {    
         try {
             $imagePath = '';
             if ($request->hasFile('avatar')) {
