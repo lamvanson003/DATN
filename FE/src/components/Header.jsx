@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./css/Header.css";
 import path from "../ultis/path";
@@ -8,13 +8,16 @@ import logoCloudLab from "../assets/images/logo.svg";
 
 const Header = ({ cartItemAmout, favorItemAmount }) => {
   const navigate = useNavigate();
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchHistory, setSearchHistory] = useState([]);
+  const handleSearch = () => {};
   const handleNaCart = () => {
     navigate("/cart");
   };
   const handleNaFa = () => {
     navigate("/favor");
   };
+
   const {
     BsSearch,
     CiLocationOn,
@@ -48,22 +51,29 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
             <img src={logoCloudLab} alt="logo" />
           </div>
           <div className="position-relative">
-            <input
-              type="text"
-              placeholder="Tìm kiếm"
-              style={{ width: 500, height: 60, paddingLeft: "12px" }} // Tạo khoảng cách cho icon
-              className="form-control rounded"
-            />
-            <span
-              className="position-absolute"
-              style={{
-                right: "15px",
-                top: "50%",
-                transform: "translateY(-50%)",
-              }}
-            >
-              <BsSearch />
-            </span>
+            <form action="">
+              <input
+                type="text"
+                placeholder="Tìm kiếm"
+                style={{ width: 500, height: 60, paddingLeft: "12px" }} // Tạo khoảng cách cho icon
+                className="form-control rounded"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <button
+                className="position-absolute"
+                style={{
+                  right: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  border: "none",
+                }}
+                type="submit"
+                onClick={handleSearch}
+              >
+                <BsSearch />
+              </button>
+            </form>
           </div>
 
           <div className="d-flex gap-4">

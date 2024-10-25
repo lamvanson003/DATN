@@ -14,9 +14,9 @@ const {
 } = icons;
 
 const User = () => {
-  const [userData, setUserData] = useState(null); // State để lưu trữ dữ liệu người dùng
-  const [loading, setLoading] = useState(true);   // State để kiểm soát trạng thái loading
-  const [error, setError] = useState(null);       // State để lưu trữ lỗi nếu có
+  const [fullname, setFullname] = useState(""); // State để lưu trữ fullname
+  const [loading, setLoading] = useState(true); // State để kiểm soát trạng thái loading
+  const [error, setError] = useState(null);     // State để lưu trữ lỗi nếu có
 
   // Hàm fetch dữ liệu từ API
   const fetchUserData = async () => {
@@ -31,7 +31,7 @@ const User = () => {
 
       const data = await response.json();
       if (response.ok) {
-        setUserData(data.data); // Lưu trữ dữ liệu người dùng vào state
+        setFullname(data.data?.fullname || ""); 
       } else {
         setError(data.message || "Có lỗi xảy ra khi fetch dữ liệu.");
       }
@@ -39,56 +39,6 @@ const User = () => {
       setError("Có lỗi xảy ra: " + error.message);
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Hàm cập nhật thông tin người dùng
-  const updateUserData = async (event) => {
-    event.preventDefault(); // Ngăn chặn hành động mặc định của form
-
-    // Lấy giá trị từ các trường input
-    const fullname = document.getElementById("fullname").value;
-    const email = document.getElementById("email").value;
-    const username = document.getElementById("username").value;
-    const gender = document.querySelector('input[name="gender"]:checked')?.value; // Nếu có checkbox hoặc radio cho giới tính
-    const phone = document.getElementById("phone").value;
-    const address = document.getElementById("address").value;
-    const password = document.getElementById("password").value; // mật khẩu mới
-    const passwordConfirmation = document.getElementById("passwordConfirmation").value; // xác nhận mật khẩu
-
-    // Tạo đối tượng dữ liệu để gửi
-    const data = {
-      fullname,
-      email,
-      username,
-      gender,
-      phone,
-      address,
-      password,
-      password_confirmation: passwordConfirmation,
-    };
-
-    try {
-      const response = await fetch("http://localhost:8000/api/profiles", {
-        method: "PATCH", // Hoặc POST nếu bạn muốn
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(data), // Chuyển đổi dữ liệu thành JSON
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        // Cập nhật thành công
-        alert("Thông tin đã được cập nhật thành công!");
-        window.location.reload(); // Tải lại trang
-      } else {
-        // Xử lý lỗi nếu có
-        alert("Có lỗi xảy ra: " + result.message);
-      }
-    } catch (error) {
-      alert("Có lỗi xảy ra: " + error.message);
     }
   };
 
@@ -109,7 +59,6 @@ const User = () => {
     <>
       <div className="mt-5" style={{ width: "100%" }}>
         <div className="row" style={{ width: "100%" }}>
-          {/* comment from của hiếu  */}
           <div className="col-md-3 px-5">
             <span className="px-5 d-flex flex-column gap-4">
               <div className="d-flex align-items-center gap-3">
@@ -118,7 +67,7 @@ const User = () => {
                 </span>
                 <span className="d-flex flex-column">
                   <span className="fw-bold" style={{ fontSize: 16 }}>
-                    {userData?.fullname || "Tên user"}
+                    {fullname || "Tên user"}
                   </span>
                   <span className="opacity-75" style={{ fontSize: 14 }}>
                     Sửa hồ sơ
@@ -149,12 +98,10 @@ const User = () => {
                   <BsCashCoin className="text-warning" />
                   Xu khuyến mãi
                 </span>
-              </div>
-            </span>
+              </div>            </span>
           </div>
           <div className="col-md-9 px-5">
             <Outlet />
-           
           </div>
         </div>
       </div>
@@ -164,17 +111,7 @@ const User = () => {
 
 export default User;
 
-// giới tính
-   {/* <div className="col">
-                    <label className="form-label">Giới tính</label>
-                    <div>
-                      <input type="radio" id="male" name="gender" value="male" />
-                      <label htmlFor="male">Nam</label>
-                      <input type="radio" id="female" name="gender" value="female" />
-                      <label htmlFor="female">Nữ</label>
-                      <input type="radio" id="other" name="gender" value="other" />
-                      <label htmlFor="other">Khác</label>
-                    </div>
-                  </div> */}
+
+
 
  

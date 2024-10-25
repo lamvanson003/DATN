@@ -1,0 +1,131 @@
+<?php
+
+namespace App\Http\Controllers\Discount;
+
+use App\Http\Controllers\Controller;
+use App\Models\Discount;
+use App\Enums\Discount\DiscountStatus;
+use App\Enums\Discount\DiscountType;
+use App\Http\Requests\Discount\DiscountRequest;
+use Illuminate\Http\Request;
+use Exception;
+use Carbon\Carbon; 
+
+class DiscountController extends Controller
+{
+    public function index()
+    {
+        $discounts = Discount::all();
+        return view('discount.index', compact('discounts'));
+    }
+
+    public function create()
+    {
+        $types = DiscountType::asSelectArray(); 
+        $status = DiscountStatus::asSelectArray();
+        return view('discount.create', compact('types', 'status'));
+    }
+
+    public function store(DiscountRequest $request)
+{
+    try {
+        $data = $request->validated();
+        
+        $data['type'] = (int) $data['type'];
+        $data['status'] = (int) $data['status'];
+        
+        if ($data['type'] === DiscountType::Percent && $data['discount_value'] > 99) {
+            return redirect()->back()->withErrors(['discount_value' => 'Giá trị giảm giá không được lớn hơn 99% cho loại giảm giá phần trăm.'])->withInput();
+        }
+
+        if (!in_array($data['type'], array_keys(DiscountType::asSelectArray()))) {
+            return redirect()->back()->withErrors(['type' => 'Loại giảm giá không hợp lệ.']);
+        }
+        
+        if (!in_array($data['status'], array_keys(DiscountStatus::asSelectArray()))) {
+            return redirect()->back()->withErrors(['status' => 'Trạng thái không hợp lệ.']);
+        }
+
+        Discount::create([
+            'code' => $data['code'],
+            'discount_value' => $data['discount_value'],
+            'type' => $data['type'],
+            'desc' => $data['desc'],
+            'date_start' => Carbon::parse($data['date_start']), 
+            'date_end' => Carbon::parse($data['date_end']), 
+            'status' => $data['status'], 
+        ]);
+        
+        return redirect()->route('admin.discount.index')->with('success', 'Thêm mã giảm giá thành công.');
+    } catch (Exception $e) {
+        return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+    }
+}
+
+
+    public function edit($id)
+    {
+        $discount = Discount::findOrFail($id);
+        $types = DiscountType::asSelectArray();
+        $status = DiscountStatus::asSelectArray();
+        return view('discount.edit', compact('discount', 'types', 'status'));
+    }
+
+    public function update(Request $request, $id)
+{
+    try {
+      
+        $request->validate([
+            'code' => 'required|string|max:255',
+            'discount_value' => 'required|numeric',
+            'type' => 'required|in:' . implode(',', array_keys(DiscountType::asSelectArray())),
+            'desc' => 'nullable|string|max:255',
+            'date_start' => 'required|date',
+            'date_end' => 'required|date|after_or_equal:date_start',
+            'status' => 'required|in:' . implode(',', array_keys(DiscountStatus::asSelectArray())), 
+        ]);
+
+        
+        $discount = Discount::findOrFail($id);
+
+   
+        $data = $request->all();
+        $data['type'] = (int) $data['type'];
+        $data['status'] = (int) $data['status'];
+
+   
+        if ($data['type'] === DiscountType::Percent && $data['discount_value'] > 99) {
+            return redirect()->back()->withErrors(['discount_value' => 'Giá trị giảm giá không được lớn hơn 99% cho loại giảm giá phần trăm.'])->withInput();
+        }
+
+        $discount->update([
+            'code' => $data['code'],
+            'discount_value' => $data['discount_value'],
+            'type' => $data['type'],
+            'desc' => $data['desc'],
+            'date_start' => Carbon::parse($data['date_start']),
+            'date_end' => Carbon::parse($data['date_end']),
+            'status' => $data['status'],
+        ]);
+
+        return redirect()->route('admin.discount.index')->with('success', 'Cập nhật mã giảm giá thành công.');
+    } catch (Exception $e) {
+        return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+    }
+}
+
+    
+
+
+
+    public function delete($id)
+    {
+        try {
+            $discount = Discount::findOrFail($id);  
+            $discount->delete();
+            return redirect()->route('admin.discount.index')->with('success', 'Xóa mã giảm giá thành công.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        }
+    }
+}
