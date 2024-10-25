@@ -79,3 +79,11 @@ Route::controller(DiscountController::class)->prefix('/discounts')
         Route::delete('/{id}', 'destroy');
     });
 
+Route::controller(PaymentController::class)->prefix('/payments')
+->as('payment')
+->group(function(){
+    Route::get('/', 'createPayment']);
+    Route::get('/callback', 'callback']);
+});
+   
+   

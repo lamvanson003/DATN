@@ -180,9 +180,11 @@ const Payment = () => {
       products: products,
     };
 
+    // paymentMethod === 1 thanh toán Online
     if (paymentMethod === 1) {
       const vnp_TmnCode = "AABYH89K"; // Mã terminal của bạn từ VNPAY
-      const vnp_Amount = getCartTotal() * 100; // Tổng số tiền thanh toán, nhân 100
+      const secretKey = "EWD04RV011B8GM0K0GUKPD1C8PYXRC3B"; // Khóa bí mật của bạn
+      const vnp_Amount = 99999 * 100; // Tổng số tiền thanh toán, nhân 100
       const vnp_TxnRef = Date.now().toString(); // Mã giao dịch duy nhất
       const vnp_IpAddr = "127.0.0.1"; // Địa chỉ IP của người dùng
       const vnp_ReturnUrl = "http://localhost:5173/payment"; // URL trả về
@@ -224,16 +226,13 @@ const Payment = () => {
         .map((key) => `${key}=${encodeURIComponent(orderData[key])}`) // Đảm bảo tất cả các giá trị đều mã hóa bằng encodeURIComponent
         .join("&");
 
-      const secretKey = "EWD04RV011B8GM0K0GUKPD1C8PYXRC3B"; // Khóa bí mật của bạn
-      const secureHash = CryptoJS.HmacSHA512(sortedData, secretKey).toString(
-        CryptoJS.enc.Hex
-      );
+      const secureHash = CryptoJS.HmacSHA512(sortedData, secretKey).toString(CryptoJS.enc.Hex);
+
 
       // Tạo URL thanh toán
-      const paymentUrl = `https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?${sortedData}&vnp_SecureHash=${secureHash}`;
+      const paymentUrl = `https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?${sortedData}&vnp_SecureHash=${secureHash}&vnp_SecureHashType=HmacSHA512`;
 
-      console.log("Sorted Data:", sortedData);
-      console.log("Secure Hash:", secureHash);
+
       console.log("Payment URL:", paymentUrl);
       // Điều hướng đến trang thanh toán
       window.location.href = paymentUrl;
