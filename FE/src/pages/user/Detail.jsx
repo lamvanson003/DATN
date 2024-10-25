@@ -39,16 +39,10 @@ const Detail = () => {
     const reAllPro = [...(rePhonePro || []), ...(reLaptopPro || [])];
     setRelatedProducts(reAllPro);
   }, [productsData, detailData]);
-  console.log(relatedProducts);
-
   useEffect(() => {
     const storedProducts = localStorage.getItem("viewedProducts");
     const viewedProducts = storedProducts ? JSON.parse(storedProducts) : [];
     setViewedProducts(viewedProducts);
-  }, []);
-  useEffect(() => {
-    const storedProducts = localStorage.getItem("viewedProducts");
-    const viewedProducts = storedProducts ? JSON.parse(storedProducts) : [];
     if (detailData && detailData.id) {
       const isWatchedP = viewedProducts.find((p) => p.id === detailData.id);
       if (!isWatchedP) {
@@ -60,6 +54,7 @@ const Detail = () => {
       }
     }
   }, [detailData]);
+
   const clearViewedProducts = () => {
     localStorage.removeItem("viewedProducts");
     setViewedProducts([]);

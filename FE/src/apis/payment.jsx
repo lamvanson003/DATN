@@ -14,7 +14,13 @@ export const paymentApi = {
       const paymentUrl = response.data.paymentUrl;
       window.location.href = paymentUrl;
     } catch (err) {
-      console.log("Payment error: ", err);
+      if (err.response) {
+        console.log("Payment error (server response): ", err.response.data);
+      } else if (err.request) {
+        console.log("Payment error (no response): ", err.request);
+      } else {
+        console.log("Payment error (request setup): ", err.message);
+      }
     }
   },
 };
