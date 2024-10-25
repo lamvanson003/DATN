@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage; // Thêm cho xử lý file
+use App\Models\User;
 use Exception;
 
 class UserProfileController extends Controller
@@ -36,7 +37,7 @@ class UserProfileController extends Controller
                     'username' => $user->username,
                     'gender' => $user->gender,
                     'phone' => $user->phone,
-                    'avatar' => $user->avatar,
+                    'avatar' => $user->avatar ? url(Storage::url($user->avatar)) : null, // Đường dẫn đầy đủ của avatar
                     'address' => $user->address,
                 ]
             ], 200);
@@ -50,7 +51,7 @@ class UserProfileController extends Controller
                 'username' => 'required|string|max:255|unique:users,username,' . $user->id,
                 'gender' => 'nullable|string|in:1,2,3',
                 'phone' => 'nullable|string|max:15',
-                'avatar' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'avatar' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048', // Kích thước file tối đa 2MB
                 'address' => 'nullable|string|max:255',
                 'password' => 'nullable|string|min:6|confirmed',
             ]);
@@ -96,6 +97,12 @@ class UserProfileController extends Controller
 
                 // Xử lý ảnh đại diện (avatar)
                 if ($request->hasFile('avatar')) {
+                    // Xóa avatar cũ nếu có
+                    if ($user->avatar) {
+                        Storage::disk('public')->delete($user->avatar);
+                    }
+
+                    // Lưu ảnh mới
                     $avatarPath = $request->file('avatar')->store('avatars', 'public');
                     $user->avatar = $avatarPath;
                 }
@@ -111,7 +118,15 @@ class UserProfileController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Profile updated successfully',
-                    'data' => $user
+                    'data' => [
+                        'fullname' => $user->fullname,
+                        'email' => $user->email,
+                        'username' => $user->username,
+                        'gender' => $user->gender,
+                        'phone' => $user->phone,
+                        'avatar' => $user->avatar ? url(Storage::url($user->avatar)) : null, // Đường dẫn đầy đủ của avatar
+                        'address' => $user->address,
+                    ]
                 ], 200);
             } catch (Exception $e) {
                 Log::error('User profile update error', [
