@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Api\Payment;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Payment\PaymentRequest;
 use Illuminate\Http\Request;
 use App\Services\VnpayService;
+use App\Models\Order;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
@@ -18,6 +22,7 @@ class PaymentController extends Controller
 
     public function createPayment(Request $request)
     {   
+        Log::info('messs',['messs'=> $request]);
         $validatedData = $request->validate([
             'user_id' => 'nullable|integer',
             'payment_method_id' => 'required|integer',
@@ -49,14 +54,13 @@ class PaymentController extends Controller
     public function callback(Request $request)
     {
         $vnp_ResponseCode = $request->get('vnp_ResponseCode');
+        
+        $validatedData = $request->all(); 
 
+        Log::info('messs',['messs'=> $validatedData]);
         // Chỉ xử lý khi thanh toán thành công
-        if ($vnp_ResponseCode == "00") {
-            $validatedData = session()->get('order_data');
+        if ($vnp_ResponseCode == null) {
 
-            if (!$validatedData) {
-                return redirect()->route('user.orders')->with('error', 'Không tìm thấy dữ liệu đơn hàng');
-            }
 
             DB::beginTransaction();
             try {
