@@ -82,7 +82,7 @@ Route::controller(PaymentController::class)->prefix('/payments')
 ->as('payment.')
 ->group(function(){
     Route::post('/', 'createPayment');
-    Route::get('/callback/{temp_order_id}', 'callback')->name('callback');
+    Route::get('/callback', 'callback')->name('callback');
 });
    
    

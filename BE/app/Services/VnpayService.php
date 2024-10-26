@@ -28,7 +28,6 @@ class VnpayService
         $vnp_OrderInfo = $orderData['order_description'];
         $vnp_Amount = $orderData['amount'] * 100; // Giữ lại *100 để tính tiền
         $vnp_IpAddr = request()->ip();
-        $temp_order_id = $orderData['temp_order_id'];
 
         $inputData = [
             "vnp_Version" => $this->vnp_Version,
@@ -43,7 +42,6 @@ class VnpayService
             "vnp_OrderType" => "billpayment",
             "vnp_ReturnUrl" => $this->vnp_ReturnUrl,
             "vnp_TxnRef" => $vnp_TxnRef,
-            "temp_order_id" => $temp_order_id, 
         ];
 
         ksort($inputData);

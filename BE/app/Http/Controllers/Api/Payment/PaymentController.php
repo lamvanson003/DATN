@@ -24,7 +24,6 @@ class PaymentController extends Controller
 
     public function createPayment(Request $request)
     {   
-        Log::info('Payment Request Data:', ['request' => $request->all()]); 
         $validatedData = $request->validate([
             'user_id' => 'nullable|integer',
             'payment_method_id' => 'required|integer',
@@ -42,38 +41,33 @@ class PaymentController extends Controller
             'products.*.sale' => 'nullable|numeric',
         ]);
 
-        $tempOrder = TemporaryOrder::create([
-            'order_data' => json_encode($validatedData),
+        $temporaryOrder = TemporaryOrder::create([
+            'order_data' => json_encode($validatedData), 
         ]);
 
+        Log::info('mess',['es0'=> $temporaryOrder->id]);
         $paymentUrl = $this->vnpayService->createPaymentUrl([
-            'transaction_id' => uniqid(),
-            'order_description' => "Thanh toán cho đơn hàng",
+            'transaction_id' => $temporaryOrder->id, 
+            'order_description' => "Thanh toán cho đơn hàng".$temporaryOrder->id,
             'amount' => $validatedData['total_price'],
-            'temp_order_id' => $tempOrder->id, 
         ]);
 
         return response()->json(['payment_url' => $paymentUrl]);
     }
 
-    public function callback(Request $request, $temp_order_id)
+    public function callback(Request $request)
     {       
+        
         $vnp_ResponseCode = $request->get('vnp_ResponseCode');
+        $transactionId = $request->get('vnp_TxnRef');
 
-        dd($temp_order_id);
+        if ($vnp_ResponseCode == '00' && $transactionId) 
+        {
+            $tempOrder = TemporaryOrder::find($transactionId);
+            $orderData = json_decode($tempOrder->order_data, true);
 
-        if ($vnp_ResponseCode == '00') {
             DB::beginTransaction();
             try {
-                $temp_order_id = $request->get('temp_order_id'); 
-
-                $tempOrder = TemporaryOrder::find($temp_order_id);
-
-                if (!$tempOrder) {
-                    return response()->json(['message' => 'No order data found'], 400);
-                }
-
-                $orderData = json_decode($tempOrder->order_data, true);
 
                 $code = '#'.random_int(1000, 9999);
 
@@ -107,8 +101,6 @@ class PaymentController extends Controller
                         $productVariant->save();
                     }
                 }
-
-                $tempOrder->delete();
 
                 DB::commit();
 
