@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import icons from "../../ultis/icon";
 import LogoVisa from "../../assets/images/logovisa.png";
 import logomastercard from "../../assets/images/logomastercard.png";
@@ -23,7 +23,7 @@ const {
 const Payment = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { checkedItems } = location.state || { checkedItems: [] };
+
   const { cartItems, getCartTotal, buyNow } = useContext(CartContext);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
   const [finalPrice, setFinalPrice] = useState(getCartTotal());
@@ -33,11 +33,35 @@ const Payment = () => {
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedWard, setSelectedWard] = useState(null);
-
+  const [discountPrice, setDiscountPrice] = useState(0);
   const [discountCode, setDiscountCode] = useState("");
   const [applyingDiscount, setApplyingDiscount] = useState(false);
   const [isSuccessDiscount, setIsSuccessDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState(2);
+  const checkedItems = useMemo(() => {
+    const savedItems = localStorage.getItem("checkedItems");
+    return savedItems ? JSON.parse(savedItems) : [];
+  }, []);
+  const orderItems = useMemo(() => {
+    const itemsFromLocalStorage = localStorage.getItem("buyNowItem");
+    if (itemsFromLocalStorage) {
+      return JSON.parse(itemsFromLocalStorage);
+    }
+    return checkedItems.length > 0 ? checkedItems : [];
+  }, [checkedItems]); // chỉ tính lại khi checkedItems thay đổi
+  // useEffect(() => {
+  //   if (Array.isArray(orderItems) && orderItems.length === 0) {
+  //     navigate("/product");
+  //   }
+  // }, [orderItems, navigate]);
+  const total_price = orderItems.reduce(
+    (total, item) =>
+      (total += item?.color?.sale
+        ? item?.color?.sale
+        : item?.color?.sale * item.quantity),
+    0
+  );
+
   const handleChangePaymentMethod = (e) => {
     const selectedValue = Number(e.target.value);
     setPaymentMethod(selectedValue);
@@ -46,15 +70,19 @@ const Payment = () => {
     try {
       setApplyingDiscount(true);
       const discountData = await discountApi.getOne(discountCode);
+
       setApplyingDiscount(false);
-      if (discountData.value < 100) {
-        const discountValue = (getCartTotal() * discountData.value) / 100;
-        const discountPrice = getCartTotal() - discountValue;
-        setFinalPrice(discountPrice);
+      if (discountData.discount_value < 100) {
+        const dv = discountData.discount_value;
+        setDiscountPrice((total_price * dv) / 100);
+        console.log("total_price: ", total_price);
+        console.log("discount value: ", dv);
+        console.log("discountprice: ", discountPrice);
       } else {
-        const discountPrice = getCartTotal() - discountData.value;
-        setFinalPrice(discountPrice);
+        setDiscountPrice(discountData.discount_value);
+        console.log("discount value: ", discountPrice);
       }
+
       setDiscountCode("");
       setIsSuccessDiscount(1);
     } catch (err) {
@@ -63,7 +91,9 @@ const Payment = () => {
       setIsSuccessDiscount(2);
     }
   };
-
+  useEffect(() => {
+    setFinalPrice(total_price - discountPrice);
+  }, [discountPrice, total_price]);
   useEffect(() => {
     const fetchProvinces = async () => {
       const res = await axios.get("https://esgoo.net/api-tinhthanh/1/0.htm");
@@ -169,50 +199,20 @@ const Payment = () => {
     const orderInfo = {
       user_id: 1,
       payment_method_id: 1,
-      discount_id: null,
-      fullname: "Nguyen Van A",
-      phone: "0123456789",
-      address: "123 Đường ABC",
-      email: "example@example.com",
-      note: "Lưu ý đơn hàng",
-      total_price: 500000,
-      products: [
-          {
-              product_variant_id: 14,
-              quantity: 2,
-              price: 250000,
-              sale: null
-          }
-      ]
-  };
+      discount_id: 1,
+      shipping_method: 0,
+      fullname: customerInfo.name,
+      phone: customerInfo.phone,
+      address: `${customerInfo.street}, ${customerInfo.ward}, ${customerInfo.district}, ${customerInfo.province}`,
+      email: customerInfo.email,
+      note: "123",
+      total_price: finalPrice,
+      products: products,
+    };
 
     // paymentMethod === 1 thanh toán Online
     if (paymentMethod === 1) {
-      fetch("http://127.0.0.1:8000/api/payments", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderInfo),
-      })
-      .then((response) => {
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          return response.json();
-      })
-      .then((data) => {
-          console.log(data);
-          if (data.payment_url) {
-              window.location.href = data.payment_url; // Chuyển hướng đến URL thanh toán
-          } else {
-              alert("Có lỗi xảy ra, vui lòng thử lại.");
-          }
-      })
-      .catch((error) => {
-          console.error("Lỗi thanh toán:", error);
-          alert("Có lỗi xảy ra, vui lòng thử lại."); // Thông báo lỗi cho người dùng
-      });
+      paymentApi.create(orderInfo);
     } else {
       orderApi.create(orderInfo);
     }
@@ -225,14 +225,11 @@ const Payment = () => {
     return () => {
       if (location.pathname === "/payment") {
         localStorage.removeItem("buyNowItem");
+        localStorage.removeItem("checkedItems");
       }
     };
   }, [location.pathname]);
-  const orderItems = localStorage.getItem("buyNowItem")
-    ? JSON.parse(localStorage.getItem("buyNowItem"))
-    : checkedItems.length > 0
-    ? checkedItems
-    : [];
+
   return (
     <>
       {isSendingSuccess && (
@@ -558,8 +555,8 @@ const Payment = () => {
 
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
-                    <span className="fw-semibold">Giá: </span>
-                    <span>{formatCurrency(getCartTotal())}</span>
+                    <span className="fw-semibold">Tổng giá : </span>
+                    <span>{formatCurrency(total_price)}</span>
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Phí vận chuyển: </span>
@@ -567,7 +564,9 @@ const Payment = () => {
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Giá giảm: </span>
-                    <span></span>
+                    <span>
+                      {formatCurrency(discountPrice ? discountPrice : 0)}
+                    </span>
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Tổng: </span>
