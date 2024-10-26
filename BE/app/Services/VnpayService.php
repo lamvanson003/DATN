@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class VnpayService
 {
@@ -22,43 +23,44 @@ class VnpayService
     }
 
     public function createPaymentUrl($orderData)
-{
-    $vnp_TxnRef = $orderData['transaction_id'];
-    $vnp_OrderInfo = $orderData['order_description'];
-    $vnp_Amount = $orderData['amount'] * 100; // Sử dụng giá trị từ orderData
-    $vnp_IpAddr = request()->ip();
+    {   
+        $vnp_TxnRef = $orderData['transaction_id'];
+        $vnp_OrderInfo = $orderData['order_description'];
+        $vnp_Amount = $orderData['amount'] * 100; // Giữ lại *100 để tính tiền
+        $vnp_IpAddr = request()->ip();
+        $temp_order_id = $orderData['temp_order_id'];
 
-    $inputData = [
-        "vnp_Version" => $this->vnp_Version,
-        "vnp_TmnCode" => $this->vnp_TmnCode,
-        "vnp_Amount" => $vnp_Amount,
-        "vnp_Command" => "pay",
-        "vnp_CreateDate" => now()->format('YmdHis'),
-        "vnp_CurrCode" => "VND",
-        "vnp_IpAddr" => $vnp_IpAddr,
-        "vnp_Locale" => "vn",
-        "vnp_OrderInfo" => $vnp_OrderInfo,
-        "vnp_OrderType" => "billpayment",
-        "vnp_ReturnUrl" => $this->vnp_ReturnUrl,
-        "vnp_TxnRef" => $vnp_TxnRef,
-    ];
+        $inputData = [
+            "vnp_Version" => $this->vnp_Version,
+            "vnp_TmnCode" => $this->vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => now()->format('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => "vn",
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => "billpayment",
+            "vnp_ReturnUrl" => $this->vnp_ReturnUrl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+            "temp_order_id" => $temp_order_id, 
+        ];
 
-    ksort($inputData);
-    $hashdata = "";
-    $query = "";
+        ksort($inputData);
+        $hashdata = "";
+        $query = "";
 
-    foreach ($inputData as $key => $value) {
-        $hashdata .= ($hashdata ? '&' : '') . urlencode($key) . "=" . urlencode($value);
-        $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        foreach ($inputData as $key => $value) {
+            $hashdata .= ($hashdata ? '&' : '') . urlencode($key) . "=" . urlencode($value);
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        // Tạo chữ ký bảo mật
+        $vnpSecureHash = hash_hmac('sha512', $hashdata, $this->vnp_HashSecret); 
+        $query .= 'vnp_SecureHash=' . $vnpSecureHash;
+
+        $vnp_Url = $this->vnp_Url . "?" . $query; 
+
+        return $vnp_Url; 
     }
-
-    // Tạo chữ ký bảo mật
-    $vnpSecureHash = hash_hmac('sha512', $hashdata, $this->vnp_HashSecret); 
-    $query .= 'vnp_SecureHash=' . $vnpSecureHash;
-
-    $vnp_Url = $this->vnp_Url . "?" . $query; 
-
-    return $vnp_Url; // Trả về URL thanh toán
-}
-
 }

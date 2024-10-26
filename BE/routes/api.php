@@ -79,10 +79,10 @@ Route::controller(DiscountController::class)->prefix('/discounts')
     });
 
 Route::controller(PaymentController::class)->prefix('/payments')
-->as('payment')
+->as('payment.')
 ->group(function(){
     Route::post('/', 'createPayment');
-    Route::get('/callback', 'callback');
+    Route::get('/callback/{temp_order_id}', 'callback')->name('callback');
 });
    
    

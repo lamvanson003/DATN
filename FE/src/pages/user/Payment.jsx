@@ -167,39 +167,51 @@ const Payment = () => {
     }
 
     const orderInfo = {
-      user_id: null,
+      user_id: 1,
       payment_method_id: 1,
-      discount_id: 1,
-      shipping_method: 0,
-      fullname: customerInfo.name,
-      phone: customerInfo.phone,
-      address: `${customerInfo.street}, ${customerInfo.ward}, ${customerInfo.district}, ${customerInfo.province}  `,
-      email: customerInfo.email,
-      note: "123",
-      total_price: finalPrice,
-      products: products,
-    };
+      discount_id: null,
+      fullname: "Nguyen Van A",
+      phone: "0123456789",
+      address: "123 Đường ABC",
+      email: "example@example.com",
+      note: "Lưu ý đơn hàng",
+      total_price: 500000,
+      products: [
+          {
+              product_variant_id: 14,
+              quantity: 2,
+              price: 250000,
+              sale: null
+          }
+      ]
+  };
 
     // paymentMethod === 1 thanh toán Online
     if (paymentMethod === 1) {
-        fetch("http://127.0.0.1:8000/api/payments", {
+      fetch("http://127.0.0.1:8000/api/payments", {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
           },
           body: JSON.stringify(orderInfo),
       })
-          .then((response) => response.json())
-          .then((data) => {
-              console.log(data);
-              if (data.paymentUrl) {
-                  window.location.href = data.paymentUrl;
-              } else {
-                  alert("Có lỗi xảy ra, vui lòng thử lại.");
-              }
-          })
-          .catch((error) => {
-              console.error("Lỗi thanh toán:", error);
+      .then((response) => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then((data) => {
+          console.log(data);
+          if (data.payment_url) {
+              window.location.href = data.payment_url; // Chuyển hướng đến URL thanh toán
+          } else {
+              alert("Có lỗi xảy ra, vui lòng thử lại.");
+          }
+      })
+      .catch((error) => {
+          console.error("Lỗi thanh toán:", error);
+          alert("Có lỗi xảy ra, vui lòng thử lại."); // Thông báo lỗi cho người dùng
       });
     } else {
       orderApi.create(orderInfo);
