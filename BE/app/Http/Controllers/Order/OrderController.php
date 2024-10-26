@@ -20,8 +20,43 @@ class OrderController extends Controller
 
     public function getByStatus($status)
     {
-        $order = Order::where('status',$status)->get();  
+        $order = Order::with('user')->where('status',$status)->get();  
         $title = OrderStatus::getDescription($status);
-        return view('order.index', compact('order','title'));
+        return view('order.status', compact('order','title'));
     }
+    
+    public function delete($id)
+    {
+        $order = Order::findOrfail($order_id);
+        $order->status = OrderStatus::Deleted;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Thực hiện thành công.');
+    }
+
+    public function changeStatus($order_id)
+    {
+        $order = Order::findOrfail($order_id);
+        switch ($order->status) {
+            case OrderStatus::Pending:
+                $order->status = OrderStatus::Confirm;
+                break;
+            case OrderStatus::Confirm:
+                $order->status = OrderStatus::Awaiting; 
+                break;
+            case OrderStatus::Awaiting:
+                $order->status = OrderStatus::InTransit; 
+                break;
+            case OrderStatus::InTransit:
+                $order->status = OrderStatus::Delivered; 
+                break;
+            default:
+                return redirect()->back()->with('error', 'Trạng thái không thể cập nhật.');
+        }
+
+        $order->save();
+
+        return redirect()->back()->with('success', 'Trạng thái đơn hàng đã được cập nhật.');
+    }
+
 }

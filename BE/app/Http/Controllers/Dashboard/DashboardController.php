@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Subcription;
 use App\Models\Order;
+use App\Enums\Order\OrderStatus;
 
 class DashboardController extends Controller
 {
@@ -36,7 +37,7 @@ class DashboardController extends Controller
 
 
     public function countUser(){
-        $q = User::count();
+        $q = User::where('roles',UserRole::User)->count();
         return $q;
     }
 
@@ -60,7 +61,9 @@ class DashboardController extends Controller
     }
 
     public function getOrderDash(){
-        $q = Order::orderBy('id','desc')->limit(10)->get();
+        $q = Order::orderBy('id','desc')
+        ->where('status',OrderStatus::Pending)
+        ->limit(10)->get();
         return $q;
     }
     
