@@ -81,7 +81,7 @@ Route::controller(DiscountController::class)->prefix('/discounts')
 Route::controller(PaymentController::class)->prefix('/payments')
 ->as('payment')
 ->group(function(){
-    Route::get('/', 'createPayment');
+    Route::post('/', 'createPayment');
     Route::get('/callback', 'callback');
 });
    

@@ -166,7 +166,9 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
         Route::prefix('/orders')->as('order.')->group(function () {
             Route::controller(App\Http\Controllers\Order\OrderController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
+                Route::get('/{id}', 'delete')->name('delete');
                 Route::get('/status/{status}', 'getByStatus')->name('status');
+                Route::post('/change-status/{order_id}', 'changeStatus')->name('changeStatus');
             });
         });
         Route::prefix('/discounts')->as('discount.')->group(function () {
