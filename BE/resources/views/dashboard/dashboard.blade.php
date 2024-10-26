@@ -199,23 +199,31 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($getOrder as $item)
-                      <tr>
-                        <th scope="row">
-                          <button
-                            class="btn btn-icon btn-round btn-success btn-sm me-2"
-                          >
-                            <i class="fa fa-check"></i>
-                          </button>
-                          Order from {{ $item->code }}
-                        </th>
-                        <td class="text-end">{{ $item->created_at }}</td>
-                        <td class="text-end">{{ $item->total_price }}</td>
-                        <td class="text-end">
-                          <span class="badge badge-success">Completed</span>
-                        </td>
-                      </tr>
-                    @endforeach
+                    @if (empty($getOrder))
+                      @foreach ($getOrder as $item)
+                        <tr>
+                          <th scope="row">
+                            <button
+                              class="btn btn-icon btn-round btn-success btn-sm me-2"
+                            >
+                              <i class="fa fa-check"></i>
+                            </button>
+                            Order Code {{ $item->code }}
+                          </th>
+                          <td class="text-end">{{ $item->created_at }}</td>
+                          <td class="text-end">{{ number_format($item->total_price) }}</td>
+                          <td class="text-end">
+                            <span class="badge badge-secondary">
+                              {{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}
+                            </span>
+                          </td>
+                        </tr>
+                      @endforeach
+                    @else
+                        <tr>
+                          <td colspan="4">No data available in table</td>
+                        </tr>
+                    @endif
                   </tbody>
                 </table>
               </div>
