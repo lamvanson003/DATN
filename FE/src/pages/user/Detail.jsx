@@ -8,11 +8,16 @@ import { Tab, BoxPro, Brand } from "../../components";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
 import { formatCurrency } from "../../ultis/func";
+import { useSelector } from "react-redux";
+import icons from "../../ultis/icon";
 const Detail = () => {
+  const { productsData } = useSelector((state) => state.pro);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const { slug } = useParams();
+  const { TiDeleteOutline } = icons;
   const { addToCart, buyNow } = useContext(CartContext);
   const ref = useRef();
-  const [detailData, setDetailData] = useState([]);
+  const [detailData, setDetailData] = useState({});
   const [comment, setComment] = useState("");
   const [loadingComment, setLoadingComment] = useState(false);
   const [activeStorage, setActiveStorage] = useState(null);
@@ -21,6 +26,39 @@ const Detail = () => {
   const [currentVariant, setCurrentVariant] = useState();
   const [quantity, setQuantity] = useState(1);
   const [main, setMain] = useState();
+  const [viewedProducts, setViewedProducts] = useState([]);
+  useEffect(() => {
+    const rePhonePro = productsData?.phone.filter(
+      (p) =>
+        p?.brand?.name === detailData?.brand?.name && p?.id !== detailData?.id
+    );
+    const reLaptopPro = productsData?.laptop.filter(
+      (p) =>
+        p?.brand?.name === detailData?.brand?.name && p?.id !== detailData?.id
+    );
+    const reAllPro = [...(rePhonePro || []), ...(reLaptopPro || [])];
+    setRelatedProducts(reAllPro);
+  }, [productsData, detailData]);
+  useEffect(() => {
+    const storedProducts = localStorage.getItem("viewedProducts");
+    const viewedProducts = storedProducts ? JSON.parse(storedProducts) : [];
+    setViewedProducts(viewedProducts);
+    if (detailData && detailData.id) {
+      const isWatchedP = viewedProducts.find((p) => p.id === detailData.id);
+      if (!isWatchedP) {
+        if (viewedProducts.length > 3) {
+          viewedProducts.pop();
+        }
+        viewedProducts.unshift(detailData);
+        localStorage.setItem("viewedProducts", JSON.stringify(viewedProducts));
+      }
+    }
+  }, [detailData]);
+
+  const clearViewedProducts = () => {
+    localStorage.removeItem("viewedProducts");
+    setViewedProducts([]);
+  };
   useEffect(() => {
     const fetchDetailData = async () => {
       try {
@@ -329,21 +367,66 @@ const Detail = () => {
               <Tab detailData={detailData} />
             </div>
             <div className="col-lg-4 col-md-4">
-              <div className="d-flex flex-column align-items-end">
-                <h3>Sản phẩm đã xem</h3>
-                <BoxPro watched={true} />
+              <div className="d-flex flex-column justify-content-center">
+                <div className="d-flex align-items-center justify-content-center mb-3">
+                  <h3
+                    style={{
+                      borderRight: "2px solid black",
+                      paddingRight: 10,
+                      marginBottom: 0,
+                    }}
+                  >
+                    Sản phẩm đã xem
+                  </h3>
+                  <span
+                    className="d-flex justify-content-center "
+                    style={{ cursor: "pointer" }}
+                    onClick={() => clearViewedProducts()}
+                  >
+                    <TiDeleteOutline size={24} style={{ marginLeft: 10 }} />
+                  </span>
+                </div>
+
+                {viewedProducts.length > 0 &&
+                  viewedProducts.map((item) => (
+                    <div
+                      key={item.id}
+                      className="d-flex justify-content-center"
+                    >
+                      <BoxPro
+                        viewed={true}
+                        slug={item.slug}
+                        image={item.images}
+                        id={item.id}
+                        name={item.name}
+                        variant={item.product_variant}
+                      />
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
         </section>
         <section className="container mt-5">
           <h3>Sản phẩm liên quan</h3>
-          <div className="d-flex justify-content-between">
-            <BoxPro />
-            <BoxPro />
-            <BoxPro />
-            <BoxPro />
-            <BoxPro />
+          <div className="row">
+            {relatedProducts.length > 0 &&
+              relatedProducts
+                .filter((v, i) => i <= 4)
+                .map((item) => (
+                  <div key={item.id} className="col-md-2">
+                    <BoxPro
+                      id={item.id}
+                      name={item.name}
+                      category={item.category}
+                      brand={item.brand}
+                      slug={item.slug}
+                      image={item.images}
+                      product_image_items={item.product_image_items}
+                      variant={item.product_variant}
+                    />
+                  </div>
+                ))}
           </div>
         </section>
         <section id="Comments mt-5">

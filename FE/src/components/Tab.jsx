@@ -44,7 +44,7 @@ const Tab = ({ detailData }) => {
             activeTab === "tab2" ? "show active" : ""
           }`}
         >
-          <div className="container">
+          <div className="container p-3" style={{ backgroundColor: "#fff" }}>
             <h1 className="title_desc">
               Đặc Điểm Nổi Bật Của {detailData?.name}
             </h1>

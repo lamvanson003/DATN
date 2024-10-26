@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Enums\Order\OrderStatus;
 use Illuminate\Http\Request;
 
 
@@ -17,95 +18,45 @@ class OrderController extends Controller
         return view('order.index', compact('order'));
     }
 
-    public function create()
+    public function getByStatus($status)
     {
-        $categories = PostCategory::all(); 
-        $statuses = PostStatus::asSelectArray(); 
-        $users = User::all(); 
-        return view('post.create', compact('categories', 'statuses', 'users'));
+        $order = Order::with('user')->where('status',$status)->get();  
+        $title = OrderStatus::getDescription($status);
+        return view('order.status', compact('order','title'));
     }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|unique:posts,slug',
-            'content' => 'required|string',
-            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
-            'category_id' => 'required|array',
-            'category_id.*' => 'exists:post_categories,id',
-            'status' => 'required|in:' . implode(',', PostStatus::getValues()),
-            'user_id' => 'required|exists:users,id',
-            'posted_at' => 'required|date',
-        ]);
-
-        
-        $imagePath = $request->hasFile('images') ? $request->file('images')->store('post_images', 'public') : null;
     
-        $post = Post::create([
-            'title' => $request->input('title'),
-            'slug' => $request->input('slug'),
-            'content' => $request->input('content'),
-            'images' => $imagePath,
-            'posted_at' => $request->input('posted_at'),
-            'status' => $request->input('status'),
-            'user_id' => $request->input('user_id'),
-        ]);
+    public function delete($id)
+    {
+        $order = Order::findOrfail($order_id);
+        $order->status = OrderStatus::Deleted;
+        $order->save();
 
-       
-        $post->categories()->sync($request->input('category_id')); 
-    
-        return redirect()->route('admin.post.index')->with('success', 'Bài viết đã được tạo thành công.');
+        return redirect()->back()->with('success', 'Thực hiện thành công.');
     }
 
-    public function edit($id)
+    public function changeStatus($order_id)
     {
-        $post = Post::findOrFail($id);
-        return view('post.edit', [
-            'post' => $post,
-            'statuses' => PostStatus::asSelectArray(),
-            'categories' => PostCategory::all(),
-        ]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $post = Post::findOrFail($id);
-
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|unique:posts,slug,' . $id,
-            'content' => 'required|string',
-            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
-            'status' => 'required|in:' . implode(',', PostStatus::getValues()),
-            'category_id' => 'required|array',
-            'category_id.*' => 'exists:post_categories,id',
-        ]);
-
-       
-        if ($request->hasFile('images')) {
-            $imagePath = $request->file('images')->store('post_images', 'public');
-            $post->images = $imagePath;
+        $order = Order::findOrfail($order_id);
+        switch ($order->status) {
+            case OrderStatus::Pending:
+                $order->status = OrderStatus::Confirm;
+                break;
+            case OrderStatus::Confirm:
+                $order->status = OrderStatus::Awaiting; 
+                break;
+            case OrderStatus::Awaiting:
+                $order->status = OrderStatus::InTransit; 
+                break;
+            case OrderStatus::InTransit:
+                $order->status = OrderStatus::Delivered; 
+                break;
+            default:
+                return redirect()->back()->with('error', 'Trạng thái không thể cập nhật.');
         }
 
-        $post->update([
-            'title' => $request->input('title'),
-            'slug' => $request->input('slug'),
-            'content' => $request->input('content'),
-            'status' => $request->input('status'),
-        ]);
+        $order->save();
 
-        
-        $post->categories()->sync($request->input('category_id'));
-
-        return redirect()->route('admin.post.index')->with('success', 'Bài viết đã được cập nhật thành công.');
+        return redirect()->back()->with('success', 'Trạng thái đơn hàng đã được cập nhật.');
     }
 
-    public function destroy($id)
-    {
-        $post = Post::findOrFail($id);
-        $post->delete();
-
-        return redirect()->route('admin.post.index')->with('success', 'Bài viết đã được xóa thành công.');
-    }
 }

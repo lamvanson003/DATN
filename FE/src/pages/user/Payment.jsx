@@ -6,11 +6,12 @@ import logovcb from "../../assets/images/logovcb.png";
 import { CartContext } from "../../context/Cart";
 import { formatCurrency } from "../../ultis/func";
 import axios from "axios";
-import { orderApi } from "../../apis";
+import { orderApi, paymentApi } from "../../apis";
 import "./css/Payment.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import sending from "../../assets/images/iHome/sending.png";
 import { discountApi } from "../../apis";
+import CryptoJS from "crypto-js";
 const {
   IoIosArrowDropdown,
   RiBankCardFill,
@@ -32,20 +33,25 @@ const Payment = () => {
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedWard, setSelectedWard] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState("");
+
   const [discountCode, setDiscountCode] = useState("");
   const [applyingDiscount, setApplyingDiscount] = useState(false);
   const [isSuccessDiscount, setIsSuccessDiscount] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState(2);
+  const handleChangePaymentMethod = (e) => {
+    const selectedValue = Number(e.target.value);
+    setPaymentMethod(selectedValue);
+  };
   const handleDiscount = async () => {
     try {
       setApplyingDiscount(true);
       const discountData = await discountApi.getOne(discountCode);
       setApplyingDiscount(false);
-      if (discountData.type === "percentage") {
+      if (discountData.value < 100) {
         const discountValue = (getCartTotal() * discountData.value) / 100;
         const discountPrice = getCartTotal() - discountValue;
         setFinalPrice(discountPrice);
-      } else if (discountData === " fixed") {
+      } else {
         const discountPrice = getCartTotal() - discountData.value;
         setFinalPrice(discountPrice);
       }
@@ -57,11 +63,7 @@ const Payment = () => {
       setIsSuccessDiscount(2);
     }
   };
-  const handleChangePaymentMethod = (e) => {
-    const selectedValue = Number(e.target.value);
-    setPaymentMethod(selectedValue);
-    console.log(selectedValue);
-  };
+
   useEffect(() => {
     const fetchProvinces = async () => {
       const res = await axios.get("https://esgoo.net/api-tinhthanh/1/0.htm");
@@ -116,6 +118,7 @@ const Payment = () => {
     ward: "",
     street: "",
     note: "",
+    email: "",
   });
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -131,48 +134,82 @@ const Payment = () => {
     const newValidFields = {
       name: customerInfo.name !== "",
       phone: customerInfo.phone !== "",
+      email: customerInfo.email !== "",
       province: customerInfo.province !== "",
       district: customerInfo.district !== "",
       ward: customerInfo.ward !== "",
       street: customerInfo.street !== "",
     };
+
     setValidFields(newValidFields);
     const isFormValid = Object.values(newValidFields).every(Boolean);
     if (!isFormValid) {
       alert("Vui lòng điền đầy đủ thông tin");
       return;
     }
+
     const phonePattern = /^[0-9]{10}$/;
     if (!phonePattern.test(customerInfo.phone)) {
       alert("Số điện thoại bao gồm 10 chữ số và không chứa ký tự đặc biệt");
       return;
     }
+
     const namePattern = /^[\p{L}\s]+$/u;
     if (!namePattern.test(customerInfo.name)) {
       alert("Tên chỉ được chứa chữ cái và khoảng trắng.");
       return;
     }
-    const orderData = {
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(customerInfo.email)) {
+      alert("Vui lòng nhập địa chỉ email hợp lệ.");
+      return;
+    }
+
+    const orderInfo = {
       user_id: null,
       payment_method_id: 1,
-      discount_id: null,
+      discount_id: 1,
       shipping_method: 0,
       fullname: customerInfo.name,
       phone: customerInfo.phone,
-      address: `${customerInfo.province}, ${customerInfo.district}, ${customerInfo.ward}, ${customerInfo.street}`,
-      email: "euuring0110@gmail.com",
-      note: "",
-      total_price: getCartTotal(),
+      address: `${customerInfo.street}, ${customerInfo.ward}, ${customerInfo.district}, ${customerInfo.province}  `,
+      email: customerInfo.email,
+      note: "123",
+      total_price: finalPrice,
       products: products,
     };
-    orderApi.excutePayment(orderData);
-    setIsSendingSuccess(true);
+
+    // paymentMethod === 1 thanh toán Online
+    if (paymentMethod === 1) {
+        fetch("http://127.0.0.1:8000/api/payments", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderInfo),
+      })
+          .then((response) => response.json())
+          .then((data) => {
+              console.log(data);
+              if (data.paymentUrl) {
+                  window.location.href = data.paymentUrl;
+              } else {
+                  alert("Có lỗi xảy ra, vui lòng thử lại.");
+              }
+          })
+          .catch((error) => {
+              console.error("Lỗi thanh toán:", error);
+      });
+    } else {
+      orderApi.create(orderInfo);
+    }
   };
+  // paymentApi.create(orderData);
   const closeModal = () => {
     setIsSendingSuccess(false);
   };
   useEffect(() => {
-    // Khi rời khỏi trang thanh toán, xóa buyNowItem
     return () => {
       if (location.pathname === "/payment") {
         localStorage.removeItem("buyNowItem");
@@ -240,6 +277,19 @@ const Payment = () => {
                   />
                 </div>
 
+                <div>
+                  <label htmlFor="email" className="label-style">
+                    Email:
+                  </label>
+                  <input
+                    id="email"
+                    type="text"
+                    className="input-style rounded"
+                    value={customerInfo.email}
+                    onChange={handleInputChange}
+                    style={{ borderColor: validFields.phone ? "" : "red" }}
+                  />
+                </div>
                 <div>
                   <label htmlFor="province" className="label-style">
                     Tỉnh, thành phố:
@@ -439,55 +489,61 @@ const Payment = () => {
                     </div>
                   ))}
                 </div>
+
                 <div className="position-relative">
-                  <label htmlFor="discountCode" className="fw-semibold">
-                    <BiSolidDiscount size={24} className="text-danger" /> Nhập
-                    mã giảm giá
-                  </label>
-                  <input
-                    id="discountCode"
-                    type="text"
-                    value={discountCode}
-                    onChange={(e) => setDiscountCode(e.target.value)}
-                    style={{ outline: "none", boxShadow: "none" }}
-                  />
-                  <button
-                    onClick={handleDiscount}
-                    style={{
-                      position: "absolute",
-                      right: "0px",
-                      top: "64%",
-                      transform: "translateY(-50%)",
-                      padding: "10px 10px",
-                      border: "none",
-                      borderRadius: "0 0.25rem 0.25rem 0",
-                      outline: "none",
-                      boxShadow: "none",
-                    }}
-                  >
-                    Áp dụng
-                  </button>
+                  {isSuccessDiscount !== 1 ? (
+                    <>
+                      <label htmlFor="discountCode" className="fw-semibold">
+                        <BiSolidDiscount size={24} className="text-danger" />{" "}
+                        Nhập mã giảm giá
+                      </label>
+                      <input
+                        id="discountCode"
+                        type="text"
+                        value={discountCode}
+                        onChange={(e) => setDiscountCode(e.target.value)}
+                        style={{ outline: "none", boxShadow: "none" }}
+                      />
+                      <button
+                        onClick={handleDiscount}
+                        style={{
+                          position: "absolute",
+                          right: "0px",
+                          top: "64%",
+                          transform: "translateY(-50%)",
+                          padding: "10px 10px",
+                          border: "none",
+                          borderRadius: "0 0.25rem 0.25rem 0",
+                          outline: "none",
+                          boxShadow: "none",
+                        }}
+                      >
+                        Áp dụng
+                      </button>
+                    </>
+                  ) : (
+                    <span
+                      className={`applyDiscountSuccess defaultDiscount`}
+                      style={{
+                        display: "flex",
+                        alignItems: "center", // Canh giữa theo chiều dọc
+                        justifyContent: "center", // Canh giữa theo chiều ngang
+                        height: "50px", // Chiều cao giống với input để thay thế
+                      }}
+                    >
+                      <FaCheckDouble size={24} /> Áp dụng mã thành công
+                    </span>
+                  )}
                 </div>
-                {isSuccessDiscount !== 0 && (
-                  <span
-                    className={`${
-                      isSuccessDiscount === 1
-                        ? "applyDiscountSuccess"
-                        : "applyDiscountFail"
-                    } defaultDiscount`}
-                  >
-                    {isSuccessDiscount === 1 ? (
-                      <>
-                        <FaCheckDouble size={24} /> Áp dụng mã thành công
-                      </>
-                    ) : (
-                      <>
-                        Có lỗi xảy ra
-                        <MdOutlineSmsFailed size={24} />
-                      </>
-                    )}
+
+                {/* Thẻ span hiển thị lỗi được đặt bên ngoài div */}
+                {isSuccessDiscount !== 0 && isSuccessDiscount !== 1 && (
+                  <span className="applyDiscountFail defaultDiscount">
+                    Có lỗi xảy ra
+                    <MdOutlineSmsFailed size={24} />
                   </span>
                 )}
+
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Giá: </span>
@@ -517,7 +573,8 @@ const Payment = () => {
                           type="radio"
                           style={{ marginRight: 20 }}
                           name="paymentMethod"
-                          value={0}
+                          value={1}
+                          checked={paymentMethod === 1}
                           onChange={handleChangePaymentMethod}
                         />
                         thanh toán online
@@ -538,7 +595,8 @@ const Payment = () => {
                           type="radio"
                           style={{ marginRight: 20 }}
                           name="paymentMethod"
-                          value={1}
+                          value={2}
+                          checked={paymentMethod === 2}
                           onChange={handleChangePaymentMethod}
                         />
                         thanh toán khi nhận hàng (COD)

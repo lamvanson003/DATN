@@ -27,7 +27,7 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Tất cả đơn hàng</h4>
+              <h4 class="card-title">Đơn hàng {{$title}}</h4>
             </div>
           </div>
 
@@ -41,7 +41,7 @@
                     <th>Tổng tiền</th>
                     <th>Ngày tạo</th>
                     <th>Trạng thái</th>
-                    <th>Hành động</th>
+                    <th>Admin Xác nhận</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -51,7 +51,7 @@
                     <th>Tổng tiền</th>
                     <th>Ngày tạo</th>
                     <th>Trạng thái</th>
-                    <th>Hành động</th>
+                    <th>Admin Xác nhận</th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -108,10 +108,11 @@
                         @endswitch
                       </td>
                       <td>
-                        <form action="{{route('admin.order.delete',$item->id)}}" method="post">
+                        <form action="{{route('admin.order.changeStatus',$item->id)}}" method="post">
                           @csrf
-                          <button type="submit" class="btn btn-danger btn-icon" data-bs-toggle="modal" >
-                            <i class="fa fa-trash-alt"></i>
+                          <input type="hidden" name="status" value="confirm">
+                          <button type="submit" class="btn-icon btn-success btn" data-bs-toggle="modal" >
+                            <i class="fa fa-check"></i>
                           </button>
                         </form>
                       </td>
