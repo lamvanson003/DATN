@@ -168,7 +168,7 @@ const Payment = () => {
 
     const orderInfo = {
       user_id: null,
-      payment_method_id: paymentMethod,
+      payment_method_id: 1,
       discount_id: 1,
       shipping_method: 0,
       fullname: customerInfo.name,
@@ -180,63 +180,27 @@ const Payment = () => {
       products: products,
     };
 
+    // paymentMethod === 1 thanh toán Online
     if (paymentMethod === 1) {
-      const vnp_TmnCode = "AABYH89K"; // Mã terminal của bạn từ VNPAY
-      const vnp_Amount = getCartTotal() * 100; // Tổng số tiền thanh toán, nhân 100
-      const vnp_TxnRef = Date.now().toString(); // Mã giao dịch duy nhất
-      const vnp_IpAddr = "127.0.0.1"; // Địa chỉ IP của người dùng
-      const vnp_ReturnUrl = "http://localhost:5173/payment"; // URL trả về
-
-      const formatDateToVnpay = (date) => {
-        const yyyyMMddHHmmss = date
-          .toISOString()
-          .replace(/[-:TZ]/g, "")
-          .slice(0, 14);
-        return yyyyMMddHHmmss;
-      };
-
-      const now = new Date();
-      now.setHours(now.getHours() + 7); // Cộng thêm 7 giờ để chuyển sang UTC+7
-
-      const vnp_CreateDate = formatDateToVnpay(now);
-
-      const expireDate = new Date(now.getTime() + 15 * 60 * 1000); // Cộng thêm 15 phút
-      const vnp_ExpireDate = formatDateToVnpay(expireDate);
-
-      const orderData = {
-        vnp_Version: "2.1.0", // Phiên bản VNPAY
-        vnp_Command: "pay",
-        vnp_TmnCode: vnp_TmnCode,
-        vnp_Amount: vnp_Amount,
-        vnp_CreateDate: vnp_CreateDate,
-        vnp_ExpireDate: vnp_ExpireDate,
-        vnp_CurrCode: "VND", // Mã tiền tệ
-        vnp_IpAddr: vnp_IpAddr,
-        vnp_Locale: "vn", // Ngôn ngữ giao dịch
-        vnp_OrderInfo: "Mua sản phẩm từ cửa hàng ABC", // Mô tả đơn hàng
-        vnp_OrderType: "billpayment", // Loại giao dịch
-        vnp_ReturnUrl: vnp_ReturnUrl,
-        vnp_TxnRef: vnp_TxnRef,
-      };
-
-      const sortedData = Object.keys(orderData)
-        .sort()
-        .map((key) => `${key}=${encodeURIComponent(orderData[key])}`) // Đảm bảo tất cả các giá trị đều mã hóa bằng encodeURIComponent
-        .join("&");
-
-      const secretKey = "EWD04RV011B8GM0K0GUKPD1C8PYXRC3B"; // Khóa bí mật của bạn
-      const secureHash = CryptoJS.HmacSHA512(sortedData, secretKey).toString(
-        CryptoJS.enc.Hex
-      );
-
-      // Tạo URL thanh toán
-      const paymentUrl = `https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?${sortedData}&vnp_SecureHash=${secureHash}`;
-
-      console.log("Sorted Data:", sortedData);
-      console.log("Secure Hash:", secureHash);
-      console.log("Payment URL:", paymentUrl);
-      // Điều hướng đến trang thanh toán
-      window.location.href = paymentUrl;
+        fetch("http://127.0.0.1:8000/api/payments", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderInfo),
+      })
+          .then((response) => response.json())
+          .then((data) => {
+              console.log(data);
+              if (data.paymentUrl) {
+                  window.location.href = data.paymentUrl;
+              } else {
+                  alert("Có lỗi xảy ra, vui lòng thử lại.");
+              }
+          })
+          .catch((error) => {
+              console.error("Lỗi thanh toán:", error);
+      });
     } else {
       orderApi.create(orderInfo);
     }
