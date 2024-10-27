@@ -36,8 +36,8 @@ Route::controller(OrderController::class)->prefix('/orders')
 ->as('order')
 ->group(function(){
     Route::get('/', 'index');
-
     Route::post('/', 'create');
+    Route::get('/detail/{id}', 'detail')->name('detail');
 });
 
 Route::controller(CommentController::class)->prefix('/comments')
@@ -82,7 +82,7 @@ Route::controller(PaymentController::class)->prefix('/payments')
 ->as('payment.')
 ->group(function(){
     Route::post('/', 'createPayment');
-    Route::get('/callback/{temp_order_id}', 'callback')->name('callback');
+    Route::get('/callback', 'callback')->name('callback');
 });
    
    
