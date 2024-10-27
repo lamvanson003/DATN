@@ -41,10 +41,8 @@ const BoxPro = ({
   }, [variant]);
   const handleAddToCart = () => {
     if (currentVariant && currentVariant?.color?.instock !== undefined) {
-      console.log(currentVariant?.color?.instock);
       addToCart(main, currentVariant, 1, currentVariant?.color?.instock);
     }
-    console.log(currentVariant);
   };
   const handleChangeVariant = (selectedStorage) => {
     const selectedStorageObj = variant.find(

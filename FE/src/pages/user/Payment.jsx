@@ -24,7 +24,8 @@ const Payment = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { cartItems, getCartTotal, buyNow } = useContext(CartContext);
+  const { cartItems, getCartTotal, buyNow, setCartItems } =
+    useContext(CartContext);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
   const [finalPrice, setFinalPrice] = useState(getCartTotal());
   const [provinces, setProvinces] = useState([]);
@@ -49,16 +50,18 @@ const Payment = () => {
     }
     return checkedItems.length > 0 ? checkedItems : [];
   }, [checkedItems]); // chỉ tính lại khi checkedItems thay đổi
-  // useEffect(() => {
-  //   if (Array.isArray(orderItems) && orderItems.length === 0) {
-  //     navigate("/product");
-  //   }
-  // }, [orderItems, navigate]);
+  console.log(orderItems);
+
+  useEffect(() => {
+    if (Array.isArray(orderItems) && orderItems.length === 0) {
+      navigate("/product");
+    }
+  }, [orderItems, navigate]);
   const total_price = orderItems.reduce(
     (total, item) =>
       (total += item?.color?.sale
         ? item?.color?.sale
-        : item?.color?.sale * item.quantity),
+        : item?.color?.price * item.quantity),
     0
   );
 
@@ -214,8 +217,21 @@ const Payment = () => {
       paymentApi.create(orderInfo);
     } else {
       orderApi.create(orderInfo);
+      // const itemsLeft = (cartItems, checkedItems) =>
+      //   cartItems.filter(
+      //     (cartItem) =>
+      //       !checkedItems.some(
+      //         (checkedItem) => checkedItem.variantKey === cartItem.variantKey
+      //       )
+      //   );
+      // const updatedItemsLeft = itemsLeft(cartItems, checkedItems);
+      // setCartItems(updatedItemsLeft);
+      // localStorage.setItem("cartItems", JSON.stringify(updatedItemsLeft));
     }
   };
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
   // paymentApi.create(orderData);
   const closeModal = () => {
     setIsSendingSuccess(false);
@@ -568,7 +584,7 @@ const Payment = () => {
                     </span>
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
-                    <span className="fw-semibold">Tổng: </span>
+                    <span className="fw-semibold">Giá cuối: </span>
                     <span
                       className="text-danger fw-bold"
                       style={{ fontSize: 20 }}
