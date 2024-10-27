@@ -22,7 +22,6 @@ const Cart = () => {
   const handleNavigate = () => {
     navigate("/product");
   };
-  const [checkedItemsInCart, setCheckedItemsInCart] = useState([]);
 
   const handleCheckboxChange = (item) => {
     if (
@@ -57,10 +56,11 @@ const Cart = () => {
       console.log("Có vấn đề!", err);
     }
   };
-
+  const [checkedItemsInCart, setCheckedItemsInCart] = useState([]);
   const handleCheckout = () => {
     if (checkedItemsInCart.length > 0) {
-      navigate("/payment", { state: { checkedItems: checkedItemsInCart } });
+      localStorage.setItem("checkedItems", JSON.stringify(checkedItemsInCart));
+      navigate("/payment");
     } else {
       alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán.");
     }

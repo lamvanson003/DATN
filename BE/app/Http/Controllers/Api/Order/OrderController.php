@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller {
 
+    public function detail($id){
+        $order = Order::with('order_details')->findOrfail($id);
+        return view('bill.index',compact('order'));
+    }
 
     public function create(Request $request){
         $validatedData = $request->validate([
@@ -67,7 +71,13 @@ class OrderController extends Controller {
             }
     
             DB::commit();
-            return response()->json(['message' => 'Order created successfully'], 201);
+
+            return response()->json([
+                'message' => 'Order processed successfully',
+                'order_id' => $order->id,
+                'order_code' => $order->code,
+            ], 200);
+
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'Failed to create order', 'details' => $e->getMessage()], 500);

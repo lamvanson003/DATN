@@ -336,7 +336,7 @@ const Detail = () => {
                   <label htmlFor="title">Số lượng</label>
                   <input
                     value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
+                    onChange={(e) => setQuantity(Number(e.target.value))}
                     id="quantity"
                     type="number"
                   />

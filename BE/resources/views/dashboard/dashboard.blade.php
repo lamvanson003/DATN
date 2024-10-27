@@ -199,7 +199,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @if (empty($getOrder))
+                    @if (isset($getOrder))
                       @foreach ($getOrder as $item)
                         <tr>
                           <th scope="row">
@@ -213,9 +213,20 @@
                           <td class="text-end">{{ $item->created_at }}</td>
                           <td class="text-end">{{ number_format($item->total_price) }}</td>
                           <td class="text-end">
-                            <span class="badge badge-secondary">
-                              {{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}
-                            </span>
+                            @switch($item->status)
+                                @case( \App\Enums\Order\OrderStatus::Pending)
+                                    <span class="badge badge-secondary">
+                                      {{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}
+                                    </span>
+                                    @break
+                                @case(\App\Enums\Order\OrderStatus::Completed)
+                                    <span class="badge badge-success">
+                                      {{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}
+                                    </span>
+                                    @break
+                                @default
+                                    
+                            @endswitch
                           </td>
                         </tr>
                       @endforeach
