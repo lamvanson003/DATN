@@ -101,6 +101,38 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="card mb-3">
+                            <div class="card-header">Ảnh đại diện</div>
+                            <div class="card-body p-2">
+                                <input type="file" id="fileInput" name="new_image" class="d-none" accept="image/*">
+                                <input type="hidden" name="old_image" value="{{ $product_variant->images }}">
+                                <div class="image-container" style="cursor: pointer;">
+                                    <img id="imagePreview" 
+                                         src="{{ asset($product_variant->images ?? 'images/default-image.png') }}" 
+                                         alt="Ảnh đại diện" style="max-width: 100%;">
+                                </div>
+                            </div>                                                      
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                function loadFile(event) {
+                                    const imagePreview = document.getElementById('imagePreview');
+                                    const file = event.target.files[0];
+                                    
+                                    if (file) {
+                                        imagePreview.src = URL.createObjectURL(file);
+                                    } else {
+                                        imagePreview.src = "{{ asset($product_variant->images ?? 'images/default-image.png') }}";
+                                    }
+                                }
+                            
+                                document.querySelector('.image-container').addEventListener('click', function() {
+                                    document.getElementById('fileInput').click();
+                                });
+                            
+                                document.getElementById('fileInput').addEventListener('change', loadFile);
+                            });
+                       </script>
                     </div>
                 </div>
             </form>

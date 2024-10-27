@@ -117,7 +117,7 @@
                               Bạn đang thêm Biến thể cho <span class="red">{{ $item->name }}</span>
                           </div>
                           <div class="modal-footer">
-                          <a href="{{ route('admin.product.product_item.create',[$item->id, $product->id]) }}">
+                          <a href="{{ route('admin.product.product_item.edit',[$product->id,$item->id]) }}">
                               <button type="submit" class="btn btn-danger">Tiếp tục</button>
                           </a>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
