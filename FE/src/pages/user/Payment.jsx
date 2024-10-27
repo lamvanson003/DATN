@@ -202,7 +202,6 @@ const Payment = () => {
     const orderInfo = {
       user_id: 1,
       payment_method_id: 1,
-      discount_id: 1,
       shipping_method: 0,
       fullname: customerInfo.name,
       phone: customerInfo.phone,
@@ -213,7 +212,7 @@ const Payment = () => {
       products: products,
     };
 
-    // paymentMethod === 1 thanh toán Online
+  // paymentMethod === 1 thanh toán Online
     if (paymentMethod === 1) {
       paymentApi.create(orderInfo);
     } else {

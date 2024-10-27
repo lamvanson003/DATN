@@ -13,6 +13,7 @@ final class OrderStatus extends Enum
     const Canceled = 'canceled';      // Hủy đơn
     const Returned = 'return';      // Trả hàng
     const Deleted = 'deleted';      // Đã xóa
+    const Completed = 'completed';      // Đã thanh toán
 
     public static function asSelectArray(): array
     {
@@ -25,6 +26,7 @@ final class OrderStatus extends Enum
             self::Canceled => 'Hủy đơn',
             self::Returned => 'Trả hàng',
             self::Deleted => 'Đã xóa',
+            self::Completed => 'Đã thanh toán',
         ];
     }
 
@@ -39,6 +41,7 @@ final class OrderStatus extends Enum
             self::Canceled => 'Hủy đơn',
             self::Returned => 'Trả hàng',
             self::Deleted => 'Đã xóa',
+            self::Completed => 'Đã thanh toán',
             default => 'Không xác định',
         };
     }

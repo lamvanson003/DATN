@@ -21,6 +21,7 @@ class DashboardController extends Controller
 
         $getUser = $this->getUserDash();
         $getOrder = $this->getOrderDash();
+        
         return view('dashboard.dashboard',
         compact(
             'countUser',
@@ -62,7 +63,8 @@ class DashboardController extends Controller
 
     public function getOrderDash(){
         $q = Order::orderBy('id','desc')
-        ->where('status',OrderStatus::Pending)
+        ->where('status',OrderStatus::Pending) 
+        ->orwhere('status',OrderStatus::Completed) 
         ->limit(10)->get();
         return $q;
     }
