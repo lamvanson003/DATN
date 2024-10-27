@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Product_Variant;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
 use App\Http\Requests\Product\ProductVariantRequest;
 use Exception;
-use  App\Enums\Product\ProductStatus;
+use App\Enums\Product\ProductStatus;
+use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Models\ProductImageItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
@@ -87,6 +88,21 @@ class ProductVariantController extends Controller
     public function update(Request $request)
     {
         $product_variant = ProductVariant::find($request['id']);
+        $product_image_item = ProductImageItem::findOrFail($request['id']);
+        $baseUrl = url()->to('/');
+
+        if ($request->hasFile('new_image')) {
+            if ($product_image_item->images && file_exists(public_path('images/variant_images/' . basename($product_image_item->images)))) {
+                unlink(public_path('images/variant_images/' . basename($product_image_item->images)));
+            }
+            $newImage = $request->file('new_image');
+            $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
+            $newImage->move(public_path('images/variant_images'), $newImageName);
+
+            $product_image_item->images = $baseUrl . '/images/variant_images/' . $newImageName;
+        }
+
+        $product_image_item->images = $product_image_item->images ?? $request->input('old_image');
         
         $product_variant->update([
             'memory' => $request->input('memory'),
@@ -94,6 +110,7 @@ class ProductVariantController extends Controller
             'sale' => $request->input('sale'),
             'instock' => $request->input('instock'),
             'storage' => $request->input('storage'),
+            'images' => $product_image_item->images,
         ]);
 
         return redirect()->back()->with('success', 'Cập nhật thành công!');
