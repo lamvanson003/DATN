@@ -22,6 +22,18 @@ class DashboardController extends Controller
         $getUser = $this->getUserDash();
         $getOrder = $this->getOrderDash();
         
+        $countUser = $this->countUser();
+        $countProduct = $this->countProduct();
+        $countSubcription = $this->countSubcription();
+        $countOrder = $this->countOrder();
+
+        $dataPoints = [
+            ["label" => "Users", "y" => $countUser],
+            ["label" => "Products", "y" => $countProduct],
+            ["label" => "Subscriptions", "y" => $countSubcription],
+            ["label" => "Orders", "y" => $countOrder],
+        ];
+
         return view('dashboard.dashboard',
         compact(
             'countUser',
@@ -30,7 +42,8 @@ class DashboardController extends Controller
             'countOrder',
 
             'getUser',
-            'getOrder'
+            'getOrder',
+            'dataPoints'
         )
         ); 
     }
@@ -68,16 +81,5 @@ class DashboardController extends Controller
         ->limit(10)->get();
         return $q;
     }
-    
-
-
-
-
-
-
-
-
-
-
 }
 

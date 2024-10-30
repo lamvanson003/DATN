@@ -242,6 +242,28 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <script>
+          window.onload = function() {
+              var chart = new CanvasJS.Chart("chartContainer", {
+                  animationEnabled: true,
+                  title: {
+                      text: "Dashboard Statistics"
+                  },
+                  data: [{
+                      type: "pie",
+                      yValueFormatString: "#,##0",
+                      indexLabel: "{label} ({y})",
+                      dataPoints: @json($dataPoints)
+                  }]
+              });
+              chart.render();
+          }
+      </script>
+      <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+      </div>
     </div>
 </div>
 @endsection
