@@ -7,6 +7,9 @@ export const orderApi = {
         method: "post",
         data: orderInfo,
       });
+      if (response.status === 200) {
+        console.log(response.status);
+      }
       return response;
     } catch (err) {
       console.log(

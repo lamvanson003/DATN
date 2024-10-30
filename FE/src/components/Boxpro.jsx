@@ -15,9 +15,11 @@ const BoxPro = ({
   brand,
   category,
   product_image_items,
-  viewed,
+  horizon,
   variant,
   hot,
+  hoverCart,
+  hoverCartItem,
 }) => {
   const { IoIosStar, IoIosStarHalf, IoIosStarOutline, FaFire } = icons;
   const [currentVariant, setCurrentVariant] = useState();
@@ -90,13 +92,17 @@ const BoxPro = ({
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
   return (
     <div>
-      {viewed ? (
+      {horizon ? (
         <div
-          className="d-flex justify-content-between p-2 my-2 rounded viewedP"
+          className="d-flex  p-2 my-2 rounded viewedP"
           style={{ backgroundColor: "#fff", cursor: "pointer" }}
         >
           <span className="me-4 d-flex align-items-center">
-            <Link to={`/detail/${slug ? slug : ""}`}>
+            <Link
+              to={`/detail/${
+                hoverCartItem?.main?.slug ? hoverCartItem?.main?.slug : ""
+              }`}
+            >
               <img
                 src={image}
                 alt={name}
@@ -105,29 +111,80 @@ const BoxPro = ({
             </Link>
           </span>
           <span
-            className="p-2 d-flex flex-column justify-content-center gap-2"
+            className="p-2 d-flex flex-column justify-content-between"
             style={{ width: 200 }}
           >
             <span className="fw-semibold">
               <Link
-                to={`/detail/${slug ? slug : ""}`}
+                to={`/detail/${
+                  hoverCartItem?.main?.slug ? hoverCartItem?.main?.slug : ""
+                }`}
                 style={{ textDecoration: "none" }}
               >
-                {name.length > 25 ? `${name.substring(0, 25)}...` : name}
+                {name?.length > 25 ? `${name?.substring(0, 25)}...` : name}
               </Link>
             </span>
-            <span className="text-danger">
-              {currentVariant?.color?.sale
-                ? currentVariant?.color?.sale > 100000000
-                  ? handleNumber(currentVariant?.color?.sale)
-                  : formatCurrency(currentVariant?.color?.sale)
-                : currentVariant?.color?.price
-                ? currentVariant?.color?.price > 100000000
-                  ? handleNumber(currentVariant?.color?.price)
-                  : formatCurrency(currentVariant?.color?.price)
-                : "---"}
+            <span>
+              {!hoverCart ? (
+                <span>
+                  <span className="text-danger me-2">
+                    {currentVariant?.color?.sale
+                      ? currentVariant?.color?.sale > 100000000
+                        ? handleNumber(currentVariant?.color?.sale)
+                        : formatCurrency(currentVariant?.color?.sale)
+                      : currentVariant?.color?.price
+                      ? currentVariant?.color?.price > 100000000
+                        ? handleNumber(currentVariant?.color?.price)
+                        : formatCurrency(currentVariant?.color?.price)
+                      : "---"}
+                  </span>
+                  {currentVariant?.color?.sale && (
+                    <span className="text-decoration-line-through">
+                      {currentVariant?.color?.price > 100000000
+                        ? handleNumber(currentVariant?.color?.price)
+                        : formatCurrency(currentVariant?.color?.price)}
+                    </span>
+                  )}
+                </span>
+              ) : (
+                <span>
+                  <span className="text-danger me-2">
+                    {hoverCartItem?.color?.sale
+                      ? hoverCartItem?.color?.sale > 100000000
+                        ? handleNumber(hoverCartItem?.color?.sale)
+                        : formatCurrency(hoverCartItem?.color?.sale)
+                      : hoverCartItem?.color?.price
+                      ? hoverCartItem?.color?.price > 100000000
+                        ? handleNumber(hoverCartItem?.color?.price)
+                        : formatCurrency(hoverCartItem?.color?.price)
+                      : "---"}
+                  </span>
+                  {hoverCartItem?.color?.sale && (
+                    <span className="text-decoration-line-through">
+                      {hoverCartItem?.color?.price > 100000000
+                        ? handleNumber(hoverCartItem?.color?.price)
+                        : formatCurrency(hoverCartItem?.color?.price)}
+                    </span>
+                  )}
+                </span>
+              )}
             </span>
           </span>
+          {hoverCart && (
+            <span className="d-flex flex-column p-2 justify-content-between">
+              <span className="d-flex gap-2">
+                <span className="badge text-bg-info">
+                  {hoverCartItem?.color.color}
+                </span>
+                <span className="badge text-bg-info">
+                  {hoverCartItem?.storage}
+                </span>
+              </span>
+              <span style={{ fontWeight: 600, fontSize: 20 }}>
+                x{hoverCartItem.quantity}
+              </span>
+            </span>
+          )}
         </div>
       ) : (
         <div className="card">

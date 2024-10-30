@@ -394,7 +394,7 @@ const Detail = () => {
                       className="d-flex justify-content-center"
                     >
                       <BoxPro
-                        viewed={true}
+                        horizon
                         slug={item.slug}
                         image={item.images}
                         id={item.id}
