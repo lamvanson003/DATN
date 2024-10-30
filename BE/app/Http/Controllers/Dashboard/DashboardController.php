@@ -28,10 +28,10 @@ class DashboardController extends Controller
         $countOrder = $this->countOrder();
 
         $dataPoints = [
-            ["label" => "Users", "y" => $countUser],
-            ["label" => "Products", "y" => $countProduct],
-            ["label" => "Subscriptions", "y" => $countSubcription],
-            ["label" => "Orders", "y" => $countOrder],
+            ["label" => "Người dùng", "y" => $countUser],
+            ["label" => "Sản phẩm", "y" => $countProduct],
+            ["label" => "Đăng ký", "y" => $countSubcription],
+            ["label" => "Đơn hàng", "y" => $countOrder],
         ];
 
         return view('dashboard.dashboard',
