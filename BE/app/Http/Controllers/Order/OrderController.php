@@ -14,8 +14,15 @@ class OrderController extends Controller
   
     public function index()
     {
-        $order = Order::with('order_details')->get();  
-        return view('order.index', compact('order'));
+        $orders = Order::with('order_details')->orderBy('id','desc')->get();  
+        return view('order.index', compact('orders'));
+    }
+
+    public function edit($id)
+    {
+        $order = Order::with('order_details')->findOrfail($id);  
+        $status = OrderStatus::asSelectArray();
+        return view('order.edit', compact('order','status'));
     }
 
     public function getByStatus($status)

@@ -83,6 +83,7 @@ class PaymentController extends Controller
                     'note' => $orderData['note'],
                     'total_price' => $orderData['total_price'],
                     'status' => 'pending',
+                    'completed' => true,
                 ]);
 
                 foreach ($orderData['products'] as $productData) {
@@ -106,7 +107,6 @@ class PaymentController extends Controller
 
                 return response()->json([
                     'message' => 'Order processed successfully',
-                    'order_url' => route('order.detail', ['id' => $order->id]),
                     'order_id' => $order->id,
                     'order_code' => $order->code,
                 ], 200);

@@ -145,7 +145,7 @@
                       <div class="status">{{ $item->email }}</div>
                     </div>
                     
-                    <a href="">View</a>
+                    <a href="{{route('admin.user.edit',$item->id)}}">View</a>
                     <button class="btn btn-icon btn-link btn-danger op-8">
                       <i class="fas fa-ban"></i>
                     </button>

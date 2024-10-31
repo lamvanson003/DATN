@@ -167,6 +167,8 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
             Route::controller(App\Http\Controllers\Order\OrderController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/{id}', 'delete')->name('delete');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+                
                 Route::get('/status/{status}', 'getByStatus')->name('status');
                 Route::post('/change-status/{order_id}', 'changeStatus')->name('changeStatus');
             });
