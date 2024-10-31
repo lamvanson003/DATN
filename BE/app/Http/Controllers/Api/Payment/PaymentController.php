@@ -87,7 +87,7 @@ class PaymentController extends Controller
                 ]);
 
                 foreach ($orderData['products'] as $productData) {
-                    OrderDetail::create([
+                    $orderDetail = OrderDetail::create([
                         'order_id' => $order->id,
                         'product_variant_id' => $productData['product_variant_id'],
                         'quantity' => $productData['quantity'],
@@ -108,6 +108,7 @@ class PaymentController extends Controller
                 return response()->json([
                     'message' => 'Order processed successfully',
                     'order_id' => $order->id,
+                    'product_variant_id' => $orderDetail -> product_variant_id,
                     'order_code' => $order->code,
                 ], 200);
 

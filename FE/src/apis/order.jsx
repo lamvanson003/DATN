@@ -8,7 +8,7 @@ export const orderApi = {
         data: orderInfo,
       });
       if (response.status === 200) {
-        console.log(response.status);
+        console.log(response);
       }
       return response;
     } catch (err) {

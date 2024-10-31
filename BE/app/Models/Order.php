@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enum\Order\OrderStatus;
+use App\Enums\Order\OrderStatus;
 
 class Order extends Model
 {

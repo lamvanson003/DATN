@@ -58,7 +58,7 @@ class OrderController extends Controller {
             ]);
     
             foreach ($validatedData['products'] as $productData) {
-                OrderDetail::create([
+                $orderDetail =OrderDetail::create([
                     'order_id' => $order->id,
                     'product_variant_id' => $productData['product_variant_id'],
                     'quantity' => $productData['quantity'],
@@ -73,12 +73,12 @@ class OrderController extends Controller {
                     $productVariant->save();
                 }
             }
-    
             DB::commit();
-
+            
             return response()->json([
                 'message' => 'Order processed successfully',
                 'order_id' => $order->id,
+                'product_variant_id' => $orderDetail -> product_variant_id,
                 'order_code' => $order->code,
             ], 200);
 
