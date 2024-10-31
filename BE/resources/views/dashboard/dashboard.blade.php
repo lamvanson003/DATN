@@ -100,6 +100,36 @@
       </div>
       
       <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title">BIỂU ĐỒ THỐNG KÊ</h5>
+            </div>
+            <div class="card-body">
+              <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+        <script>
+          window.onload = function() {
+              var chart = new CanvasJS.Chart("chartContainer", {
+                  animationEnabled: true,
+                  data: [{
+                      type: "doughnut",
+                      indexLabel: "{symbol}  {y}",
+                      yValueFormatString: "#,##0",
+                      showInLegend: true,
+                      legendText: "{label} : {y}",
+                      dataPoints: @json($dataPoints)
+                  }]
+              });
+              chart.render();
+          }
+        </script>
+        <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+      </div>
+
+      <div class="row">
         <div class="col-md-4">
           <div class="card card-round">
             <div class="card-body">
