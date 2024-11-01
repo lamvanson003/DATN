@@ -6,7 +6,11 @@ import {
   FaHistory,
   FaFire,
 } from "react-icons/fa";
-import { IoCartOutline } from "react-icons/io5";
+import {
+  IoCartOutline,
+  IoArrowUndoOutline,
+  IoArrowRedoOutline,
+} from "react-icons/io5";
 import {
   IoIosArrowDropdown,
   IoIosContacts,
@@ -72,5 +76,7 @@ const icons = {
   ImBin2,
   MdHistory,
   MdOutlineSettingsSuggest,
+  IoArrowUndoOutline,
+  IoArrowRedoOutline,
 };
 export default icons;

@@ -205,89 +205,88 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
                 <BsSearch />
               </button>
             </form>
-            {isFocus &&
-              (searchHistory.length > 0 || searchProducts.length > 0) && (
+            {isFocus && (
+              <div
+                className="position-absolute "
+                style={{
+                  backgroundColor: "#0056b3",
+                  width: 500,
+                  padding: 12,
+                  zIndex: 100,
+                }}
+              >
                 <div
-                  className="position-absolute "
                   style={{
-                    backgroundColor: "#0056b3",
-                    width: 500,
-                    padding: 12,
-                    zIndex: 100,
+                    fontWeight: 600,
+                    paddingBottom: 5,
+                    borderBottom: "1px solid white",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    width: "100%",
+                    color: "#fff",
                   }}
                 >
-                  <div
-                    style={{
-                      fontWeight: 600,
-                      paddingBottom: 5,
-                      borderBottom: "1px solid white",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      width: "100%",
-                      color: "#fff",
-                    }}
-                  >
-                    <span className="d-flex align-items-center gap-1">
-                      <MdHistory size={20} />
-                      <span>Lịch sử tìm kiếm</span>
-                    </span>
+                  <span className="d-flex align-items-center gap-1">
+                    <MdHistory size={20} />
+                    <span>Lịch sử tìm kiếm</span>
+                  </span>
 
-                    <span
-                      onClick={handleDeleteSearch}
-                      style={{ cursor: "pointer" }}
-                      onMouseDown={(e) => e.preventDefault()}
-                    >
-                      <ImBin2 />
-                    </span>
-                  </div>
-                  {searchHistory.map((term, index) => (
-                    <div
-                      key={index}
-                      className="my-1 searchH"
-                      onClick={() => handleClickHistoryInSearch(term)}
-                      onMouseDown={(e) => e.preventDefault()}
-                    >
-                      <span style={{ cursor: "pointer" }}>{term}</span>
-                    </div>
-                  ))}
-                  {searchProducts.length > 0 && (
-                    <div>
-                      <div
-                        style={{
-                          fontWeight: 600,
-                          paddingBottom: 5,
-                          borderBottom: "1px solid white",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          width: "100%",
-                          color: "#fff",
-                        }}
-                      >
-                        <span className="d-flex align-items-center gap-1">
-                          <MdOutlineSettingsSuggest size={20} />
-                          <span>Sản phẩm gợi ý</span>
-                        </span>
-                      </div>
-                      <div className="search-results">
-                        {searchProducts.map((item, index) => (
-                          <div key={index} className="my-1 search-item">
-                            <BoxPro
-                              horizon
-                              slug={item.slug}
-                              image={item.images}
-                              id={item.id}
-                              name={item.name}
-                              variant={item.product_variant}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  <span
+                    onClick={handleDeleteSearch}
+                    style={{ cursor: "pointer" }}
+                    onMouseDown={(e) => e.preventDefault()}
+                  >
+                    <ImBin2 />
+                  </span>
                 </div>
-              )}
+                {searchHistory.map((term, index) => (
+                  <div
+                    key={index}
+                    className="my-1 searchH"
+                    onClick={() => handleClickHistoryInSearch(term)}
+                    onMouseDown={(e) => e.preventDefault()}
+                  >
+                    <span style={{ cursor: "pointer" }}>{term}</span>
+                  </div>
+                ))}
+                {searchProducts.length > 0 && (
+                  <div>
+                    <div
+                      style={{
+                        fontWeight: 600,
+                        paddingBottom: 5,
+                        borderBottom: "1px solid white",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "100%",
+                        color: "#fff",
+                      }}
+                    >
+                      <span className="d-flex align-items-center gap-1">
+                        <MdOutlineSettingsSuggest size={20} />
+                        <span>Sản phẩm gợi ý</span>
+                      </span>
+                    </div>
+                    <div className="search-results">
+                      {searchProducts.map((item, index) => (
+                        <div key={index} className="my-1 search-item">
+                          <BoxPro
+                            horizon
+                            slug={item.slug}
+                            image={item.images}
+                            id={item.id}
+                            name={item.name}
+                            variant={item.product_variant}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="d-flex gap-4">
