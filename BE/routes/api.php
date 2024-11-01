@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Register\UsersRegisterController;
 use App\Http\Controllers\Api\Profile\UserProfileController;
 use App\Http\Controllers\Api\Discount\DiscountController;
 use App\Http\Controllers\Api\Payment\PaymentController;
+use App\Http\Controllers\Api\Slider\SliderController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
 ->as('category')
@@ -83,6 +84,12 @@ Route::controller(PaymentController::class)->prefix('/payments')
 ->group(function(){
     Route::post('/', 'createPayment');
     Route::get('/callback', 'callback')->name('callback');
+});
+
+Route::controller(SliderController::class)->prefix('/sliders')
+->as('slider.')
+->group(function(){
+    Route::get('/', 'index');
 });
    
    
