@@ -39,7 +39,7 @@
 
           <div class="card-body">
             <div class="table-responsive">
-              <table id="post-table" class="display table table-hover">
+              <table id="post-table" class="fontTable display table table-hover">
                 <thead>
                   <tr>
  
@@ -48,7 +48,6 @@
                     <th>Hình ảnh</th>
                     <th>Lượt xem</th>
                     <th>Trạng thái</th>
-                    <th>Người tạo</th>
                     <th>Danh mục</th>
                     <th>Hành động</th>
                   </tr>
@@ -61,7 +60,6 @@
                     <th>Hình ảnh</th>
                     <th>Lượt xem</th>
                     <th>Trạng thái</th>
-                    <th>Người tạo</th>
                     <th>Danh mục</th>
                     <th>Hành động</th>
                   </tr>
@@ -76,7 +74,6 @@
                         </td>
                         <td>{{ $post->views }}</td>
                         <td>{{ $post->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
-                        <td>{{ $post->user->fullname }}</td>
                         <td>
                   
                             @foreach ($post->categories as $category)

@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Product_Variant;
 
+use App\Enums\DefaultStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductVariantRequest;
 use Exception;
-use App\Enums\Product\ProductStatus;
+use App\Enums\Status;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\ProductImageItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\Console\Logger\ConsoleLogger;
 
 class ProductVariantController extends Controller
 {
@@ -26,16 +25,18 @@ class ProductVariantController extends Controller
     public function create($product_id)
     {  
         $product = Product::findOrFail($product_id);
+        $status = DefaultStatus::asSelectArray();
         $storages = ['64GB', '128GB', '256GB', '512GB' ,'1T'];
         return view('product_variant.create',
-        compact('product','storages')
+        compact('product','storages','status')
         );
     }
 
     public function delete($product_id,$id)
     {
         $product_variant = ProductVariant::findOrFail($id);
-        $product_variant->delete();
+        $product_variant->status = DefaultStatus::Deleted;
+        $product_variant->save();
         return redirect()->route('admin.product.product_item.index',$product_id)->with('success', 'Thực hiện thành công.');
     }
 
@@ -79,9 +80,10 @@ class ProductVariantController extends Controller
     public function edit($product_id,$id)
     {   
         $product_variant = ProductVariant::with('product')->findOrFail($id);
+        $status = Status::asSelectArray();
         return view('product_variant.edit', [
             'product_variant' => $product_variant,
-            
+            'status' => $status,
         ]);
     }
 
