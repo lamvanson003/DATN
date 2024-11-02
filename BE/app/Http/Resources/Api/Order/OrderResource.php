@@ -22,12 +22,12 @@ class OrderResource extends JsonResource
             'description' => $this->description,
             'product_variant' => $this->product_variant->map(function($items) {
                 return [
-                        'id' => $item->id,
-                        'sku' => $item->sku,
-                        'sale' => $item->sale,
-                        'price' => $item->price,
-                        'color' => $item->color,
-                        'images' => $item->images,
+                        'id' => $items->id,
+                        'sku' => $items->sku,
+                        'sale' => $items->sale,
+                        'price' => $items->price,
+                        'color' => $items->color,
+                        'images' => $items->images,
                     ];
             })->values(),
             'product_image_items' => $this->product_image_items->map(function($item){

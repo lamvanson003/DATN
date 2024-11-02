@@ -8,7 +8,7 @@ Route::controller(App\Http\Controllers\Auth\RegisterController::class)
         Route::post('/', 'store')->name('store');
     });
 Route::controller(App\Http\Controllers\Auth\LoginController::class)
-    ->prefix('/admin/login')->as('admin.')->group(function () {
+    ->prefix('admin/login')->as('admin.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'login')->name('login');
         Route::get('/logout', 'logout')->name('logout');
