@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller {
 
     public function detail($id){
-        $order = Order::with('order_details')->findOrfail($id);
+        $order = Order::with('order_details.product_variant.product')->findOrfail($id);
         return response()->json([
             'success' => true,
-            'data' => OrderResource::collection($order)
+            'data' => new OrderResource($order)
         ], 200);
     }
 
