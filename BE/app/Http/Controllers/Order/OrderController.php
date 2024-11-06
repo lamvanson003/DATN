@@ -34,7 +34,7 @@ class OrderController extends Controller
     
     public function delete($id)
     {
-        $order = Order::findOrfail($order_id);
+        $order = Order::findOrfail($id);
         $order->status = OrderStatus::Deleted;
         $order->save();
 

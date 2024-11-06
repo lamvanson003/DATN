@@ -7,9 +7,8 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use App\Enums\User\UserRole;
 use App\Enums\User\UserStatus;
-use Illuminate\Support\Facades\Auth; 
+use Laravel\Sanctum\PersonalAccessTokenResult;
 use Exception;
-use Illuminate\Auth\Events\Validated;
 
 class RegisterController extends Controller
 {

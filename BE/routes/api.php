@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Register\UsersRegisterController;
 use App\Http\Controllers\Api\Profile\UserProfileController;
 use App\Http\Controllers\Api\Discount\DiscountController;
 use App\Http\Controllers\Api\Payment\PaymentController;
+use App\Http\Controllers\Api\Search\SearchController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
 ->as('category')
@@ -30,6 +31,12 @@ Route::controller(BrandController::class)->prefix('/brands')
 ->as('brand')
 ->group(function(){
     Route::get('/', 'index');
+});
+
+Route::controller(SearchController::class)->prefix('/searchs')
+->as('search')
+->group(function(){
+    Route::get('/', 'searchByProductOrVariant');
 });
 
 Route::controller(OrderController::class)->prefix('/orders')
