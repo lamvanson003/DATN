@@ -27,7 +27,7 @@ class SearchController extends controller
             }
 
             $query = Product::where('name', 'like', '%' . $data['name'] . '%')
-                ->orWhereHas('productVariants', function ($query) use ($data) {
+                ->orWhereHas('product_variant', function ($query) use ($data) {
                     $query->where('storage', 'like', '%' . $data['name'] . '%');
                 });
 
