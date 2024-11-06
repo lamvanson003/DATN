@@ -9,9 +9,9 @@ import axios from "axios";
 import { orderApi, paymentApi } from "../../apis";
 import "./css/Payment.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import sending from "../../assets/images/iHome/sending.png";
 import { discountApi } from "../../apis";
 import CryptoJS from "crypto-js";
+import { Popup } from "../../components";
 const {
   IoIosArrowDropdown,
   RiBankCardFill,
@@ -39,6 +39,7 @@ const Payment = () => {
   const [applyingDiscount, setApplyingDiscount] = useState(false);
   const [isSuccessDiscount, setIsSuccessDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState(2);
+  const [orderId, setOrderId] = useState();
   const checkedItems = useMemo(() => {
     const savedItems = localStorage.getItem("checkedItems");
     return savedItems ? JSON.parse(savedItems) : [];
@@ -214,19 +215,22 @@ const Payment = () => {
     } else {
       try {
         const res = await orderApi.create(orderInfo);
+        const invoice = await orderApi.getOne(res);
+        console.log("Invoice: ", invoice);
+
+        setOrderId(res);
         const LeftItems = cartItems.filter(
-          (item) => item.color.id !== res.data.product_variant_id
+          (item) => item.color.id !== res.product_variant_id
         );
-        console.log(LeftItems);
         setCartItems(LeftItems);
         localStorage.setItem("cartItems", JSON.stringify(LeftItems));
       } catch (err) {
         console.log("có lỗi xảy ra khi: ", err);
       }
-
       setIsSendingSuccess(true);
     }
   };
+
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
@@ -239,28 +243,10 @@ const Payment = () => {
       }
     };
   }, [location.pathname]);
-  const handleNaPro = () => {
-    navigate("/product");
-  };
+
   return (
     <>
-      {isSendingSuccess && (
-        <div className="custom-modal-overlay">
-          <div className="custom-modal">
-            <h2>Thông báo đơn hàng</h2>
-            <p>Đơn hàng của bạn đã được gửi đi, Vui lòng chờ xác nhận !</p>
-            <div className="modal-img-container">
-              <img className="modal-img" src={sending} alt="" />
-            </div>
-            <div className="group-custom-modal-button">
-              <span className="custom-modal-button">chi tiết hóa đơn</span>
-              <span className="custom-modal-button" onClick={handleNaPro}>
-                Trang sản phẩm
-              </span>
-            </div>
-          </div>
-        </div>
-      )}
+      {isSendingSuccess && <Popup orderId={orderId} />}
       <div style={{ paddingLeft: 90, marginTop: 50, marginBottom: 50 }}>
         <h3 className="fw-semibold">Thông tin thanh toán</h3>
       </div>

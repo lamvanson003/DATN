@@ -51,7 +51,7 @@ function App() {
               <Route path={path.HISTORY} element={<History />} />
             </Route>
             <Route path={path.PAYMENT} element={<Payment />} />
-            <Route path={path.INVOICE} element={<Invoice />} />
+            <Route path={path.INVOICE__ID} element={<Invoice />} />
             <Route path={path.BANKINGONLINE} element={<BankingOnline />} />
             <Route path={path.FAVOR} element={<Favor />} />
           </Route>
