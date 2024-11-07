@@ -56,7 +56,7 @@
                                             <div class="col-md-12 col-sm-12 d-flex mb-3">
                                                 <div class="me-2 flex-grow-1">
                                                     <label for="color1" class="form-label">Màu sắc <span style="color: red">*</span>:</label>
-                                                    <input type="text" class="form-control" name="variants[0][color]" id="color1" placeholder="Chọn màu (VD: Xanh)">
+                                                    <input type="text" class="form-control" name="variants[0][color]" id="color1" placeholder="Chọn màu (VD: Xanh)" required>
                                                 </div>
                         
                                                 <div class="me-2 flex-grow-1">
@@ -120,6 +120,19 @@
                                 <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
                                     Thêm
                                 </button>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">Trạng thái</div>
+                            <div class="card-body p-2">
+                                <select class="form-select" name="status">
+                                    @foreach ($status as $key => $value)
+                                        <option value="{{ $key }}">
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>

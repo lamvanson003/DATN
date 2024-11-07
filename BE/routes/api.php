@@ -9,8 +9,8 @@ use App\Http\Controllers\Api\Comment\CommentController;
 use App\Http\Controllers\Api\Register\UsersRegisterController;
 use App\Http\Controllers\Api\Profile\UserProfileController;
 use App\Http\Controllers\Api\Discount\DiscountController;
-
-
+use App\Http\Controllers\Api\Payment\PaymentController;
+use App\Http\Controllers\Api\Search\SearchController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
 ->as('category')
@@ -33,12 +33,18 @@ Route::controller(BrandController::class)->prefix('/brands')
     Route::get('/', 'index');
 });
 
+Route::controller(SearchController::class)->prefix('/searchs')
+->as('search')
+->group(function(){
+    Route::get('/', 'searchByProductOrVariant');
+});
+
 Route::controller(OrderController::class)->prefix('/orders')
 ->as('order')
 ->group(function(){
     Route::get('/', 'index');
-
     Route::post('/', 'create');
+    Route::get('/detail/{id}', 'detail')->name('detail');
 });
 
 Route::controller(CommentController::class)->prefix('/comments')
@@ -79,3 +85,11 @@ Route::controller(DiscountController::class)->prefix('/discounts')
         Route::delete('/{id}', 'destroy');
     });
 
+Route::controller(PaymentController::class)->prefix('/payments')
+->as('payment.')
+->group(function(){
+    Route::post('/', 'createPayment');
+    Route::get('/callback', 'callback')->name('callback');
+});
+   
+   

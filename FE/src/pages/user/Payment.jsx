@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import icons from "../../ultis/icon";
 import LogoVisa from "../../assets/images/logovisa.png";
 import logomastercard from "../../assets/images/logomastercard.png";
@@ -23,8 +23,9 @@ const {
 const Payment = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { checkedItems } = location.state || { checkedItems: [] };
-  const { cartItems, getCartTotal, buyNow } = useContext(CartContext);
+
+  const { cartItems, getCartTotal, buyNow, setCartItems } =
+    useContext(CartContext);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
   const [finalPrice, setFinalPrice] = useState(getCartTotal());
   const [provinces, setProvinces] = useState([]);
@@ -33,11 +34,34 @@ const Payment = () => {
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedWard, setSelectedWard] = useState(null);
-
+  const [discountPrice, setDiscountPrice] = useState(0);
   const [discountCode, setDiscountCode] = useState("");
   const [applyingDiscount, setApplyingDiscount] = useState(false);
   const [isSuccessDiscount, setIsSuccessDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState(2);
+  const checkedItems = useMemo(() => {
+    const savedItems = localStorage.getItem("checkedItems");
+    return savedItems ? JSON.parse(savedItems) : [];
+  }, []);
+  const orderItems = useMemo(() => {
+    const itemsFromLocalStorage = localStorage.getItem("buyNowItem");
+    if (itemsFromLocalStorage) {
+      return JSON.parse(itemsFromLocalStorage);
+    }
+    return checkedItems.length > 0 ? checkedItems : [];
+  }, [checkedItems]);
+
+  useEffect(() => {
+    if (Array.isArray(orderItems) && orderItems.length === 0) {
+      navigate("/product");
+    }
+  }, [orderItems, navigate]);
+  const total_price = orderItems.reduce((total, item) => {
+    const price = item?.color?.sale ? item.color.sale : item.color.price;
+
+    return total + price * item.quantity; // Đảm bảo nhân với số lượng
+  }, 0);
+
   const handleChangePaymentMethod = (e) => {
     const selectedValue = Number(e.target.value);
     setPaymentMethod(selectedValue);
@@ -46,15 +70,19 @@ const Payment = () => {
     try {
       setApplyingDiscount(true);
       const discountData = await discountApi.getOne(discountCode);
+
       setApplyingDiscount(false);
-      if (discountData.value < 100) {
-        const discountValue = (getCartTotal() * discountData.value) / 100;
-        const discountPrice = getCartTotal() - discountValue;
-        setFinalPrice(discountPrice);
+      if (discountData.discount_value < 100) {
+        const dv = discountData.discount_value;
+        setDiscountPrice((total_price * dv) / 100);
+        console.log("total_price: ", total_price);
+        console.log("discount value: ", dv);
+        console.log("discountprice: ", discountPrice);
       } else {
-        const discountPrice = getCartTotal() - discountData.value;
-        setFinalPrice(discountPrice);
+        setDiscountPrice(discountData.discount_value);
+        console.log("discount value: ", discountPrice);
       }
+
       setDiscountCode("");
       setIsSuccessDiscount(1);
     } catch (err) {
@@ -63,7 +91,9 @@ const Payment = () => {
       setIsSuccessDiscount(2);
     }
   };
-
+  useEffect(() => {
+    setFinalPrice(total_price - discountPrice);
+  }, [discountPrice, total_price]);
   useEffect(() => {
     const fetchProvinces = async () => {
       const res = await axios.get("https://esgoo.net/api-tinhthanh/1/0.htm");
@@ -130,7 +160,7 @@ const Payment = () => {
     }));
     setProducts(updatedProducts);
   }, []);
-  const excutePayment = () => {
+  const excutePayment = async () => {
     const newValidFields = {
       name: customerInfo.name !== "",
       phone: customerInfo.phone !== "",
@@ -167,13 +197,12 @@ const Payment = () => {
     }
 
     const orderInfo = {
-      user_id: null,
-      payment_method_id: paymentMethod,
-      discount_id: 1,
+      user_id: 1,
+      payment_method_id: 1,
       shipping_method: 0,
       fullname: customerInfo.name,
       phone: customerInfo.phone,
-      address: `${customerInfo.street}, ${customerInfo.ward}, ${customerInfo.district}, ${customerInfo.province}  `,
+      address: `${customerInfo.street}, ${customerInfo.ward}, ${customerInfo.district}, ${customerInfo.province}`,
       email: customerInfo.email,
       note: "123",
       total_price: finalPrice,
@@ -181,97 +210,52 @@ const Payment = () => {
     };
 
     if (paymentMethod === 1) {
-      const vnp_TmnCode = "AABYH89K"; // Mã terminal của bạn từ VNPAY
-      const vnp_Amount = getCartTotal() * 100; // Tổng số tiền thanh toán, nhân 100
-      const vnp_TxnRef = Date.now().toString(); // Mã giao dịch duy nhất
-      const vnp_IpAddr = "127.0.0.1"; // Địa chỉ IP của người dùng
-      const vnp_ReturnUrl = "http://localhost:5173/payment"; // URL trả về
-
-      const formatDateToVnpay = (date) => {
-        const yyyyMMddHHmmss = date
-          .toISOString()
-          .replace(/[-:TZ]/g, "")
-          .slice(0, 14);
-        return yyyyMMddHHmmss;
-      };
-
-      const now = new Date();
-      now.setHours(now.getHours() + 7); // Cộng thêm 7 giờ để chuyển sang UTC+7
-
-      const vnp_CreateDate = formatDateToVnpay(now);
-
-      const expireDate = new Date(now.getTime() + 15 * 60 * 1000); // Cộng thêm 15 phút
-      const vnp_ExpireDate = formatDateToVnpay(expireDate);
-
-      const orderData = {
-        vnp_Version: "2.1.0", // Phiên bản VNPAY
-        vnp_Command: "pay",
-        vnp_TmnCode: vnp_TmnCode,
-        vnp_Amount: vnp_Amount,
-        vnp_CreateDate: vnp_CreateDate,
-        vnp_ExpireDate: vnp_ExpireDate,
-        vnp_CurrCode: "VND", // Mã tiền tệ
-        vnp_IpAddr: vnp_IpAddr,
-        vnp_Locale: "vn", // Ngôn ngữ giao dịch
-        vnp_OrderInfo: "Mua sản phẩm từ cửa hàng ABC", // Mô tả đơn hàng
-        vnp_OrderType: "billpayment", // Loại giao dịch
-        vnp_ReturnUrl: vnp_ReturnUrl,
-        vnp_TxnRef: vnp_TxnRef,
-      };
-
-      const sortedData = Object.keys(orderData)
-        .sort()
-        .map((key) => `${key}=${encodeURIComponent(orderData[key])}`) // Đảm bảo tất cả các giá trị đều mã hóa bằng encodeURIComponent
-        .join("&");
-
-      const secretKey = "EWD04RV011B8GM0K0GUKPD1C8PYXRC3B"; // Khóa bí mật của bạn
-      const secureHash = CryptoJS.HmacSHA512(sortedData, secretKey).toString(
-        CryptoJS.enc.Hex
-      );
-
-      // Tạo URL thanh toán
-      const paymentUrl = `https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?${sortedData}&vnp_SecureHash=${secureHash}`;
-
-      console.log("Sorted Data:", sortedData);
-      console.log("Secure Hash:", secureHash);
-      console.log("Payment URL:", paymentUrl);
-      // Điều hướng đến trang thanh toán
-      window.location.href = paymentUrl;
+      paymentApi.create(orderInfo);
     } else {
-      orderApi.create(orderInfo);
+      try {
+        const res = await orderApi.create(orderInfo);
+        const LeftItems = cartItems.filter(
+          (item) => item.color.id !== res.data.product_variant_id
+        );
+        console.log(LeftItems);
+        setCartItems(LeftItems);
+        localStorage.setItem("cartItems", JSON.stringify(LeftItems));
+      } catch (err) {
+        console.log("có lỗi xảy ra khi: ", err);
+      }
+
+      setIsSendingSuccess(true);
     }
   };
-  // paymentApi.create(orderData);
-  const closeModal = () => {
-    setIsSendingSuccess(false);
-  };
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
+
   useEffect(() => {
     return () => {
       if (location.pathname === "/payment") {
         localStorage.removeItem("buyNowItem");
+        localStorage.removeItem("checkedItems");
       }
     };
   }, [location.pathname]);
-  const orderItems = localStorage.getItem("buyNowItem")
-    ? JSON.parse(localStorage.getItem("buyNowItem"))
-    : checkedItems.length > 0
-    ? checkedItems
-    : [];
+  const handleNaPro = () => {
+    navigate("/product");
+  };
   return (
     <>
       {isSendingSuccess && (
         <div className="custom-modal-overlay">
           <div className="custom-modal">
             <h2>Thông báo đơn hàng</h2>
-            <p>Đơn hàng của bạn đã được gửi đi, Vui lòng chờ đợi xác nhận</p>
+            <p>Đơn hàng của bạn đã được gửi đi, Vui lòng chờ xác nhận !</p>
             <div className="modal-img-container">
               <img className="modal-img" src={sending} alt="" />
             </div>
             <div className="group-custom-modal-button">
               <span className="custom-modal-button">chi tiết hóa đơn</span>
-              <span className="custom-modal-button">trang chủ</span>
-              <span className="custom-modal-button" onClick={closeModal}>
-                Đóng
+              <span className="custom-modal-button" onClick={handleNaPro}>
+                Trang sản phẩm
               </span>
             </div>
           </div>
@@ -582,8 +566,8 @@ const Payment = () => {
 
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
-                    <span className="fw-semibold">Giá: </span>
-                    <span>{formatCurrency(getCartTotal())}</span>
+                    <span className="fw-semibold">Tổng giá : </span>
+                    <span>{formatCurrency(total_price)}</span>
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Phí vận chuyển: </span>
@@ -591,10 +575,12 @@ const Payment = () => {
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span className="fw-semibold">Giá giảm: </span>
-                    <span></span>
+                    <span>
+                      {formatCurrency(discountPrice ? discountPrice : 0)}
+                    </span>
                   </div>
                   <div className="d-flex justify-content-between border-bottom border-secondary py-2">
-                    <span className="fw-semibold">Tổng: </span>
+                    <span className="fw-semibold">Giá cuối: </span>
                     <span
                       className="text-danger fw-bold"
                       style={{ fontSize: 20 }}

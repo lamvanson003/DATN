@@ -10,7 +10,6 @@ export const CartProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("cartItems"))
       : []
   );
-
   const generateVariantKey = (mainName, variantSku) =>
     `${mainName}:${variantSku}`;
   const addToCart = (main, variant, quantity = 0, inStock = 100) => {
@@ -43,6 +42,7 @@ export const CartProvider = ({ children }) => {
               id: main.id,
               name: main.name,
               image: main.image,
+              slug: main.slug,
             },
           },
         ]);
@@ -50,7 +50,6 @@ export const CartProvider = ({ children }) => {
       }
       inStock -= numericQuantity;
     } else {
-      console.log(inStock);
       toast.warning("Đã hết mặt hàng!");
     }
   };
@@ -127,12 +126,7 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
-  useEffect(() => {
-    const cartItems = localStorage.getItem("cartItems");
-    if (cartItems) {
-      setCartItems(JSON.parse(cartItems));
-    }
-  }, []);
+
   return (
     <CartContext.Provider
       value={{
@@ -143,6 +137,7 @@ export const CartProvider = ({ children }) => {
         getCartTotal,
         buyNow,
         removeOneProductOfCart,
+        setCartItems,
       }}
     >
       {children}

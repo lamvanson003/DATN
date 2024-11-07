@@ -147,3 +147,44 @@
   padding: 19px 19px;
   color: #fff;
 }
+.searchH {
+  padding: 4px 0px;
+  color: #fff;
+}
+.searchH:hover {
+  background-color: #fff;
+  color: #333;
+}
+.cart-dropdown {
+  position: absolute;
+  background-color: #0056b3;
+  padding: 8px;
+  top: 120px;
+  right: 50px;
+  z-index: 100;
+}
+.cart-action {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.cart-price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart-action button {
+  background-color: #fff;
+
+  font-weight: 600;
+  width: 100%;
+}
+.cart-action button:hover {
+  background-color: #fff;
+  color: #007bff;
+}

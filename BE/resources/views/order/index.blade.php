@@ -17,7 +17,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="{{ route('admin.order.index') }}">Đơn hàng</a>
+          <a href="{{ route('admin.order.index') }}">Đơn hàng </a>
         </li>
       </ul>
     </div>
@@ -27,18 +27,20 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Danh sách Đơn hàng</h4>
+              <h4 class="card-title">Tất cả đơn hàng</h4>
             </div>
           </div>
 
           <div class="card-body">
             <div class="table-responsive">
-              <table id="add-row" class="display table table-hover fix_table">
+              <table id="add-row" class="fontTable display table table-hover fix_table">
                 <thead>
                   <tr>
                     <th>Mã</th>
                     <th>Khách hàng</th>
                     <th>Tổng tiền</th>
+                    <th>Ngày tạo</th>
+                    <th>Phương thức thanh toán</th>
                     <th>Trạng thái</th>
                     <th>Hành động</th>
                   </tr>
@@ -48,23 +50,74 @@
                     <th>Mã</th>
                     <th>Khách hàng</th>
                     <th>Tổng tiền</th>
+                    <th>Ngày tạo</th>
+                    <th>Phương thức thanh toán</th>
                     <th>Trạng thái</th>
                     <th>Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  @foreach ($order as $item)
+                  @foreach ($orders as $item)
                     <tr>
-                      <td><a href="">{{ $item->code }}</a></td>
+                      <td><a href="{{route('admin.order.edit',$item->id)}}">{{ $item->code }}</a></td>
                       <td>
-                        <div class="d-flex" style="flex-direction: column ; align-items: flex-start">
-                          <div class="product_variant">
-                            <a  href="{{ route('admin.product.product_item.index',$item->id) }}" data-bs-toggle="modalView" data-bs-target="#exampleModalView">
-                              DS biến thể 
-                            </a>
-                          </div>
-                        </div>
+                        @if (isset($item->user))
+                          <a href="{{ route('admin.user.edit', $item->user->id) }}">
+                              {{ $item->user->fullname }}
+                          </a>
+                        @else
+                            {{ $item->fullname }} 
+                        @endif
                       </td> 
+                      <td>
+                        <span class="red">{{number_format($item->total_price)}}</span>
+                      </td>
+                      <td>
+                        {{$item->created_at}}
+                      </td>
+                      <td><a href="">{{ $item->paymentMethod->name }}</a></td>
+                      <td>
+                        @switch($item->status)
+                            @case(\App\Enums\Order\OrderStatus::Pending)
+                                <span class="badge rounded-pill badge-secondary">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                            @break
+
+                            @case(\App\Enums\Order\OrderStatus::Confirm)
+                              <span class="badge rounded-pill badge-primary">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                            @break
+
+                            @case(\App\Enums\Order\OrderStatus::Awaiting)
+                              <span class="badge rounded-pill badge-warning">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                            @break   
+
+                            @case(\App\Enums\Order\OrderStatus::InTransit)
+                             <span class="badge rounded-pill badge-info">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                            @break 
+
+                            @case(\App\Enums\Order\OrderStatus::Delivered)
+                             <span class="badge rounded-pill badge-success">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                            @break 
+
+                            @case(\App\Enums\Order\OrderStatus::Canceled)
+                             <span class="badge rounded-pill badge-danger">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                            @break 
+
+                            @case(\App\Enums\Order\OrderStatus::Returned)
+                             <span class="badge rounded-pill badge-dark">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                            @break 
+
+                            @default
+                              <span class="badge rounded-pill badge-secondary">Không xác định</span>
+                        @endswitch
+                      </td>
+                      <td>
+                        <form action="{{route('admin.order.delete',$item->id)}}" method="post">
+                          @csrf
+                          <button type="submit" class="btn btn-danger btn-icon" data-bs-toggle="modal" >
+                            <i class="fa fa-trash-alt"></i>
+                          </button>
+                        </form>
+                      </td>
                     </tr>
                   @endforeach
                 </tbody>

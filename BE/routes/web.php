@@ -8,7 +8,7 @@ Route::controller(App\Http\Controllers\Auth\RegisterController::class)
         Route::post('/', 'store')->name('store');
     });
 Route::controller(App\Http\Controllers\Auth\LoginController::class)
-    ->prefix('/admin/login')->as('admin.')->group(function () {
+    ->prefix('admin/login')->as('admin.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'login')->name('login');
         Route::get('/logout', 'logout')->name('logout');
@@ -63,6 +63,16 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
         });
         Route::prefix('/categories')->as('category.')->group(function () {
             Route::controller(App\Http\Controllers\Category\CategoryController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+                Route::put('/sua/{id}', 'update')->name('update');
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+        });
+        Route::prefix('/notifications')->as('notification.')->group(function () {
+            Route::controller(App\Http\Controllers\Notification\NotificationController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
@@ -166,7 +176,11 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
         Route::prefix('/orders')->as('order.')->group(function () {
             Route::controller(App\Http\Controllers\Order\OrderController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
+                Route::get('/{id}', 'delete')->name('delete');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+                
                 Route::get('/status/{status}', 'getByStatus')->name('status');
+                Route::post('/change-status/{order_id}', 'changeStatus')->name('changeStatus');
             });
         });
         Route::prefix('/discounts')->as('discount.')->group(function () {
@@ -177,6 +191,7 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::get('/sua/{id}', 'edit')->name('edit');
                 Route::put('/sua/{id}', 'update')->name('update');
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
+                Route::get('/inactive', 'inactive')->name('inactive');
             });
         });
         

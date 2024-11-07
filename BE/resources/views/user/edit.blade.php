@@ -94,7 +94,7 @@
                                         </select>
                                     </div>
                                     <div class="mb-3 col-4">
-                                        <label for="huyen" class="control-label">Huyện/Quận::</label>
+                                        <label for="huyen" class="control-label">Huyện/Quận:</label>
                                         <select id="huyen" class="form-select">
                                             <option value="">Chọn Huyện/Quận</option>
                                         </select>

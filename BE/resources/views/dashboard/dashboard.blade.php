@@ -98,7 +98,7 @@
           </div>
         </div>
       </div>
-      
+    
       <div class="row">
         <div class="col-md-4">
           <div class="card card-round">
@@ -145,7 +145,7 @@
                       <div class="status">{{ $item->email }}</div>
                     </div>
                     
-                    <a href="">View</a>
+                    <a href="{{route('admin.user.edit',$item->id)}}">View</a>
                     <button class="btn btn-icon btn-link btn-danger op-8">
                       <i class="fas fa-ban"></i>
                     </button>
@@ -192,30 +192,46 @@
                 <table class="table align-items-center mb-0">
                   <thead class="thead-light">
                     <tr>
-                      <th scope="col">Order Number</th>
+                      <th scope="col">Code</th>
+                      <th scope="col">Customer</th>
                       <th scope="col" class="text-end">Date & Time</th>
                       <th scope="col" class="text-end">Amount</th>
                       <th scope="col" class="text-end">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($getOrder as $item)
-                      <tr>
-                        <th scope="row">
-                          <button
-                            class="btn btn-icon btn-round btn-success btn-sm me-2"
-                          >
-                            <i class="fa fa-check"></i>
-                          </button>
-                          Order from {{ $item->code }}
-                        </th>
-                        <td class="text-end">{{ $item->created_at }}</td>
-                        <td class="text-end">{{ $item->total_price }}</td>
-                        <td class="text-end">
-                          <span class="badge badge-success">Completed</span>
-                        </td>
-                      </tr>
-                    @endforeach
+                    @if (isset($getOrder))
+                      @foreach ($getOrder as $item)
+                        <tr>
+                          <th scope="row">
+                            {{ $item->code }}
+                          </th>
+                          <td class="text-center">{{ $item->fullname }}</td>
+                          <td class="text-end">{{ $item->created_at }}</td>
+                          <td class="text-end">{{ number_format($item->total_price) }}</td>
+                          <td class="text-end">
+                            @switch($item->status)
+                                @case( \App\Enums\Order\OrderStatus::Pending)
+                                    <span class="badge badge-secondary">
+                                      {{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}
+                                    </span>
+                                    @break
+                                @case(\App\Enums\Order\OrderStatus::Completed)
+                                    <span class="badge badge-success">
+                                      {{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}
+                                    </span>
+                                    @break
+                                @default
+                                    
+                            @endswitch
+                          </td>
+                        </tr>
+                      @endforeach
+                    @else
+                        <tr>
+                          <td colspan="4">No data available in table</td>
+                        </tr>
+                    @endif
                   </tbody>
                 </table>
               </div>
@@ -223,6 +239,37 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-5 col-5">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title">BIỂU ĐỒ THỐNG KÊ</h5>
+            </div>
+            <div class="card-body">
+              <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+        <script>
+          window.onload = function() {
+              var chart = new CanvasJS.Chart("chartContainer", {
+                  animationEnabled: true,
+                  data: [{
+                      type: "doughnut",
+                      indexLabel: "{symbol}  {y}",
+                      yValueFormatString: "#,##0",
+                      showInLegend: true,
+                      legendText: "{label} : {y}",
+                      dataPoints: @json($dataPoints)
+                  }]
+              });
+              chart.render();
+          }
+        </script>
+        <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+      </div>
+
     </div>
 </div>
 @endsection

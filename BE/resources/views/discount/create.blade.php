@@ -39,55 +39,33 @@
                                 <h3 class="mb-0 strong text-center">Thông Tin Mã Giảm Giá</h3>
                             </div>
                             <div class="card-body">
-             
-                                <div class="mb-3">
-                                    <label for="code" class="form-label">Mã Giảm Giá<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="code" id="code" required value="{{ old('code') }}">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="code" class="form-label">Mã Giảm Giá<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="code" id="code" required value="{{ old('code') }}">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="discount_value" class="form-label">Giá Trị Giảm<span class="text-danger">*</span></label>
+                                        <input type="number" step="0.01" class="form-control" name="discount_value" id="discount_value" required value="{{ old('discount_value') }}">
+                                    </div>
                                 </div>
 
-                      
-                                <div class="mb-3">
-                                    <label for="discount_value" class="form-label">Giá Trị Giảm<span class="text-danger">*</span></label>
-                                    <input type="number" step="0.01" class="form-control" name="discount_value" id="discount_value" required value="{{ old('discount_value') }}">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="date_start" class="form-label">Ngày Bắt Đầu<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="date_start" id="date_start" required value="{{ old('date_start') }}">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="date_end" class="form-label">Ngày Kết Thúc<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="date_end" id="date_end" required value="{{ old('date_end') }}">
+                                    </div>
                                 </div>
 
-                   
-                                <div class="mb-3">
-                                    <label for="date_start" class="form-label">Ngày Bắt Đầu<span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" name="date_start" id="date_start" required value="{{ old('date_start') }}">
-                                </div>
-
-                   
-                                <div class="mb-3">
-                                    <label for="date_end" class="form-label">Ngày Kết Thúc<span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" name="date_end" id="date_end" required value="{{ old('date_end') }}">
-                                </div>
-
-                   
                                 <div class="mb-3">
                                     <label for="desc" class="form-label">Mô Tả</label>
                                     <textarea class="form-control" name="desc" id="desc" rows="3">{{ old('desc') }}</textarea>
-                                </div>
-
-                            
-                                <div class="mb-3">
-                                    <label for="type" class="form-label">Loại Giảm Giá<span class="text-danger">*</span></label>
-                                    <select required class="form-select" name="type">
-    @foreach (\App\Enums\Discount\DiscountType::asSelectArray() as $key => $value)
-        <option value="{{ (int) $key }}">{{ $value }}</option>
-    @endforeach
-</select>
-
-                                </div>
-
-                                
-                                <div class="mb-3">
-                                    <label for="status" class="form-label">Trạng Thái<span class="text-danger">*</span></label>
-                                    <select required class="form-select" name="status" id="status">
-    @foreach (\App\Enums\Discount\DiscountStatus::asSelectArray() as $key => $value)
-        <option value="{{ (int) $key }}">{{ $value }}</option>
-    @endforeach
-</select>
                                 </div>
                             </div>
                         </div>
@@ -100,6 +78,29 @@
                                 <button type="submit" class="btn btn-primary w-100 p-1-2" title="Thêm">
                                     Thêm
                                 </button>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">Thông Tin Khác</div>
+                            <div class="card-body p-2">
+                                <div class="mb-3">
+                                    <label for="type" class="form-label">Loại Giảm Giá<span class="text-danger">*</span></label>
+                                    <select required class="form-select" name="type">
+                                        @foreach (\App\Enums\Discount\DiscountType::asSelectArray() as $key => $value)
+                                            <option value="{{ (int) $key }}">{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Trạng Thái<span class="text-danger">*</span></label>
+                                    <select required class="form-select" name="status" id="status">
+                                        @foreach (\App\Enums\Discount\DiscountStatus::asSelectArray() as $key => $value)
+                                            <option value="{{ (int) $key }}">{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>

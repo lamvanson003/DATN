@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Subcription;
 use App\Models\Order;
+use App\Enums\Order\OrderStatus;
 
 class DashboardController extends Controller
 {
@@ -20,6 +21,19 @@ class DashboardController extends Controller
 
         $getUser = $this->getUserDash();
         $getOrder = $this->getOrderDash();
+        
+        $countUser = $this->countUser();
+        $countProduct = $this->countProduct();
+        $countSubcription = $this->countSubcription();
+        $countOrder = $this->countOrder();
+
+        $dataPoints = [
+            ["label" => "Người dùng", "y" => $countUser],
+            ["label" => "Sản phẩm", "y" => $countProduct],
+            ["label" => "Đăng ký", "y" => $countSubcription],
+            ["label" => "Đơn hàng", "y" => $countOrder],
+        ];
+
         return view('dashboard.dashboard',
         compact(
             'countUser',
@@ -28,7 +42,8 @@ class DashboardController extends Controller
             'countOrder',
 
             'getUser',
-            'getOrder'
+            'getOrder',
+            'dataPoints'
         )
         ); 
     }
@@ -36,7 +51,7 @@ class DashboardController extends Controller
 
 
     public function countUser(){
-        $q = User::count();
+        $q = User::where('roles',UserRole::User)->count();
         return $q;
     }
 
@@ -60,19 +75,11 @@ class DashboardController extends Controller
     }
 
     public function getOrderDash(){
-        $q = Order::orderBy('id','desc')->limit(10)->get();
+        $q = Order::orderBy('id','desc')
+        ->where('status',OrderStatus::Pending) 
+        ->orwhere('status',OrderStatus::Completed) 
+        ->limit(10)->get();
         return $q;
     }
-    
-
-
-
-
-
-
-
-
-
-
 }
 

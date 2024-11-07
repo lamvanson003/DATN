@@ -34,7 +34,7 @@
                         <td>{{ $item->storage }}</td>
                         <td>{{ number_format($item->price) }}</td>
                         <td><span class="red">{{ number_format($item->sale) ?? 'N/A' }}</span></td>
-                        <td> {{ $item->color }} </td>
+                        <td> {{ $item->color ?? 'N/A' }} </td>
                         <td>{{ $item->memory }}</td>
                     </tr>
                 @endforeach

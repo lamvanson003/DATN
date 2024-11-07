@@ -11,3 +11,4 @@ export { default as Loading } from "./Loading";
 export { default as Tab } from "./Tab";
 export { default as Filter } from "./Filter";
 export { default as InfoPro } from "./InfoPro";
+export { default as FlashSale } from "./FlashSale";

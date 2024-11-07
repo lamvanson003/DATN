@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import myImage from "../../assets/images/image.png";
 import icons from "../../ultis/icon";
 import { CartContext } from "../../context/Cart";
@@ -22,7 +22,6 @@ const Cart = () => {
   const handleNavigate = () => {
     navigate("/product");
   };
-  const [checkedItemsInCart, setCheckedItemsInCart] = useState([]);
 
   const handleCheckboxChange = (item) => {
     if (
@@ -38,10 +37,28 @@ const Cart = () => {
       );
     } else {
       // Nếu chưa có, thì thêm nó vào
-      setCheckedItemsInCart((prevCheckedItems) => [...prevCheckedItems, item]);
+      const itemInCart = cartItems.find(
+        (cartItem) => cartItem.color.sku === item.color.sku
+      );
+      const quantity = itemInCart.quantity ? itemInCart.quantity : 1;
+      setCheckedItemsInCart((prevCheckedItems) => [
+        ...prevCheckedItems,
+        { ...item, quantity },
+      ]);
     }
   };
-
+  useEffect(() => {
+    setCheckedItemsInCart((prevCheckedItems) =>
+      prevCheckedItems.map((checkedItem) => {
+        const itemInCart = cartItems.find(
+          (cartItem) => cartItem.color.sku === checkedItem.color.sku
+        );
+        return itemInCart
+          ? { ...checkedItem, quantity: itemInCart.quantity }
+          : checkedItem;
+      })
+    );
+  }, [cartItems]);
   const [discountCode, setDiscountCode] = useState("");
   const [finalPrice, setFinalPrice] = useState(0);
   const [applyStatus, setApplyStatus] = useState(false);
@@ -57,10 +74,12 @@ const Cart = () => {
       console.log("Có vấn đề!", err);
     }
   };
-
+  const [checkedItemsInCart, setCheckedItemsInCart] = useState([]);
+  console.log("checkedItems: ", checkedItemsInCart);
   const handleCheckout = () => {
     if (checkedItemsInCart.length > 0) {
-      navigate("/payment", { state: { checkedItems: checkedItemsInCart } });
+      localStorage.setItem("checkedItems", JSON.stringify(checkedItemsInCart));
+      navigate("/payment");
     } else {
       alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán.");
     }

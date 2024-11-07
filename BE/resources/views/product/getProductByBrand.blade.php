@@ -45,7 +45,7 @@
 
           <div class="card-body">
             <div class="table-responsive">
-              <table id="add-row" class="display table table-hover fix_table">
+              <table id="add-row" class="fontTable display table table-hover fix_table">
                 <thead>
                   <tr>
                     <th></th>
@@ -118,28 +118,6 @@
                       </div>   
                     </td>
                     </tr>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                              Chuyển trạng thái thành đã xóa
-                          </div>
-                          <div class="modal-footer">
-                            <form action="{{ route('admin.category.delete',$item->id) }}" method="POST">
-                              @csrf
-                              <input type="hidden" name="_method" value="DELETE">
-                              <button type="submit" class="btn btn-danger">Xóa</button>
-                            </form>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   @endforeach
                 </tbody>
               </table>
