@@ -93,3 +93,14 @@ Route::controller(PaymentController::class)->prefix('/payments')
 });
    
    
+
+Route::get('/firebase-config', function () {
+    return response()->json([
+        'apiKey' => config('firebase.server_key'),
+        'authDomain' => config('firebase.auth_domain'),
+        'projectId' => config('firebase.project_id'),
+        'storageBucket' => config('firebase.storage_bucket'),
+        'messagingSenderId' => config('firebase.sender_id'),
+        'appId' => config('firebase.app_id'),
+    ]);
+});

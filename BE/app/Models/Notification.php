@@ -10,11 +10,17 @@ class Notification extends Model
 {
     use HasFactory;
     protected $table = 'notifications';
-    protected $fillable = ['user_id','title','content','type','status','read_at'];
+    protected $fillable = ['user_id','title','message','type','status','read_at'];
 
-    protected $casts = [
+    protected $cast= [
         'status' => NotificationStatus::class,
         'read_at' => NotificationReadAt::class,
         'type' => NotificationType::class,
     ];
+
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
+    }
+
 }

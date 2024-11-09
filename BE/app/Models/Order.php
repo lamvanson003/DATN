@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\Order\OrderStatus;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 class Order extends Model
 {
     use HasFactory;
@@ -30,6 +31,14 @@ class Order extends Model
         return $this->belongsTo(User::class,'user_id');
     }
 
+    public function getOrder(){
+        $dateTime = Carbon::now();
+        $startTime = $dateTime->copy()->startOfMinute(10); 
+        $endTime = $dateTime->copy()->endOfMinute(10);
+    
+        return Order::whereBetween('created_at', [$startTime, $endTime])->get();
+    }
+    
     protected $cast = [
         'status' => OrderStatus::class,
     ];
