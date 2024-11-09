@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Comment\CommentController;
 use App\Http\Controllers\Api\Register\UsersRegisterController;
 use App\Http\Controllers\Api\Profile\UserProfileController;
 use App\Http\Controllers\Api\Discount\DiscountController;
+use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\Payment\PaymentController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
@@ -85,4 +86,10 @@ Route::controller(PaymentController::class)->prefix('/payments')
     Route::get('/callback', 'callback');
 });
    
-   
+Route::controller(PostController::class)->prefix('/posts')
+    ->as('post')
+    ->group(function () {
+        Route::get('/', 'index');  // Lấy tất cả bài viết
+        Route::get('/{slug}', 'detail');  // Lấy chi tiết bài viết theo slug
+        Route::get('/category/{slug}', 'postsByCategory');  // Lấy bài viết theo danh mục slug
+    });

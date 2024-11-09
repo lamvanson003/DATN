@@ -66,7 +66,9 @@
                     <div class="col-md-12 col-sm-12">
                         <div class="mb-3">
                             <label class="control-label">Thời gian đăng<span style="color: red">*</span>:</label>
-                            <input type="datetime-local" required class="form-control" name="posted_at" value="{{ old('posted_at') }}">
+                            <input type="datetime-local" required class="form-control" name="posted_at"
+                                value="{{ old('posted_at') ?? date('Y-m-d\TH:i') }}" 
+                                min="{{ date('Y-m-d\TH:i') }}" pattern="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}">
                         </div>
                     </div>
 

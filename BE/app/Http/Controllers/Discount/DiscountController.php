@@ -13,8 +13,18 @@ use Carbon\Carbon;
 
 class DiscountController extends Controller
 {
+    public function checkAndExpireDiscounts()
+    {
+        $now = Carbon::now();
+
+        Discount::where('status', DiscountStatus::Active)
+            ->where('date_end', '<', $now)
+            ->update(['status' => DiscountStatus::Expired]);
+    }
+
     public function index()
     {
+        $this->checkAndExpireDiscounts();
         $discounts = Discount::where('status', DiscountStatus::Active)->get();
         return view('discount.index', compact('discounts'));
     }

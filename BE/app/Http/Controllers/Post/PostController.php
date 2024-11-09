@@ -36,7 +36,7 @@ class PostController extends Controller
             'category_id.*' => 'exists:post_categories,id',
             'status' => 'required|in:' . implode(',', PostStatus::getValues()),
             'user_id' => 'required|exists:users,id',
-            'posted_at' => 'required|date',
+            'posted_at' => 'required|date|after_or_equal:' . now(),
         ]);
 
         $imagePath = null;
