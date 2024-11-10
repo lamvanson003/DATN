@@ -14,6 +14,7 @@ class LoginRequest extends BaseRequest
     protected function methodPost()
     {
         return [
+            'device_token' => ['required', 'string'],
             'email' => 'required|email',
             'password' => ['required', 'string', 'max:255'],
         ];

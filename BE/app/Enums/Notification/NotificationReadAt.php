@@ -6,17 +6,15 @@ use BenSampo\Enum\Enum;
 
 final class NotificationReadAt extends Enum
 {
-    const Read = 1;   
-    const Pending = 2; 
-    const Draft = 3;   
+    const Read = 2;   
+    const Not_Read = 1; 
 
    
     public static function asSelectArray(): array
     {
         return [
-            self::Active => 'Xuất bản',
-            self::Pending => 'Chờ xuất bản',
-            self::Draft => 'Nháp',
+            self::Read => 'Đã đọc',
+            self::Not_Read => 'Chưa đọc',
         ];
     }
 
@@ -24,9 +22,8 @@ final class NotificationReadAt extends Enum
     public static function getDescription($value): string
     {
         return match ($value) {
-            self::Active => 'Xuất bản',
-            self::Pending => 'Chờ xuất bản',
-            self::Draft => 'Nháp',
+            self::Read => 'Đã đọc',
+            self::Not_Read => 'Chưa đọc',
             default => 'Không xác định',
         };
     }
