@@ -1,3 +1,16 @@
+.more-images {
+  font-size: 20px; 
+  font-weight: bold; 
+  color: #FF5733; 
+  cursor: pointer; 
+  transition: color 0.3s ease; 
+}
+
+.more-images:hover {
+  color: #C70039; 
+}
+
+
 /* Fix image */
 .fix-image {
   height: 150px;

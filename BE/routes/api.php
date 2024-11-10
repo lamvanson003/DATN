@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Register\UsersRegisterController;
 use App\Http\Controllers\Api\Profile\UserProfileController;
 use App\Http\Controllers\Api\Discount\DiscountController;
 use App\Http\Controllers\Api\Payment\PaymentController;
+use App\Http\Controllers\Api\Slider\SliderController;
 use App\Http\Controllers\Api\Search\SearchController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
@@ -91,5 +92,22 @@ Route::controller(PaymentController::class)->prefix('/payments')
     Route::post('/', 'createPayment');
     Route::get('/callback', 'callback')->name('callback');
 });
+
+Route::controller(SliderController::class)->prefix('/sliders')
+->as('slider.')
+->group(function(){
+    Route::get('/', 'index');
+});
    
    
+
+Route::get('/firebase-config', function () {
+    return response()->json([
+        'apiKey' => config('firebase.server_key'),
+        'authDomain' => config('firebase.auth_domain'),
+        'projectId' => config('firebase.project_id'),
+        'storageBucket' => config('firebase.storage_bucket'),
+        'messagingSenderId' => config('firebase.sender_id'),
+        'appId' => config('firebase.app_id'),
+    ]);
+});

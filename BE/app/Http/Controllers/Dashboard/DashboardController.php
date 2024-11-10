@@ -21,12 +21,10 @@ class DashboardController extends Controller
 
         $getUser = $this->getUserDash();
         $getOrder = $this->getOrderDash();
-        
         $countUser = $this->countUser();
         $countProduct = $this->countProduct();
         $countSubcription = $this->countSubcription();
         $countOrder = $this->countOrder();
-
         $dataPoints = [
             ["label" => "Người dùng", "y" => $countUser],
             ["label" => "Sản phẩm", "y" => $countProduct],
