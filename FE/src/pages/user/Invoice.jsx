@@ -1,38 +1,67 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./css/Invoice.css";
 import logoCloudLab from "../../assets/images/iHome/logo.svg";
+import { useParams } from "react-router-dom";
+import { orderApi } from "../../apis";
+import { formatCurrency } from "../../ultis/func";
 const Invoice = () => {
+  const { id } = useParams();
+  const [invoiceDetail, setInvoiceDetail] = useState();
+  useEffect(() => {
+    try {
+      const fetchInvoice = async () => {
+        const res = await orderApi.getOne(id);
+        console.log(res.data.data.order_details);
+        setInvoiceDetail(res.data.data);
+      };
+      fetchInvoice();
+    } catch (err) {
+      console.log("Lỗi khi cố lấy dữ liệu hóa đơn", err);
+    }
+  }, [id]);
+  const totalAmount = invoiceDetail?.order_details?.reduce(
+    (total, item) =>
+      total + item.quantity * (item.sale !== 0 ? item.sale : item.price),
+    0
+  );
+  const tax = totalAmount * 0.1;
+  const totalPayment = totalAmount + tax;
+  const formattedDate = invoiceDetail?.created_at
+    ? new Intl.DateTimeFormat("vi-VN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }).format(new Date(invoiceDetail.created_at))
+    : "";
   return (
     <div className="invoice-container">
-      {/* Header */}
       <div className="header">
         <img src={logoCloudLab} alt="Logo Công ty" />
         <h1>HÓA ĐƠN GIÁ TRỊ GIA TĂNG</h1>
-        <p>Ngày 13 tháng 1 năm 2022</p>
+        <p>{formattedDate}</p>
         <p>Ký hiệu: 1K22TAB &nbsp;&nbsp; Số: 0000000</p>
       </div>
-
-      {/* Invoice Information */}
       <div className="invoice-info">
         <p>
-          <span className="bold">Họ tên người mua hàng:</span> Lê Bảo An
+          <span className="bold">Họ tên người mua hàng: </span>
+          {invoiceDetail?.fullname}
         </p>
         <p>
-          <span className="bold">Tên đơn vị:</span> Công Ty Cổ phần Minh Phát
+          <span className="bold">Tên đơn vị:</span> {invoiceDetail?.agency}
         </p>
         <p>
-          <span className="bold">Địa chỉ:</span> 34, đường Nguyễn Lân, quận
-          Thanh Xuân, Hà Nội
+          <span className="bold">Địa chỉ:</span> {invoiceDetail?.address}
         </p>
         <p>
-          <span className="bold">Mã số thuế:</span> 010100010022
+          <span className="bold">Mã số thuế:</span> {invoiceDetail?.TIN}
         </p>
         <p>
-          <span className="bold">Hình thức thanh toán:</span> TM/CK
+          <span className="bold">Hình thức thanh toán:</span>
+          {invoiceDetail?.payment_method_id === 1
+            ? "Thanh toán khi nhận hàng"
+            : "Thanh toán online"}
         </p>
       </div>
-
-      {/* Product Table */}
       <table className="table-container">
         <thead>
           <tr>
@@ -45,39 +74,49 @@ const Invoice = () => {
           </tr>
         </thead>
         <tbody>
-          {/* Example row, add actual data rows here */}
-          <tr>
-            <td>1</td>
-            <td>Sản phẩm A</td>
-            <td>Cái</td>
-            <td>10</td>
-            <td>100,000</td>
-            <td>1,000,000</td>
-          </tr>
+          {invoiceDetail?.order_details.map((item, index) => (
+            <tr key={item.id}>
+              <td>{index + 1}</td>
+              <td>
+                {item?.product_variant
+                  ? `${item.product_variant.name} ${item.product_variant.color} ${item.product_variant.storage}`
+                  : "Thông tin không có sẵn"}
+              </td>
+              <td>{invoiceDetail.unit}</td>
+              <td>{item?.quantity}</td>
+              <td>
+                {formatCurrency(item.sale !== 0 ? item.sale : item.price)}
+              </td>
+              <td>
+                {formatCurrency(
+                  (item.sale !== 0 ? item.sale : item.price) * item.quantity
+                )}
+              </td>
+            </tr>
+          ))}
           <tr>
             <td colSpan="5" style={{ textAlign: "right" }}>
               Cộng tiền hàng:
             </td>
-            <td>1,000,000</td>
+            <td>{formatCurrency(totalAmount ? totalAmount : 0)}</td>
           </tr>
           <tr>
             <td colSpan="5" style={{ textAlign: "right" }}>
               Tiền thuế GTGT:
             </td>
-            <td>100,000</td>
+            <td>{formatCurrency(tax ? tax : 0)}</td>
           </tr>
           <tr>
             <td colSpan="5" style={{ textAlign: "right" }}>
               <b>Tổng tiền thanh toán:</b>
             </td>
             <td>
-              <b>1,100,000</b>
+              <b>{formatCurrency(totalPayment ? totalPayment : 0)}</b>
             </td>
           </tr>
         </tbody>
       </table>
 
-      {/* Footer */}
       <div className="footer">
         <div className="signature-container">
           <div className="signature">
@@ -97,7 +136,7 @@ const Invoice = () => {
           </div>
         </div>
         <p>
-          Tra cứu tại Website:{" "}
+          Tra cứu tại Website:
           <a href="https://meInvoice.vn/tra-cuu/">meInvoice.vn/tra-cuu</a> - Mã
           tra cứu: GEHMFS8PP
         </p>

@@ -1,0 +1,142 @@
+[
+  {
+    "name": "Iphone 16 promax 512gb tím mộng mơ",
+    "image": "link_to_image_1.jpg",
+    "discount": 16,
+    "originalPrice": 100000,
+    "discountedPrice": 74000,
+    "review": {
+      "avatar": "link_to_avatar_1.jpg",
+      "name": "Zothing",
+      "rating": 4.5,
+      "date": "31/12/2024",
+      "comment": "Điện thoại tuyệt vời với thiết kế đẹp mắt, hiệu năng mạnh mẽ và pin cực trâu. Tuy nhiên, giá khá cao nhưng xứng đáng với những gì nó mang lại. Màu tím rất đẹp và sang trọng!"
+    }
+  },
+  {
+    "name": "Samsung Galaxy S30 Ultra 256GB Đen Nguyên Bản",
+    "image": "link_to_image_2.jpg",
+    "discount": 20,
+    "originalPrice": 120000,
+    "discountedPrice": 96000,
+    "review": {
+      "avatar": "link_to_avatar_2.jpg",
+      "name": "TechGeek",
+      "rating": 4.7,
+      "date": "20/11/2024",
+      "comment": "Samsung Galaxy S30 Ultra có camera chụp ảnh rất đẹp, zoom 100x rất ấn tượng. Màn hình sắc nét và mượt mà, pin cũng khá ổn. Phù hợp cho những ai đam mê công nghệ!"
+    }
+  },
+  {
+    "name": "Oppo Find X6 Pro 512GB Xanh Dương",
+    "image": "link_to_image_3.jpg",
+    "discount": 15,
+    "originalPrice": 90000,
+    "discountedPrice": 76500,
+    "review": {
+      "avatar": "link_to_avatar_3.jpg",
+      "name": "CameraFan",
+      "rating": 4.3,
+      "date": "05/01/2024",
+      "comment": "Oppo Find X6 Pro có camera rất tốt, đặc biệt là chế độ chụp đêm. Thiết kế đẹp, hiệu năng ổn, nhưng giao diện phần mềm hơi rối. Nói chung rất đáng giá!"
+    }
+  },
+  {
+    "name": "Xiaomi Mi 13 Pro 512GB Trắng Tinh Khôi",
+    "image": "link_to_image_4.jpg",
+    "discount": 10,
+    "originalPrice": 80000,
+    "discountedPrice": 72000,
+    "review": {
+      "avatar": "link_to_avatar_4.jpg",
+      "name": "XiaomiLover",
+      "rating": 4.6,
+      "date": "15/02/2024",
+      "comment": "Xiaomi Mi 13 Pro mang đến hiệu năng tốt, màn hình đẹp và pin trâu. Giá rất phải chăng so với chất lượng. Nhược điểm là máy hơi nóng khi sử dụng lâu."
+    }
+  },
+  {
+    "name": "Sony Xperia 1 IV 256GB Đen Bóng",
+    "image": "link_to_image_5.jpg",
+    "discount": 18,
+    "originalPrice": 110000,
+    "discountedPrice": 90200,
+    "review": {
+      "avatar": "link_to_avatar_5.jpg",
+      "name": "PhotoMaster",
+      "rating": 4.2,
+      "date": "10/03/2024",
+      "comment": "Sony Xperia 1 IV là lựa chọn tốt cho người thích chụp ảnh và quay phim, màn hình cực kỳ sắc nét. Tuy nhiên, thời lượng pin không ấn tượng lắm và giá khá cao."
+    }
+  },
+  {
+    "name": "Realme GT Neo 5 512GB Cam Đất",
+    "image": "link_to_image_6.jpg",
+    "discount": 12,
+    "originalPrice": 85000,
+    "discountedPrice": 74800,
+    "review": {
+      "avatar": "link_to_avatar_6.jpg",
+      "name": "GameFreak",
+      "rating": 4.1,
+      "date": "22/03/2024",
+      "comment": "Realme GT Neo 5 có hiệu năng rất mạnh cho game thủ, màn hình đẹp và tần số quét cao. Thiết kế trẻ trung, nhưng camera không phải điểm mạnh."
+    }
+  },
+  {
+    "name": "Huawei P60 Pro 512GB Xanh Ngọc",
+    "image": "link_to_image_7.jpg",
+    "discount": 17,
+    "originalPrice": 98000,
+    "discountedPrice": 81340,
+    "review": {
+      "avatar": "link_to_avatar_7.jpg",
+      "name": "ElegantUser",
+      "rating": 4.4,
+      "date": "30/04/2024",
+      "comment": "Huawei P60 Pro có thiết kế rất đẹp, camera chụp ảnh siêu nét và màu sắc rất trung thực. Không có dịch vụ Google là nhược điểm lớn nhất của máy."
+    }
+  },
+  {
+    "name": "Asus ROG Phone 7 Ultimate 1TB Đen",
+    "image": "link_to_image_8.jpg",
+    "discount": 14,
+    "originalPrice": 130000,
+    "discountedPrice": 111800,
+    "review": {
+      "avatar": "link_to_avatar_8.jpg",
+      "name": "ProGamer",
+      "rating": 4.8,
+      "date": "18/05/2024",
+      "comment": "Asus ROG Phone 7 Ultimate thực sự là một siêu phẩm cho game thủ, hiệu năng khủng và hệ thống tản nhiệt tốt. Tuy nhiên, máy khá nặng và giá cao."
+    }
+  },
+  {
+    "name": "OnePlus 11 Pro 256GB Xanh Rêu",
+    "image": "link_to_image_9.jpg",
+    "discount": 13,
+    "originalPrice": 95000,
+    "discountedPrice": 82650,
+    "review": {
+      "avatar": "link_to_avatar_9.jpg",
+      "name": "TechAddict",
+      "rating": 4.5,
+      "date": "07/06/2024",
+      "comment": "OnePlus 11 Pro có hiệu năng tuyệt vời, sạc nhanh ấn tượng và thiết kế rất đẹp. Camera tốt, nhưng không nổi bật như các đối thủ cùng tầm giá."
+    }
+  },
+  {
+    "name": "Google Pixel 8 Pro 512GB Xám Tro",
+    "image": "link_to_image_10.jpg",
+    "discount": 19,
+    "originalPrice": 105000,
+    "discountedPrice": 85050,
+    "review": {
+      "avatar": "link_to_avatar_10.jpg",
+      "name": "PixelFan",
+      "rating": 4.7,
+      "date": "28/07/2024",
+      "comment": "Google Pixel 8 Pro có camera tốt nhất trong tầm giá, hình ảnh rất đẹp và chân thực. Hệ điều hành Android thuần rất mượt, nhưng dung lượng pin hơi thấp."
+    }
+  }
+]
