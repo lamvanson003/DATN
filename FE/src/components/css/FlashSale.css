@@ -1,0 +1,82 @@
+.tabs {
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.flashsale {
+  border-radius: 22px;
+  padding: 10px;
+  background-color: rgb(240, 240, 240);
+  text-transform: uppercase;
+  font-weight: 600;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.flashsale:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+.flashsale:hover .countdown-part {
+  background-color: #fff;
+  color: #007bff;
+}
+.activeTab {
+  background-color: #007bff;
+  color: #fff;
+}
+.activeTab .countdown-part {
+  background-color: #fff;
+  color: #007bff;
+}
+.countdown {
+  margin-left: 5px;
+}
+.countdown-part {
+  margin: 0px 4px;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 8px;
+}
+.fs-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fsPros {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.fsproducts-container {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: calc(100% - 80px);
+}
+
+.arrow-container {
+  display: flex;
+  align-items: center;
+}
+
+.arrowfs {
+  font-size: 36px;
+  cursor: pointer;
+  padding: 4px;
+  font-weight: 600;
+  border-radius: 50%;
+}
+
+.arrowfs:hover {
+  color: #fff;
+  background-color: #007bff;
+}

@@ -63,15 +63,15 @@ const Detail = () => {
     const fetchDetailData = async () => {
       try {
         const data = await productApi.getOne(slug);
-        console.log("detailData:", data); // Kiểm tra dữ liệu nhận được
+        console.log("detailData:", data);
 
         if (data.product_image_items) {
           const newImage = {
-            id: Math.floor(Math.random() * 1000), // Tạo ID ngẫu nhiên
-            name: "mainImg", // Đặt tên
-            images: data.images, // Giả sử data.images là đường dẫn hình ảnh
+            id: Math.floor(Math.random() * 1000),
+            name: "mainImg",
+            images: data.images,
           };
-          data.product_image_items.push(newImage); // Thêm vào mảng hình ảnh
+          data.product_image_items.push(newImage);
         }
         setMain({
           id: data.id,
@@ -84,6 +84,10 @@ const Detail = () => {
           product_variant: data.product_variant,
         });
         setDetailData(data);
+        if (data.product_image_items && data.product_image_items.length > 0) {
+          setMainImage(data.product_image_items[0].images);
+          console.log("mainImage set to:", data.product_image_items[0].images);
+        }
       } catch (err) {
         console.log("Không thể lấy dữ liệu", err);
       }
@@ -91,7 +95,6 @@ const Detail = () => {
 
     fetchDetailData();
   }, [slug]);
-
   useEffect(() => {
     if (detailData.product_variant && detailData.product_variant.length > 0) {
       const firstStorage = detailData.product_variant[0];
@@ -102,7 +105,6 @@ const Detail = () => {
       } else {
         setActiveColor(firstVariant.color || "");
       }
-      setMainImage(firstVariant.images || "");
       setCurrentVariant({
         storage: firstStorage.storage,
         color: firstVariant,
@@ -145,6 +147,7 @@ const Detail = () => {
         storage: selectedStorage.storage,
         color: firstVariant,
       });
+      setMainImage(firstVariant.images || "");
     } else {
       console.log("Không tìm thấy dung lượng tương ứng");
     }
@@ -204,7 +207,7 @@ const Detail = () => {
                 >
                   <div
                     style={{ width: "100%", height: 355.2 }}
-                    className="d-flex  justify-content-center mb-2"
+                    className="d-flex  justify-content-center mb-2 "
                   >
                     <img
                       src={mainImage}
@@ -218,7 +221,9 @@ const Detail = () => {
                       detailData?.product_image_items.map((item, index) => (
                         <div
                           key={index}
-                          className=" mt-3 d-flex align-items-center justify-content-center"
+                          className={`mt-3 d-flex align-items-center justify-content-center  ${
+                            item?.images === mainImage ? "mainImg" : ""
+                          } `}
                         >
                           <img
                             src={item?.images}
@@ -394,7 +399,7 @@ const Detail = () => {
                       className="d-flex justify-content-center"
                     >
                       <BoxPro
-                        viewed={true}
+                        horizon
                         slug={item.slug}
                         image={item.images}
                         id={item.id}

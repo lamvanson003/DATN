@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Http\Resources\Api\Order\OrderResource;
 use Illuminate\Http\JsonResponse;
 use App\Enums\User\UserRole;
 use App\Models\ProductVariant;
@@ -15,8 +16,11 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller {
 
     public function detail($id){
-        $order = Order::with('order_details')->findOrfail($id);
-        return view('bill.index',compact('order'));
+        $order = Order::with('order_details.product_variant.product')->findOrfail($id);
+        return response()->json([
+            'success' => true,
+            'data' => new OrderResource($order)
+        ], 200);
     }
 
     public function create(Request $request){
@@ -38,7 +42,7 @@ class OrderController extends Controller {
         ]);
         try {
             DB::beginTransaction();
-            $code = random_int(1,9999);
+            $code = '#'.random_int(1,9999);
             $order = Order::create([
                 'code' => $code,
                 'user_id' => $validatedData['user_id'],
@@ -54,7 +58,7 @@ class OrderController extends Controller {
             ]);
     
             foreach ($validatedData['products'] as $productData) {
-                OrderDetail::create([
+                $orderDetail =OrderDetail::create([
                     'order_id' => $order->id,
                     'product_variant_id' => $productData['product_variant_id'],
                     'quantity' => $productData['quantity'],
@@ -69,12 +73,12 @@ class OrderController extends Controller {
                     $productVariant->save();
                 }
             }
-    
             DB::commit();
-
+            
             return response()->json([
                 'message' => 'Order processed successfully',
                 'order_id' => $order->id,
+                'product_variant_id' => $orderDetail -> product_variant_id,
                 'order_code' => $order->code,
             ], 200);
 

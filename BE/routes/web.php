@@ -1,17 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 
 Route::controller(App\Http\Controllers\Auth\RegisterController::class)
     ->prefix('admin/register')->as('register.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
     });
-Route::controller(App\Http\Controllers\Auth\LoginController::class)
-    ->prefix('/admin/login')->as('admin.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'login')->name('login');
-        Route::get('/logout', 'logout')->name('logout');
+   
+
+Route::prefix('admin/login')->as('admin.')->group(function () {
+    Route::get('/', [LoginController::class, 'index'])->name('index');
+    Route::post('/', [LoginController::class, 'login'])->name('login');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
@@ -64,6 +66,18 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
         Route::prefix('/categories')->as('category.')->group(function () {
             Route::controller(App\Http\Controllers\Category\CategoryController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+                Route::put('/sua/{id}', 'update')->name('update');
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
+            });
+        });
+        Route::prefix('/notifications')->as('notification.')->group(function () {
+            Route::controller(App\Http\Controllers\Notification\NotificationController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/{id}', 'detail')->name('detail');
+                Route::get('/type/{type}', 'type')->name('type');
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
                 Route::get('/sua/{id}', 'edit')->name('edit');
@@ -167,6 +181,9 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
             Route::controller(App\Http\Controllers\Order\OrderController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/{id}', 'delete')->name('delete');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+                Route::put('/sua/{id}', 'update')->name('update');
+                
                 Route::get('/status/{status}', 'getByStatus')->name('status');
                 Route::post('/change-status/{order_id}', 'changeStatus')->name('changeStatus');
             });

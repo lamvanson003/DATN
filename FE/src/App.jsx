@@ -16,6 +16,7 @@ import {
   BankingOnline,
   Contact,
   OrderDetail,
+  Invoice,
 } from "./pages/user";
 import { Routes, Route } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
@@ -50,7 +51,7 @@ function App() {
               <Route path={path.HISTORY} element={<History />} />
             </Route>
             <Route path={path.PAYMENT} element={<Payment />} />
-
+            <Route path={path.INVOICE} element={<Invoice />} />
             <Route path={path.BANKINGONLINE} element={<BankingOnline />} />
             <Route path={path.FAVOR} element={<Favor />} />
           </Route>

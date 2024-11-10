@@ -13,7 +13,6 @@ export const paymentApi = {
       );
       if (response.data.payment_url) {
         window.location.href = response.data.payment_url;
-        // console.log(response.data);
       } else {
         alert("Có lỗi xảy ra, vui lòng thử lại.");
       }

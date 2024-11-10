@@ -42,6 +42,7 @@ export const CartProvider = ({ children }) => {
               id: main.id,
               name: main.name,
               image: main.image,
+              slug: main.slug,
             },
           },
         ]);

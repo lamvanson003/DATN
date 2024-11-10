@@ -56,9 +56,21 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#danhsachthongbao">
+                  <a href="{{ route('admin.notification.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS thông báo</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.notification.type',['type' => \App\Enums\Notification\NotificationType::ORDER]) }}">
+                    <i class="fas fa-building"></i>
+                    <span>DS thông báo Đơn hàng</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.notification.type',['type' => \App\Enums\Notification\NotificationType::VOUCHER]) }}">
+                    <i class="fas fa-tags"></i>
+                    <span>DS thông báo Khuyến mãi</span>
                   </a>
                 </li>
               </ul>
