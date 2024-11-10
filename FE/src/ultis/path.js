@@ -16,7 +16,7 @@ const path = {
   PROFILE: "profile",
   FAVOR: "favor",
   BANKINGONLINE: "banking-online",
-
+  INVOICE__ID: "invoice/:id",
   //
 };
 export default path;

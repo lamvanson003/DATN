@@ -10,7 +10,7 @@ import logoReal from "../assets/images/iHome/realme.png";
 import "./css/Brand.css";
 const Brand = () => {
   return (
-    <div className="container">
+    <div className="container mt-5">
       <div
         className="carousel slide"
         data-bs-ride="carousel"

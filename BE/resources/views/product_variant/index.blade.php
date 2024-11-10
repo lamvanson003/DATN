@@ -53,7 +53,7 @@
 
           <div class="card-body">
             <div class="table-responsive">
-              <table id="basic-datatables" class="display table table-hover fix_table">
+              <table id="basic-datatables" class="fontTable table table-hover fix_table">
                 <thead>
                   <tr>
                     <th></th>
@@ -62,8 +62,8 @@
                     <th>Giá</th>
                     <th>Khuyến mãi</th>
                     <th>Số lượng</th>
-                    <th>Thời gian bảo hành</th>
                     <th>Lượt mua </th>
+                    <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
@@ -75,8 +75,8 @@
                     <th>Giá</th>
                     <th>Khuyến mãi</th>
                     <th>Số lượng</th>
-                    <th>Thời gian bảo hành</th>
                     <th>Lượt mua </th>
+                    <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </tfoot>
@@ -89,19 +89,39 @@
                       <td>{{ number_format($item->price) }}</td> 
                       <td><span class="red">{{ number_format($item->sale)??'N/A' }}</span></td> 
                       <td>{{ $item->instock }}</td> 
-                      <td>{{ $item->memory }}</td> 
                       <td>
                         @if($item->sold > 0)
                             {{ $item->sold }}
                         @else
                             <span class="badge text-danger">Chưa có lượt mua</span>
                         @endif
-                    </td>
+                      </td>
                       <td>
-                        
-                        <button type="button" class="btn btn-primary btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
-                          <i class="fa fa-pencil-alt"></i>
-                        </button>                       
+                        @switch($item->status)
+                            @case(\App\Enums\DefaultStatus::Active)
+                                <span class="badge rounded-pill badge-success">{{ \App\Enums\DefaultStatus::getDescription($item->status) }}</span>
+                            @break
+                            @case(\App\Enums\DefaultStatus::Inactive)
+                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\DefaultStatus::getDescription($item->status) }}</span>
+                            @break
+                            @case(\App\Enums\DefaultStatus::Deleted)
+                                <span class="badge rounded-pill badge-danger">{{ \App\Enums\DefaultStatus::getDescription($item->status) }}</span>
+                            @break
+                            @default
+                                <span class="badge rounded-pill badge-secondary">Không xác định</span>
+                        @endswitch
+                      </td> 
+                      
+                      <td >
+                        <div class="d-flex align-items-center gap-3">
+                          <button type="button" class="btn btn-primary btn-icon">
+                            <i class="fa fa-pencil-alt"></i>
+                          </button>                       
+
+                          <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                            <i class="fa fa-trash"></i>
+                          </button>             
+                        </div>          
                       </td>
                     </tr>
 
@@ -114,12 +134,14 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                              Bạn đang thêm Biến thể cho <span class="red">{{ $item->name }}</span>
+                              Bạn chỉ có thể chuyển trạng thái  <span class="red">{{ $item->storage }} </span>thành đã xóa.
                           </div>
                           <div class="modal-footer">
-                          <a href="{{ route('admin.product.product_item.create',[$item->id, $product->id]) }}">
-                              <button type="submit" class="btn btn-danger">Tiếp tục</button>
-                          </a>
+                            <form action="{{ route('admin.product.product_item.delete',[$product->id,$item->id]) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Tiếp tục</button>
+                            </form>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                           </div>
                         </div>

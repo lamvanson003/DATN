@@ -7,15 +7,20 @@ import {
   Countdown,
   Commercial,
   News,
+  FlashSale,
+  Recommend,
 } from "../../components";
 import "./css/Home.css";
 import { useSelector } from "react-redux";
 import { Brand } from "../../components";
 const Home = () => {
+  const url = new URL(window.location.href);
+  const responseCode = url.searchParams.get("vnp_ResponseCode");
+  console.log("vnp_ResponseCode:", responseCode);
   const { productsData } = useSelector((state) => state.pro);
   const [phonesData, setPhonesData] = useState([]);
   const [laptopsData, setLaptopsData] = useState([]);
-  console.log(productsData);
+
   useEffect(() => {
     if (productsData) {
       setPhonesData(productsData.phone);
@@ -25,19 +30,28 @@ const Home = () => {
 
   return (
     <>
-      {/* start banner */}
       <Banner />
-      {/* end banner */}
-      {/* start category */}
-      <Brand />
-      {/* end categoy */}
-      {/*  start sub banner */}
+
       <Sbanner />
-      {/* end  sub banner */}
-      {/* start product */}
+
+      <Brand />
+
       <div className="container mt-5">
-        <div className="row justify-content-center">
-          <p className="custom-text">Điện thoại</p>
+        <span className="d-flex align-items-center justify-content-between">
+          <span className="browseCloudlab">Sản phẩm mới ra mắt</span>
+          <span className="browseCloudlab">Sản phẩm bán chạy</span>
+          <span className="browseCloudlab">Sản phẩm được đánh giá cao</span>
+          <span className="browseCloudlab">Phù hợp với bạn</span>
+        </span>
+      </div>
+
+      <FlashSale fsproducts={phonesData} itemsPerPage={4} />
+
+      <div className="container mt-5">
+        <div className="row justify-content-start">
+          <span className="d-flex justify-content-between align-items-center">
+            <span className="fw-bold fs-3">Điện thoại</span>
+          </span>
           {phonesData.map((pro, index) => (
             <div key={index} className="col-md-2">
               <BoxPro
@@ -54,8 +68,7 @@ const Home = () => {
           ))}
         </div>
       </div>
-      {/* end product */}
-      {/* start hot product */}
+      <Recommend />
       <div className="container mt-5">
         <div className="row  flex-nowrap">
           <div className="col-md-2">
@@ -75,11 +88,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {/* end  hot product */}
-      {/* start countdown */}
-      <Countdown />
-      {/* end countdown */}
-      {/* start special product */}
+
       <div className="container mt-5">
         <div className="row  flex-nowrap">
           <div className="special-container">
@@ -133,18 +142,12 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {/* end special product */}
 
-      {/* start category */}
-      <Brand />
-      {/* end categoy */}
-      {/*  start sub banner */}
-      <Sbanner />
-      {/* end  sub banner */}
-      {/* start product */}
+      <Countdown />
+
       <div className="container mt-5">
-        <div className="row justify-content-center">
-          <p className="custom-text">Điện thoại</p>
+        <div className="row justify-content-start">
+          <p className="custom-text">Laptop</p>
           {laptopsData.map((pro, index) => (
             <div key={index} className="col-md-2">
               <BoxPro
@@ -161,8 +164,7 @@ const Home = () => {
           ))}
         </div>
       </div>
-      {/* end product */}
-      {/* start hot product */}
+
       <div className="container mt-5">
         <div className="row  flex-nowrap">
           <div className="col-md-2">
@@ -182,11 +184,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {/* end  hot product */}
-      {/* start countdown */}
-      <Countdown />
-      {/* end countdown */}
-      {/* start special product */}
+
       <div className="container mt-5">
         <div className="row  flex-nowrap">
           <div className="special-container">
@@ -240,13 +238,10 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {/* end special product */}
-      {/* start Commercial */}
+
       <Commercial />
-      {/* end Commercial */}
-      {/* start News */}
+
       <News />
-      {/* end News */}
     </>
   );
 };

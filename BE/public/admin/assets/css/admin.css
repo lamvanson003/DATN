@@ -1,3 +1,16 @@
+.more-images {
+  font-size: 20px; 
+  font-weight: bold; 
+  color: #FF5733; 
+  cursor: pointer; 
+  transition: color 0.3s ease; 
+}
+
+.more-images:hover {
+  color: #C70039; 
+}
+
+
 /* Fix image */
 .fix-image {
   height: 150px;
@@ -11,7 +24,9 @@
 .red {
   color: rgb(219, 49, 49);
 }
-
+.fontTable>thead>tr>th,.fontTable>tfoot>tr>th{
+  font-size: 10px;
+}
 .fix_size_text {
   font-weight: 500;
 }
@@ -29,6 +44,7 @@ tfoot>tr>th {
   border: 1px solid black;
   border-collapse: unset !important;
   background-color: #f8fafc !important;
+  text-transform: uppercase;
 }
 
 tbody>tr>td,

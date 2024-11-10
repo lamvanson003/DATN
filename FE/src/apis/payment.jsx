@@ -1,15 +1,23 @@
 import axios from "axios";
 export const paymentApi = {
-  create: async (orderData) => {
+  create: async (orderInfo) => {
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/payments", {
-        order_id: orderId,
-      });
-      if (response.data) {
-        window.location.href = response.data;
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/payments",
+        orderInfo,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.data.payment_url) {
+        window.location.href = response.data.payment_url;
+      } else {
+        alert("Có lỗi xảy ra, vui lòng thử lại.");
       }
     } catch (error) {
-      console.error("Lỗi khi tạo thanh toán:", error);
+      console.error("Lỗi thanh toán:", error);
     }
   },
 };

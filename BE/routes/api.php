@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\Profile\UserProfileController;
 use App\Http\Controllers\Api\Discount\DiscountController;
 use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\Payment\PaymentController;
+use App\Http\Controllers\Api\Slider\SliderController;
+use App\Http\Controllers\Api\Search\SearchController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
 ->as('category')
@@ -33,12 +35,18 @@ Route::controller(BrandController::class)->prefix('/brands')
     Route::get('/', 'index');
 });
 
+Route::controller(SearchController::class)->prefix('/searchs')
+->as('search')
+->group(function(){
+    Route::get('/', 'searchByProductOrVariant');
+});
+
 Route::controller(OrderController::class)->prefix('/orders')
 ->as('order')
 ->group(function(){
     Route::get('/', 'index');
-
     Route::post('/', 'create');
+    Route::get('/detail/{id}', 'detail')->name('detail');
 });
 
 Route::controller(CommentController::class)->prefix('/comments')
@@ -80,12 +88,30 @@ Route::controller(DiscountController::class)->prefix('/discounts')
     });
 
 Route::controller(PaymentController::class)->prefix('/payments')
-->as('payment')
+->as('payment.')
 ->group(function(){
     Route::post('/', 'createPayment');
-    Route::get('/callback', 'callback');
+    Route::get('/callback', 'callback')->name('callback');
+});
+
+Route::controller(SliderController::class)->prefix('/sliders')
+->as('slider.')
+->group(function(){
+    Route::get('/', 'index');
 });
    
+
+Route::get('/firebase-config', function () {
+    return response()->json([
+        'apiKey' => config('firebase.server_key'),
+        'authDomain' => config('firebase.auth_domain'),
+        'projectId' => config('firebase.project_id'),
+        'storageBucket' => config('firebase.storage_bucket'),
+        'messagingSenderId' => config('firebase.sender_id'),
+        'appId' => config('firebase.app_id'),
+    ]);
+});
+
 Route::controller(PostController::class)->prefix('/posts')
     ->as('post')
     ->group(function () {

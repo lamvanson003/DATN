@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('order:notification')->everyMinute();
         $schedule->call(function () {
             app(\App\Http\Controllers\Discount\DiscountController::class)->checkAndExpireDiscounts();
         })->daily();

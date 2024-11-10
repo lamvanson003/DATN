@@ -199,12 +199,6 @@
   align-items: center;
 }
 
-.custom-text {
-  font-size: 32px;
-  font-weight: bold;
-  margin: 10px;
-}
-
 .carousel-inner .brand-card-title {
   font-size: 18px;
   font-weight: bold;
@@ -526,3 +520,19 @@
 }
 
 /* end news */
+
+.browseCloudlab {
+  background: linear-gradient(to right, #00c9ff, #005aff);
+  color: #fff;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.browseCloudlab:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 15px rgba(0, 90, 255, 0.4);
+  filter: brightness(1.1);
+}
