@@ -48,7 +48,6 @@ const Recommend = () => {
   return (
     <div className="container mt-5">
       <span className="d-flex flex-column">
-        <span>ĐỀ XUẤT BỞI KHÁCH HÀNG</span>
         {rePro.length > 0 && (
           <span className="d-flex flex-column align-items-center">
             <span className="d-flex justify-content-center gap-2 align-items-center">

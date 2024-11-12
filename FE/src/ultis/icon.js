@@ -7,6 +7,13 @@ import {
   FaFire,
   FaQuoteLeft,
   FaQuoteRight,
+  FaMemory,
+  FaTv,
+  FaSyncAlt,
+  FaDatabase,
+  FaBolt,
+  FaShieldAlt,
+  FaFilter,
 } from "react-icons/fa";
 import {
   IoCartOutline,
@@ -88,5 +95,12 @@ const icons = {
   TbArrowBigLeftLineFilled,
   FaQuoteLeft,
   FaQuoteRight,
+  FaMemory,
+  FaTv,
+  FaSyncAlt,
+  FaDatabase,
+  FaBolt,
+  FaShieldAlt,
+  FaFilter,
 };
 export default icons;

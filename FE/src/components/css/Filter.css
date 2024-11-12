@@ -1,0 +1,250 @@
+.filter-button {
+  padding: 10px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.filter-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.6);
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  width: 60%; /* Giảm chiều rộng của modal */
+  max-width: 600px; /* Giới hạn chiều rộng tối đa */
+  max-height: 80vh; /* Giới hạn chiều cao */
+  overflow-y: auto; /* Hiển thị thanh cuộn khi nội dung quá lớn */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease;
+  border-top: 4px solid #007bff;
+}
+
+/* Tiêu đề modal */
+.modal-title {
+  font-size: 20px;
+  font-weight: bold;
+
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Modal body */
+.modal-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 16px;
+  max-height: calc(80vh - 120px); /* Giới hạn chiều cao modal body */
+  overflow-y: auto; /* Thanh cuộn cho modal body */
+}
+
+/* Bộ lọc section */
+.filter-section {
+  flex: 1 1 calc(33.33% - 20px);
+  padding: 16px;
+  background-color: #f3f8ff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-bottom: 16px; /* Thêm khoảng cách dưới mỗi phần */
+}
+.filter-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+.filter-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Option button */
+.options-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.option-button {
+  padding: 8px 12px;
+  background-color: #fff;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+.option-button:hover {
+  background-color: #007bff;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
+}
+.option-button.active {
+  background-color: #007bff;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.6);
+}
+
+/* Modal footer */
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.btn-close {
+  background-color: #ddd;
+  color: #333;
+}
+.btn-close:hover {
+  background-color: #ccc;
+}
+.btn-apply {
+  background-color: #007bff;
+
+  box-shadow: 0 3px 6px rgba(0, 123, 255, 0.4);
+}
+.btn-apply:hover {
+  background-color: #0056b3;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.6);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.range-price {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f3f8ff;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.range-price h3 {
+  font-size: 1.25rem;
+  color: #333;
+  margin-bottom: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.range-price .form-range {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: #ddd; /* Màu nền của thanh kéo */
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background-color 0.3s ease;
+  margin-bottom: 12px;
+}
+
+/* Cải thiện màu sắc và kiểu của thanh kéo */
+.range-price .form-range::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    #007bff 0%,
+    #007bff var(--progress),
+    #ddd var(--progress),
+    #ddd 100%
+  );
+}
+
+.range-price .form-range::-moz-range-track {
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    #007bff 0%,
+    #007bff var(--progress),
+    #ddd var(--progress),
+    #ddd 100%
+  );
+}
+
+/* Cải thiện phần nút kéo với hình tròn */
+.range-price .form-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #007bff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.range-price .form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #007bff;
+  cursor: pointer;
+}
+
+/* Màu sắc và hiệu ứng khi chọn giá trị */
+.range-price .form-range:focus {
+  outline: none;
+}
+
+.range-price .text-muted {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.range-price .text-muted span {
+  font-weight: bold;
+}
