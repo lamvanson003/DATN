@@ -10,6 +10,8 @@ import Fuse from "fuse.js";
 import { BoxPro } from ".";
 import { CartContext } from "../context/Cart";
 import { formatCurrency } from "../ultis/func";
+import { productApi } from "../apis";
+import { useParams } from "react-router-dom";
 
 const {
   BsSearch,
@@ -38,24 +40,27 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
     setIsFocus(false);
     setIsHover(false);
   }, [location]);
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     const term = e.target.value;
     setSearchTerm(e.target.value);
     if (!term) {
       setSearchProducts([]);
       return;
     }
-    // Cấu hình cho Fuse.js để tìm kiếm "fuzzy"
+
     const fuseOptions = {
       keys: ["name"],
       threshold: 0.3, // Độ nhạy cho phép (0 = chính xác, 1 = khớp ít chính xác hơn)
       includeScore: true,
     };
 
-    const allProducts = [
-      ...(productsData.phone || []),
-      ...(productsData.laptop || []),
-    ];
+    // const allProducts = [
+    //   ...(productsData.phone || []),
+    //   ...(productsData.laptop || []),
+    // ];
+
+    const allProducts = await productApi.search(term);
+    console.log(allProducts);
 
     const keywords = term.toLowerCase().split(/\s+/);
 
@@ -87,6 +92,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
         localStorage.setItem("storedHistory", JSON.stringify(updatedHistory));
       }
       setSearchTerm("");
+      navigate(`/product?search=${encodeURIComponent(searchTerm)}`);
     }
   };
 
@@ -94,6 +100,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
     setSearchTerm(term);
     handleSearch({ target: { value: term } });
     setIsFocus(true);
+    navigate(`/product?search=${encodeURIComponent(term)}`);
   };
 
   const handleDeleteSearch = () => {
@@ -148,6 +155,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
     localStorage.setItem("checkedItems", JSON.stringify(cartItems));
     navigate("/payment");
   };
+
   return (
     <>
       <div className="d-flex flex-column">

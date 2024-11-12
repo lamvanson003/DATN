@@ -1,31 +1,47 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./css/Product.css";
-import { BoxPro } from "../../components";
+import { BoxPro, Sbanner } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpZA, faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import * as action from "../../store/actions";
 import { Brand, Filter } from "../../components";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { productApi } from "../../apis";
 
 const Product = () => {
   const [pros, setPros] = useState([]);
   const { productsData } = useSelector((state) => state.pro);
   const [phonesData, setPhonesData] = useState([]);
   const [laptopsData, setLaptopsData] = useState([]);
-
-  useEffect(() => {
-    if (productsData) {
-      setPhonesData(productsData.phone);
-      setLaptopsData(productsData.laptop);
-    }
-    console.log(productsData);
-  }, [productsData]);
-
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search");
   const [active, setActive] = useState(0);
   const [curPage, setCurPage] = useState(1);
   const [itemsPerPage] = useState(8);
+
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      try {
+        if (searchTerm) {
+          const results = await productApi.search(searchTerm);
+          setPros(results);
+        } else if (productsData) {
+          setPhonesData(productsData.phone);
+          setLaptopsData(productsData.laptop);
+        }
+      } catch (error) {
+        console.error("Không thể lấy dữ liệu tìm kiếm:", error);
+      }
+    };
+    fetchSearchResults();
+  }, [searchTerm, productsData]);
+  useEffect(() => {
+    if (!searchTerm) {
+      setPros(active === 0 ? phonesData : laptopsData);
+    }
+  }, [active, phonesData, laptopsData, searchTerm]);
 
   const indexOfLastItem = curPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -81,7 +97,7 @@ const Product = () => {
       <section id="header">
         <div className="row">
           <div className="d-flex"></div>
-          <div className=" bg-Breadcrumb row">
+          <div className=" bg-Breadcrumb row mb-2">
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb mb-0">
                 <li className="breadcrumb-item">
@@ -93,45 +109,10 @@ const Product = () => {
               </ol>
             </nav>
           </div>
-          <div className="row mb-3">
-            <div className="col-md-4"></div>
-            <div className="col-md-8">
-              <div
-                className="d-flex align-items-center justify-content-end gap-4"
-                style={{ height: "100%" }}
-              >
-                <span
-                  style={{ cursor: "pointer" }}
-                  onClick={() => setSortOrder(1)}
-                >
-                  <FontAwesomeIcon
-                    icon={faArrowUpZA}
-                    size="xl"
-                    className={`increase ${sortOrder === 1 ? "fa-active" : ""}`}
-                  />
-                </span>
-                <span
-                  style={{ cursor: "pointer" }}
-                  onClick={() => setSortOrder(0)}
-                >
-                  <FontAwesomeIcon
-                    icon={faArrowDownAZ}
-                    size="xl"
-                    className={`decrease ${sortOrder === 0 ? "fa-active" : ""}`}
-                  />
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section id="body-product mt-5">
-        <div className="row">
-          <div className="col-md-3 p-3">
-            <div className="category">
-              <h3>Danh mục</h3>
-              <hr />
-              <div className="category-name">
+          <Sbanner product />
+          <div className="row my-3">
+            <div className="col-md-6">
+              <div className="category-buttons d-flex gap-2 ">
                 <button
                   className={`btn ${
                     active === 0 ? "btn-primary" : "btn-secondary"
@@ -150,29 +131,51 @@ const Product = () => {
                 </button>
               </div>
             </div>
-            <div className="range-prices">
-              <h3>Lọc theo giá</h3>
-              <hr />
-              <input
-                className="form-range"
-                id="customRange1"
-                type="range"
-                value={maxPrice}
-                onChange={handleRangeChange}
-                min="1000000"
-                max="100000000"
-              />
-              <span>
-                từ: {minPrice} đến: {maxPrice}
+            <div className="col-md-6 d-flex align-items-center justify-content-end gap-4">
+              <span
+                style={{ cursor: "pointer" }}
+                onClick={() => setSortOrder(1)}
+              >
+                <FontAwesomeIcon
+                  icon={faArrowUpZA}
+                  size="xl"
+                  className={`increase ${sortOrder === 1 ? "fa-active" : ""}`}
+                />
               </span>
+              <span
+                style={{ cursor: "pointer" }}
+                onClick={() => setSortOrder(0)}
+              >
+                <FontAwesomeIcon
+                  icon={faArrowDownAZ}
+                  size="xl"
+                  className={`decrease ${sortOrder === 0 ? "fa-active" : ""}`}
+                />
+              </span>
+              <Filter
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+                setMinPrice={setMinPrice}
+                setMaxPrice={setMaxPrice}
+              />
             </div>
-            <Filter />
           </div>
-          <div className="col-md-9 p-3">
-            <div className="row justify-content gap-3">
+        </div>
+      </section>
+      <section id="body-product ">
+        <div className="row">
+          <div className="col-md-12 p-3">
+            {searchTerm && (
+              <div style={{ backgroundColor: "#fff" }}>
+                Bạn đang tìm kiếm với từ khóa: {`${searchTerm}`}
+              </div>
+            )}
+
+            <div className="row justify-content ">
               <Brand />
+
               {sortedItems.map((item) => (
-                <div key={item?.id} className="col-md-2-product">
+                <div key={item?.id} className="col-md-3">
                   <BoxPro
                     id={item.id}
                     name={item.name}

@@ -1,11 +1,11 @@
 .recommend-pro {
   display: flex;
-  background: linear-gradient(to bottom, #4da6ff, #003366);
+
   color: #fff;
   padding: 24px 20px;
   gap: 25px;
   border-radius: 10px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+
   transition: transform 0.3s ease;
 }
 
