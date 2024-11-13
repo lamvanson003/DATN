@@ -18,7 +18,7 @@ const Detail = () => {
   const { addToCart, buyNow } = useContext(CartContext);
   const ref = useRef();
   const [detailData, setDetailData] = useState({});
- 
+
   const [loadingComment, setLoadingComment] = useState(false);
   const [activeStorage, setActiveStorage] = useState(null);
   const [activeColor, setActiveColor] = useState(null);
@@ -28,7 +28,7 @@ const Detail = () => {
   const [main, setMain] = useState();
   const [viewedProducts, setViewedProducts] = useState([]);
 
-  const [images, setImages] = useState([]); 
+  const [images, setImages] = useState([]);
   const [comment, setComment] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalContentRef = useRef(null);
@@ -69,7 +69,6 @@ const Detail = () => {
     const fetchDetailData = async () => {
       try {
         const data = await productApi.getOne(slug);
-        console.log("detailData:", data);
 
         if (data.product_image_items) {
           const newImage = {
@@ -92,7 +91,6 @@ const Detail = () => {
         setDetailData(data);
         if (data.product_image_items && data.product_image_items.length > 0) {
           setMainImage(data.product_image_items[0].images);
-          console.log("mainImage set to:", data.product_image_items[0].images);
         }
       } catch (err) {
         console.log("Không thể lấy dữ liệu", err);
@@ -187,25 +185,28 @@ const Detail = () => {
 
   // Mở modal
   const openModal = () => {
-      setIsModalOpen(true);
+    setIsModalOpen(true);
   };
 
   // Đóng modal
   const closeModal = () => {
-      setIsModalOpen(false);
+    setIsModalOpen(false);
   };
 
   const handleOutsideClick = (e) => {
-    if (modalContentRef.current && !modalContentRef.current.contains(e.target)) {
-        closeModal();
+    if (
+      modalContentRef.current &&
+      !modalContentRef.current.contains(e.target)
+    ) {
+      closeModal();
     }
-};
+  };
   // Submit comment
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!comment.trim()) {
-      alert('Vui lòng nhập bình luận!');
+      alert("Vui lòng nhập bình luận!");
       return;
     }
 
@@ -250,21 +251,33 @@ const Detail = () => {
           <div className="container">
             <div className="row ">
               <div className=" col-lg-6 col-md-5">
-              <div className="single-pro-image">
-                <div className="bg-img">
-                  <img src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg" alt="" width="100%" id="MainImg" />  
-                </div>
+                <div className="single-pro-image">
+                  <div className="bg-img">
+                    <img src={mainImage} alt="" width="100%" id="MainImg" />
+                  </div>
                   <div className="small-img-group gap-1">
-                    <div className="small-img-col">
-                      <img src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg" width="100%" className="smallimg" alt="" />
-                    </div>
-                    <div className="small-img-col">
-                      <img src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg" width="100%" className="smallimg" alt="" />
-                    </div>
+                    {detailData?.product_image_items &&
+                      detailData?.product_image_items.map((item, index) => (
+                        <div
+                          key={index}
+                          className={`small-img-col  ${
+                            item?.images === mainImage
+                              ? "active-small-img-col"
+                              : ""
+                          } `}
+                        >
+                          <img
+                            src={item?.images}
+                            style={{ width: "70%", cursor: "pointer" }}
+                            alt=""
+                            onClick={() => handleImageClick(item?.images)}
+                          />
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
-             
+
               <div className="col-lg-6 col-md-7 pt-3 box-detail-right">
                 <div className="product__details__text">
                   <div className="product-tag">
@@ -413,29 +426,30 @@ const Detail = () => {
               </div>
             </div>
             {viewedProducts.length > 0 && (
-                <div className="col-lg-4 col-md-4">
-                  <div className="d-flex flex-column justify-content-center viewedPr">
-                    <div className="d-flex align-items-center justify-content-between box-viewedTilte ">
-                      <h5 className="title"
-                        style={{
-                          paddingRight: 10,
-                          marginBottom: 0,
-                        }}
-                      >
-                        Sản phẩm đã xem
-                      </h5>
-                      <span
-                        className="d-flex justify-content-center"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => clearViewedProducts()}
-                      >
-                        Xóa tất cả
-                      </span>
-                    </div>
+              <div className="col-lg-4 col-md-4">
+                <div className="d-flex flex-column justify-content-center viewedPr">
+                  <div className="d-flex align-items-center justify-content-between box-viewedTilte ">
+                    <h5
+                      className="title"
+                      style={{
+                        paddingRight: 10,
+                        marginBottom: 0,
+                      }}
+                    >
+                      Sản phẩm đã xem
+                    </h5>
+                    <span
+                      className="d-flex justify-content-center"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => clearViewedProducts()}
+                    >
+                      Xóa tất cả
+                    </span>
+                  </div>
 
-                    {viewedProducts.map((item) => (
-                      <div className="box-viewP">
-                        <div key={item.id} className="d-flex box-item ">
+                  {viewedProducts.map((item) => (
+                    <div key={item.id} className="box-viewP">
+                      <div className="d-flex box-item ">
                         <BoxPro
                           horizon
                           slug={item.slug}
@@ -445,12 +459,11 @@ const Detail = () => {
                           variant={item.product_variant}
                         />
                       </div>
-                      </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              )}
-
+              </div>
+            )}
           </div>
         </section>
 
@@ -482,128 +495,136 @@ const Detail = () => {
         </section>
         <section id="Comments mt-5">
           <div className=" mt-5">
-        
             <div className="reviews ">
-              <div className="comments-section  pc:w-[80%]">
-                  <h3 className="title-review title">Khách hàng nói về sản phẩm</h3>
-                  <div class="review-container">
-                    <div class="review-content">
-                        <div class="review-text">
-                            <h3>Trở thành người đầu tiên đánh giá về sản phẩm.</h3>
-                            <button class="review-button" onClick={openModal}>Đánh giá về sản phẩm</button>
-                        </div>
-                        <div class="review-image">
-                            <img src="https://fptshop.com.vn/img/imgStar.png?w=1920&q=100" alt="img-star" />
-                        </div>
+              <div className="comments-section">
+                <h3 className="title-review title">
+                  Khách hàng nói về sản phẩm
+                </h3>
+                <div className="review-container">
+                  <div className="review-content">
+                    <div className="review-text">
+                      <h3>Trở thành người đầu tiên đánh giá về sản phẩm.</h3>
+                      <button className="review-button" onClick={openModal}>
+                        Đánh giá về sản phẩm
+                      </button>
+                    </div>
+                    <div className="review-image">
+                      <img
+                        src="https://fptshop.com.vn/img/imgStar.png?w=1920&q=100"
+                        alt="img-star"
+                      />
                     </div>
                   </div>
-                  <p className="comment-customer">Các đánh giá của khách hàng :</p>
-                  <div className="comment-item">
-                    <div className="comment-avatar d-flex">
-                      T
+                </div>
+                <p className="comment-customer">
+                  Các đánh giá của khách hàng :
+                </p>
+                <div className="comment-item">
+                  <div className="comment-avatar d-flex">T</div>
+                  <div className="comment-content">
+                    <div className="comment-info">
+                      <span className="comment-author">Nguyễn Văn A</span>
+                      <span className="comment-date">12/11/2024</span>
                     </div>
-                    <div className="comment-content">
-                      <div className="comment-info">
-                        <span className="comment-author">Nguyễn Văn A</span>
-                        <span className="comment-date">12/11/2024</span>
-                      </div>
-                      <p className="comment-text">Sản phẩm rất tốt! Tôi sẽ mua lại.</p>
-                      <div className="d-flex gap-2  "> 
-                        <img
-                          src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
-                          alt="Review Image"
-                          className="comment-image "
-                        />
-                        <img
-                          src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
-                          alt="Review Image"
-                          className="comment-image"
-                        />
-                      </div>
+                    <p className="comment-text">
+                      Sản phẩm rất tốt! Tôi sẽ mua lại.
+                    </p>
+                    <div className="d-flex gap-2  ">
+                      <img
+                        src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
+                        alt="Review Image"
+                        className="comment-image "
+                      />
+                      <img
+                        src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
+                        alt="Review Image"
+                        className="comment-image"
+                      />
                     </div>
                   </div>
-                  <div className="comment-item">
-                    <div className="comment-avatar d-flex">
-                      T
+                </div>
+                <div className="comment-item">
+                  <div className="comment-avatar d-flex">T</div>
+                  <div className="comment-content">
+                    <div className="comment-info">
+                      <span className="comment-author">Nguyễn Văn A</span>
+                      <span className="comment-date">12/11/2024</span>
                     </div>
-                    <div className="comment-content">
-                      <div className="comment-info">
-                        <span className="comment-author">Nguyễn Văn A</span>
-                        <span className="comment-date">12/11/2024</span>
-                      </div>
-                      <p className="comment-text">Sản phẩm rất tốt! Tôi sẽ mua lại.</p>
-                      {/* <img
+                    <p className="comment-text">
+                      Sản phẩm rất tốt! Tôi sẽ mua lại.
+                    </p>
+                    {/* <img
                         src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
                         alt="Review Image"
                         className="comment-image"
                       /> */}
-                    </div>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </section>
       </div>
 
-       {/* Modal */}
-       {isModalOpen && (
-                <div className="modal" onClick={handleOutsideClick}>
-                    <div className="modal-content" ref={modalContentRef}>
-                        <span className="close" onClick={closeModal}>
-                            &times;
-                        </span>
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="modal" onClick={handleOutsideClick}>
+          <div className="modal-content" ref={modalContentRef}>
+            <span className="close" onClick={closeModal}>
+              &times;
+            </span>
 
-                        <div className="form-comment">
-                            <span className="comment-label">
-                               Vui lòng để lại cảm nghĩ về sản phẩm:
-                            </span>
-                            <form className="comment-form" onSubmit={handleSubmit}>
-                                <textarea
-                                    className="comment-textarea"
-                                    placeholder="Hãy nêu suy nghĩ của bạn"
-                                    value={comment}
-                                    onChange={(e) => setComment(e.target.value)}
-                                />
+            <div className="form-comment">
+              <span className="comment-label">
+                Vui lòng để lại cảm nghĩ về sản phẩm:
+              </span>
+              <form className="comment-form" onSubmit={handleSubmit}>
+                <textarea
+                  className="comment-textarea"
+                  placeholder="Hãy nêu suy nghĩ của bạn"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
 
-                                <div className="form-footer">
-                                    <div className="image-upload">
-                                        <input
-                                            type="file"
-                                            multiple
-                                            accept="image/*"
-                                            onChange={handleImageChange}
-                                            id="image-upload"
-                                        />
-                                        <label htmlFor="image-upload" className="upload-label">
-                                            <i className="fas fa-image"></i> Chọn hình ảnh
-                                        </label>
-                                    </div>
+                <div className="form-footer">
+                  <div className="image-upload">
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      id="image-upload"
+                    />
+                    <label htmlFor="image-upload" className="upload-label">
+                      <i className="fas fa-image"></i> Chọn hình ảnh
+                    </label>
+                  </div>
 
-                                    <button
-                                        className="btn-submit"
-                                        type="submit"
-                                        disabled={loadingComment}
-                                    >
-                                        {loadingComment ? "Đang gửi ..." : "Gửi đánh giá"}
-                                    </button>
-                                </div>
-                            </form>
-
-                            {/* Hiển thị hình ảnh đã chọn */}
-                            <div className="image-preview">
-                                {images.map((image, index) => (
-                                    <img
-                                        key={index}
-                                        src={image}
-                                        alt={`chosen-preview-${index}`}
-                                        className="preview-img"
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+                  <button
+                    className="btn-submit"
+                    type="submit"
+                    disabled={loadingComment}
+                  >
+                    {loadingComment ? "Đang gửi ..." : "Gửi đánh giá"}
+                  </button>
                 </div>
-        )}
+              </form>
+
+              {/* Hiển thị hình ảnh đã chọn */}
+              <div className="image-preview">
+                {images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`chosen-preview-${index}`}
+                    className="preview-img"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

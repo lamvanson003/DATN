@@ -31,7 +31,7 @@ const Tab = ({ detailData }) => {
         </li>
       </ul>
 
-      <div className="tab-content mt-4">
+      <div className="tab-content" style={{ padding: 10 }}>
         <div
           className={`tab-pane fade ${
             activeTab === "tab1" ? "show active" : ""
