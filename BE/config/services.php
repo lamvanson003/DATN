@@ -32,14 +32,14 @@ return [
     ],
 
     'firebase' => [
-    'api_key' => env('FIREBASE_SERVER_KEY'),
-    'auth_domain' => 'your-project-id.firebaseapp.com',
-    'database_url' => 'https://your-project-id.firebaseio.com',
-    'project_id' => 'your-project-id',
-    'storage_bucket' => 'your-project-id.appspot.com',
-    'messaging_sender_id' => env('FIREBASE_SENDER_ID'),
-    'app_id' => 'your-app-id',
-    'measurement_id' => 'G-measurement-id',
+        'api_key' => env('FIREBASE_SERVER_KEY'),  
+        'auth_domain' => env('FIREBASE_AUTH_DOMAIN'),  
+        'database_url' => env('FIREBASE_DATABASE_URL'),  
+        'project_id' => env('FIREBASE_PROJECT_ID'),  
+        'storage_bucket' => env('FIREBASE_STORAGE_BUCKET'),  
+        'messaging_sender_id' => env('FIREBASE_MESSAGING_SENDER_ID'),  
+        'app_id' => env('FIREBASE_APP_ID'),  
+        'measurement_id' => env('FIREBASE_MEASUREMENT_ID'),  
     ],
 
     'vnpay' => [

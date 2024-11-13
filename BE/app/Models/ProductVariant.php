@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Enums\DefaultStatus;
 class ProductVariant extends Model
 {
     use HasFactory;
@@ -30,5 +30,9 @@ class ProductVariant extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public $cast = [
+        'status' => DefaultStatus::class
+    ];
 
 }

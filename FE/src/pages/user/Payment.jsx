@@ -49,21 +49,18 @@ const Payment = () => {
       return JSON.parse(itemsFromLocalStorage);
     }
     return checkedItems.length > 0 ? checkedItems : [];
-  }, [checkedItems]); // chỉ tính lại khi checkedItems thay đổi
-  console.log(orderItems);
+  }, [checkedItems]);
 
   useEffect(() => {
     if (Array.isArray(orderItems) && orderItems.length === 0) {
       navigate("/product");
     }
   }, [orderItems, navigate]);
-  const total_price = orderItems.reduce(
-    (total, item) =>
-      (total += item?.color?.sale
-        ? item?.color?.sale
-        : item?.color?.price * item.quantity),
-    0
-  );
+  const total_price = orderItems.reduce((total, item) => {
+    const price = item?.color?.sale ? item.color.sale : item.color.price;
+
+    return total + price * item.quantity; // Đảm bảo nhân với số lượng
+  }, 0);
 
   const handleChangePaymentMethod = (e) => {
     const selectedValue = Number(e.target.value);
@@ -163,7 +160,7 @@ const Payment = () => {
     }));
     setProducts(updatedProducts);
   }, []);
-  const excutePayment = () => {
+  const excutePayment = async () => {
     const newValidFields = {
       name: customerInfo.name !== "",
       phone: customerInfo.phone !== "",
@@ -212,30 +209,28 @@ const Payment = () => {
       products: products,
     };
 
-  // paymentMethod === 1 thanh toán Online
     if (paymentMethod === 1) {
       paymentApi.create(orderInfo);
     } else {
-      orderApi.create(orderInfo);
-      // const itemsLeft = (cartItems, checkedItems) =>
-      //   cartItems.filter(
-      //     (cartItem) =>
-      //       !checkedItems.some(
-      //         (checkedItem) => checkedItem.variantKey === cartItem.variantKey
-      //       )
-      //   );
-      // const updatedItemsLeft = itemsLeft(cartItems, checkedItems);
-      // setCartItems(updatedItemsLeft);
-      // localStorage.setItem("cartItems", JSON.stringify(updatedItemsLeft));
+      try {
+        const res = await orderApi.create(orderInfo);
+        const LeftItems = cartItems.filter(
+          (item) => item.color.id !== res.data.product_variant_id
+        );
+        console.log(LeftItems);
+        setCartItems(LeftItems);
+        localStorage.setItem("cartItems", JSON.stringify(LeftItems));
+      } catch (err) {
+        console.log("có lỗi xảy ra khi: ", err);
+      }
+
+      setIsSendingSuccess(true);
     }
   };
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
-  // paymentApi.create(orderData);
-  const closeModal = () => {
-    setIsSendingSuccess(false);
-  };
+
   useEffect(() => {
     return () => {
       if (location.pathname === "/payment") {
@@ -244,22 +239,23 @@ const Payment = () => {
       }
     };
   }, [location.pathname]);
-
+  const handleNaPro = () => {
+    navigate("/product");
+  };
   return (
     <>
       {isSendingSuccess && (
         <div className="custom-modal-overlay">
           <div className="custom-modal">
             <h2>Thông báo đơn hàng</h2>
-            <p>Đơn hàng của bạn đã được gửi đi, Vui lòng chờ đợi xác nhận</p>
+            <p>Đơn hàng của bạn đã được gửi đi, Vui lòng chờ xác nhận !</p>
             <div className="modal-img-container">
               <img className="modal-img" src={sending} alt="" />
             </div>
             <div className="group-custom-modal-button">
               <span className="custom-modal-button">chi tiết hóa đơn</span>
-              <span className="custom-modal-button">trang chủ</span>
-              <span className="custom-modal-button" onClick={closeModal}>
-                Đóng
+              <span className="custom-modal-button" onClick={handleNaPro}>
+                Trang sản phẩm
               </span>
             </div>
           </div>

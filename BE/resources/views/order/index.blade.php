@@ -33,13 +33,14 @@
 
           <div class="card-body">
             <div class="table-responsive">
-              <table id="add-row" class="display table table-hover fix_table">
+              <table id="add-row" class="fontTable display table table-hover fix_table">
                 <thead>
                   <tr>
                     <th>Mã</th>
                     <th>Khách hàng</th>
                     <th>Tổng tiền</th>
                     <th>Ngày tạo</th>
+                    <th>Phương thức thanh toán</th>
                     <th>Trạng thái</th>
                     <th>Hành động</th>
                   </tr>
@@ -50,16 +51,17 @@
                     <th>Khách hàng</th>
                     <th>Tổng tiền</th>
                     <th>Ngày tạo</th>
+                    <th>Phương thức thanh toán</th>
                     <th>Trạng thái</th>
                     <th>Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  @foreach ($order as $item)
+                  @foreach ($orders as $item)
                     <tr>
-                      <td><a href="">{{ $item->code }}</a></td>
+                      <td><a href="{{route('admin.order.edit',$item->id)}}">{{ $item->code }}</a></td>
                       <td>
-                        @if ($item->user)
+                        @if (isset($item->user))
                           <a href="{{ route('admin.user.edit', $item->user->id) }}">
                               {{ $item->user->fullname }}
                           </a>
@@ -73,6 +75,7 @@
                       <td>
                         {{$item->created_at}}
                       </td>
+                      <td><a href="">{{ $item->paymentMethod->name }}</a></td>
                       <td>
                         @switch($item->status)
                             @case(\App\Enums\Order\OrderStatus::Pending)

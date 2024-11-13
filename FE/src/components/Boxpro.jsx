@@ -2,10 +2,13 @@ import React, { useEffect, useState, useContext } from "react";
 import "./css/Boxpro.css";
 import { Link, useParams } from "react-router-dom";
 import proImg from "../assets/images/iHome/image.png";
+import fire from "../assets/images/iHome/fire.png";
 import { CartContext } from "../context/Cart";
 import { memo } from "react";
 import { FavorContext } from "../context/Favor";
 import { formatCurrency, handleNumber } from "../ultis/func";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCogs, faFire } from "@fortawesome/free-solid-svg-icons";
 import icons from "../ultis/icon";
 const BoxPro = ({
   id,
@@ -15,9 +18,12 @@ const BoxPro = ({
   brand,
   category,
   product_image_items,
-  viewed,
+  horizon,
   variant,
   hot,
+  hoverCart,
+  hoverCartItem,
+  flashsale,
 }) => {
   const { IoIosStar, IoIosStarHalf, IoIosStarOutline, FaFire } = icons;
   const [currentVariant, setCurrentVariant] = useState();
@@ -90,13 +96,111 @@ const BoxPro = ({
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
   return (
     <div>
-      {viewed ? (
+      {flashsale ? (
         <div
-          className="d-flex justify-content-between p-2 my-2 rounded viewedP"
+          className="card product-card"
+          style={{
+            width: "18rem",
+            borderRadius: "10px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <div
+            className="position-absolute top-0 start-0 m-2 badge bg-danger text-white"
+            style={{ borderRadius: "5px", fontSize: "12px" }}
+          >
+            <FontAwesomeIcon icon={faCogs} className="me-1" /> Siêu sale
+          </div>
+          <div
+            className="position-absolute top-0 end-0 m-2 badge  "
+            style={{ borderRadius: "5px", fontSize: "12px" }}
+          >
+            <span
+              className="badge bg-warning text-dark"
+              style={{ fontSize: "0.8rem" }}
+            >
+              -67%
+            </span>
+          </div>
+
+          <img
+            src={image}
+            className="card-img-top p-3"
+            alt="Product"
+            style={{
+              width: "100%",
+              height: "200px",
+              objectFit: "contain",
+              borderRadius: "10px 10px 0 0",
+              marginTop: 10,
+            }}
+          />
+
+          <div className="card-body text-center">
+            <h5
+              className="card-title"
+              style={{ fontSize: "1rem", fontWeight: "bold" }}
+            >
+              {name}
+            </h5>
+
+            <div
+              className="price-container d-flex justify-content-center align-items-center mb-1"
+              style={{ gap: "8px" }}
+            >
+              <p
+                className="price text-danger mb-0"
+                style={{ fontSize: "1.2rem", fontWeight: "bold" }}
+              >
+                290.000₫
+              </p>
+              <p
+                className="text-muted text-decoration-line-through mb-0"
+                style={{ fontSize: "0.9rem" }}
+              >
+                890.000₫
+              </p>
+            </div>
+
+            <div
+              className="progress my-3 position-relative"
+              style={{ height: "20px", borderRadius: "10px" }}
+            >
+              <div
+                className="progress-bar"
+                role="progressbar"
+                style={{ width: "60%", backgroundColor: "orange" }}
+                aria-valuenow="60"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                Còn 6/10 suất
+              </div>
+            </div>
+
+            <button
+              className="btn btn-primary btn-sm"
+              style={{
+                borderRadius: "20px",
+                width: "100%",
+                fontWeight: "bold",
+              }}
+            >
+              Mua ngay
+            </button>
+          </div>
+        </div>
+      ) : horizon ? (
+        <div
+          className="d-flex  p-2 my-2 rounded viewedP"
           style={{ backgroundColor: "#fff", cursor: "pointer" }}
         >
           <span className="me-4 d-flex align-items-center">
-            <Link to={`/detail/${slug ? slug : ""}`}>
+            <Link
+              to={`/detail/${
+                hoverCartItem?.main?.slug ? hoverCartItem?.main?.slug : slug
+              }`}
+            >
               <img
                 src={image}
                 alt={name}
@@ -105,29 +209,80 @@ const BoxPro = ({
             </Link>
           </span>
           <span
-            className="p-2 d-flex flex-column justify-content-center gap-2"
+            className="p-2 d-flex flex-column justify-content-between"
             style={{ width: 200 }}
           >
             <span className="fw-semibold">
               <Link
-                to={`/detail/${slug ? slug : ""}`}
+                to={`/detail/${
+                  hoverCartItem?.main?.slug ? hoverCartItem?.main?.slug : slug
+                }`}
                 style={{ textDecoration: "none" }}
               >
-                {name.length > 25 ? `${name.substring(0, 25)}...` : name}
+                {name?.length > 25 ? `${name?.substring(0, 25)}...` : name}
               </Link>
             </span>
-            <span className="text-danger">
-              {currentVariant?.color?.sale
-                ? currentVariant?.color?.sale > 100000000
-                  ? handleNumber(currentVariant?.color?.sale)
-                  : formatCurrency(currentVariant?.color?.sale)
-                : currentVariant?.color?.price
-                ? currentVariant?.color?.price > 100000000
-                  ? handleNumber(currentVariant?.color?.price)
-                  : formatCurrency(currentVariant?.color?.price)
-                : "---"}
+            <span>
+              {!hoverCart ? (
+                <span>
+                  <span className="text-danger me-2">
+                    {currentVariant?.color?.sale
+                      ? currentVariant?.color?.sale > 100000000
+                        ? handleNumber(currentVariant?.color?.sale)
+                        : formatCurrency(currentVariant?.color?.sale)
+                      : currentVariant?.color?.price
+                      ? currentVariant?.color?.price > 100000000
+                        ? handleNumber(currentVariant?.color?.price)
+                        : formatCurrency(currentVariant?.color?.price)
+                      : "---"}
+                  </span>
+                  {currentVariant?.color?.sale && (
+                    <span className="text-decoration-line-through">
+                      {currentVariant?.color?.price > 100000000
+                        ? handleNumber(currentVariant?.color?.price)
+                        : formatCurrency(currentVariant?.color?.price)}
+                    </span>
+                  )}
+                </span>
+              ) : (
+                <span>
+                  <span className="text-danger me-2">
+                    {hoverCartItem?.color?.sale
+                      ? hoverCartItem?.color?.sale > 100000000
+                        ? handleNumber(hoverCartItem?.color?.sale)
+                        : formatCurrency(hoverCartItem?.color?.sale)
+                      : hoverCartItem?.color?.price
+                      ? hoverCartItem?.color?.price > 100000000
+                        ? handleNumber(hoverCartItem?.color?.price)
+                        : formatCurrency(hoverCartItem?.color?.price)
+                      : "---"}
+                  </span>
+                  {hoverCartItem?.color?.sale && (
+                    <span className="text-decoration-line-through">
+                      {hoverCartItem?.color?.price > 100000000
+                        ? handleNumber(hoverCartItem?.color?.price)
+                        : formatCurrency(hoverCartItem?.color?.price)}
+                    </span>
+                  )}
+                </span>
+              )}
             </span>
           </span>
+          {hoverCart && (
+            <span className="d-flex flex-column p-2 justify-content-between">
+              <span className="d-flex gap-2">
+                <span className="badge text-bg-info">
+                  {hoverCartItem?.color.color}
+                </span>
+                <span className="badge text-bg-info">
+                  {hoverCartItem?.storage}
+                </span>
+              </span>
+              <span style={{ fontWeight: 600, fontSize: 20 }}>
+                x{hoverCartItem.quantity}
+              </span>
+            </span>
+          )}
         </div>
       ) : (
         <div className="card">

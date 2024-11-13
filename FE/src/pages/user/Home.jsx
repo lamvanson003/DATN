@@ -7,6 +7,7 @@ import {
   Countdown,
   Commercial,
   News,
+  FlashSale,
 } from "../../components";
 import "./css/Home.css";
 import { useSelector } from "react-redux";
@@ -35,9 +36,15 @@ const Home = () => {
       <Sbanner />
       {/* end  sub banner */}
       {/* start product */}
+      <FlashSale fsproducts={phonesData} itemsPerPage={4} />
       <div className="container mt-5">
         <div className="row justify-content-center">
-          <p className="custom-text">Điện thoại</p>
+          <span className="d-flex justify-content-between align-items-center">
+            <span className="fw-bold fs-3">Điện thoại</span>
+            {/* <span style={{ cursor: "pointer" }} className="text-secondary">
+              xem thêm
+            </span> */}
+          </span>
           {phonesData.map((pro, index) => (
             <div key={index} className="col-md-2">
               <BoxPro

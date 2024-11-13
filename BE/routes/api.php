@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Profile\UserProfileController;
 use App\Http\Controllers\Api\Discount\DiscountController;
 use App\Http\Controllers\Api\Payment\PaymentController;
 use App\Http\Controllers\Api\Slider\SliderController;
+use App\Http\Controllers\Api\Search\SearchController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
 ->as('category')
@@ -31,6 +32,12 @@ Route::controller(BrandController::class)->prefix('/brands')
 ->as('brand')
 ->group(function(){
     Route::get('/', 'index');
+});
+
+Route::controller(SearchController::class)->prefix('/searchs')
+->as('search')
+->group(function(){
+    Route::get('/', 'searchByProductOrVariant');
 });
 
 Route::controller(OrderController::class)->prefix('/orders')
@@ -93,3 +100,14 @@ Route::controller(SliderController::class)->prefix('/sliders')
 });
    
    
+
+Route::get('/firebase-config', function () {
+    return response()->json([
+        'apiKey' => config('firebase.server_key'),
+        'authDomain' => config('firebase.auth_domain'),
+        'projectId' => config('firebase.project_id'),
+        'storageBucket' => config('firebase.storage_bucket'),
+        'messagingSenderId' => config('firebase.sender_id'),
+        'appId' => config('firebase.app_id'),
+    ]);
+});
