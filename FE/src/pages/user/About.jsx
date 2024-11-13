@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from 'react';
 import "./css/About.css";
 import pro1 from "../../assets/images/img1.webp";
 import pro2 from "../../assets/images/img2.png";
@@ -48,56 +49,31 @@ const About = () => {
     },
   ];
 
+  useEffect(() => {
+    const carouselElement = document.getElementById('carouselExample');
+    const carousel = new bootstrap.Carousel(carouselElement, {
+      interval: 3000,
+      ride: 'carousel',
+    });
+
+    carousel.cycle();
+  }, []);
+
   return (
     <div className="container my-5">
       <div className="row g-5">
-        <div className="carousel slide col-md-6 " id="carouselExample">
-          <div className="carousel-inner rounded-3">
+        <div className="carousel slide col-md-6" id="carouselExample" data-bs-ride="carousel" data-bs-interval="3000">
+          <div className="carousel-inner rounded-3 img-fluid">
             <div className="carousel-item active">
-              <img alt="Product 1" className="w-100" src={pro1} />
+              <img alt="Product 1" className="carousel-img d-block w-100" src={pro1} />
             </div>
             <div className="carousel-item">
-              <img alt="Product 2" className="w-100" src={pro2} />
+              <img alt="Product 2" className="carousel-img d-block w-100" src={pro2} />
             </div>
             <div className="carousel-item">
-              <img alt="Product 3" className="w-100" src={pro3} />
+              <img alt="Product 3" className="carousel-img d-block w-100" src={pro3} />
             </div>
           </div>
-          <button
-            className="carousel-control-prev"
-            data-bs-slide="prev"
-            data-bs-target="#carouselExample"
-            type="button"
-          >
-            <span
-              aria-hidden="true"
-              className="carousel-control-prev-icon"
-              style={{
-                backgroundColor: "black",
-                borderRadius: "50%",
-                padding: "10px",
-              }}
-            />
-            <i className="bi bi-arrow-right-circle-fill" />
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button
-            className="carousel-control-next"
-            data-bs-slide="next"
-            data-bs-target="#carouselExample"
-            type="button"
-          >
-            <span
-              aria-hidden="true"
-              className="carousel-control-next-icon"
-              style={{
-                backgroundColor: "black",
-                borderRadius: "50%",
-                padding: "10px",
-              }}
-            />
-            <span className="visually-hidden">Next</span>
-          </button>
         </div>
         <div className="col-md-6">
           <h2>CloudlAB chào bạn</h2>
@@ -148,7 +124,7 @@ const About = () => {
         <div className=" d-flex align-items-center justify-content-between flex-wrap">
           {cardData.map((card, index) => (
             <div
-              className="d-flex justify-content-center"
+              className="d-flex justify-content-center mt-5"
               style={{ width: "30%" }}
               key={index}
             >
@@ -200,25 +176,35 @@ const About = () => {
         </div>
       </div>
       <div className="card position-relative rounded-pill mt-5 w-100">
-        <img className="card-img " src={bt} />
+        <img className="card-img" src={bt} />
         <div className="card-img-overlay d-flex flex-column justify-content-center align-items-start ps-5">
           <h3>
             <strong>Ở nhà vẫn mua được hàng tốt</strong>
           </h3>
           <p>
             Bắt đầu mua sắp cùng với
-            <span className="ql-color-blue">CloudLAB</span>
+            <span className="text-primary fw-bold "> CloudLAB</span>
           </p>
-          <div className="input-group d-flex w-25">
-            <span className="input-group-text">
-              <img alt="" src={plane} />
-            </span>
+          <div className="input-group d-flex w-50 align-items-center position-relative">
             <input
-              className="form-control p-0 m-0"
+              className="form-control ps-5 input-email"
               placeholder="Địa chỉ email của bạn"
               type="email"
             />
-            <button className="btn btn-primary" type="submit">
+            <span
+              className="position-absolute top-50 translate-middle-y ps-2"
+              style={{
+                left: "10px",
+                color: "#6c757d",
+                pointerEvents: "none"
+              }}
+            >
+              <img alt="" src={plane} style={{ height: "20px", width: "20px" }} />
+            </span>
+            <button
+              className="btn btn-primary btn-register"
+              type="submit"
+            >
               Đăng ký
             </button>
           </div>

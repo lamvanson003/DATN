@@ -151,3 +151,49 @@
 .buy-btn:hover {
   background-color: #218838;
 }
+
+.carousel-img {
+  height: 400px;
+  object-fit: cover;
+}
+
+.input-email:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.input-email {
+  height: 50px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.btn-register {
+  height: 50px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  width: 30%;
+  margin-bottom: 30px;
+}
+
+.card {
+  width: 100%;
+  border: 1px solid #ccc; 
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.card-text {
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.card-link:hover {
+  color: #0056b3;
+}
