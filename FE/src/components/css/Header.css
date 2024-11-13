@@ -157,7 +157,7 @@
 }
 .cart-dropdown {
   position: absolute;
-  background-color: #0056b3;
+  background-color: #007bff;
   padding: 8px;
   top: 120px;
   right: 50px;
@@ -176,7 +176,12 @@
   color: #fff;
   display: flex;
   justify-content: space-between;
+  background-color: #fff;
+  color: #007bff;
   align-items: center;
+  margin-bottom: 10px;
+  padding: 0 6px;
+  border-radius: 4px;
 }
 .cart-action button {
   background-color: #fff;

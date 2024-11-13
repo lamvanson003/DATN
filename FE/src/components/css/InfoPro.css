@@ -8,13 +8,13 @@
   max-height: 1500px; /* Đặt giá trị lớn để đảm bảo đủ cho nội dung */
 }
 
-.box-tab-info{
+.box-tab-info {
   padding: 20px 10px;
   background-color: #ffffff;
   border-radius: 7px;
 }
 
-.nav-pills{
+.nav-pills {
   padding: 10px 10px;
   border-bottom: 1px solid #034387;
 }
