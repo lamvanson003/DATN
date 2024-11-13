@@ -35,4 +35,24 @@ export const productApi = {
       console.log("Không thể fetch được dữ liệu", err);
     }
   },
+  search: async (name) => {
+    try {
+      const res = await axios({
+        url: `http://127.0.0.1:8000/api/searchs`,
+        params: { name },
+        timeout: 500,
+        method: "get",
+      });
+
+      if (res?.data?.data) {
+        return res.data.data;
+      } else {
+        console.warn("Dữ liệu không hợp lệ từ API");
+        return [];
+      }
+    } catch (err) {
+      console.log("lỗi ko thể fetch dữ liệu: ", err);
+      return [];
+    }
+  },
 };
