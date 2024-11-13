@@ -5,6 +5,15 @@ import {
   FaRegUser,
   FaHistory,
   FaFire,
+  FaQuoteLeft,
+  FaQuoteRight,
+  FaMemory,
+  FaTv,
+  FaSyncAlt,
+  FaDatabase,
+  FaBolt,
+  FaShieldAlt,
+  FaFilter,
 } from "react-icons/fa";
 import {
   IoCartOutline,
@@ -19,6 +28,10 @@ import {
   IoIosStarOutline,
 } from "react-icons/io";
 import { MdNotificationsNone } from "react-icons/md";
+import {
+  TbArrowBigRightLineFilled,
+  TbArrowBigLeftLineFilled,
+} from "react-icons/tb";
 import { RiBankCardFill, RiProductHuntLine, RiTruckLine } from "react-icons/ri";
 import { PiHandPalm } from "react-icons/pi";
 import { BsSearch } from "react-icons/bs";
@@ -78,5 +91,16 @@ const icons = {
   MdOutlineSettingsSuggest,
   IoArrowUndoOutline,
   IoArrowRedoOutline,
+  TbArrowBigRightLineFilled,
+  TbArrowBigLeftLineFilled,
+  FaQuoteLeft,
+  FaQuoteRight,
+  FaMemory,
+  FaTv,
+  FaSyncAlt,
+  FaDatabase,
+  FaBolt,
+  FaShieldAlt,
+  FaFilter,
 };
 export default icons;

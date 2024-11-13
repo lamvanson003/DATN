@@ -1,16 +1,6 @@
 .click_active {
   border: 2px solid blue !important;
 }
-.small-img-group {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.small-img-col {
-  flex-basis: 24%;
-  cursor: pointer;
-}
 
 #Product-detail .single_pro_image {
   max-width: fit-content;

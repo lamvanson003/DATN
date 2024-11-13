@@ -37,7 +37,7 @@ const DeviceSpecs = () => {
           style={{ backgroundColor: "#fff", cursor: "pointer" }}
           onClick={toggleConfigCollapse}
         >
-          <h3 style={{ fontSize: 24 }}>Cấu hình & Bộ nhớ</h3>
+          <h3 style={{ fontSize: 18 }}>Cấu hình & Bộ nhớ</h3>
           <span className="me-3">{isConfigOpen ? "▲" : "▼"}</span>
         </div>
 
@@ -93,7 +93,7 @@ const DeviceSpecs = () => {
           style={{ backgroundColor: "#fff", cursor: "pointer" }}
           onClick={toggleBatteryCollapse}
         >
-          <h3 style={{ fontSize: 24 }}>Pin & Sạc</h3>
+          <h3 style={{ fontSize: 18 }}>Pin & Sạc</h3>
           <span className="me-3">{isBatteryOpen ? "▲" : "▼"}</span>
         </div>
 
@@ -142,7 +142,7 @@ const DeviceSpecs = () => {
           style={{ backgroundColor: "#fff", cursor: "pointer" }}
           onClick={toggleUtilityCollapse}
         >
-          <h3 style={{ fontSize: 24 }}>Tiện ích</h3>
+          <h3 style={{ fontSize: 18 }}>Tiện ích</h3>
           <span className="me-3">{isUtilityOpen ? "▲" : "▼"}</span>
         </div>
 
@@ -273,7 +273,7 @@ const DeviceSpecs = () => {
           style={{ backgroundColor: "#fff", cursor: "pointer" }}
           onClick={toggleConnectCollapse}
         >
-          <h3 style={{ fontSize: 24 }}>Kết nối</h3>
+          <h3 style={{ fontSize: 18 }}>Kết nối</h3>
           <span className="me-3">{isConnectOpen ? "▲" : "▼"}</span>
         </div>
 
@@ -342,7 +342,7 @@ const DeviceSpecs = () => {
           style={{ backgroundColor: "#fff", cursor: "pointer" }}
           onClick={toggleDesignCollapse}
         >
-          <h3 style={{ fontSize: 24 }}>Thiết kế & Chất liệu</h3>
+          <h3 style={{ fontSize: 18 }}>Thiết kế & Chất liệu</h3>
           <span className="me-3">{isDesignOpen ? "▲" : "▼"}</span>
         </div>
 
@@ -368,7 +368,7 @@ const DeviceSpecs = () => {
               <tr>
                 <th>Hãng</th>
                 <td>
-                  Samsung.{" "}
+                  Samsung.
                   <a
                     href="#"
                     style={{ color: "#007bff", textDecoration: "none" }}

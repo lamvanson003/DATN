@@ -10,7 +10,9 @@ import Fuse from "fuse.js";
 import { BoxPro } from ".";
 import { CartContext } from "../context/Cart";
 import { formatCurrency } from "../ultis/func";
-
+import { productApi } from "../apis";
+import { useParams } from "react-router-dom";
+import { debounce } from "../ultis/func";
 const {
   BsSearch,
   CiLocationOn,
@@ -23,7 +25,6 @@ const {
   MdOutlineSettingsSuggest,
 } = icons;
 const Header = ({ cartItemAmout, favorItemAmount }) => {
-  const { productsData } = useSelector((state) => state.pro);
   const { cartItems, getCartTotal } = useContext(CartContext);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
@@ -40,22 +41,22 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
   }, [location]);
   const handleSearch = (e) => {
     const term = e.target.value;
-    setSearchTerm(e.target.value);
+    setSearchTerm(term);
+    debouncedSearch(term);
+  };
+  const debouncedSearch = debounce(async (term) => {
     if (!term) {
       setSearchProducts([]);
       return;
     }
-    // Cấu hình cho Fuse.js để tìm kiếm "fuzzy"
+
     const fuseOptions = {
       keys: ["name"],
-      threshold: 0.3, // Độ nhạy cho phép (0 = chính xác, 1 = khớp ít chính xác hơn)
+      threshold: 0.3,
       includeScore: true,
     };
 
-    const allProducts = [
-      ...(productsData.phone || []),
-      ...(productsData.laptop || []),
-    ];
+    const allProducts = await productApi.search(term);
 
     const keywords = term.toLowerCase().split(/\s+/);
 
@@ -74,7 +75,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
     });
 
     setSearchProducts(uniqueResults.slice(0, 5));
-  };
+  }, 1000);
   const handleSearchHistory = (e) => {
     if (e.key === "Enter" && searchTerm) {
       e.preventDefault();
@@ -87,6 +88,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
         localStorage.setItem("storedHistory", JSON.stringify(updatedHistory));
       }
       setSearchTerm("");
+      navigate(`/product?search=${encodeURIComponent(searchTerm)}`);
     }
   };
 
@@ -94,6 +96,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
     setSearchTerm(term);
     handleSearch({ target: { value: term } });
     setIsFocus(true);
+    navigate(`/product?search=${encodeURIComponent(term)}`);
   };
 
   const handleDeleteSearch = () => {
@@ -148,190 +151,158 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
     localStorage.setItem("checkedItems", JSON.stringify(cartItems));
     navigate("/payment");
   };
+
   return (
     <>
-      <div className="d-flex flex-column">
-        <div
-          style={{ height: 40, backgroundColor: "#053D99" }}
-          className="d-flex align-items-center justify-content-between px-4"
-        >
-          <span></span>
-          <span className="text-light ">
-            100% Giao hàng đến bạn trong thời gian nhanh nhất
-          </span>
-          <span>
-            <span className="text-light opacity-75" style={{ fontSize: 13 }}>
-              Hotline + 1800 900
-            </span>
-          </span>
-        </div>
-        <div
-          style={{ height: 120, backgroundColor: "#fff" }}
-          className="d-flex align-items-center justify-content-between px-5"
-        >
-          <div>
-            <img src={logoCloudLab} alt="logo" />
-          </div>
-          <div className="position-relative" ref={wrapperRef}>
-            <form action="">
-              <input
-                type="text"
-                placeholder="Tìm kiếm"
-                style={{
-                  width: 500,
-                  height: 60,
-                  paddingLeft: "12px",
-                  border: "none",
-                  outline: "none",
-                }}
-                className="form-control rounded-pill"
-                value={searchTerm}
-                onChange={handleSearch}
-                onKeyDown={handleSearchHistory}
-                onFocus={() => setIsFocus(true)}
-                onBlur={handleBlur}
-              />
-              <button
-                className="position-absolute"
-                style={{
-                  right: "15px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  border: "none",
-                }}
-                type="submit"
-                onClick={handleSearch}
-              >
-                <BsSearch />
-              </button>
-            </form>
-            {isFocus && (
-              <div
-                className="position-absolute "
-                style={{
-                  backgroundColor: "#0056b3",
-                  width: 500,
-                  padding: 12,
-                  zIndex: 100,
-                }}
-              >
-                <div
+      <div>
+        <div className="d-flex flex-column  container">
+          <div
+            style={{ height: 120, color: "black" }}
+            className="d-flex align-items-center justify-content-between "
+          >
+            <div
+              style={{
+                padding: 20,
+                backgroundColor: "#fff",
+              }}
+              className="rounded-pill"
+            >
+              <img src={logoCloudLab} alt="logo" />
+            </div>
+            <div className="position-relative" ref={wrapperRef}>
+              <form action="">
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
                   style={{
-                    fontWeight: 600,
-                    paddingBottom: 5,
-                    borderBottom: "1px solid white",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    color: "#fff",
+                    width: 500,
+                    height: 60,
+                    paddingLeft: "12px",
+                    border: "none",
+                    outline: "none",
+                  }}
+                  className="form-control rounded-pill"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                  onKeyDown={handleSearchHistory}
+                  onFocus={() => setIsFocus(true)}
+                  onBlur={handleBlur}
+                />
+                <button
+                  className="position-absolute"
+                  style={{
+                    right: "15px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    border: "none",
+                  }}
+                  type="submit"
+                  onClick={handleSearch}
+                >
+                  <BsSearch />
+                </button>
+              </form>
+              {isFocus && (
+                <div
+                  className="search-container position-absolute"
+                  style={{
+                    backgroundColor: "#007bff",
+                    width: 500,
+                    padding: 12,
+                    borderRadius: 8,
+                    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                    zIndex: 100,
                   }}
                 >
-                  <span className="d-flex align-items-center gap-1">
-                    <MdHistory size={20} />
-                    <span>Lịch sử tìm kiếm</span>
-                  </span>
-
-                  <span
-                    onClick={handleDeleteSearch}
-                    style={{ cursor: "pointer" }}
-                    onMouseDown={(e) => e.preventDefault()}
-                  >
-                    <ImBin2 />
-                  </span>
-                </div>
-                {searchHistory.map((term, index) => (
-                  <div
-                    key={index}
-                    className="my-1 searchH"
-                    onClick={() => handleClickHistoryInSearch(term)}
-                    onMouseDown={(e) => e.preventDefault()}
-                  >
-                    <span style={{ cursor: "pointer" }}>{term}</span>
-                  </div>
-                ))}
-                {searchProducts.length > 0 && (
-                  <div>
-                    <div
-                      style={{
-                        fontWeight: 600,
-                        paddingBottom: 5,
-                        borderBottom: "1px solid white",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        width: "100%",
-                        color: "#fff",
-                      }}
+                  <div className="header d-flex justify-content-between align-items-center">
+                    <span className="d-flex align-items-center gap-1 text-white">
+                      <MdHistory size={20} />
+                      <span style={{ fontWeight: 600 }}>Lịch sử tìm kiếm</span>
+                    </span>
+                    <span
+                      onClick={handleDeleteSearch}
+                      className="delete-icon"
+                      onMouseDown={(e) => e.preventDefault()}
+                      style={{ cursor: "pointer" }}
                     >
-                      <span className="d-flex align-items-center gap-1">
-                        <MdOutlineSettingsSuggest size={20} />
-                        <span>Sản phẩm gợi ý</span>
-                      </span>
-                    </div>
-                    <div className="search-results">
-                      {searchProducts.map((item, index) => (
-                        <div key={index} className="my-1 search-item">
-                          <BoxPro
-                            horizon
-                            slug={item.slug}
-                            image={item.images}
-                            id={item.id}
-                            name={item.name}
-                            variant={item.product_variant}
-                          />
-                        </div>
-                      ))}
-                    </div>
+                      <ImBin2 color="white" />
+                    </span>
                   </div>
-                )}
-              </div>
-            )}
-          </div>
 
-          <div className="d-flex gap-4">
-            <div className="d-flex align-items-center px-2 py-2 border border-secondary rounded gap-2">
-              <span className="d-flex align-items-center">
-                <CiLocationOn size={24} />
-              </span>
-              <span className="">Địa chỉ cửa hảng</span>
-            </div>
-            <div className="d-flex align-items-center gap-2">
-              <div
-                className="d-flex gap-2"
-                style={{ cursor: "pointer" }}
-                onClick={handleNaFa}
-              >
-                <div
-                  className="position-relative"
-                  style={{ display: "inline-block" }}
-                >
-                  <FaRegHeart size={24} />
-                  <span
-                    className="position-absolute badge rounded-pill bg-primary"
-                    style={{
-                      top: "-7px",
-                      right: "-7px",
-                    }}
-                  >
-                    {favorItemAmount}
-                  </span>
+                  <div className="search-history mt-2">
+                    {searchHistory.map((term, index) => (
+                      <div
+                        key={index}
+                        className="history-item text-white my-1"
+                        onClick={() => handleClickHistoryInSearch(term)}
+                        onMouseDown={(e) => e.preventDefault()}
+                        style={{
+                          cursor: "pointer",
+                          padding: "8px 12px",
+                          borderRadius: 4,
+                          transition: "background-color 0.2s ease",
+                        }}
+                      >
+                        {term}
+                      </div>
+                    ))}
+                  </div>
+
+                  {searchProducts.length > 0 && (
+                    <div className="suggestions mt-3">
+                      <div className="header d-flex justify-content-between align-items-center">
+                        <span className="d-flex align-items-center gap-1 text-white">
+                          <MdOutlineSettingsSuggest size={20} />
+                          <span style={{ fontWeight: 600 }}>
+                            Sản phẩm gợi ý
+                          </span>
+                        </span>
+                      </div>
+
+                      <div className="search-results mt-2">
+                        {searchProducts.map((item, index) => (
+                          <div key={index} className="suggestion-item my-1">
+                            <BoxPro
+                              horizon
+                              slug={item.slug}
+                              image={item.images}
+                              id={item.id}
+                              name={item.name}
+                              variant={item.product_variant}
+                              style={{
+                                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                                padding: "8px 12px",
+                                borderRadius: 4,
+                                transition: "background-color 0.2s ease",
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <span>Yêu thích</span>
-              </div>
+              )}
+            </div>
 
-              <div
-                className="cart-container"
-                onMouseEnter={handleHoverInCart}
-                onMouseLeave={handleHoverOutCart}
-              >
-                <div className="d-flex gap-2 " style={{ cursor: "pointer" }}>
+            <div className="d-flex gap-4">
+              <div className="d-flex align-items-center px-2 py-2 border border-secondary rounded gap-2">
+                <span className="d-flex align-items-center">
+                  <CiLocationOn size={24} />
+                </span>
+                <span className="">Địa chỉ cửa hảng</span>
+              </div>
+              <div className="d-flex align-items-center gap-2">
+                <div
+                  className="d-flex gap-2"
+                  style={{ cursor: "pointer" }}
+                  onClick={handleNaFa}
+                >
                   <div
                     className="position-relative"
                     style={{ display: "inline-block" }}
-                    onClick={handleNaCart}
                   >
-                    <MdOutlineShoppingCart size={24} />
+                    <FaRegHeart size={24} />
                     <span
                       className="position-absolute badge rounded-pill bg-primary"
                       style={{
@@ -339,92 +310,120 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
                         right: "-7px",
                       }}
                     >
-                      {cartItemAmout}
+                      {favorItemAmount}
                     </span>
                   </div>
-                  <span onClick={handleNaCart}>Giỏ hàng</span>
-                  {isHover && (
-                    <div
-                      className="cart-dropdown rounded"
-                      onMouseEnter={handleHoverInCart}
-                      onMouseLeave={handleHoverOutCart}
-                    >
-                      {cartItems?.map((item) => (
-                        <div key={item.variantKey}>
-                          <BoxPro
-                            horizon
-                            slug={item.slug}
-                            image={
-                              item?.color?.images
-                                ? item?.color?.images
-                                : item?.main?.image
-                            }
-                            hoverCart
-                            id={item.id}
-                            name={item.main.name}
-                            hoverCartItem={item}
-                          />
-                        </div>
-                      ))}
-
-                      <div className="cart-price">
-                        <span>Tổng tiền: </span>
-                        <span className="text-danger ps-2">
-                          {formatCurrency(getCartTotal())}
-                        </span>
-                      </div>
-                      <div className="cart-action">
-                        <button className="btn" onClick={handleCheckAll}>
-                          Thanh Toán
-                        </button>
-                        <button className="btn" onClick={handleNaCart}>
-                          Xem giỏ hàng
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  <span>Yêu thích</span>
                 </div>
-              </div>
 
-              <div className="d-flex gap-2">
-                <span className="d-flex align-items-center gap-1">
-                  <FaRegUser size={24} />
-                  <Link style={{ textDecoration: "none" }} to={"login"}>
-                    Tài khoản
-                  </Link>
-                </span>
+                <div
+                  className="cart-container"
+                  onMouseEnter={handleHoverInCart}
+                  onMouseLeave={handleHoverOutCart}
+                >
+                  <div className="d-flex gap-2 " style={{ cursor: "pointer" }}>
+                    <div
+                      className="position-relative"
+                      style={{ display: "inline-block" }}
+                      onClick={handleNaCart}
+                    >
+                      <MdOutlineShoppingCart size={24} />
+                      <span
+                        className="position-absolute badge rounded-pill bg-primary"
+                        style={{
+                          top: "-7px",
+                          right: "-7px",
+                        }}
+                      >
+                        {cartItemAmout}
+                      </span>
+                    </div>
+                    <span onClick={handleNaCart}>Giỏ hàng</span>
+                    {isHover && (
+                      <div
+                        className="cart-dropdown rounded"
+                        onMouseEnter={handleHoverInCart}
+                        onMouseLeave={handleHoverOutCart}
+                      >
+                        {cartItems?.map((item) => (
+                          <div key={item.variantKey}>
+                            <BoxPro
+                              horizon
+                              slug={item.slug}
+                              image={
+                                item?.color?.images
+                                  ? item?.color?.images
+                                  : item?.main?.image
+                              }
+                              hoverCart
+                              id={item.id}
+                              name={item.main.name}
+                              hoverCartItem={item}
+                            />
+                          </div>
+                        ))}
+
+                        <div className="cart-price">
+                          <span>Tổng tiền: </span>
+                          <span className="text-danger ps-2">
+                            {formatCurrency(getCartTotal())}
+                          </span>
+                        </div>
+                        <div className="cart-action">
+                          <button className="btn" onClick={handleCheckAll}>
+                            Thanh Toán
+                          </button>
+                          <button className="btn" onClick={handleNaCart}>
+                            Xem giỏ hàng
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="d-flex gap-2">
+                  <span className="d-flex align-items-center gap-1">
+                    <FaRegUser size={24} />
+                    <Link
+                      style={{ textDecoration: "none", color: "#fff" }}
+                      to={"login"}
+                    >
+                      Tài khoản
+                    </Link>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          className="w-100  "
-          style={{
-            height: 60,
-            backgroundColor: "#fff",
-            borderTop: "1px solid black",
-            borderBottom: "1px solid black",
-          }}
-        >
           <div
-            className="d-flex fw-semibold align-items-center h-100 justify-content-between"
-            style={{ marginLeft: 200, marginRight: 200 }}
+            style={{
+              height: 60,
+
+              borderTop: "1px solid black",
+              borderBottom: "1px solid black",
+            }}
           >
-            {navMenu.map((item) => (
-              <div className="" key={item.path}>
-                <NavLink
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `base-class ${
-                      isActive ? "active-class-header" : "inactive-class"
-                    } additional-class`
-                  }
-                  style={{ textDecoration: "none" }}
-                >
-                  <span style={{ height: "100%" }}>{item.text}</span>
-                </NavLink>
-              </div>
-            ))}
+            <div
+              className="d-flex fw-semibold align-items-center h-100 justify-content-between"
+              style={{ marginLeft: 200, marginRight: 200 }}
+            >
+              {navMenu.map((item) => (
+                <div className="" key={item.path}>
+                  <NavLink
+                    to={item.path}
+                    className={({ isActive }) =>
+                      `base-class ${
+                        isActive ? "active-class-header" : "inactive-class"
+                      } additional-class`
+                    }
+                    style={{ textDecoration: "none", color: "#fff" }}
+                  >
+                    <span style={{ height: "100%" }}>{item.text}</span>
+                  </NavLink>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

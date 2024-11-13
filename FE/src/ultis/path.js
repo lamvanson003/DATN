@@ -5,6 +5,7 @@ const path = {
   SIGNUP: "signup",
   CART: "cart",
   PRODUCT: "product",
+
   PRODUCT__DETAIL__SLUG: "detail/:slug",
   ORDER__DETAIL__ID: "order-detail/:id",
   ABOUT: "about",
@@ -16,7 +17,7 @@ const path = {
   PROFILE: "profile",
   FAVOR: "favor",
   BANKINGONLINE: "banking-online",
-  INVOICE: "invoice",
+  INVOICE__ID: "invoice/:id",
   //
 };
 export default path;
