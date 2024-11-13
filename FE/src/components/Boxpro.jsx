@@ -192,8 +192,7 @@ const BoxPro = ({
         </div>
       ) : horizon ? (
         <div
-          className="d-flex  p-2 my-2 rounded viewedP"
-          style={{ backgroundColor: "#fff", cursor: "pointer" }}
+          className="d-flex p-3 rounded"
         >
           <span className="me-4 d-flex align-items-center">
             <Link
@@ -204,7 +203,7 @@ const BoxPro = ({
               <img
                 src={image}
                 alt={name}
-                style={{ width: "80px", height: "80px", objectFit: "cover" }}
+                style={{ maxWidth: "80px", height: "auto", objectFit: "contain" }}
               />
             </Link>
           </span>

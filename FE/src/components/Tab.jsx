@@ -45,9 +45,9 @@ const Tab = ({ detailData }) => {
           }`}
         >
           <div className="container p-3" style={{ backgroundColor: "#fff" }}>
-            <h1 className="title_desc">
+            <h5 className="title_desc">
               Đặc Điểm Nổi Bật Của {detailData?.name}
-            </h1>
+            </h5>
             <ul className="features-list">
               <li>
                 Hiệu năng vượt trội - Chip Apple A15 Bionic mạnh mẽ, hỗ trợ mạng
