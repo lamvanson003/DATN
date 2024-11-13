@@ -4,33 +4,35 @@
 .small-img-group {
   display: flex;
   margin-top: 20px;
-
 }
-img{
+
+img {
   object-fit: contain;
 }
 .small-img-col {
-  flex-basis: 24%;
   cursor: pointer;
-}
-.small-img-col {
   max-width: 70%;
   object-fit: contain;
+
+  text-align: center;
+  cursor: pointer;
+  padding: 1px 2px;
+  border: 1px solid rgb(217, 217, 238);
 }
-a{
+.active-small-img-col {
+  border: 1px solid #007bff;
+}
+a {
   text-decoration: none;
-  
 }
-.route{
+.route {
   color: #616161;
 }
-#Breadcrumb{
-  background-color: #ffffff;
-}
-.active_route{
+.active_route {
   color: #ed0000;
   font-weight: 500;
 }
+
 #Product-detail .single_pro_image {
   max-width: fit-content;
 }
@@ -126,7 +128,7 @@ a{
   color: #616161;
   text-decoration: line-through;
 }
-.box-detail-right{
+.box-detail-right {
   line-height: unset;
 }
 
@@ -366,35 +368,28 @@ input[type="email"] {
 .single-pro-image {
   background-color: #ffffff;
   padding: 20px 10px;
-  border-radius: 10px ;
+  border-radius: 10px;
   border: 1px solid rgb(217, 217, 238);
   box-shadow: 1px 2px 2px #ccc;
-
 }
-.viewedPr{
+.viewedPr {
   background-color: #ffffff;
   border-radius: 10px;
 }
-.box-viewedTilte{
-  padding: 20px 10px ;
+.box-viewedTilte {
+  padding: 20px 10px;
 }
 
-.box-item{
+.box-item {
   border: 1px solid #034387;
   margin: 10px 6px;
   border-radius: 5px;
 }
-.small-img-col{
-  flex-basis: 16%;
-  cursor: pointer;
-  padding: 1px 2px;
-  border: 1px solid rgb(217, 217, 238);
-}
 
-#product-details .single-pro-details{
+#product-details .single-pro-details {
   width: 50%;
 }
-.bg-img{
+.bg-img {
   padding-top: 3rem;
 }
 
@@ -404,7 +399,6 @@ input[type="email"] {
   background-color: #ffffff;
   border-radius: 10px;
 }
-
 
 .comment-item {
   display: flex;
@@ -423,7 +417,7 @@ input[type="email"] {
   color: #ffffff;
   font-weight: 500;
   align-items: center;
-  justify-content: center
+  justify-content: center;
 }
 
 .comment-content {
@@ -472,7 +466,6 @@ input[type="email"] {
   margin-right: 5px;
   margin-bottom: 5px;
 }
-
 
 /* Form container */
 .form-comment {
@@ -590,8 +583,8 @@ input[type="email"] {
   border-radius: 5px;
   border: 1px solid #ddd;
 }
-.title-review{
-  color: #DC2626;
+.title-review {
+  color: #dc2626;
   margin-bottom: 2rem;
 }
 
@@ -658,17 +651,13 @@ input[type="email"] {
 }
 .pc\:w-\[80\%\] {
   width: 80% !important;
-
 }
-.comment-customer{
+.comment-customer {
   margin-top: 16px;
   font-size: 17px;
   font-weight: 500;
   color: #6b7280;
 }
-
-
-
 
 /* Modal */
 .review-button {
@@ -753,15 +742,15 @@ input[type="email"] {
   object-fit: cover;
 }
 
-.box-product-relate{
+.box-product-relate {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
 }
 
-h3{
+h3 {
   font-size: 20px;
 }
-.title{
+.title {
   color: #e53935;
 }

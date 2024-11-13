@@ -93,72 +93,69 @@ const Product = () => {
   }, [curItems, sortOrder]);
 
   return (
-    <div className="container mt-5">
+    <div className="container ">
       <section id="header">
-        <div className="row">
-          <div className="d-flex"></div>
-          <div className=" bg-Breadcrumb row mb-2">
+        <section className="px-2 mb-2" id="Breadcrumb">
+          <div className="container p-3 bg-Breadcrumb ">
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb mb-0">
                 <li className="breadcrumb-item">
-                  <Link to="/">TRANG CHỦ</Link>
+                  <a href="/" className="route">
+                    <i className="fa-solid fa-house" /> Trang chủ
+                  </a>
                 </li>
-                <li className="breadcrumb-item">
-                  <span>SẢN PHẨM</span>
+                <li className="breadcrumb-item active_route">
+                  <a href="/product" className="route">
+                    Sản phẩm
+                  </a>
                 </li>
               </ol>
             </nav>
           </div>
-          <Sbanner product />
-          <div className="row my-3">
-            <div className="col-md-6">
-              <div className="category-buttons d-flex gap-2 ">
-                <button
-                  className={`btn ${
-                    active === 0 ? "btn-primary" : "btn-secondary"
-                  }`}
-                  onClick={() => setActive(0)}
-                >
-                  Điện thoại
-                </button>
-                <button
-                  className={`btn ${
-                    active === 1 ? "btn-primary" : "btn-secondary"
-                  }`}
-                  onClick={() => setActive(1)}
-                >
-                  Laptop
-                </button>
-              </div>
+        </section>
+        <Sbanner product />
+        <div className="row my-3">
+          <div className="col-md-6">
+            <div className="category-buttons d-flex gap-2 ">
+              <button
+                className={`btn ${
+                  active === 0 ? "btn-primary" : "btn-secondary"
+                }`}
+                onClick={() => setActive(0)}
+              >
+                Điện thoại
+              </button>
+              <button
+                className={`btn ${
+                  active === 1 ? "btn-primary" : "btn-secondary"
+                }`}
+                onClick={() => setActive(1)}
+              >
+                Laptop
+              </button>
             </div>
-            <div className="col-md-6 d-flex align-items-center justify-content-end gap-4">
-              <span
-                style={{ cursor: "pointer" }}
-                onClick={() => setSortOrder(1)}
-              >
-                <FontAwesomeIcon
-                  icon={faArrowUpZA}
-                  size="xl"
-                  className={`increase ${sortOrder === 1 ? "fa-active" : ""}`}
-                />
-              </span>
-              <span
-                style={{ cursor: "pointer" }}
-                onClick={() => setSortOrder(0)}
-              >
-                <FontAwesomeIcon
-                  icon={faArrowDownAZ}
-                  size="xl"
-                  className={`decrease ${sortOrder === 0 ? "fa-active" : ""}`}
-                />
-              </span>
-              <Filter
-                minPrice={minPrice}
-                maxPrice={maxPrice}
-                setMinPrice={setMinPrice}
-                setMaxPrice={setMaxPrice}
+          </div>
+          <div className="col-md-6 d-flex align-items-center justify-content-end gap-4">
+            <span style={{ cursor: "pointer" }} onClick={() => setSortOrder(1)}>
+              <FontAwesomeIcon
+                icon={faArrowUpZA}
+                size="xl"
+                className={`increase ${sortOrder === 1 ? "fa-active" : ""}`}
               />
-            </div>
+            </span>
+            <span style={{ cursor: "pointer" }} onClick={() => setSortOrder(0)}>
+              <FontAwesomeIcon
+                icon={faArrowDownAZ}
+                size="xl"
+                className={`decrease ${sortOrder === 0 ? "fa-active" : ""}`}
+              />
+            </span>
+            <Filter
+              minPrice={minPrice}
+              maxPrice={maxPrice}
+              setMinPrice={setMinPrice}
+              setMaxPrice={setMaxPrice}
+            />
           </div>
         </div>
       </section>
