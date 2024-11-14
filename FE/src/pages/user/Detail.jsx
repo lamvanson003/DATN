@@ -267,11 +267,19 @@ const Detail = () => {
                           } `}
                         >
                           <img
-                            src={item?.images}
-                            style={{ width: "70%", cursor: "pointer" }}
-                            alt=""
-                            onClick={() => handleImageClick(item?.images)}
+                              src={item?.images}
+                              alt=""
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                maxWidth: "70px",
+                                maxHeight: "70px",
+                                objectFit: "cover",
+                                cursor: "pointer"
+                              }}
+                              onClick={() => handleImageClick(item?.images)}
                           />
+
                         </div>
                       ))}
                   </div>
