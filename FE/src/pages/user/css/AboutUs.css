@@ -1,0 +1,158 @@
+.about-images img {
+  border-radius: 10px;
+}
+
+.image-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 10%;
+}
+
+.main-image {
+  flex: 1;
+}
+
+.main-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.small-images {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 48%;
+}
+
+.small-images img {
+  width: 71%;
+  height: auto;
+  object-fit: cover;
+}
+
+.client-logo img {
+  border-radius: 10px;
+  object-fit: contain;
+  margin: 10px 0;
+}
+
+@media (max-width: 767px) {
+  .client-logo img {
+    height: 100px;
+  }
+}
+
+.clients {
+  margin-top: 30px; 
+}
+
+.client-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.client-logo img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .client-logo img {
+    width: 50%;
+  }
+}
+
+.service-img {
+  max-width: 150px;
+  height: auto;
+  object-fit: contain;
+}
+
+.service-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.service-content p {
+  margin-bottom: 15px;
+}
+
+.service-content a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.service-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
+  overflow: hidden;
+}
+
+.service-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.service-content h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.service-content p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.read-more {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+.faq .accordion-button {
+  background-color: #f8f9fa;
+  color: #333;
+  font-weight: bold;
+  border: 1px solid #ddd;
+}
+
+.faq .accordion-button:focus {
+  box-shadow: none;
+}
+
+.faq .accordion-body {
+  font-size: 1rem;
+  padding: 1.5rem;
+}
+
+.customerRate-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.stars i {
+  color: #ffcc00;
+}

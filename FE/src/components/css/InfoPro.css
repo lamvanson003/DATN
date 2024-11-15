@@ -2,19 +2,22 @@
 .nav-pills {
   display: flex;
   border-bottom: 2px solid #007bff;
+  background-color: #ffffff;
+  border-radius: 5px 5px 0 0 ;
 }
 
 .nav-pills .nav-link {
   font-weight: 600;
   border: 1px solid #e5e5e5;
-  border-radius: 5px 5px 0 0 ;
+ 
+  border-radius: 0;
   color: #3a3a3a;
   margin: 0;
+  background-color: #ffffff;
 }
 
 .nav-pills .nav-link.active {
   border: 1px solid #007bff;
-  border-radius: 5px 5px 0 0 ;
   background-color: #f1f8fe;
   color: #2a83e9;
 }
@@ -23,10 +26,18 @@
 .tab-content {
   background-color: #ffffff;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 0 0 8px 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.specification-img{
+  max-width: fit-content;
+}
 
+.lazyloaded{  
+  max-width: fit-content;
+  object-fit: cover;
+  width: -webkit-fill-available;
+}
 /* Hiệu ứng mở/đóng nội dung collapse */
 .collapse-content {
   max-height: 0;
