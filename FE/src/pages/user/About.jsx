@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import "./css/About.css";
+import "./css/AboutUs.css";
 import pro1 from "../../assets/images/img1.webp";
 import pro2 from "../../assets/images/img2.png";
 import pro3 from "../../assets/images/img3.avif";
