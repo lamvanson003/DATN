@@ -109,7 +109,7 @@ const BoxPro = ({
             className="position-absolute top-0 start-0 m-2 badge bg-danger text-white"
             style={{ borderRadius: "5px", fontSize: "12px" }}
           >
-            <FontAwesomeIcon icon={faCogs} className="me-1" />khuyến mãi
+            khuyến mãi
           </div>
           <div
             className="position-absolute top-0 end-0 m-2 badge  "
@@ -272,21 +272,6 @@ const BoxPro = ({
               )}
             </span>
           </span>
-          {hoverCart && (
-            <span className="d-flex flex-column p-2 justify-content-between">
-              <span className="d-flex gap-2">
-                <span className="badge text-bg-info">
-                  {hoverCartItem?.color.color}
-                </span>
-                <span className="badge text-bg-info">
-                  {hoverCartItem?.storage}
-                </span>
-              </span>
-              <span style={{ fontWeight: 600, fontSize: 20 }}>
-                x{hoverCartItem.quantity}
-              </span>
-            </span>
-          )}
         </div>
       ) : (
         <div
@@ -298,12 +283,6 @@ const BoxPro = ({
             position: "relative",
           }}
         >
-          <div
-            className="position-absolute top-0 start-0 m-2 badge bg-danger text-white"
-            style={{ borderRadius: "5px", fontSize: "12px" }}
-          >
-            <FontAwesomeIcon icon={faCogs} className="me-1" /> Khuyến mãi
-          </div>
           <div
             className="position-absolute top-0 end-0 m-2 badge"
             style={{ borderRadius: "5px", fontSize: "12px" }}

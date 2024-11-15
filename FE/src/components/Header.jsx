@@ -157,7 +157,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
 
   return (
     <>
-      <div style={{ backgroundColor: "#053D99" }}>
+      <div style={{ backgroundColor: "#007bff" }}>
         <div className="d-flex flex-column ">
           <div
             className="container marquee-container"
@@ -167,7 +167,8 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
-              Thông báo: Khuyến mãi lên đến 50% tất cả các mặt hàng tại CloudLab!
+              Thông báo: Khuyến mãi lên đến 50% tất cả các mặt hàng tại
+              CloudLab!
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
@@ -416,7 +417,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
               height: 50,
               borderTop: "1px solid black",
               borderBottom: "1px solid black",
-              backgroundColor: "#333",
+              backgroundColor: "#007bff",
             }}
           >
             <div className="d-flex fw-semibold align-items-center justify-content-between h-100  container ">
