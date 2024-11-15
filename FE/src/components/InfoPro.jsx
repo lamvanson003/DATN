@@ -3,7 +3,7 @@ import "./css/InfoPro.css"; // Chứa các class và animation
 
 const DeviceSpecs = () => {
   // State riêng biệt cho từng phần
-  const [isConfigOpen, setIsConfigOpen] = useState(false);
+  const [isConfigOpen, setIsConfigOpen] = useState(true);
   const [isBatteryOpen, setIsBatteryOpen] = useState(false);
   const [isUtilityOpen, setIsUtilityOpen] = useState(false); // State cho phần Tiện ích
   const [isConnectOpen, setIsConnectOpen] = useState(false);
@@ -30,20 +30,25 @@ const DeviceSpecs = () => {
   };
   return (
     <>
+      <div id="specification-img-245545" className="img-main specification-img ">
+        <img
+          className=" ls-is-cached lazyloaded"
+          data-src="//cdn.tgdd.vn/Products/Images/42/245545/Kit/iphone-14-plus-note-new.jpg"
+          alt="iPhone 14 Plus 128GB"
+          src="//cdn.tgdd.vn/Products/Images/42/245545/Kit/iphone-14-plus-note-new.jpg"
+        />
+      </div>
+
       {/* Phần Cấu hình & Bộ nhớ */}
-      <div className="mt-4 px-0">
-        <div
-          className="rounded border border-secondary p-2 my-1 d-flex align-items-center justify-content-between"
-          style={{ backgroundColor: "#fff", cursor: "pointer" }}
-          onClick={toggleConfigCollapse}
-        >
-          <h3 style={{ fontSize: 18 }}>Cấu hình & Bộ nhớ</h3>
-          <span className="me-3">{isConfigOpen ? "▲" : "▼"}</span>
+      <div className="mt-4">
+        <div className="collapse-toggle" onClick={toggleConfigCollapse}>
+          <h3>Cấu hình & Bộ nhớ</h3>
+          <span>{isConfigOpen ? "▲" : "▼"}</span>
         </div>
 
         {/* Add class for smooth transition */}
         <div className={`collapse-content ${isConfigOpen ? "open" : ""}`}>
-          <table className="table table-hover">
+          <table className="table">
             <tbody>
               <tr>
                 <th>Hệ điều hành</th>
@@ -87,21 +92,17 @@ const DeviceSpecs = () => {
       </div>
 
       {/* Phần Pin & Sạc */}
-      <div className="mt-4 px-0">
-        <div
-          className="rounded border border-secondary p-2 my-1 d-flex align-items-center justify-content-between"
-          style={{ backgroundColor: "#fff", cursor: "pointer" }}
-          onClick={toggleBatteryCollapse}
-        >
-          <h3 style={{ fontSize: 18 }}>Pin & Sạc</h3>
-          <span className="me-3">{isBatteryOpen ? "▲" : "▼"}</span>
+      <div className="mt-4">
+        <div className="collapse-toggle" onClick={toggleBatteryCollapse} >
+          <h3>Pin & Sạc</h3>
+          <span >{isBatteryOpen ? "▲" : "▼"}</span>
         </div>
 
         <div className={`collapse-content ${isBatteryOpen ? "open" : ""}`}>
-          <table className="table table-hover">
+          <table className="table">
             <tbody>
               <tr>
-                <th style={{ width: "50%" }}>Dung lượng pin</th>
+                <th>Dung lượng pin</th>
                 <td>5000 mAh</td>
               </tr>
               <tr>
@@ -136,21 +137,16 @@ const DeviceSpecs = () => {
       </div>
 
       {/* Phần Tiện ích */}
-      <div className="mt-4 px-0">
-        <div
-          className="rounded border border-secondary p-2 my-1 d-flex align-items-center justify-content-between"
-          style={{ backgroundColor: "#fff", cursor: "pointer" }}
-          onClick={toggleUtilityCollapse}
-        >
-          <h3 style={{ fontSize: 18 }}>Tiện ích</h3>
-          <span className="me-3">{isUtilityOpen ? "▲" : "▼"}</span>
+      <div className="mt-4">
+        <div className="collapse-toggle" onClick={toggleUtilityCollapse} >
+          <h3>Tiện ích</h3>
+          <span >{isUtilityOpen ? "▲" : "▼"}</span>
         </div>
-
         <div className={`collapse-content ${isUtilityOpen ? "open" : ""}`}>
-          <table className="table table-hover">
+          <table className="table">
             <tbody>
               <tr>
-                <th style={{ width: "50%" }}>Bảo mật nâng cao</th>
+                <th>Bảo mật nâng cao</th>
                 <td>
                   Mở khoá vân tay dưới màn hình
                   <br />
@@ -267,22 +263,18 @@ const DeviceSpecs = () => {
       </div>
 
       {/* Phần kết nối*/}
-      <div className="mt-4 px-0">
-        <div
-          className="rounded border border-secondary p-2 my-1 d-flex align-items-center justify-content-between"
-          style={{ backgroundColor: "#fff", cursor: "pointer" }}
-          onClick={toggleConnectCollapse}
-        >
-          <h3 style={{ fontSize: 18 }}>Kết nối</h3>
-          <span className="me-3">{isConnectOpen ? "▲" : "▼"}</span>
+      <div className="mt-4">
+        <div className="collapse-toggle" onClick={toggleConnectCollapse} >
+          <h3>Kết nối</h3>
+          <span >{isConnectOpen ? "▲" : "▼"}</span>
         </div>
 
         <div className={`collapse-content ${isConnectOpen ? "open" : ""}`}>
-          <table className="table table-hover">
+          <table className="table">
             <tbody>
               <tr>
                 <th>Mạng di động</th>
-                <td style={{ width: "50%" }}>Hỗ trợ 5G</td>
+                <td>Hỗ trợ 5G</td>
               </tr>
               <tr>
                 <th>SIM</th>
@@ -336,21 +328,17 @@ const DeviceSpecs = () => {
       </div>
 
       {/* Phần thiết kế*/}
-      <div className="mt-4 px-0">
-        <div
-          className="rounded border border-secondary p-2 my-1 d-flex align-items-center justify-content-between"
-          style={{ backgroundColor: "#fff", cursor: "pointer" }}
-          onClick={toggleDesignCollapse}
-        >
-          <h3 style={{ fontSize: 18 }}>Thiết kế & Chất liệu</h3>
-          <span className="me-3">{isDesignOpen ? "▲" : "▼"}</span>
+      <div className="mt-4">
+        <div className="collapse-toggle" onClick={toggleDesignCollapse} >
+          <h3>Thiết kế & Chất liệu</h3>
+          <span >{isDesignOpen ? "▲" : "▼"}</span>
         </div>
 
         <div className={`collapse-content ${isDesignOpen ? "open" : ""}`}>
-          <table className="table table-hover">
+          <table className="table">
             <tbody>
               <tr>
-                <th style={{ width: "50%" }}>Thiết kế</th>
+                <th>Thiết kế</th>
                 <td>Nguyên khối</td>
               </tr>
               <tr>
