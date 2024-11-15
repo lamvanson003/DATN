@@ -17,10 +17,8 @@ export const setupSlider = (slidesRef, formRef, prevRef, nextRef) => {
     });
   };
 
-  // Hiển thị slide đầu tiên
   showSlide(currentIndex);
 
-  // Tạm dừng và khởi động lại interval
   const resetInterval = () => {
     clearInterval(interval);
     interval = setInterval(() => {
@@ -30,12 +28,11 @@ export const setupSlider = (slidesRef, formRef, prevRef, nextRef) => {
     }, 10000);
   };
 
-  // Sự kiện click cho prev và next
   const handlePrevClick = () => {
     currentIndex =
       currentIndex === 0 ? slidesRef.current.length - 1 : currentIndex - 1;
     showSlide(currentIndex);
-    resetInterval(); // reset lại interval khi người dùng click
+    resetInterval();
   };
 
   const handleNextClick = () => {
@@ -82,3 +79,10 @@ export const handleNumber = (number) => {
     return `${Math.round((number * 10) / Math.pow(10, 3)) / 10}K`;
   }
 };
+export function debounce(func, delay) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+}

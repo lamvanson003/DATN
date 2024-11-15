@@ -39,7 +39,7 @@
 
           <div class="card-body">
             <div class="table-responsive">
-              <table id="add-row" class="display table table-hover fix_table">
+              <table id="add-row" class="fontTable display table table-hover fix_table">
                 <thead>
                   <tr>
                     <th></th>
@@ -78,13 +78,14 @@
                       </td> 
                       <td>
                         <div class="row">
-                            <div class="image-items d-flex align-items-center gap-2 justify-content-center mb-3">
-                              @foreach ($item->product_image_items as $imageItem)
-                                <img class="text-center fix-image" src="{{ asset($imageItem->images) }}" alt="{{ $item->name }}">
+                          <div class="image-items d-flex align-items-center gap-2 justify-content-center mb-3">
+                              @foreach ($item->product_image_items->take(4) as $imageItem)
+                                  <img class="text-center fix-image" src="{{ asset($imageItem->images) }}" alt="{{ $item->name }}">
                               @endforeach
-                            </div>
-                            <a href="{{ route('admin.product.item.index',$item->id) }}">DS hình ảnh</a>
-                        </div>                  
+                      
+                          </div>
+                          <a href="{{ route('admin.product.item.index', $item->id) }}">Xem thêm</a>
+                      </div>                                     
                     </td>
                       <td>
                         @switch($item->status)

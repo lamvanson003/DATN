@@ -18,7 +18,7 @@ const Detail = () => {
   const { addToCart, buyNow } = useContext(CartContext);
   const ref = useRef();
   const [detailData, setDetailData] = useState({});
-  const [comment, setComment] = useState("");
+
   const [loadingComment, setLoadingComment] = useState(false);
   const [activeStorage, setActiveStorage] = useState(null);
   const [activeColor, setActiveColor] = useState(null);
@@ -27,6 +27,12 @@ const Detail = () => {
   const [quantity, setQuantity] = useState(1);
   const [main, setMain] = useState();
   const [viewedProducts, setViewedProducts] = useState([]);
+
+  const [images, setImages] = useState([]);
+  const [comment, setComment] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalContentRef = useRef(null);
+
   useEffect(() => {
     const rePhonePro = productsData?.phone.filter(
       (p) =>
@@ -63,15 +69,14 @@ const Detail = () => {
     const fetchDetailData = async () => {
       try {
         const data = await productApi.getOne(slug);
-        console.log("detailData:", data); // Kiểm tra dữ liệu nhận được
 
         if (data.product_image_items) {
           const newImage = {
-            id: Math.floor(Math.random() * 1000), // Tạo ID ngẫu nhiên
-            name: "mainImg", // Đặt tên
-            images: data.images, // Giả sử data.images là đường dẫn hình ảnh
+            id: Math.floor(Math.random() * 1000),
+            name: "mainImg",
+            images: data.images,
           };
-          data.product_image_items.push(newImage); // Thêm vào mảng hình ảnh
+          data.product_image_items.push(newImage);
         }
         setMain({
           id: data.id,
@@ -84,6 +89,9 @@ const Detail = () => {
           product_variant: data.product_variant,
         });
         setDetailData(data);
+        if (data.product_image_items && data.product_image_items.length > 0) {
+          setMainImage(data.product_image_items[0].images);
+        }
       } catch (err) {
         console.log("Không thể lấy dữ liệu", err);
       }
@@ -91,7 +99,6 @@ const Detail = () => {
 
     fetchDetailData();
   }, [slug]);
-
   useEffect(() => {
     if (detailData.product_variant && detailData.product_variant.length > 0) {
       const firstStorage = detailData.product_variant[0];
@@ -102,7 +109,6 @@ const Detail = () => {
       } else {
         setActiveColor(firstVariant.color || "");
       }
-      setMainImage(firstVariant.images || "");
       setCurrentVariant({
         storage: firstStorage.storage,
         color: firstVariant,
@@ -145,6 +151,7 @@ const Detail = () => {
         storage: selectedStorage.storage,
         color: firstVariant,
       });
+      setMainImage(firstVariant.images || "");
     } else {
       console.log("Không tìm thấy dung lượng tương ứng");
     }
@@ -169,90 +176,145 @@ const Detail = () => {
     handleChangeVariant(color);
   };
 
+  // Handle image selection
+  const handleImageChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    const imageUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+    setImages((prevImages) => [...prevImages, ...imageUrls]);
+  };
+
+  // Mở modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Đóng modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleOutsideClick = (e) => {
+    if (
+      modalContentRef.current &&
+      !modalContentRef.current.contains(e.target)
+    ) {
+      closeModal();
+    }
+  };
+  // Submit comment
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!comment.trim()) {
+      alert("Vui lòng nhập bình luận!");
+      return;
+    }
+
+    setLoadingComment(true);
+
+    // Here, you can handle the logic to send the comment and images to the server
+    console.log("Bình luận:", comment);
+    console.log("Hình ảnh:", images);
+
+    // Simulate a delay to show loading state
+    setTimeout(() => {
+      setLoadingComment(false);
+      setComment("");
+      setImages([]);
+    }, 2000);
+  };
   return (
     <>
-      <div className="container pb-3">
-        <section className="px-2 py-3 mb-2" id="Breadcrumb" ref={ref}>
-          <div className="container p-3 bg-Breadcrumb mt-5">
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <a href="/">
-                    <i className="fa-solid fa-house" /> TRANG CHỦ
-                  </a>
-                </li>
-                <li className="breadcrumb-item">
-                  <a href="#">SẢN PHẨM</a>
-                </li>
-                <li className="breadcrumb-item" aria-current="page">
-                  <span>{detailData?.name}</span>
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </section>
+      <section className="px-2 mb-2" id="Breadcrumb" ref={ref}>
+        <div className="container p-3 bg-Breadcrumb ">
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb mb-0">
+              <li className="breadcrumb-item">
+                <a href="/" className="route">
+                  <i className="fa-solid fa-house" /> Trang chủ
+                </a>
+              </li>
+              <li className="breadcrumb-item ">
+                <a href="/product" className="route">
+                  Sản phẩm
+                </a>
+              </li>
+              <li className="breadcrumb-item active_route" aria-current="page">
+                <span>{detailData?.name}</span>
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </section>
+      <div className="container pb-3 pt-4">
         <section id="product_details" className="mt-2">
           <div className="container">
             <div className="row ">
-              <div className="single_pro_image col-lg-6 col-md-5">
-                <div
-                  className="d-flex flex-column align-items-center p-3"
-                  style={{
-                    boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.2)",
-                    backgroundColor: "white",
-                  }}
-                >
-                  <div
-                    style={{ width: "100%", height: 355.2 }}
-                    className="d-flex  justify-content-center mb-2"
-                  >
-                    <img
-                      src={mainImage}
-                      style={{ width: "60%" }}
-                      alt=""
-                      id="MainImg"
-                    />
+              <div className=" col-lg-6 col-md-5">
+                <div className="single-pro-image">
+                  <div className="bg-img">
+                    <img src={mainImage} alt="" width="100%" id="MainImg" />
                   </div>
-                  <div className="d-flex align-items-center justify-content-center gap-1 mt-5">
+                  <div className="small-img-group gap-1">
                     {detailData?.product_image_items &&
                       detailData?.product_image_items.map((item, index) => (
                         <div
                           key={index}
-                          className=" mt-3 d-flex align-items-center justify-content-center"
+                          className={`small-img-col  ${
+                            item?.images === mainImage
+                              ? "active-small-img-col"
+                              : ""
+                          } `}
                         >
                           <img
-                            src={item?.images}
-                            style={{ width: "70%", cursor: "pointer" }}
-                            alt=""
-                            onClick={() => handleImageClick(item?.images)}
+                              src={item?.images}
+                              alt=""
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                maxWidth: "70px",
+                                maxHeight: "70px",
+                                objectFit: "cover",
+                                cursor: "pointer"
+                              }}
+                              onClick={() => handleImageClick(item?.images)}
                           />
+
                         </div>
                       ))}
                   </div>
                 </div>
               </div>
-              <div className="col-lg-6 col-md-7 pt-3">
+
+              <div className="col-lg-6 col-md-7 pt-3 box-detail-right">
                 <div className="product__details__text">
                   <div className="product-tag">
                     <div className="bestseller-tag">#Bán chạy</div>
-                    <div className="sold-tag">Đã bán: {detailData?.sold}</div>
+                    <div className="sold-tag">Đã bán: 10</div>
                   </div>
                   <h1 className="text-uppercase">{detailData?.name}</h1>
                   <div className="info-product">
                     <div className="rate-sku">
-                      <div className="rate">
-                        <b>
-                          {currentVariant?.rating ? currentVariant?.rating : 0}
-                        </b>
-                        <i
-                          className="bx bxs-star"
-                          style={{
-                            color: "#f1c123",
-                          }}
-                        />
-
-                        <span className="ml-2">({detailData?.reviews})</span>
-                      </div>
+                      {detailData?.reviews ? (
+                        <div className="rate">
+                          <i
+                            className="bx bxs-star"
+                            style={{
+                              color: "#f1c123",
+                            }}
+                          />
+                          <b>
+                            {currentVariant?.rating
+                              ? currentVariant?.rating
+                              : 0}
+                          </b>
+                          <span className="ml-2">({detailData?.reviews})</span>
+                        </div>
+                      ) : (
+                        <span style={{ paddingRight: "3px" }}>
+                          Chưa có đánh giá
+                        </span>
+                      )}
                       <div className="sku">
                         <strong>Mã: {currentVariant?.color?.sku}</strong>
                       </div>
@@ -331,14 +393,17 @@ const Detail = () => {
                       : null}
                   </div>
                 </div>
-                <div className="short_desc">{detailData?.short_desc}</div>
+                <div className="short_desc"></div>
+                <p>{detailData?.short_desc}</p>
                 <div className="option-group">
                   <label htmlFor="title">Số lượng</label>
                   <input
                     value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
+                    onChange={(e) => setQuantity(Number(e.target.value))}
                     id="quantity"
                     type="number"
+                    max="5"
+                    min="1"
                   />
                 </div>
                 <div className="action-buttons">
@@ -363,105 +428,211 @@ const Detail = () => {
         </section>
         <section className=" container mt-5" id="Description">
           <div className="row">
-            <div className="col-lg-8 col-md-8">
-              <Tab detailData={detailData} />
+            <div className="col-lg-8 col-md-8 ">
+              <div className="box-tab-info">
+                <Tab detailData={detailData} />
+              </div>
             </div>
-            <div className="col-lg-4 col-md-4">
-              <div className="d-flex flex-column justify-content-center">
-                <div className="d-flex align-items-center justify-content-center mb-3">
-                  <h3
-                    style={{
-                      borderRight: "2px solid black",
-                      paddingRight: 10,
-                      marginBottom: 0,
-                    }}
-                  >
-                    Sản phẩm đã xem
-                  </h3>
-                  <span
-                    className="d-flex justify-content-center "
-                    style={{ cursor: "pointer" }}
-                    onClick={() => clearViewedProducts()}
-                  >
-                    <TiDeleteOutline size={24} style={{ marginLeft: 10 }} />
-                  </span>
-                </div>
-
-                {viewedProducts.length > 0 &&
-                  viewedProducts.map((item) => (
-                    <div
-                      key={item.id}
-                      className="d-flex justify-content-center"
+            {viewedProducts.length > 0 && (
+              <div className="col-lg-4 col-md-4">
+                <div className="d-flex flex-column justify-content-center viewedPr">
+                  <div className="d-flex align-items-center justify-content-between box-viewedTilte ">
+                    <h5
+                      className="title"
+                      style={{
+                        paddingRight: 10,
+                        marginBottom: 0,
+                      }}
                     >
+                      Sản phẩm đã xem
+                    </h5>
+                    <span
+                      className="d-flex justify-content-center"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => clearViewedProducts()}
+                    >
+                      Xóa tất cả
+                    </span>
+                  </div>
+
+                  {viewedProducts.map((item) => (
+                    <div key={item.id} className="box-viewP">
+                      <div className="d-flex box-item ">
+                        <BoxPro
+                          horizon
+                          slug={item.slug}
+                          image={item.images}
+                          id={item.id}
+                          name={item.name}
+                          variant={item.product_variant}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className=" mt-5">
+          <div className="container">
+            <div className="box-product-relate row justify-content-start">
+              <span className="d-flex justify-content-between align-items-center mb-2">
+                <h3 className="title">Sản phẩm tương tự</h3>
+              </span>
+              {relatedProducts.length > 0 &&
+                relatedProducts
+                  .filter((v, i) => i <= 4)
+                  .map((item) => (
+                    <div key={item.id} className="col-md-3">
                       <BoxPro
-                        viewed={true}
-                        slug={item.slug}
-                        image={item.images}
                         id={item.id}
                         name={item.name}
+                        category={item.category}
+                        brand={item.brand}
+                        slug={item.slug}
+                        image={item.images}
+                        product_image_items={item.product_image_items}
                         variant={item.product_variant}
                       />
                     </div>
                   ))}
+            </div>
+          </div>
+        </section>
+        <section id="Comments mt-5">
+          <div className=" mt-5">
+            <div className="reviews ">
+              <div className="comments-section">
+                <h3 className="title-review title">
+                  Khách hàng nói về sản phẩm
+                </h3>
+                <div className="review-container">
+                  <div className="review-content">
+                    <div className="review-text">
+                      <h3>Trở thành người đầu tiên đánh giá về sản phẩm.</h3>
+                      <button className="review-button" onClick={openModal}>
+                        Đánh giá về sản phẩm
+                      </button>
+                    </div>
+                    <div className="review-image">
+                      <img
+                        src="https://fptshop.com.vn/img/imgStar.png?w=1920&q=100"
+                        alt="img-star"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <p className="comment-customer">
+                  Các đánh giá của khách hàng :
+                </p>
+                <div className="comment-item">
+                  <div className="comment-avatar d-flex">T</div>
+                  <div className="comment-content">
+                    <div className="comment-info">
+                      <span className="comment-author">Nguyễn Văn A</span>
+                      <span className="comment-date">12/11/2024</span>
+                    </div>
+                    <p className="comment-text">
+                      Sản phẩm rất tốt! Tôi sẽ mua lại.
+                    </p>
+                    <div className="d-flex gap-2  ">
+                      <img
+                        src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
+                        alt="Review Image"
+                        className="comment-image "
+                      />
+                      <img
+                        src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
+                        alt="Review Image"
+                        className="comment-image"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="comment-item">
+                  <div className="comment-avatar d-flex">T</div>
+                  <div className="comment-content">
+                    <div className="comment-info">
+                      <span className="comment-author">Nguyễn Văn A</span>
+                      <span className="comment-date">12/11/2024</span>
+                    </div>
+                    <p className="comment-text">
+                      Sản phẩm rất tốt! Tôi sẽ mua lại.
+                    </p>
+                    {/* <img
+                        src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
+                        alt="Review Image"
+                        className="comment-image"
+                      /> */}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
-        <section className="container mt-5">
-          <h3>Sản phẩm liên quan</h3>
-          <div className="row">
-            {relatedProducts.length > 0 &&
-              relatedProducts
-                .filter((v, i) => i <= 4)
-                .map((item) => (
-                  <div key={item.id} className="col-md-2">
-                    <BoxPro
-                      id={item.id}
-                      name={item.name}
-                      category={item.category}
-                      brand={item.brand}
-                      slug={item.slug}
-                      image={item.images}
-                      product_image_items={item.product_image_items}
-                      variant={item.product_variant}
-                    />
-                  </div>
-                ))}
-          </div>
-        </section>
-        <section id="Comments mt-5">
-          <div className="container mt-5">
-            <div>
-              <span>Bạn cần đăng nhập để bình luận</span>
-              <form action="">
+      </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="modal" onClick={handleOutsideClick}>
+          <div className="modal-content" ref={modalContentRef}>
+            <span className="close" onClick={closeModal}>
+              &times;
+            </span>
+
+            <div className="form-comment">
+              <span className="comment-label">
+                Vui lòng để lại cảm nghĩ về sản phẩm:
+              </span>
+              <form className="comment-form" onSubmit={handleSubmit}>
                 <textarea
+                  className="comment-textarea"
                   placeholder="Hãy nêu suy nghĩ của bạn"
-                  style={{
-                    width: "100%",
-                    height: 100,
-                    outline: "none",
-                    boxShadow: "none",
-                  }}
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                 />
-                <span className="d-flex justify-content-end">
+
+                <div className="form-footer">
+                  <div className="image-upload">
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      id="image-upload"
+                    />
+                    <label htmlFor="image-upload" className="upload-label">
+                      <i className="fas fa-image"></i> Chọn hình ảnh
+                    </label>
+                  </div>
+
                   <button
-                    className="btn btn-primary"
-                    disabled={loadingComment}
+                    className="btn-submit"
                     type="submit"
+                    disabled={loadingComment}
                   >
-                    {loadingComment ? "Đang gửi ..." : "Bình luận"}
+                    {loadingComment ? "Đang gửi ..." : "Gửi đánh giá"}
                   </button>
-                </span>
+                </div>
               </form>
-            </div>
-            <div className="reviews">
-              <h3>2 bình luận của {detailData?.name}</h3>
+
+              {/* Hiển thị hình ảnh đã chọn */}
+              <div className="image-preview">
+                {images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`chosen-preview-${index}`}
+                    className="preview-img"
+                  />
+                ))}
+              </div>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      )}
     </>
   );
 };

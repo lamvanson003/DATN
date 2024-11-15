@@ -1,3 +1,5 @@
+@inject('orderService', 'App\Services\OrderService')
+
 <div class="sidebar" data-background-color="dark">
     <div class="sidebar-logo">
       <!-- Logo Header -->
@@ -54,43 +56,26 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#danhsachthongbao">
+                  <a href="{{ route('admin.notification.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS thông báo</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.notification.type',['type' => \App\Enums\Notification\NotificationType::ORDER]) }}">
+                    <i class="fas fa-building"></i>
+                    <span>DS thông báo Đơn hàng</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.notification.type',['type' => \App\Enums\Notification\NotificationType::VOUCHER]) }}">
+                    <i class="fas fa-tags"></i>
+                    <span>DS thông báo Khuyến mãi</span>
                   </a>
                 </li>
               </ul>
             </div>
           </li>
-          {{-- <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#sidebarLayouts">
-              <i class="fas fa-pencil-ruler"></i>
-              <p>Bài viết</p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse" id="sidebarLayouts">
-              <ul class="nav nav-collapse">
-                <li>
-                  <a href="tablePost.html">
-                    <i class="fas fa-plus"></i>
-                    <span >Thêm bài viết</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#dsbaiviet">
-                    <i class="fas fa-list"></i>
-                    <span >DS bài viết</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#dschuyenmuc">
-                    <i class="fas fa-list"></i>
-                    <span >DS chuyên mục</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li> --}}
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#slider">
               <i class="fas fa-sliders-h"></i>
@@ -131,35 +116,19 @@
                 <li>
                   <a href="{{ route('admin.discount.index') }}">
                     <i class="fas fa-list"></i>
-                    <span>DS mã giảm giá</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#slider">
-              <i class="fas fa-sliders-h"></i>
-              <p>Slider</p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse" id="slider">
-              <ul class="nav nav-collapse">
-                <li>
-                  <a href="#themslider">
-                    <i class="fas fa-plus"></i>
-                    <span>Thêm Slider</span>
+                    <span>DS mã giảm giá đang hoạt động</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#dsslider">
+                  <a href="{{ route('admin.discount.inactive') }}">
                     <i class="fas fa-list"></i>
-                    <span>DS Slider</span>
+                    <span>DS mã giảm giá ngừng hoạt động</span>
                   </a>
                 </li>
               </ul>
             </div>
           </li>
+          
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#order">
               <i class="fas fa-truck"></i>
@@ -172,48 +141,72 @@
                     <a href="{{ route('admin.order.index') }}">
                         <i class="fas fa-list"></i>
                         <span>Tất cả đơn hàng</span>
+                        <span class="badge badge-success">
+                          {{ $orderService->countAll() }}
+                        </span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.order.status',['status' => \App\Enums\Order\OrderStatus::Pendding]) }}">
+                    <a href="{{ route('admin.order.status',['status' => \App\Enums\Order\OrderStatus::Pending]) }}">
                         <i class="fas fa-hourglass-start"></i>
-                        <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Pendding) }}</span>
+                        <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Pending) }}</span>
+                        <span class="badge badge-success">
+                          {{ $orderService->countPending() }}
+                        </span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::Confirm]) }}">
                       <i class="fas fa-check"></i>
                       <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Confirm) }}</span>
+                      <span class="badge badge-success">
+                        {{ $orderService->countConfirm() }}
+                      </span>
                     </a>
                 </li>
                 <li>
                   <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::Awaiting]) }}">
                       <i class="fas fa-box"></i>
                       <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Awaiting) }}</span>
+                      <span class="badge badge-success">
+                        {{ $orderService->countAwaiting() }}
+                      </span>
                   </a>
               </li>
               <li>
                   <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::InTransit]) }}">
                       <i class="fas fa-truck"></i>
                       <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::InTransit) }}</span>
+                      <span class="badge badge-success">
+                        {{ $orderService->countInTransit() }}
+                      </span>
                   </a>
               </li>
               <li>
                   <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::Delivered]) }}">
                       <i class="fas fa-box-open"></i>
                       <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Delivered) }}</span>
+                      <span class="badge badge-success">
+                        {{ $orderService->countDelivered() }}
+                      </span>
                   </a>
               </li>
               <li>
                   <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::Canceled]) }}">
                       <i class="fas fa-times"></i>
                       <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Canceled) }}</span>
+                      <span class="badge badge-success">
+                        {{ $orderService->countCanceled() }}
+                      </span>
                   </a>
               </li>
               <li>
                   <a href="{{ route('admin.order.status', ['status' => \App\Enums\Order\OrderStatus::Returned]) }}">
                       <i class="fas fa-undo-alt"></i>
                       <span>{{ \App\Enums\Order\OrderStatus::getDescription(\App\Enums\Order\OrderStatus::Returned) }}</span>
+                      <span class="badge badge-success">
+                        {{ $orderService->countReturned() }}
+                      </span>
                   </a>
               </li>
             </ul>
@@ -323,29 +316,6 @@
               </ul>
             </div>
           </li>
-          {{-- <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#order">
-              <i class="fas fa-receipt"></i>
-              <p>Đơn hàng</p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse" id="order">
-              <ul class="nav nav-collapse">
-                <li>
-                  <a href="#themdonhang">
-                    <i class="fas fa-plus"></i>
-                    <span>Thêm Đơn hàng</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#dsdonhang">
-                    <i class="fas fa-list"></i>
-                    <span>DS Đơn hàng</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li> --}}
           {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#comment">
               <i class="fas fa-comment"></i>

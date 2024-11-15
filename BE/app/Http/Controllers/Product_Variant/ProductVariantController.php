@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Product_Variant;
 
+use App\Enums\DefaultStatus;
 use App\Http\Controllers\Controller;
-use App\Models\Product;
 use App\Http\Requests\Product\ProductVariantRequest;
 use Exception;
-use  App\Enums\Product\ProductStatus;
+use App\Enums\Status;
+use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Models\ProductImageItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\Console\Logger\ConsoleLogger;
 
 class ProductVariantController extends Controller
 {
@@ -25,16 +25,18 @@ class ProductVariantController extends Controller
     public function create($product_id)
     {  
         $product = Product::findOrFail($product_id);
+        $status = DefaultStatus::asSelectArray();
         $storages = ['64GB', '128GB', '256GB', '512GB' ,'1T'];
         return view('product_variant.create',
-        compact('product','storages')
+        compact('product','storages','status')
         );
     }
 
     public function delete($product_id,$id)
     {
         $product_variant = ProductVariant::findOrFail($id);
-        $product_variant->delete();
+        $product_variant->status = DefaultStatus::Deleted;
+        $product_variant->save();
         return redirect()->route('admin.product.product_item.index',$product_id)->with('success', 'Thực hiện thành công.');
     }
 
@@ -78,15 +80,31 @@ class ProductVariantController extends Controller
     public function edit($product_id,$id)
     {   
         $product_variant = ProductVariant::with('product')->findOrFail($id);
+        $status = Status::asSelectArray();
         return view('product_variant.edit', [
             'product_variant' => $product_variant,
-            
+            'status' => $status,
         ]);
     }
 
     public function update(Request $request)
     {
         $product_variant = ProductVariant::find($request['id']);
+        $product_image_item = ProductImageItem::findOrFail($request['id']);
+        $baseUrl = url()->to('/');
+
+        if ($request->hasFile('new_image')) {
+            if ($product_image_item->images && file_exists(public_path('images/variant_images/' . basename($product_image_item->images)))) {
+                unlink(public_path('images/variant_images/' . basename($product_image_item->images)));
+            }
+            $newImage = $request->file('new_image');
+            $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
+            $newImage->move(public_path('images/variant_images'), $newImageName);
+
+            $product_image_item->images = $baseUrl . '/images/variant_images/' . $newImageName;
+        }
+
+        $product_image_item->images = $product_image_item->images ?? $request->input('old_image');
         
         $product_variant->update([
             'memory' => $request->input('memory'),
@@ -94,6 +112,7 @@ class ProductVariantController extends Controller
             'sale' => $request->input('sale'),
             'instock' => $request->input('instock'),
             'storage' => $request->input('storage'),
+            'images' => $product_image_item->images,
         ]);
 
         return redirect()->back()->with('success', 'Cập nhật thành công!');

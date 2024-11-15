@@ -1,26 +1,23 @@
 import axios from "axios";
 export const paymentApi = {
-  create: async (orderData) => {
+  create: async (orderInfo) => {
     try {
       const response = await axios.post(
-        "http://localhost:5173/create_payment_url",
-        orderData,
+        "http://127.0.0.1:8000/api/payments",
+        orderInfo,
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-      const paymentUrl = response.data.paymentUrl;
-      window.location.href = paymentUrl;
-    } catch (err) {
-      if (err.response) {
-        console.log("Payment error (server response): ", err.response.data);
-      } else if (err.request) {
-        console.log("Payment error (no response): ", err.request);
+      if (response.data.payment_url) {
+        window.location.href = response.data.payment_url;
       } else {
-        console.log("Payment error (request setup): ", err.message);
+        alert("Có lỗi xảy ra, vui lòng thử lại.");
       }
+    } catch (error) {
+      console.error("Lỗi thanh toán:", error);
     }
   },
 };

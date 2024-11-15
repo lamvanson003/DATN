@@ -13,12 +13,31 @@ use Carbon\Carbon;
 
 class DiscountController extends Controller
 {
-    public function index()
+    public function checkAndExpireDiscounts()
     {
-        $discounts = Discount::all();
-        return view('discount.index', compact('discounts'));
+        $now = Carbon::now();
+
+        Discount::where('status', DiscountStatus::Active)
+            ->where('date_end', '<', $now)
+            ->update(['status' => DiscountStatus::Expired]);
     }
 
+    public function index()
+    {
+        $this->checkAndExpireDiscounts();
+        $discounts = Discount::where('status', DiscountStatus::Active)->get();
+        return view('discount.index', compact('discounts'));
+    }
+    public function inactive()
+    {
+        $discounts = Discount::whereIn('status', [
+            DiscountStatus::Inactive,
+            DiscountStatus::Expired,
+            DiscountStatus::Used,
+            DiscountStatus::Deleted
+        ])->get();
+        return view('discount.inactive', compact('discounts'));
+    }
     public function create()
     {
         $types = DiscountType::asSelectArray(); 
@@ -118,14 +137,19 @@ class DiscountController extends Controller
 
 
 
-    public function delete($id)
-    {
-        try {
-            $discount = Discount::findOrFail($id);  
-            $discount->delete();
-            return redirect()->route('admin.discount.index')->with('success', 'Xóa mã giảm giá thành công.');
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
-        }
+public function delete($id)
+{
+    try {
+        $discount = Discount::findOrFail($id);
+        
+     
+        $discount->update([
+            'status' => DiscountStatus::Deleted,
+        ]);
+
+        return redirect()->route('admin.discount.index')->with('success', 'Cập nhật trạng thái mã giảm giá thành "Đã xóa" thành công.');
+    } catch (Exception $e) {
+        return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
     }
+}
 }
