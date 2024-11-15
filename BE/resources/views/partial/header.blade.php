@@ -1,3 +1,4 @@
+@include('components.script')
 @if(session('success'))
 <div class="jq-toast-wrap top-right alert-success border-0">
     <div class="jq-toast-single jq-has-icon jq-icon-success " style="text-align: left;/* display: block; */">

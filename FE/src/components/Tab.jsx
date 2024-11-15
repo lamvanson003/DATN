@@ -26,7 +26,7 @@ const Tab = ({ detailData }) => {
             onClick={(event) => handleTabClick("tab2", event)} // Truyền event vào
             href="#"
           >
-            Bài viết đánh giá
+            Mô tả về sản phẩm
           </a>
         </li>
       </ul>
@@ -62,11 +62,11 @@ const Tab = ({ detailData }) => {
               <h2 className="review-title">Tổng quát</h2>
               {detailData?.description}
             </div>
-            <div className="see-more">
+            {/* <div className="see-more">
               <a className="see-more-link" href="#">
                 Xem thêm
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -39,7 +39,7 @@
             <span class="sidebar-mini-icon">
               <i class="fa fa-ellipsis-h"></i>
             </span>
-            <h4 class="text-section">Components</h4>
+            <h4 class="text-section">Chức năng</h4>
           </li>
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#notification">
@@ -71,6 +71,29 @@
                   <a href="{{ route('admin.notification.type',['type' => \App\Enums\Notification\NotificationType::VOUCHER]) }}">
                     <i class="fas fa-tags"></i>
                     <span>DS thông báo Khuyến mãi</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#sale">
+              <i class="fas fa-bolt"></i>
+              <p>Flash Sale</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="sale">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('admin.flashSale.create') }}">
+                    <i class="fas fa-plus"></i>
+                    <span>Thêm Flash Sale</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.flashSale.index') }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS Flash Sale</span>
                   </a>
                 </li>
               </ul>
