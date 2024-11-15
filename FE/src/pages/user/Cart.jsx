@@ -62,20 +62,9 @@ const Cart = () => {
   const [discountCode, setDiscountCode] = useState("");
   const [finalPrice, setFinalPrice] = useState(0);
   const [applyStatus, setApplyStatus] = useState(false);
-  const handleDiscount = async () => {
-    try {
-      const discountData = await discountApi.getOne(discountCode);
-      if (discountData) {
-        setFinalPrice(applyDiscount(getCartTotal(), discountData));
-      } else {
-        console.log("Không tồn tại");
-      }
-    } catch (err) {
-      console.log("Có vấn đề!", err);
-    }
-  };
+
   const [checkedItemsInCart, setCheckedItemsInCart] = useState([]);
-  console.log("checkedItems: ", checkedItemsInCart);
+
   const handleCheckout = () => {
     if (checkedItemsInCart.length > 0) {
       localStorage.setItem("checkedItems", JSON.stringify(checkedItemsInCart));
@@ -83,6 +72,9 @@ const Cart = () => {
     } else {
       alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán.");
     }
+  };
+  const handleNaPro = () => {
+    navigate("/product");
   };
   return (
     <div
@@ -116,7 +108,7 @@ const Cart = () => {
             </span>
           </div>
           <div
-            className="d-flex align-items-center p-3 mb-3"
+            className="d-flex align-items-center p-3 "
             style={{
               backgroundColor: " #007bff",
               color: "#fff",
@@ -132,7 +124,10 @@ const Cart = () => {
             <span style={{ width: "7%", textAlign: "center" }}>Hành động</span>
           </div>
           <div>
-            <div className="d-flex flex-column gap-5">
+            <div
+              className="d-flex flex-column gap-3"
+              style={{ backgroundColor: "#fff" }}
+            >
               {cartItems.map((item) => (
                 <div
                   key={item?.color?.sku}
@@ -158,8 +153,9 @@ const Cart = () => {
                     <div
                       className="d-flex justify-content-between align-items-center product p-3 rounded"
                       style={{
-                        boxShadow: "0 5px 10px rgba(0, 0, 0, 0.3)",
-                        backgroundColor: "#fff",
+                        border: "1px solid #034387",
+                        borderRadius: "5px",
+                        margin: "10px 6px",
                       }}
                     >
                       <span
@@ -237,8 +233,8 @@ const Cart = () => {
                         </span>
                       </span>
                       <span
-                        className="text-center text-danger fw-bold"
-                        style={{ width: "17%", fontSize: 20 }}
+                        className="text-center text-danger fw-semibold"
+                        style={{ width: "17%", fontSize: 18 }}
                       >
                         {formatCurrency(
                           ((item?.color?.sale ?? item?.color?.price) || 0) *
@@ -260,7 +256,11 @@ const Cart = () => {
               className="mt-5 d-flex justify-content-between"
               style={{ height: 50 }}
             >
-              <span className="px-2 py-3 bg-primary text-light rounded">
+              <span
+                className="d-flex justify-content-center align-items-center px-2 py-3 bg-primary text-light rounded text-light fw-semibold"
+                style={{ cursor: "pointer" }}
+                onClick={handleNaPro}
+              >
                 Tiếp tục mua hàng
               </span>
               <span
@@ -268,42 +268,11 @@ const Cart = () => {
                   backgroundColor: "#016AFF",
                   cursor: "pointer",
                 }}
-                className="d-flex justify-content-center align-items-center px-2 py-2 rounded text-light fw-bold"
+                className="d-flex justify-content-center align-items-center px-2 py-2 rounded text-light fw-semibold"
                 onClick={() => handleCheckout()}
               >
                 Tiến hành thanh toán
               </span>
-            </div>
-            <div className="d-flex justify-content-between mt-5">
-              <div
-                style={{
-                  width: "40%",
-                  backgroundColor: "#EDEAEA",
-                  height: 70,
-                }}
-                className="px-3 py-2 d-flex justify-content-between align-items-center rounded"
-              >
-                <span
-                  style={{ width: "75%", height: 50 }}
-                  className="px-2 d-flex align-items-center"
-                >
-                  <input
-                    style={{ width: "100%", height: "100%" }}
-                    type="text"
-                    value={discountCode}
-                    onChange={(e) => setDiscountCode(e.target.value)}
-                    placeholder="Nhập mã giảm giá"
-                    className="text-center rounded border-0"
-                  />
-                </span>
-                <span
-                  style={{ backgroundColor: "#016AFF", height: "100%" }}
-                  onClick={handleDiscount}
-                  className="px-3 py-1 rounded text-light d-flex align-items-center fw-bold"
-                >
-                  Áp dụng
-                </span>
-              </div>
             </div>
           </div>
         </div>

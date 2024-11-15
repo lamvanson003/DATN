@@ -143,9 +143,8 @@
   font-size: 1.2rem;
 }
 .active-class-header {
-  background-color: #007bff;
-  padding: 13px 13px;
-  color: #fff;
+  padding-bottom: 1px;
+  border-bottom: 1px solid #fff;
 }
 .searchH {
   padding: 4px 0px;
@@ -176,27 +175,35 @@
   gap: 10px;
 }
 .cart-price {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: #fff;
   display: flex;
   justify-content: space-between;
-  background-color: #fff;
-  color: #007bff;
+  color: #333;
   align-items: center;
   margin-bottom: 10px;
   padding: 0 6px;
   border-radius: 4px;
 }
 .cart-action button {
-  background-color: #007bff;
-  font-weight: 600;
-  width: 100%;
+  background-color: #007bff; /* Màu nền mặc định */
+  font-weight: 600; /* Đậm chữ */
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+  color: #fff; /* Màu chữ */
+  border: none; /* Không viền */
+  transition: background 0.3s ease; /* Hiệu ứng chuyển đổi mượt */
 }
+
 .cart-action button:hover {
-  background-color: #007bff;
-  color: #fff;
+  background: linear-gradient(
+    to right,
+    #007bff,
+    #00c6ff
+  ); /* Gradient từ trái sang phải */
+  color: #fff; /* Giữ màu chữ là trắng */
 }
+
 .suggestion-item {
   border-radius: 5px;
   border: 1px solid #034387;
