@@ -11,8 +11,7 @@ use App\Models\ProductVariant;
 use Illuminate\Support\Facades\DB;
 
 class UserOrderController extends Controller {
-  // API to get order details
-  public function __construct()
+
     {
         $this->middleware('auth:sanctum'); // Ensure authentication
     }

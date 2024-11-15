@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use App\Models\Comment;
 use Exception;
 
 class UserProfileController extends Controller
@@ -151,4 +152,98 @@ class UserProfileController extends Controller
             'message' => 'Method not allowed',
         ], 405); // Phản hồi khi phương thức không được phép
     }
+    public function addComment(Request $request)
+    {
+        $user = Auth::user(); // Get the authenticated user
+
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string|max:1000',
+            'image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,bmp,svg,webp|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ], 422); // Return validation errors
+        }
+
+        try {
+            $data = $validator->validated(); // Get validated data
+
+            // Create a new comment
+            $comment = new Comment();
+            $comment->user_id = $user->id;
+            $comment->content = $data['content'];
+
+            // Handle image upload if present
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('images/comments', 'public');
+                $comment->image = $imagePath;
+            }
+
+            $comment->save(); // Save the comment
+
+            Log::info('Comment added successfully', [
+                'user_id' => $user->id,
+                'comment_id' => $comment->id,
+                'created_at' => now(),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Comment added successfully',
+                'data' => [
+                    'content' => $comment->content,
+                    'image' => $comment->image ? url(Storage::url($comment->image)) : null,
+                    'created_at' => $comment->created_at,
+                ],
+            ], 201);
+        } catch (Exception $e) {
+            Log::error('Error adding comment', [
+                'error' => $e->getMessage(),
+                'user_id' => $user->id,
+                'request_data' => $request->all(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while adding the comment: ' . $e->getMessage(),
+            ], 500); // Return a general error
+        }
+    }
+    public function getComments(Request $request)
+{
+    $user = Auth::user(); // Get the authenticated user
+
+    try {
+        // Fetch comments related to the user, ordered by creation date (latest first)
+        $comments = Comment::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Comments retrieved successfully',
+            'data' => $comments->map(function ($comment) {
+                return [
+                    'id' => $comment->id,
+                    'content' => $comment->content,
+                    'image' => $comment->image ? url(Storage::url($comment->image)) : null,
+                    'created_at' => $comment->created_at,
+                ];
+            }),
+        ], 200);
+    } catch (Exception $e) {
+        Log::error('Error retrieving comments', [
+            'error' => $e->getMessage(),
+            'user_id' => $user->id,
+        ]);
+
+        return response()->json([
+            'success' => false,
+            'message' => 'An error occurred while retrieving comments: ' . $e->getMessage(),
+        ], 500);
+    }
+}
 }

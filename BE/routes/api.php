@@ -75,14 +75,10 @@ Route::controller(UserProfileController::class)->prefix('/profiles')
     Route::get('/', 'index');
     Route::post('/', 'index');
     Route::patch('/','index');
+    Route::post('/comment', 'addComment');
+    Route::get('/comment', 'addComment');
+    Route::get('/comments', 'getComments');
 
-});
-Route::controller(UserOrderController::class)->prefix('/userorder')
-->as('userorder')
-->group(function(){
-    Route::get('/', 'index');
-    Route::post('/', 'index');
-    Route::patch('/','index');
 
 });
 Route::controller(DiscountController::class)->prefix('/discounts')
