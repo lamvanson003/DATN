@@ -79,3 +79,10 @@ export const handleNumber = (number) => {
     return `${Math.round((number * 10) / Math.pow(10, 3)) / 10}K`;
   }
 };
+export function debounce(func, delay) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+}

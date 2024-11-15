@@ -31,20 +31,12 @@ const Tab = ({ detailData }) => {
         </li>
       </ul>
 
-      <div className="tab-content mt-4">
-        <div
-          className={`tab-pane fade ${
-            activeTab === "tab1" ? "show active" : ""
-          }`}
-        >
+      <div className="tab-content" style={{ padding: 10 }}>
+        <div className={`tab-pane fade ${activeTab === "tab1" ? "show active" : ""}`}>
           <InfoPro />
         </div>
-        <div
-          className={`tab-pane fade ${
-            activeTab === "tab2" ? "show active" : ""
-          }`}
-        >
-          <div className="container p-3" style={{ backgroundColor: "#fff" }}>
+        <div className={`tab-pane fade ${   activeTab === "tab2" ? "show active" : "" }`}>
+          <div className="container ">
             <h5 className="title_desc">
               Đặc Điểm Nổi Bật Của {detailData?.name}
             </h5>

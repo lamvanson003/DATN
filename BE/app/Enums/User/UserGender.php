@@ -15,7 +15,7 @@ final class UserGender extends Enum
         return [
             self::Male => 'Nam',
             self::Female => 'Nữ',
-            self::Other => 'Khác'y
+            self::Other => 'Khác'
         ];
     }
 

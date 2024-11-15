@@ -73,3 +73,10 @@
 .fa-active {
   color: #007bff;
 }
+.route {
+  color: #616161;
+}
+.active_route {
+  color: #ed0000;
+  font-weight: 500;
+}
