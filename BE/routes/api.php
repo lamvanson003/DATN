@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Comment\CommentController;
 use App\Http\Controllers\Api\Register\UsersRegisterController;
 use App\Http\Controllers\Api\Profile\UserProfileController;
 use App\Http\Controllers\Api\Discount\DiscountController;
+use App\Http\Controllers\Api\UserOrder\UserOrderController;
 
 
 
@@ -63,6 +64,14 @@ Route::controller(UsersRegisterController::class)->prefix('/registers')
 });
 Route::controller(UserProfileController::class)->prefix('/profiles')
 ->as('profile')
+->group(function(){
+    Route::get('/', 'index');
+    Route::post('/', 'index');
+    Route::patch('/','index');
+
+});
+Route::controller(UserOrderController::class)->prefix('/userorder')
+->as('userorder')
 ->group(function(){
     Route::get('/', 'index');
     Route::post('/', 'index');
