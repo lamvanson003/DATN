@@ -109,7 +109,7 @@ const BoxPro = ({
             className="position-absolute top-0 start-0 m-2 badge bg-danger text-white"
             style={{ borderRadius: "5px", fontSize: "12px" }}
           >
-            <FontAwesomeIcon icon={faCogs} className="me-1" /> Siêu sale
+            <FontAwesomeIcon icon={faCogs} className="me-1" />khuyến mãi
           </div>
           <div
             className="position-absolute top-0 end-0 m-2 badge  "
@@ -302,7 +302,7 @@ const BoxPro = ({
             className="position-absolute top-0 start-0 m-2 badge bg-danger text-white"
             style={{ borderRadius: "5px", fontSize: "12px" }}
           >
-            <FontAwesomeIcon icon={faCogs} className="me-1" /> Siêu sale
+            <FontAwesomeIcon icon={faCogs} className="me-1" /> Khuyến mãi
           </div>
           <div
             className="position-absolute top-0 end-0 m-2 badge"

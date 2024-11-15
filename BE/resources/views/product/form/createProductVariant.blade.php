@@ -13,7 +13,7 @@
                     <div class="col-md-12 col-sm-12 d-flex mb-3">
                         <div class="me-2 flex-grow-1">
                             <label for="color1" class="form-label">Màu sắc <span style="color: red">*</span>:</label>
-                            <input type="text" class="form-control" name="variants[0][color]" id="color1" placeholder="Chọn màu (VD: Xanh)">
+                            <input type="text" class="form-control" required name="variants[0][color]" id="color1" placeholder="Chọn màu (VD: Xanh)">
                         </div>
 
                         <div class="me-2 flex-grow-1">
@@ -35,12 +35,12 @@
                     <div class="col-md-12 col-sm-12 d-flex mb-3">
                         <div class="me-2 flex-grow-1">
                             <label for="price1" class="form-label">Giá <span style="color: red">*</span>:</label>
-                            <input type="number" required class="form-control" name="variants[0][price]" id="price1" placeholder="Nhập giá" min="1000">
+                            <input type="text" required class="form-control formatPrice" name="variants[0][price]" id="price1" placeholder="Nhập giá" min="1000">
                         </div>
 
                         <div class="me-2 flex-grow-1">
                             <label for="sale1" class="form-label">Khuyến mãi <span style="color: red">*</span>:</label>
-                            <input type="number" class="form-control" name="variants[0][sale]" id="sale1" placeholder="Nhập giá khuyến mãi" min="1000">
+                            <input type="text" class="form-control formatPrice" name="variants[0][sale]" id="sale1" placeholder="Nhập giá khuyến mãi" min="1000">
                         </div>
                     </div>
 

@@ -27,7 +27,7 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Danh sách sản phẩm</h4>
+              <h4 class="card-title">Danh sách sản phẩm Flash Sale</h4>
               <a href="{{ route('admin.product.create') }}" class="ms-auto">
                 <button type="button" class="btn btn-primary btn-round">
                   <i class="fa fa-plus"></i>
@@ -63,30 +63,17 @@
                   </tr>
                 </tfoot>
                 <tbody>
-                  @foreach ($products as $item)
+                  @foreach ($saleItems as $item)
                     <tr>
                       <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt="{{ $item->name }}"></td>
                       <td><a href="{{ route('admin.product.edit', $item->id) }}">{{ $item->name }}</a></td> 
                       <td>
-                        <div class="d-flex" style="flex-direction: column ; align-items: flex-start">
-                          <div class="product_variant">
-                            <a  href="{{ route('admin.product.product_item.index',$item->id) }}" data-bs-toggle="modalView" data-bs-target="#exampleModalView">
-                              DS biến thể 
-                            </a>
-                          </div>
-                        </div>
+                        
                       </td> 
+
                       <td>
-                        <div class="row">
-                          <div class="image-items d-flex align-items-center gap-2 justify-content-center mb-3">
-                              @foreach ($item->product_image_items->take(4) as $imageItem)
-                                  <img class="text-center fix-image" src="{{ asset($imageItem->images) }}" alt="{{ $item->name }}">
-                              @endforeach
-                      
-                          </div>
-                          <a href="{{ route('admin.product.item.index', $item->id) }}">Xem thêm</a>
-                      </div>                                     
-                    </td>
+                       
+                      </td>
                       <td>
                         @switch($item->status)
                             @case(\App\Enums\Product\ProductStatus::Active)
@@ -101,19 +88,19 @@
                             @default
                                 <span class="badge rounded-pill badge-secondary">Không xác định</span>
                         @endswitch
-                    </td>
-                    <td>
-                      @if($item->product_variant->sum('sold') > 0)
-                            {{ $item->product_variant->sum('sold') }}
-                        @else
-                            <span class="badge text-danger">Chưa có lượt mua</span>
-                      @endif
-                    </td>
-                    <td>
-                        <button type="button" data-bs-toggle="modal" title="Chỉnh sửa" class="btn btn-danger btn-icon" data-bs-target="#exampleModal{{ $item->id }}">
-                          <i class="fa fa-trash-alt"></i>
-                        </button>
-                    </td>
+                      </td>
+                      <td>
+                        @if($item->product_variant->sum('sold') > 0)
+                              {{ $item->product_variant->sum('sold') }}
+                          @else
+                              <span class="badge text-danger">Chưa có lượt mua</span>
+                        @endif
+                      </td>
+                      <td>
+                          <button type="button" data-bs-toggle="modal" title="Chỉnh sửa" class="btn btn-danger btn-icon" data-bs-target="#exampleModal{{ $item->id }}">
+                            <i class="fa fa-trash-alt"></i>
+                          </button>
+                      </td>
                     </tr>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
