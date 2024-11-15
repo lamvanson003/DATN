@@ -48,7 +48,7 @@ class ItemController extends controller
 
             ProductImageItem::create([
                 'name' => $request->name,
-                'position' => $request->position,
+                'posittion' => $request->posittion,
                 'product_id' => $request->product_id,
                 'images' => $imagePath,
             ]);
@@ -95,7 +95,7 @@ class ItemController extends controller
     $product_image_item->update([
         'name' => $request['name'],
         'status' => $request['status'],
-        'position' => $request['position'],
+        'posittion' => $request['posittion'],
         'images' => $product_image_item->images,
     ]);
 

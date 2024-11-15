@@ -18,70 +18,49 @@ class UsersRegisterController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users', // Kiểm tra email unique
-            'password' => 'required|string|min:6|confirmed',
+            'username' => 'required|string|max:255|unique:users,username,' ,
+            'email' => 'required|string|email|max:255|unique:users,email,' ,
+            'password' => 'nullable|string|min:6|confirmed',
             'phone' => 'nullable|string|max:15',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ], 422); // Mã lỗi 422 cho validation lỗi
+            Log::error('Validation failed:', ['errors' => $validator->errors()]);
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
         }
 
         try {
-            $data = $validator->validated();
-
-            // Kiểm tra xem email đã tồn tại chưa
-            if (User::where('email', $data['email'])->exists()) {
-                return response()->json([
-                    'success' => false,
-                    'error' => 'Email already exists',
-                ], 409); // Mã lỗi 409 cho xung đột dữ liệu
+            if (User::where('email', $request->email)->exists()) {
+                Log::error('Email already exists:', ['email' => $request->email]);
+                return response()->json(['success' => false, 'error' => 'Email already exists'], 409);
             }
 
-            // Kiểm tra xem số điện thoại đã tồn tại chưa, nếu số điện thoại không null
-            if (!empty($data['phone']) && User::where('phone', $data['phone'])->exists()) {
-                return response()->json([
-                    'success' => false,
-                    'error' => 'Phone number already exists',
-                ], 409); // Mã lỗi 409 cho xung đột dữ liệu
+            if ($request->phone && User::where('phone', $request->phone)->exists()) {
+                Log::error('Phone number already exists:', ['phone' => $request->phone]);
+                return response()->json(['success' => false, 'error' => 'Phone number already exists'], 409);
             }
 
             $user = User::create([
-                'username' => $data['username'],
-                'email' => $data['email'],
-                'phone' => $data['phone'] ?? null,
+                'username' => $request->username,
+                'email' => $request->email,
+                'phone' => $request->phone,
                 'roles' => UserRole::User,
                 'status' => UserStatus::Active,
-                'password' => Hash::make($data['password']),
+                'password' => Hash::make($request->password),
             ]);
 
             Auth::login($user);
+            Log::info('User registered successfully:', ['user_id' => $user->id]);
 
-            Log::info('User registered successfully', [
-                'user_id' => $user->id,
-                'username' => $user->username,
-                'email' => $user->email,
-                'created_at' => now(),
-            ]);
+            return response()->json(['success' => true, 'data' => $user], 200);
 
-            return response()->json([
-                'success' => true,
-                'data' => $user // Trả về dữ liệu người dùng
-            ], 200); // Mã thành công 200
         } catch (Exception $e) {
-            Log::error('User registration error', [
-                'error' => $e->getMessage(),
+            Log::error('Registration error:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
                 'data' => $request->all(),
             ]);
-
-            return response()->json([
-                'success' => false,
-                'error' => 'An error occurred: ' . $e->getMessage(),
-            ], 500); // Mã lỗi 500 cho lỗi server
+            return response()->json(['success' => false, 'error' => 'An error occurred during registration.'], 500);
         }
     }
 }

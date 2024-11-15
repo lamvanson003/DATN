@@ -77,6 +77,14 @@ Route::controller(UserProfileController::class)->prefix('/profiles')
     Route::patch('/','index');
 
 });
+Route::controller(UserOrderController::class)->prefix('/userorder')
+->as('userorder')
+->group(function(){
+    Route::get('/', 'index');
+    Route::post('/', 'index');
+    Route::patch('/','index');
+
+});
 Route::controller(DiscountController::class)->prefix('/discounts')
     ->as('discount')
     ->group(function(){
@@ -99,7 +107,7 @@ Route::controller(SliderController::class)->prefix('/sliders')
 ->group(function(){
     Route::get('/', 'index');
 });
-   
+
 
 Route::get('/firebase-config', function () {
     return response()->json([

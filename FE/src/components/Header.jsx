@@ -167,8 +167,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
-              Thông báo: Khuyến mãi lên đến 50% cho tất cả các mặt hàng tại
-              CloudLab!
+              Thông báo: Khuyến mãi lên đến 50% tất cả các mặt hàng tại CloudLab!
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
               <img style={{ margin: "0px 4px" }} width={16} src={fire} alt="" />
