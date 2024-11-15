@@ -14,6 +14,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('order:notification')->everyMinute();
+        $schedule->call(function () {
+            app(\App\Http\Controllers\Discount\DiscountController::class)->checkAndExpireDiscounts();
+        })->daily();
     }
 
     /**

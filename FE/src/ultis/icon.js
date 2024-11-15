@@ -5,6 +5,16 @@ import {
   FaRegUser,
   FaHistory,
   FaFire,
+  FaQuoteLeft,
+  FaQuoteRight,
+  FaMemory,
+  FaTv,
+  FaSyncAlt,
+  FaDatabase,
+  FaBolt,
+  FaShieldAlt,
+  FaFilter,
+  FaKey,
 } from "react-icons/fa";
 import {
   IoCartOutline,
@@ -19,11 +29,15 @@ import {
   IoIosStarOutline,
 } from "react-icons/io";
 import { MdNotificationsNone } from "react-icons/md";
+import {
+  TbArrowBigRightLineFilled,
+  TbArrowBigLeftLineFilled,
+} from "react-icons/tb";
 import { RiBankCardFill, RiProductHuntLine, RiTruckLine } from "react-icons/ri";
 import { PiHandPalm } from "react-icons/pi";
 import { BsSearch } from "react-icons/bs";
 import { CiLocationOn, CiShop } from "react-icons/ci";
-import { BiCategoryAlt, BiSolidDiscount } from "react-icons/bi";
+import { BiCategoryAlt, BiSolidDiscount, BiLogIn } from "react-icons/bi";
 import { FcAbout } from "react-icons/fc";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { TiDeleteOutline } from "react-icons/ti";
@@ -78,5 +92,18 @@ const icons = {
   MdOutlineSettingsSuggest,
   IoArrowUndoOutline,
   IoArrowRedoOutline,
+  TbArrowBigRightLineFilled,
+  TbArrowBigLeftLineFilled,
+  FaQuoteLeft,
+  FaQuoteRight,
+  FaMemory,
+  FaTv,
+  FaSyncAlt,
+  FaDatabase,
+  FaBolt,
+  FaShieldAlt,
+  FaFilter,
+  BiLogIn,
+  FaKey,
 };
 export default icons;

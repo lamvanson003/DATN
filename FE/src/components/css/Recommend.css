@@ -1,0 +1,129 @@
+.recommend-pro {
+  display: flex;
+
+  color: #fff;
+  padding: 24px 20px;
+  gap: 25px;
+  border-radius: 10px;
+
+  transition: transform 0.3s ease;
+}
+
+.recommend-price {
+  position: absolute;
+  bottom: 50px;
+  right: 10px;
+  z-index: 30;
+  background-color: #0056b3;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+}
+
+.recommend-dis {
+  font-size: 24px;
+  padding: 4px 8px;
+  background-color: #2f4f2f;
+  color: #b4e918;
+  border-radius: 5px;
+  font-weight: bold;
+}
+.recommend-proname-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  background-color: #fff;
+  color: #007bff;
+  position: relative;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10px;
+  padding: 4px;
+}
+
+.recommend-proname {
+  display: inline-block; /* Để cho phép animation */
+  font-size: 16px;
+  font-weight: 600;
+  padding: 4px;
+  position: absolute;
+}
+
+.scroll {
+  animation: scroll 7s linear infinite;
+}
+
+@keyframes scroll {
+  5% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.recommend-left {
+  width: 300px;
+  position: relative;
+}
+.recommend-img {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+}
+.recommend-right {
+  width: 300px;
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.recommend-info {
+  display: flex;
+  flex-direction: column;
+}
+.recommend-arrow {
+  display: flex;
+  align-items: center;
+  padding: 30px 5px;
+  font-size: 30px;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(to right, #007acc, #003f8e);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.recommend-arrow:hover {
+  background: linear-gradient(to right, #00c9ff, #005aff);
+  transform: scale(1.1);
+}
+.navigate-dot {
+  margin-top: 10px;
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: gray;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot:hover {
+  background-color: lightgray;
+}
+
+.dot.active {
+  background-color: #003f8e;
+}
+
+.quote {
+  display: inline-flex;
+  align-items: center;
+  font-size: 8px;
+  vertical-align: top;
+  margin-top: 2px;
+}

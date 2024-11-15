@@ -57,7 +57,7 @@
                 <tbody>
                   @foreach ($order as $item)
                     <tr>
-                      <td><a href="">{{ $item->code }}</a></td>
+                      <td><a href="{{ route('admin.order.edit', $item->id) }}">{{ $item->code }}</a></td>
                       <td>
                         @if ($item->user)
                           <a href="{{ route('admin.user.edit', $item->user->id) }}">

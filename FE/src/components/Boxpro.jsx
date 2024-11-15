@@ -192,7 +192,7 @@ const BoxPro = ({
         </div>
       ) : horizon ? (
         <div
-          className="d-flex  p-2 my-2 rounded viewedP"
+          className="d-flex p-2 rounded"
           style={{ backgroundColor: "#fff", cursor: "pointer" }}
         >
           <span className="me-4 d-flex align-items-center">
@@ -204,7 +204,11 @@ const BoxPro = ({
               <img
                 src={image}
                 alt={name}
-                style={{ width: "80px", height: "80px", objectFit: "cover" }}
+                style={{
+                  maxWidth: "80px",
+                  height: "auto",
+                  objectFit: "contain",
+                }}
               />
             </Link>
           </span>
@@ -285,43 +289,87 @@ const BoxPro = ({
           )}
         </div>
       ) : (
-        <div className="card">
-          <div className="badge-hot text-danger">
-            <FaFire />
+        <div
+          className="card product-card my-2"
+          style={{
+            width: "18rem",
+            borderRadius: "10px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            position: "relative",
+          }}
+        >
+          <div
+            className="position-absolute top-0 start-0 m-2 badge bg-danger text-white"
+            style={{ borderRadius: "5px", fontSize: "12px" }}
+          >
+            <FontAwesomeIcon icon={faCogs} className="me-1" /> Siêu sale
           </div>
-          <div className="badge-discount">-16%</div>
-          <div className="badge-rating">
-            {currentVariant?.average_rating
-              ? currentVariant?.average_rating
-              : "2.3"}
+          <div
+            className="position-absolute top-0 end-0 m-2 badge"
+            style={{ borderRadius: "5px", fontSize: "12px" }}
+          >
+            <div className="d-flex flex-column align-items-center">
+              <span
+                className="badge bg-warning text-dark"
+                style={{ fontSize: "0.8rem" }}
+              >
+                -67%
+              </span>
 
-            <IoIosStar />
+              {/* Các nút thêm vào giỏ hàng và yêu thích */}
+              <div
+                className="d-flex flex-column mt-2 action-buttons"
+                style={{
+                  opacity: 0,
+                  visibility: "hidden",
+                  transition: "opacity 0.3s, visibility 0.3s",
+                }}
+              >
+                <button
+                  className="icon-btn"
+                  onClick={handleAddToCart}
+                  style={{ marginBottom: "5px" }}
+                >
+                  <i className="fas fa-shopping-cart fw-semibold" />
+                  <span className="fw-bold text-primary ms-1">
+                    {cartItemQuantity ? `(${cartItemQuantity})` : ""}
+                  </span>
+                </button>
+                <button
+                  className="icon-btn"
+                  onClick={() => addToFavor(main, currentVariant)}
+                >
+                  <i
+                    className={`fas fa-heart ${inFavorItems && "text-danger"}`}
+                  />
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="img-container">
-            <Link to={`/detail/${slug ? slug : ""}`}>
-              <img
-                alt="Image of iPhone 14 Pro Max 128GB"
-                className="card-img-top "
-                style={{ cursor: "pointer" }}
-                src={
-                  currentVariant?.color?.images
-                    ? currentVariant?.color?.images
-                    : image
-                }
-              />
-            </Link>
-          </div>
-          <div className="card-body ">
+
+          <img
+            src={image}
+            className="card-img-top p-3"
+            alt="Product"
+            style={{
+              width: "100%",
+              height: "200px",
+              objectFit: "contain",
+              borderRadius: "10px 10px 0 0",
+              marginTop: 10,
+            }}
+          />
+
+          <div className="card-body text-center">
             <Link
               to={`/detail/${slug ? slug : ""}`}
               style={{ textDecoration: "none" }}
             >
               <span
                 style={{
-                  height: 50,
                   width: "100%",
                   display: "inline-block",
-                  overflow: "hidden", // Ẩn phần nội dung vượt quá kích thước
+                  overflow: "hidden",
                 }}
               >
                 <h5 className="card-title" style={{ cursor: "pointer" }}>
@@ -366,7 +414,8 @@ const BoxPro = ({
                 )}
               </p>
 
-              <div className="storage-variant">
+              {/* Hiển thị các biến thể của bộ nhớ */}
+              <div className="storage-variant my-3">
                 {variant
                   ?.filter((v, index) => index < 4)
                   .map((v, index) => (
@@ -383,40 +432,17 @@ const BoxPro = ({
                     </span>
                   ))}
               </div>
-              {!hot && (
-                <div className="d-flex justify-content-between align-items-center my-2">
-                  <button className="icon-btn" onClick={handleAddToCart}>
-                    <i className="fas fa-shopping-cart fw-semibold" />
-                    <span className="fw-bold text-primary ms-1">
-                      {cartItemQuantity ? `(${cartItemQuantity})` : ""}
-                    </span>
-                  </button>
-                  <button className="icon-btn">
-                    <i className="fas fa-exchange-alt" />
-                  </button>
-                  <button
-                    className="icon-btn"
-                    onClick={() => {
-                      console.log("Main: ", main);
-                      console.log("currentV: ", currentVariant);
-                      addToFavor(main, currentVariant);
-                    }}
-                  >
-                    <i
-                      className={`fas fa-heart ${
-                        inFavorItems && "text-danger"
-                      } `}
-                    />
-                  </button>
-                </div>
-              )}
 
+              {/* Nút "Mua ngay" khi không phải sản phẩm hot */}
               {!hot && (
                 <button
-                  className="btn btn-buy mt-1"
-                  onClick={() => {
-                    buyNow(main, currentVariant);
+                  className="btn btn-primary btn-sm"
+                  style={{
+                    borderRadius: "20px",
+                    width: "100%",
+                    fontWeight: "bold",
                   }}
+                  onClick={() => buyNow(main, currentVariant)}
                 >
                   Mua ngay
                 </button>

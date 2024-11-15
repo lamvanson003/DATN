@@ -109,7 +109,13 @@
                                             <td>{{ $order_detail->product_variant->product->name.'-'.$order_detail->product_variant->storage }}</td>
                                             <td><img src="{{  $order_detail->product_variant->images }}" width="100"></td>
                                             <td>{{ number_format($order_detail->product_variant->price ?? 'N/A' ) }}</td>
-                                            <td>{{ number_format($order_detail->product_variant->sale ?? 'N/A') }}</td>
+                                            <td>
+                                                @if (!empty($order_detail->product_variant->sale))
+                                                    {{ number_format($order_detail->product_variant->sale ) }}
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
                                             <td>{{ $order_detail->quantity }}</td>
                                             <td>
                                                 @php

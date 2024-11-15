@@ -1,65 +1,69 @@
-/* BrandCards.css */
-.brand-card {
-  width: 80px;
-  height: 80px;
-  border-radius: 20px;
+.carousel-inner {
+  padding-bottom: 20px;
+}
+
+.brand-carousel {
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.brand-card-body {
-  text-align: center;
-}
-
-.card-img-top-brand {
-  width: 100%;
-  height: auto;
-}
-
-.brand-card-title {
-  font-weight: bold;
-}
-
-.brand-card-text {
-  color: gray;
-}
-
-.d-flex-center {
-  display: flex;
-  justify-content: center;
+  justify-content: space-around;
   flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
 }
 
-/* Specific background colors */
-.apple-card {
-  background-color: #b9d5ff;
+.brand-card {
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 120px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.samsung-card {
-  background-color: #add8e6;
+.brand-card img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
 }
 
-.microsoft-card {
-  background-color: #b0e0e6;
+.brand-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.lenovo-card {
-  background-color: #afeeee;
+.carousel-control-prev,
+.carousel-control-next {
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  padding: 10px;
 }
 
-.amazon-card {
-  background-color: #cceeff;
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #fff;
 }
 
-.huawei-card {
-  background-color: #87ceeb;
+@media (max-width: 768px) {
+  .brand-carousel {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .brand-card {
+    width: 100px;
+    height: 100px;
+  }
 }
 
-.xiaomi-card {
-  background-color: #d0e0f0;
-}
-
-.realme-card {
-  background-color: #c7e1fd;
+@media (max-width: 480px) {
+  .brand-card {
+    width: 80px;
+    height: 80px;
+  }
 }
