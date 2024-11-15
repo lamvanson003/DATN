@@ -192,7 +192,7 @@ const BoxPro = ({
         </div>
       ) : horizon ? (
         <div
-          className="d-flex p-2 rounded my-2"
+          className="d-flex p-2 rounded"
           style={{ backgroundColor: "#fff", cursor: "pointer" }}
         >
           <span className="me-4 d-flex align-items-center">

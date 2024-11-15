@@ -14,6 +14,7 @@ import {
   FaBolt,
   FaShieldAlt,
   FaFilter,
+  FaKey,
 } from "react-icons/fa";
 import {
   IoCartOutline,
@@ -36,7 +37,7 @@ import { RiBankCardFill, RiProductHuntLine, RiTruckLine } from "react-icons/ri";
 import { PiHandPalm } from "react-icons/pi";
 import { BsSearch } from "react-icons/bs";
 import { CiLocationOn, CiShop } from "react-icons/ci";
-import { BiCategoryAlt, BiSolidDiscount } from "react-icons/bi";
+import { BiCategoryAlt, BiSolidDiscount, BiLogIn } from "react-icons/bi";
 import { FcAbout } from "react-icons/fc";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { TiDeleteOutline } from "react-icons/ti";
@@ -102,5 +103,7 @@ const icons = {
   FaBolt,
   FaShieldAlt,
   FaFilter,
+  BiLogIn,
+  FaKey,
 };
 export default icons;
