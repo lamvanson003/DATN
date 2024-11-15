@@ -21,7 +21,7 @@ const Sbanner = ({ product }) => {
     );
   };
   return (
-    <div>
+    <div className="container">
       {product ? (
         <div
           style={{
@@ -84,10 +84,11 @@ const Sbanner = ({ product }) => {
           </button>
         </div>
       ) : (
-        <div className="sub-banner-embrace">
-          <div className="container my-5">
+        <div className="container">
+          <div className="sub-banner-embrace">
+          <div className="container mb-5">
             <div className="row justify-content-center flex-nowrap">
-              <div className="col-auto">
+              <div className="col-lg-6">
                 <div className="sub-banner">
                   <img
                     src={sbanner1}
@@ -97,7 +98,7 @@ const Sbanner = ({ product }) => {
                   <h5 className="text-center">Sub Banner 1</h5>
                 </div>
               </div>
-              <div className="col-auto">
+              <div className="col-lg-6">
                 <div className="sub-banner">
                   <img
                     src={sbanner2}
@@ -107,18 +108,9 @@ const Sbanner = ({ product }) => {
                   <h5 className="text-center">Sub Banner 2</h5>
                 </div>
               </div>
-              <div className="col-auto">
-                <div className="sub-banner">
-                  <img
-                    src={sbanner3}
-                    alt="Banner 3 Image"
-                    className="img-fluid"
-                  />
-                  <h5 className="text-center">Sub Banner 3</h5>
-                </div>
-              </div>
             </div>
           </div>
+        </div>
         </div>
       )}
     </div>

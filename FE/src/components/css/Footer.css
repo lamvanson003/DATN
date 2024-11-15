@@ -1,136 +1,29 @@
-/* .ft-logo img {
-  width: 90%;
-  background-position: center;
+.top-footer {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+}
+.container-1265 {
+	max-width: 1275px;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 15px !important;
+	padding-right: 15px !important;
+}
+.top-footer-wrap {
+    padding: 30px;
+}
+.policy-item a {
+    display: flex;
+	color: #000;
+    text-decoration: none;
 }
 
-.info-made > h4 {
-  padding: 15px 0px;
-  float: left;
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 20px;
-  width: max-content;
-  margin-top: 10px;
-  width: 100%;
-}
-
-.info-made .info-ft-ct {
-  font-size: 15px;
-  color: #fff;
-  margin: 15px 0;
-}
-
-.border-right {
-  border-right: 1px solid #007bff;
-}
-
-.ft-right {
-  flex: 0 auto;
-  justify-content: space-between;
-  padding: 20px 10px;
-}
-
-.gioithieu h4 {
-  color: #fff;
-}
-
-.gioithieu .list-thongtin li {
-  list-style: none;
-  padding: 7px 3px;
-}
-
-.gioithieu .list-thongtin a {
-  color: #f1e7e7a2;
-  font-size: 15px;
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.gioithieu .list-thongtin a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 0;
-  height: 1px;
-  background-color: transparent;
-  transition: width 0.3s ease;
-  transform: scaleX(0);
-  transform-origin: left;
-}
-
-.gioithieu .list-thongtin a:hover::after {
-  background-color: #007bff;
-  width: 100%;
-  transform: scaleX(1);
-}
-
-.gioithieu .list-thongtin a:hover {
-  color: #007bff;
-}
-
-.list-thongtin li img {
-  width: 50%;
-}
-
-.coppyright {
-  padding: 10px;
-  text-align: center;
-  color: #fff;
-  border-top: 1px solid #007bff;
-} */
-
-/*----------------------------------------*/
-/*  2.9 Footer
-/*----------------------------------------*/
-.footer {
-	background: #f7f7f7;
-	border-top: 1px solid #e1e1e1;
-	margin-top: 50px;
-  
-}
-.footer-static-top-3 {
-	background: #fff;
-	border-bottom: 1px solid #e1e1e1;
-}
-.footer-shipping {
-	border-bottom: 1px dashed #e1e1e1;
-}
-.footer-static-top-3 .footer-shipping {
-	border-bottom: none;
-}
-/*Li's Sipping Inner Box*/
-.li-shipping-inner-box {
-	text-align: center;
-	z-index: 99;
-}
-.footer-static-top-3 .li-shipping-inner-box {
-	border-right: 1px solid #e1e1e1;
-	padding: 50px 10px 45px;
-}
-.footer-static-top-3 .li-shipping-inner-box.last-child {
-	border-right: none;
-}
-.shipping-icon {
-	display: inline-block;
-	width: 67px;
-	height: 57px;
-}
-.shipping-text {
-	padding-top: 15px;
-}
-.shipping-text h2 {
-	font-size: 16px;
-	font-weight: 500;
-	color: #242424;
-	padding-bottom: 10px;
-}
-.shipping-text p {
-	margin: 0;
-	color: #888;
-	font-weight: 400;
-	font-size: 14px;
-	line-height: 18px;
+.policy-item a img {
+    height: fit-content;
+    width: unset;
+	margin-right: 12px;
 }
 /*Footer Middle*/
 .footer-logo-wrap {
