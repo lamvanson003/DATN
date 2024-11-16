@@ -1,7 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import banner1 from "../assets/images/iHome/banner-1.png";
 import banner2 from "../assets/images/iHome/banner-2.png";
-import banner3 from "../assets/images/iHome/banner-3.png";
+import banner3 from "../assets/images/iHome/Banner-Iphone-16.webp";
+import banner4 from "../assets/images/iHome/IP16CASES_blog_1500x.webp";
+
+import banner5 from "../assets/images/iHome/thietkehaithanh-banner-1-1.jpg";
 import { setupSlider } from "../ultis/func";
 
 const Banner = () => {
@@ -24,7 +27,7 @@ const Banner = () => {
         <div className="banner-content">
           <img
             ref={(el) => (slidesRef.current[0] = el)}
-            src={banner1}
+            src={banner4}
             alt="Banner Image 1"
             className="img-fluid active"
           />
@@ -35,7 +38,7 @@ const Banner = () => {
         </div>
         <img
           ref={(el) => (slidesRef.current[1] = el)}
-          src={banner2}
+          src={banner5}
           alt="Banner Image 2"
           className="img-fluid"
         />
