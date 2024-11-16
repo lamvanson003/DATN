@@ -125,11 +125,11 @@
   font-size: 12px;
 }
 .storage-option:hover {
-  background-color: #007bff;
+  background-color: rgb(209, 90, 21);
   color: white;
 }
 .storage-selected {
-  background-color: #007bff;
+  background-color: #f08522;
   color: white;
 }
 

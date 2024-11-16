@@ -139,7 +139,7 @@
 
                                                             </td>
                                                             <td>
-                                                                <input class="form-control" toype="number" value="1" name="quantity_limit[{}]" placeholder="VD:1">
+                                                                <input class="form-control" toype="number" value="1" name="quantity_limit[{z}]" placeholder="VD:1">
                                                             </td>
                                                             <td class="fix-checkbox">
                                                                 <input class="checkbox" type="checkbox" name="selected_variants[]" value="{{ $variant->id }}">

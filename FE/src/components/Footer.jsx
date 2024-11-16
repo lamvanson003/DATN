@@ -9,204 +9,82 @@ import shipingicon4 from "../assets/shipping-icon/4.png";
 
 const Footer = () => {
   return (
-    <>
-      {/* <footer
-        id="footer"
-        className="mt-5 "
-        style={{
-          backgroundColor: "gray",
-        }}
-      >
-        <div className="container mb-0">
-          <div className="row pt-3 justify-content-between">
-            <div className="col-lg-3 col-sm-12  col-md-5 ft-left border-right">
-              <div className="ft-logo">
-                <img alt="" src={logo} />
-              </div>
-              <div className="info-made d-flex flex-column">
-                <h4>Thông tin liên hệ</h4>
-                <div className="info-ct">
-                  <h5 className="info-ft-ct">
-                    ⛪Địa chỉ: 18/4 Mỹ Huề ,Trung Chánh ,Hóc Môn
-                  </h5>
-                  <h5 className="info-ft-ct">
-                    Email : phamthetoan.aloa.vn@gmail.com
-                  </h5>
-                  <h5 className="info-ft-ct">
-                    Fanpage chính thức: <a href="">CLOUDLAB</a>
-                  </h5>
-                  <h5 className="info-ft-ct">
-                    ☎️ Hotline Hỗ Trợ: 0909.300.746 - 0909.45.0001
-                  </h5>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-9 col-sm-12 col-md-7 ">
-              <div className="container">
-                <div className="row">
-                  <div className="col-lg-3 col-sm-4">
-                    <div className="gioithieu">
-                      <h4>Hỗ Trợ Khách Hàng</h4>
-                      <div className="list-thongtin">
-                        <li>
-                          <a href="" className="text-decoration-none">
-                            Chế độ bảo hành
-                          </a>
-                        </li>
-                        <li>
-                          <a href="" className="text-decoration-none">
-                            Chính sách đổi hàng
-                          </a>
-                        </li>
-                        <li>
-                          <a href="" className="text-decoration-none">
-                            Bảo mật thông tin
-                          </a>
-                        </li>
-                        <li>
-                          <a href="" className="text-decoration-none">
-                            Chính sách giao nhận
-                          </a>
-                        </li>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-3 col-sm-3">
-                    <div className="gioithieu">
-                      <h4>Chính sách</h4>
-                      <div className="list-thongtin">
-                        <li>
-                          <a href="" className="text-decoration-none">
-                            Chế độ bảo hành
-                          </a>
-                        </li>
-                        <li>
-                          <a href="" className="text-decoration-none">
-                            Chính sách đổi hàng
-                          </a>
-                        </li>
-                        <li>
-                          <a href="" className="text-decoration-none">
-                            Bảo mật thông tin
-                          </a>
-                        </li>
-                        <li>
-                          <a href="" className="text-decoration-none">
-                            Chính sách giao nhận
-                          </a>
-                        </li>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-sm-5">
-                    <div className="gioithieu">
-                      <h4>Chứng nhận</h4>
-                      <div className="list-thongtin">
-                        <p>
-                          Số ĐKKD: 41N8041309 cấp ngày 17/8/2018. Nơi cấp Ủy Ban
-                          Nhân Dân Quận Tân Bình. Hộ Kinh Doanh: KINGSHOES.
-                          Hotline: 0909.300.746
-                        </p>
-                        <li>
-                          <img
-                            alt=""
-                            src={congnhan2}
-                            style={{ backgroundImage: "#848eff" }}
-                          />
-                        </li>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="coppyright">© Coppyright CLOUDLAB</div>
-            </div>
-          </div>
-        </div>
-      </footer> */}
-
+   
 <>
   {/* Begin Footer Area */}
   <div className="footer">
-    {/* Begin Footer Static Top Area */}
-    <div className="footer-static-top footer-static-top-3 pt-xs-50 pb-xs-10">
-      <div className="container">
-        {/* Begin Footer Shipping Area */}
-        <div className="footer-shipping pb-xs-0">
-          <div className="row">
-            {/* Begin Li's Shipping Inner Box Area */}
-            <div className="col-lg-3 col-md-3 col-sm-6 pb-xs-45">
-              <div className="li-shipping-inner-box">
-                <div className="shipping-icon">
-                  <img src={shipingicon1} alt="Shipping Icon" />
-                </div>
-                <div className="shipping-text">
-                  <h2>Giao hàng miễn phí
-                  </h2>
-                  <p>Và trả lại miễn phí. Xem thanh toán để biết ngày giao hàng.</p>
-                </div>
-              </div>
-            </div>
-            {/* Li's Shipping Inner Box Area End Here */}
-            {/* Begin Li's Shipping Inner Box Area */}
-            <div className="col-lg-3 col-md-3 col-sm-6 pb-xs-45">
-              <div className="li-shipping-inner-box">
-                <div className="shipping-icon">
-                  <img src={shipingicon2} alt="Shipping Icon" />
-                </div>
-                <div className="shipping-text">
-                  <h2>Thanh toán an toàn</h2>
-                  <p>
-                  Thanh toán bằng phương thức thanh toán phổ biến và an toàn nhất thế giới
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* Li's Shipping Inner Box Area End Here */}
-            {/* Begin Li's Shipping Inner Box Area */}
-            <div className="col-lg-3 col-md-3 col-sm-6 pb-xs-45">
-              <div className="li-shipping-inner-box">
-                <div className="shipping-icon">
-                  <img src={shipingicon3} alt="Shipping Icon" />
-                </div>
-                <div className="shipping-text">
-                  <h2>Mua sắm với sự tự tin</h2>
-                  <p>
-                  Bảo vệ người mua của chúng tôi bao gồm việc mua hàng của bạn từ nhấp chuột đến
-                  vận chuyển.
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* Li's Shipping Inner Box Area End Here */}
-            {/* Begin Li's Shipping Inner Box Area */}
-            <div className="col-lg-3 col-md-3 col-sm-6">
-              <div className="li-shipping-inner-box last-child">
-                <div className="shipping-icon">
-                  <img src={shipingicon4} alt="Shipping Icon" />
-                </div>
-                <div className="shipping-text">
-                  <h2>Trung tâm trợ giúp 24/7</h2>
-                  <p>Bạn có câu hỏi? Gọi cho chúng tôi .</p>
-                </div>
-              </div>
-            </div>
-            {/* Li's Shipping Inner Box Area End Here */}
-          </div>
+  <div className="top-footer">
+  <div className="container container-1265 px-sm-0">
+    <div className="top-footer-wrap">
+      <div className="row row-cols-2 row-cols-sm-2 row-cols-md-4 gx-0 gx-sm-0 gx-md-5">
+        <div className="policy-item">
+          <a href="/news/chinh-sach-doi-hang-bao-hanh-105398&id=109820">
+            <img
+              src="https://pos.nvncdn.com/d0f3ca-7136/bn/20230914_6bU8irTd.png"
+              alt="Đổi hàng 30 ngày"
+            />
+            <span>
+              <span className="policy-title">Đổi hàng 30 ngày</span>
+              <span className="policy-desc">
+                Thời gian đổi sản phẩm lên đến 30 ngày
+              </span>
+            </span>
+          </a>
         </div>
-        {/* Footer Shipping Area End Here */}
+        <div className="policy-item">
+          <a href="/news/chinh-sach-doi-hang-bao-hanh-105398&id=109820">
+            <img
+              src="https://pos.nvncdn.com/d0f3ca-7136/bn/20230914_OHrlewqe.png"
+              alt="Bảo hành 90 ngày"
+            />
+            <span>
+              <span className="policy-title">Bảo hành 90 ngày</span>
+              <span className="policy-desc">
+                Hỗ trợ bảo hành miễn phí lên đến 90 ngày
+              </span>
+            </span>
+          </a>
+        </div>
+        <div className="policy-item">
+          <a href="/news/chinh-sach-hoan-tien-100693&id=71808">
+            <img
+              src="https://pos.nvncdn.com/d0f3ca-7136/bn/20230914_yUil5un4.png"
+              alt="5 ngày hoàn tiền"
+            />
+            <span>
+              <span className="policy-title">5 ngày hoàn tiền</span>
+              <span className="policy-desc">
+                Thời gian hoàn tiền không lý do lên đến 5 ngày
+              </span>
+            </span>
+          </a>
+        </div>
+        <div className="policy-item">
+          <a href="/news/chinh-sach-thanh-vien-99832&id=65278">
+            <img
+              src="https://pos.nvncdn.com/d0f3ca-7136/bn/20231002_0fyEtU6G.png"
+              alt="Ưu đãi lên đến 15%"
+            />
+            <span>
+              <span className="policy-title">Ưu đãi lên đến 15%</span>
+              <span className="policy-desc">
+                Ưu đãi cho Vip Member lên đến 15%
+              </span>
+            </span>
+          </a>
+        </div>
       </div>
     </div>
-    {/* Footer Static Top Area End Here */}
+  </div>
+</div>
+
     {/* Begin Footer Static Middle Area */}
     <div className="footer-static-middle">
       <div className="container">
         <div className="footer-logo-wrap pt-50 pb-35">
-          <div className="row">
+          <div className="row text-left">
             {/* Begin Footer Logo Area */}
-            <div className="col-lg-4 col-md-6">
+            <div className="col-lg-4 col-md-6 ">
               <div className="footer-logo">
                 <img src={logo} alt="Footer Logo" />
                 <p className="info">
@@ -418,8 +296,6 @@ const Footer = () => {
   {/* Footer Area End Here */}
  
 </>
-
-    </>
   );
 };
 

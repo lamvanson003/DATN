@@ -4,7 +4,7 @@ namespace App\Http\Resources\Api\Order;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Enums\Order\OrderStatus;
 class OrderResource extends JsonResource
 {
     /**
@@ -19,10 +19,11 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'code' => $this->code,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'), 
-            'description' => $this->description,
+            'note' => $this->note,
             'fullname' => $this->fullname,
             'phone' => $this->phone,
             'address' => $this->address,
+            'status' => OrderStatus::getDescription($this->status),
             'unit' => "Cái",
             'agency' => "Shop CloudLAB",
             'TIN' => 462836,
