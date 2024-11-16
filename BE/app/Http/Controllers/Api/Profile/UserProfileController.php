@@ -246,4 +246,29 @@ class UserProfileController extends Controller
         ], 500);
     }
 }
+public function logout(Request $request)
+{
+    try {
+        // Đăng xuất người dùng (xóa token hiện tại)
+        $user = Auth::user();
+        $user->tokens->each(function ($token) {
+            $token->delete(); // Xóa tất cả các token của người dùng
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User logged out successfully',
+        ], 200);
+    } catch (Exception $e) {
+        Log::error('Logout error', [
+            'error' => $e->getMessage(),
+            'user_id' => Auth::id(),
+        ]);
+
+        return response()->json([
+            'success' => false,
+            'message' => 'An error occurred while logging out: ' . $e->getMessage(),
+        ], 500);
+    }
+}
 }
