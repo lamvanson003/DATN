@@ -18,7 +18,9 @@
   flex: 0.2; /* Giảm độ rộng của các mục điều hướng */
   text-align: center; /* Căn giữa văn bản */
 }
-
+.fixFontsize{
+  font-size: 15px;
+}
 .navbar-nav .nav-item:first-child {
   margin-left: 0;
 }

@@ -79,10 +79,10 @@ const Footer = () => {
 </div>
 
     {/* Begin Footer Static Middle Area */}
-    <div className="footer-static-middle">
+    <div className="footer-static-middle pt-3 bg-white pb-3 footer-logo-wrap">
       <div className="container">
-        <div className="footer-logo-wrap pt-50 pb-35">
-          <div className="row text-left">
+        <div className="pt-50 pb-35">
+          <div className="row footer_left" >
             {/* Begin Footer Logo Area */}
             <div className="col-lg-4 col-md-6 ">
               <div className="footer-logo">
@@ -151,7 +151,6 @@ const Footer = () => {
               </div>
             </div>
             {/* Footer Block Area End Here */}
-            {/* Begin Footer Block Area */}
             <div className="col-lg-4">
               <div className="footer-block">
                 <h3 className="footer-block-title">Theo dõi chúng tôi</h3>
@@ -230,63 +229,37 @@ const Footer = () => {
                   target="_blank"
                   noValidate=""
                 >
-                  <div id="mc_embed_signup_scroll">
-                    <div
-                      id="mc-form"
-                      className="mc-form subscribe-form form-group"
-                    >
+                  <div className="newsletter-right">
+                    <div className="subscribe">
                       <input
-                        id="mc-email"
-                        type="email"
-                        autoComplete="off"
-                        placeholder="Nhập Email"
+                        className="form-control"
+                        id="email"
+                        name="email"
+                        type="text"
+                        placeholder="Nhập email của bạn"
                       />
-                      <button className="btn" id="mc-submit">
+                      <button aria-label="subcribe" id="subscribe">
                         Đăng ký
                       </button>
                     </div>
                   </div>
                 </form>
               </div>
-              {/* Footer Newsletter Area End Here */}
             </div>
-            {/* Footer Block Area End Here */}
           </div>
         </div>
       </div>
     </div>
-    {/* Footer Static Middle Area End Here */}
-    {/* Begin Footer Static Bottom Area */}
-    <div className="footer-static-bottom">
+
+    <div className="footer-static-bottom bg-white">
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
-            {/* Begin Footer Links Area */}
-          
-            {/* Footer Links Area End Here */}
-            {/* Begin Footer Payment Area */}
-            <div className="payment text-center">
-              <a href="#">
-                <img src="" alt="" />
-              </a>
-            </div>
-            {/* Footer Payment Area End Here */}
-            {/* Begin Copyright Area */}
-            <div className="copyright text-center pt-30 pb-50">
-              <span>
+              <div className="p-3">
                 <a target="_blank" href="" style={{ textDecoration: 'none' }}>
-               © Coppyright CLOUDLAB
+               © Coppyright CloudLAB
                 </a>
-              </span>
-            </div>
-            {/* Copyright Area End Here */}
-              {/* Begin Footer Payment Area */}
-              <div className="payment text-center" >
-              <a href="#">
-                <img src="" alt="" />
-              </a>
-            </div>
-            {/* Footer Payment Area End Here */}
+              </div>
           </div>
         </div>
       </div>

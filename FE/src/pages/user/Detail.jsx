@@ -33,6 +33,8 @@ const Detail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalContentRef = useRef(null);
 
+  const [rating, setRating] = useState(0);
+
   useEffect(() => {
     const rePhonePro = productsData?.phone.filter(
       (p) =>
@@ -204,25 +206,27 @@ const Detail = () => {
   // Submit comment
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     if (!comment.trim()) {
       alert("Vui lòng nhập bình luận!");
       return;
     }
-
+  
     setLoadingComment(true);
 
-    // Here, you can handle the logic to send the comment and images to the server
     console.log("Bình luận:", comment);
-    console.log("Hình ảnh:", images);
-
-    // Simulate a delay to show loading state
-    setTimeout(() => {
+    console.log("Số sao:", rating);  
+    
+    console.log("Hình ảnh:", images);  
+      setTimeout(() => {
       setLoadingComment(false);
       setComment("");
       setImages([]);
+      setRating(0);  
+    
     }, 2000);
   };
+  
   return (
     <>
       <section className="px-2 mb-2" id="Breadcrumb" ref={ref}>
@@ -568,63 +572,73 @@ const Detail = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="modal" onClick={handleOutsideClick}>
-          <div className="modal-content" ref={modalContentRef}>
-            <span className="close" onClick={closeModal}>
-              &times;
-            </span>
+      <div className="modal" onClick={handleOutsideClick}>
+        <div className="modal-content" ref={modalContentRef}>
+          <span className="close" onClick={closeModal}>&times;</span>
 
-            <div className="form-comment">
-              <span className="comment-label">
-                Vui lòng để lại cảm nghĩ về sản phẩm:
-              </span>
-              <form className="comment-form" onSubmit={handleSubmit}>
-                <textarea
-                  className="comment-textarea"
-                  placeholder="Hãy nêu suy nghĩ của bạn"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                />
-
-                <div className="form-footer">
-                  <div className="image-upload">
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      id="image-upload"
-                    />
-                    <label htmlFor="image-upload" className="upload-label">
-                      <i className="fas fa-image"></i> Chọn hình ảnh
-                    </label>
-                  </div>
-
-                  <button
-                    className="btn-submit"
-                    type="submit"
-                    disabled={loadingComment}
+          <div className="form-comment">
+            <span className="comment-label">Vui lòng để lại cảm nghĩ về sản phẩm:</span>
+            <form className="comment-form" onSubmit={handleSubmit}>
+              
+              {/* Chọn số sao */}
+              <div className="star-rating">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    className={star <= rating ? "star selected" : "star"}
+                    onClick={() => setRating(star)}
                   >
-                    {loadingComment ? "Đang gửi ..." : "Gửi đánh giá"}
-                  </button>
-                </div>
-              </form>
-
-              {/* Hiển thị hình ảnh đã chọn */}
-              <div className="image-preview">
-                {images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`chosen-preview-${index}`}
-                    className="preview-img"
-                  />
+                    ★
+                  </span>
                 ))}
+              </div>     
+              <textarea
+                className="comment-textarea"
+                placeholder="Hãy nêu suy nghĩ của bạn"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+
+              <div className="form-footer">
+                <div className="image-upload">
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    id="image-upload"
+                  />
+                  <label htmlFor="image-upload" className="upload-label">
+                    <i className="fas fa-image"></i> Chọn hình ảnh
+                  </label>
+                </div>
+
+                <button
+                  className="btn-submit"
+                  type="submit"
+                  disabled={loadingComment}
+                >
+                  {loadingComment ? "Đang gửi ..." : "Gửi đánh giá"}
+                </button>
               </div>
+            </form>
+
+            {/* Hiển thị hình ảnh đã chọn */}
+            <div className="image-preview">
+              {images.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`chosen-preview-${index}`}
+                  className="preview-img"
+                />
+              ))}
             </div>
           </div>
         </div>
-      )}
+      </div>
+)}
+
     </>
   );
 };
