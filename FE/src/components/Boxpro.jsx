@@ -292,7 +292,9 @@ const BoxPro = ({
                 className="badge bg-warning text-dark"
                 style={{ fontSize: "0.8rem" }}
               >
-                -67%
+                {currentVariant?.color?.percent
+                  ? `${currentVariant.color.percent}% `
+                  : null}
               </span>
 
               {/* Các nút thêm vào giỏ hàng và yêu thích */}

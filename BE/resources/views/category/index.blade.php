@@ -40,7 +40,7 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table id="add-row" class="display table table-hover text-center">
+              <table id="add-row" class="fontTable display table table-hover text-center">
                 <thead>
                   <tr>
                     <th>Hình ảnh</th>
@@ -57,7 +57,7 @@
                     <td><img class="fix-image mx-auto" src="{{ asset($item->images) }}" alt="{{ $item->name }}"></td>
                     <td><a href="{{ route('admin.category.edit',$item->id) }}">{{ $item->name }}</a></td>
                     <td>{{ $item->slug }}</td>
-                    <td>{{ $item->description }}</td>
+                    <td>{{ $item->description ?? "N/A" }}</td>
                     <td>
                       @switch($item->status->value)
                         @case(\App\Enums\Category\CategoryStatus::Active)
