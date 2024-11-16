@@ -17,3 +17,4 @@ export { default as Contact } from "./Contact";
 export { default as OrderDetail } from "./OrderDetail";
 export { default as Invoice } from "./Invoice";
 export { default as Post } from "./Post";
+export { default as SearchOrder } from "./SearchOrder";

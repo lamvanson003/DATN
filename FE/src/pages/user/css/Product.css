@@ -80,3 +80,7 @@
   color: #ed0000;
   font-weight: 500;
 }
+.bg-box {
+  background-color: #ffffff;
+  border-radius: 10px;
+}
