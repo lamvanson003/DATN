@@ -216,6 +216,21 @@ a {
 .buy-btn:hover {
   background-color: #218838;
 }
+.star-rating {
+  display: flex;
+}
+
+.star {
+  cursor: pointer;
+  font-size: 24px;
+  color: lightgray; /* Màu sao khi chưa được chọn (trống) */
+  transition: color 0.2s;
+}
+
+.star.selected {
+  color: gold; /* Màu sao khi được chọn */
+}
+
 body{
   background: #f9fafa;
 }

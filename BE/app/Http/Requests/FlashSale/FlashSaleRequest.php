@@ -17,14 +17,13 @@ class FlashSaleRequest extends BaseRequest
         return [
             'selected_variants' => 'required|array', 
             'selected_variants.*' => 'exists:product_variants,id',
-
             'discount_price' => 'nullable|array',
             'discount_price.*' => 'nullable|numeric|min:0',
-
             'quantity_limit' => 'nullable|array',
             'quantity_limit.*' => 'nullable|integer|min:1',
-
-            'is_active' => 'required|boolean',
+            'is_active' => 'required|integer',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date|after:start_time',
         ];
     }
 
