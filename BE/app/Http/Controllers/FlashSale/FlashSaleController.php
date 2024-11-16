@@ -10,6 +10,7 @@ use App\Models\ProductVariant;
 use App\Enums\DefaultStatus;
 use App\Models\FlashSale;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 use App\Http\Requests\FlashSale\FlashSaleRequest;
 
@@ -33,32 +34,44 @@ class FlashSaleController extends Controller
     public function store(FlashSaleRequest $request)
     {
         $data = $request->validated();
-        dd($data);
-        $selectedVariants = $data['selected_variants'];
-        $discountPrices = $data['discount_price'] ?? ['price'];
-        $quantityLimits = $data['quantity_limit'] ?? [];
-        $isActive = $data['is_active'];
+
+
+        $startTime = Carbon::parse($data['start_time'])->toDateTimeString();
+        $endTime = Carbon::parse($data['end_time'])->toDateTimeString();
+
         DB::beginTransaction();
 
         try {
-            $flashSale = FlashSale::create([
-                'is_active' => $isActive,
-                'status' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
 
-            foreach ($selectedVariants as $index => $variantId) {
-                $variant = ProductVariant::findOrFail($variantId);
-                $variant->flash_sales()->attach($flashSale->id, [
-                    'discount_price' => $discountPrices[$variantId] ?? 0,
-                    'quantity_limit' => $quantityLimits[$index] ?? 1,
+            $flashSale = FlashSale::create([
+                'start_time' => $startTime,
+                'end_time' =>  $endTime,
+                'status' => DefaultStatus::Active,
+            ]);
+            $flashSaleId = $flashSale->id;
+            foreach ($data['selected_variants'] as $variantId) {
+                $discountPrice = $data['discount_price'][$variantId] ?? null;
+                $quantityLimit = $data['quantity_limit'][$variantId] ?? null;
+                if ($discountPrice === null || $quantityLimit === null) {
+                    continue;
+                }
+
+                if (is_array($discountPrice) || is_array($quantityLimit)) {
+                    throw new \Exception('Discount price or quantity limit should not be an array');
+                }
+
+                SaleItem::create([
+                    'flash_sale_id' => $flashSaleId,
+                    'product_variant_id' => $variantId,
+                    'discount_price' => $discountPrice,
+                    'quantity_limit' => $quantityLimit,
+                    'is_active' => $data['is_active'],
                 ]);
             }
 
             DB::commit();
 
-            return redirect()->route('admin.flash_sale.index')->with('success', 'Flash sale created successfully!');
+            return redirect()->route('admin.flashSale.index')->with('success', 'Flash sale created successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
 

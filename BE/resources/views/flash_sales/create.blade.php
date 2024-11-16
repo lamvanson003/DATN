@@ -82,7 +82,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.flashSale.store')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.flashSale.store')}}" method="POST" >
                 @csrf
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
@@ -175,6 +175,26 @@
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
                                 </select>                                
+                            </div>
+                        </div>
+
+                        <!-- Thời gian bắt đầu -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <i class="fa fa-calendar-minus pr-1"></i>
+                                Ngày-Giờ bắt đầu</div>
+                            <div class="card-body">
+                                <input type="datetime-local" class="form-control" name="start_time" id="" required>                            
+                            </div>
+                        </div>
+
+                        <!-- Thời gian kết thúc -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <i class="fa fa-calendar-minus pr-1"></i>
+                                Ngày-Giờ kết thúc</div>
+                            <div class="card-body">
+                                <input type="datetime-local" class="form-control" name="end_time" id="" required>                            
                             </div>
                         </div>
                     </div>                    

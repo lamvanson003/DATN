@@ -17,4 +17,8 @@ export const navMenu = [
     path: "contact",
     text: "Liên hệ",
   },
+  {
+    path: "post",
+    text: "Bài viết",
+  },
 ];

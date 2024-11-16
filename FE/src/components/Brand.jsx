@@ -11,7 +11,10 @@ import "./css/Brand.css";
 
 const Brand = () => {
   return (
-    <div className="container ">
+    <div className="container carousel-slide ">
+      <div className="title-p">
+        <h4 className="text-center">Thương hiệu</h4>
+      </div>
       <div
         className="carousel slide"
         data-bs-ride="carousel"

@@ -421,7 +421,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
             }}
           >
             <div className="d-flex fw-semibold align-items-center justify-content-between h-100  container ">
-              <div className="d-flex align-items-center " style={{ gap: 50 }}>
+              <div className="d-flex align-items-center fixFontsize " style={{ gap: 50 }}>
                 {navMenu.map((item) => (
                   <div className="" key={item.path}>
                     <NavLink

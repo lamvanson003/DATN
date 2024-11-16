@@ -47,7 +47,10 @@ Route::controller(OrderController::class)->prefix('/orders')
     Route::get('/', 'index');
     Route::post('/', 'create');
     Route::get('/detail/{id}', 'detail')->name('detail');
+    Route::get('/detail-by-phone', 'detailByPhone')->name('detailByPhone');
 });
+
+
 
 Route::controller(CommentController::class)->prefix('/comments')
 ->as('comment')
@@ -75,14 +78,11 @@ Route::controller(UserProfileController::class)->prefix('/profiles')
     Route::get('/', 'index');
     Route::post('/', 'index');
     Route::patch('/','index');
+    Route::post('/logout', 'logout');
+    Route::post('/comment', 'addComment');
+    Route::get('/comment', 'addComment');
+    Route::get('/comments', 'getComments');
 
-});
-Route::controller(UserOrderController::class)->prefix('/userorder')
-->as('userorder')
-->group(function(){
-    Route::get('/', 'index');
-    Route::post('/', 'index');
-    Route::patch('/','index');
 
 });
 Route::controller(DiscountController::class)->prefix('/discounts')

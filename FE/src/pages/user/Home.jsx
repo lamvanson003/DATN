@@ -49,34 +49,41 @@ const Home = () => {
       <FlashSale fsproducts={phonesData} itemsPerPage={4} />
 
       <div className="container mt-5">
-        <div className="row justify-content-start">
-          <span className="d-flex justify-content-between align-items-center">
-            <span className="fw-bold fs-3">Điện thoại</span>
-          </span>
-          {phonesData
-            .filter((value, index) => index < 8)
-            .map((pro, index) => (
-              <div key={index} className="col-md-3">
-                <BoxPro
-                  id={pro.id}
-                  name={pro.name}
-                  category={pro.category}
-                  brand={pro.brand}
-                  slug={pro.slug}
-                  image={pro.images}
-                  product_image_items={pro.product_image_items}
-                  variant={pro.product_variant}
-                />
-              </div>
-            ))}
+        <div className="row bg-box">
+          <div className="d-flex title-p align-items-center">
+              <span>Điện thoại</span>
+              <a href="">Xem tất cả</a>
+          </div>
+          <div className="row justify-content-start align-items-center pt-3 pb-3">
+            {phonesData
+              .filter((value, index) => index < 8)
+              .map((pro, index) => (
+                <div key={index} className="col-md-3">
+                  <BoxPro
+                    id={pro.id}
+                    name={pro.name}
+                    category={pro.category}
+                    brand={pro.brand}
+                    slug={pro.slug}
+                    image={pro.images}
+                    product_image_items={pro.product_image_items}
+                    variant={pro.product_variant}
+                  />
+                </div>
+              ))}
+          </div>
         </div>
       </div>
 
       <Countdown />
 
       <div className="container mt-5">
-        <div className="row justify-content-start">
-          <p className="custom-text">Laptop</p>
+        <div className="row justify-content-start bg-box">
+          <div className="d-flex title-p align-items-center">
+                <span>Laptop</span>
+                <a href="">Xem tất cả</a>
+            </div>
+          <div className="row justify-content-start align-items-center pt-3 pb-3">
           {laptopsData
             .filter((value, index) => index < 8)
             .map((pro, index) => (
@@ -93,6 +100,7 @@ const Home = () => {
                 />
               </div>
             ))}
+          </div>
         </div>
       </div>
 
