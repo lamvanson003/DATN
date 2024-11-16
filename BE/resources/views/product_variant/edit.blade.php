@@ -65,13 +65,13 @@
                                     <!-- price -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Giá <span style="color: red">*</span>:</label>
-                                        <input type="number" value="{{ $product_variant->price }}"  required class="form-control" name="price" placeholder="VND">
+                                        <input type="text" value="{{ $product_variant->price }}"  required class="form-control formatPrice" name="price" placeholder="VND">
                                     </div>
 
                                     <!-- price sale -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Giá khuyến mãi :</label>
-                                        <input type="number" value="{{ $product_variant->sale }}" class="form-control" name="sale" placeholder="VND">
+                                        <input type="text" value="{{ $product_variant->sale }}" class="form-control formatPrice" name="sale" placeholder="VND">
                                     </div>
                                 </div>
 
@@ -85,7 +85,7 @@
                                     <!-- instock -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Nhập số lượng (cái) :</label>
-                                        <input type="number" required class="form-control" value="{{ $product_variant->instock }}"  name="instock" placeholder="VD: 1">
+                                        <input min="1" max="50" type="number" required class="form-control" value="{{ $product_variant->instock }}"  name="instock" placeholder="VD: 1">
                                     </div>
                                 </div>
 
@@ -103,10 +103,15 @@
                     <div class="col-12 col-md-3">
                         <div class="card mb-3">
                             <div class="card-header">Đăng</div>
-                            <div class="card-body p-2">
+                            <div class="card-body p-2 d-flex gap-2">
                                 <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
                                     Cập nhật
                                 </button>
+
+                                <a class="btn btn-danger p-1-2" href="{{ route('admin.product.product_item.delete',
+                                [$product_variant->product->id,$product_variant->id]) }}">
+                                   Xóa
+                                </a>
                             </div>
                         </div>
 

@@ -39,6 +39,9 @@ class ProductResource extends JsonResource
                             'color' => $item->color,
                             'instock' => $item->instock,
                             'sold' => $item->sold,
+                            'percent' => (!is_null($item->sale) && $item->sale < $item->price && $item->price > 0)
+                                    ? round((($item->price - $item->sale) / $item->price) * 100)
+                                    : null,
                             'average_rating' => round(optional($item->comments->first())->average_rating ?? 0 , 2),
                             'total_comments' => $item->comments->first()->total_comments ?? 0,
                         ];

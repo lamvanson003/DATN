@@ -178,7 +178,7 @@
                                             @foreach ($getOrder as $item)
                                                 <tr>
                                                     <th scope="row">
-                                                        {{ $item->code }}
+                                                        <a href="{{ route('admin.order.edit',$item->id) }}">{{ $item->code }}</a>
                                                     </th>
                                                     <td class="text-center">{{ $item->fullname }}</td>
                                                     <td class="text-end">{{ $item->created_at }}</td>

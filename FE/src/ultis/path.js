@@ -5,11 +5,11 @@ const path = {
   SIGNUP: "signup",
   CART: "cart",
   PRODUCT: "product",
-
   PRODUCT__DETAIL__SLUG: "detail/:slug",
   ORDER__DETAIL__ID: "order-detail/:id",
   ABOUT: "about",
   CONTACT: "contact",
+  POST: "post",
   PAYMENT: "payment",
   USER: "user",
   ACCOUNT: "account",

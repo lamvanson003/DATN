@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Http\Controllers\Api\Order;
 
 use App\Http\Controllers\Controller;
@@ -14,6 +14,27 @@ use App\Models\ProductVariant;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller {
+    public function detailByPhone(Request $request) {
+        $validatedData = $request->validate([
+            'phone' => 'required|string',
+        ]);
+
+        $orders = Order::with('order_details.product_variant.product')
+                        ->where('phone', $validatedData['phone'])
+                        ->get();
+
+        if ($orders->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No orders found for this phone number.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => OrderResource::collection($orders)
+        ], 200);
+    }
 
     public function detail($id){
         $order = Order::with('order_details.product_variant.product')->findOrfail($id);
@@ -22,7 +43,6 @@ class OrderController extends Controller {
             'data' => new OrderResource($order)
         ], 200);
     }
-
     public function create(Request $request){
         $validatedData = $request->validate([
             'user_id' => 'nullable|integer',
@@ -56,7 +76,7 @@ class OrderController extends Controller {
                 'total_price' => $validatedData['total_price'],
                 'status' => 'pending',
             ]);
-    
+
             foreach ($validatedData['products'] as $productData) {
                 $orderDetail =OrderDetail::create([
                     'order_id' => $order->id,
@@ -65,16 +85,16 @@ class OrderController extends Controller {
                     'price' => $productData['price'],
                     'sale' => $productData['sale'] ?? 0,
                 ]);
-    
+
                 $productVariant = ProductVariant::find($productData['product_variant_id']);
                 if ($productVariant) {
-                    $productVariant->instock -= $productData['quantity']; 
-                    $productVariant->sold += $productData['quantity']; 
+                    $productVariant->instock -= $productData['quantity'];
+                    $productVariant->sold += $productData['quantity'];
                     $productVariant->save();
                 }
             }
             DB::commit();
-            
+
             return response()->json([
                 'message' => 'Order processed successfully',
                 'order_id' => $order->id,
@@ -87,4 +107,5 @@ class OrderController extends Controller {
             return response()->json(['error' => 'Failed to create order', 'details' => $e->getMessage()], 500);
         }
     }
+
 }

@@ -65,10 +65,10 @@ const FlashSale = ({ fsproducts, itemsPerPage }) => {
     <div
       className="container d-flex flex-column justify-content-center mt-5 mb-5 "
       style={{
-        width: 1300,
         backgroundColor: "#fff",
         padding: "10px",
         overflow: "hidden",
+        borderRadius: "5px 5px 10px 10px"
       }}
     >
       <div className="fs-img">

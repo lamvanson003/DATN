@@ -102,7 +102,13 @@
                                 <span class="badge rounded-pill badge-secondary">Không xác định</span>
                         @endswitch
                     </td>
-                    <td>{{ $item->product_variant->sum('sold') }}</td>
+                    <td>
+                      @if($item->product_variant->sum('sold') > 0)
+                            {{ $item->product_variant->sum('sold') }}
+                        @else
+                            <span class="badge text-danger">Chưa có lượt mua</span>
+                      @endif
+                    </td>
                     <td>
                         <button type="button" data-bs-toggle="modal" title="Chỉnh sửa" class="btn btn-danger btn-icon" data-bs-target="#exampleModal{{ $item->id }}">
                           <i class="fa fa-trash-alt"></i>
