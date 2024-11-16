@@ -26,25 +26,17 @@ const Tab = ({ detailData }) => {
             onClick={(event) => handleTabClick("tab2", event)} // Truyền event vào
             href="#"
           >
-            Bài viết đánh giá
+            Mô tả về sản phẩm
           </a>
         </li>
       </ul>
 
       <div className="tab-content" style={{ padding: 10 }}>
-        <div
-          className={`tab-pane fade ${
-            activeTab === "tab1" ? "show active" : ""
-          }`}
-        >
+        <div className={`tab-pane fade ${activeTab === "tab1" ? "show active" : ""}`}>
           <InfoPro />
         </div>
-        <div
-          className={`tab-pane fade ${
-            activeTab === "tab2" ? "show active" : ""
-          }`}
-        >
-          <div className="container p-3" style={{ backgroundColor: "#fff" }}>
+        <div className={`tab-pane fade ${   activeTab === "tab2" ? "show active" : "" }`}>
+          <div className="container ">
             <h5 className="title_desc">
               Đặc Điểm Nổi Bật Của {detailData?.name}
             </h5>
@@ -70,11 +62,11 @@ const Tab = ({ detailData }) => {
               <h2 className="review-title">Tổng quát</h2>
               {detailData?.description}
             </div>
-            <div className="see-more">
+            {/* <div className="see-more">
               <a className="see-more-link" href="#">
                 Xem thêm
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

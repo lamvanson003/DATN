@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Firebase;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class FirebaseController extends Controller
 {

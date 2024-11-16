@@ -1,20 +1,100 @@
+/* Thiết kế cho các nút điều hướng của tab */
+.nav-pills {
+  display: flex;
+  border-bottom: 2px solid #007bff;
+  background-color: #ffffff;
+  border-radius: 5px 5px 0 0 ;
+}
+
+.nav-pills .nav-link {
+  font-weight: 600;
+  border: 1px solid #e5e5e5;
+ 
+  border-radius: 0;
+  color: #3a3a3a;
+  margin: 0;
+  background-color: #ffffff;
+}
+
+.nav-pills .nav-link.active {
+  border: 1px solid #007bff;
+  background-color: #f1f8fe;
+  color: #2a83e9;
+}
+
+/* Phần nội dung của từng tab */
+.tab-content {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.specification-img{
+  max-width: fit-content;
+}
+
+.lazyloaded{  
+  max-width: fit-content;
+  object-fit: cover;
+  width: -webkit-fill-available;
+}
+/* Hiệu ứng mở/đóng nội dung collapse */
 .collapse-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease-in-out; /* Chỉnh thời gian và hiệu ứng */
+  transition: max-height 0.4s ease;
 }
 
 .collapse-content.open {
-  max-height: 1500px; /* Đặt giá trị lớn để đảm bảo đủ cho nội dung */
+  max-height: 1000px; /* Chỉnh giá trị phù hợp với nội dung của bạn */
 }
 
-.box-tab-info {
-  padding: 20px 10px;
-  background-color: #ffffff;
-  border-radius: 7px;
+.collapse-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 12px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-.nav-pills {
-  padding: 10px 10px;
-  border-bottom: 1px solid #034387;
+.collapse-toggle h3 {
+  font-size: 18px;
+  margin: 0;
+  color: #333;
+}
+
+.collapse-toggle span {
+  font-size: 14px;
+  color: #007bff;
+}
+
+/* Thiết kế bảng thông tin */
+.table {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.table th {
+  width: 40%;
+  font-weight: 600;
+  color: #333;
+  font-size: 15px;
+}
+
+.table td {
+  color: #555;
+  font-size: 14px;
+}
+
+.collapse-toggle h3{
+  font-size: 16px;
+}
+
+.v2024 .img-main img {
+  margin-bottom: 10px;
+  display: block;
+  max-width: 100%;
 }

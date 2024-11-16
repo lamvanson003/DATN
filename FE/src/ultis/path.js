@@ -10,6 +10,7 @@ const path = {
   ORDER__DETAIL__ID: "order-detail/:id",
   ABOUT: "about",
   CONTACT: "contact",
+  POST: "post",
   PAYMENT: "payment",
   USER: "user",
   ACCOUNT: "account",

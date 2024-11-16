@@ -11,16 +11,16 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-  
+
     public function index()
     {
-        $orders = Order::with('order_details')->orderBy('id','desc')->get();  
+        $orders = Order::with('order_details')->orderBy('id','desc')->get();
         return view('order.index', compact('orders'));
     }
 
     public function edit($id)
     {
-        $order = Order::with('order_details')->findOrfail($id);  
+        $order = Order::with('order_details')->findOrfail($id);
 
         $totalAmount = $order->order_details->sum(function($order_detail) {
             $priceToUse = $order_detail->product_variant->sale ?? $order_detail->product_variant->price;
@@ -32,7 +32,7 @@ class OrderController extends Controller
     }
 
     public function update(Request $request)
-    {   
+    {
         $data = $request->all();
         $order = Order::findOrfail($data['id']);
         $order->update([
@@ -47,7 +47,7 @@ class OrderController extends Controller
 
     public function getByStatus($status)
     {
-        $order = Order::with('user')->where('status',$status)->get();  
+        $order = Order::with('user')->where('status',$status)->get();
         $title = OrderStatus::getDescription($status);
         return view('order.status', compact('order','title'));
     }
@@ -69,13 +69,13 @@ class OrderController extends Controller
                 $order->status = OrderStatus::Confirm;
                 break;
             case OrderStatus::Confirm:
-                $order->status = OrderStatus::Awaiting; 
+                $order->status = OrderStatus::Awaiting;
                 break;
             case OrderStatus::Awaiting:
-                $order->status = OrderStatus::InTransit; 
+                $order->status = OrderStatus::InTransit;
                 break;
             case OrderStatus::InTransit:
-                $order->status = OrderStatus::Delivered; 
+                $order->status = OrderStatus::Delivered;
                 break;
             default:
                 return redirect()->back()->with('error', 'Trạng thái không thể cập nhật.');

@@ -16,37 +16,31 @@ const Login = () => {
     const loginData = { email, password };
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/logins",
-        loginData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
+      const response = await axios.post("http://localhost:8000/api/logins", loginData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    
       const data = response.data;
       console.log(data);
-
+    
       if (data.token) {
         localStorage.setItem("token", data.token);
+        navigate("/");
       }
-
-      // if (data.redirect_url) {
-      //   window.location.href = data.redirect_url;
-      // } else {
-      //   navigate("/");
-      // }
     } catch (error) {
-      console.error("Error during login:", error);
       if (error.response) {
         console.error("Response data:", error.response.data);
         setErrorMessage(error.response.data.error || "Đăng nhập thất bại");
+      } else if (error.request) {
+        console.error("Request error:", error.request);
+        setErrorMessage("Không thể kết nối đến server.");
       } else {
         setErrorMessage("An unexpected error occurred.");
       }
     }
+    
   };
 
   const navigateSignup = () => {

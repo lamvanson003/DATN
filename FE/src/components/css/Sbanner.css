@@ -1,13 +1,10 @@
 .sub-banner-embrace .sub-banner {
   position: relative;
-  width: 388px;
   height: 207px;
   background-color: #d1ecf1;
   border: 1px solid #007bff;
   border-radius: 10px;
   overflow: hidden;
-  margin: 0 15px;
-  margin-left: 25px;
 }
 .sub-banner-embrace {
   margin-left: -10px;

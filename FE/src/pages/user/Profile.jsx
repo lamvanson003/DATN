@@ -1,15 +1,42 @@
 import React, { useEffect, useState } from "react";
-import "./css/Profile.css";
+// import "./css/Profile.css";
 import icons from "../../ultis/icon";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate, useLocation } from "react-router-dom";
+
 
 const { LuUser2 } = icons;
 
-const Profile = () => {
-  const [userData, setUserData] = useState(null); // Dữ liệu người dùng
-  const [loading, setLoading] = useState(true); // Trạng thái loading
-  const [error, setError] = useState(null); // Lưu trữ lỗi nếu có
 
-  // Fetch user data từ API khi component mount
+const Profile = () => {
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [selectedWard, setSelectedWard] = useState(null);
+  const [customerInfo, setCustomerInfo] = useState({
+    province: "",
+    district: "",
+    ward: "",
+    street: "",
+  });
+
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
+  const [validFields, setValidFields] = useState({
+    province: true,
+    district: true,
+    ward: true,
+    street: true,
+  });
+
+  const toggleDetails = () => {
+    setShowDetails(!showDetails);
+  };
+
   const fetchUserData = async () => {
     try {
       const response = await fetch("http://localhost:8000/api/profiles", {
@@ -21,38 +48,104 @@ const Profile = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        setUserData(data.data); // Lưu dữ liệu người dùng
+        setUserData(data.data);
+        if (data.data?.address) {
+          const addressParts = data.data.address.split(", ");
+          if (addressParts.length >= 4) {
+            const street = addressParts.slice(0, addressParts.length - 3).join(", ");
+            const ward = addressParts[addressParts.length - 3];
+            const district = addressParts[addressParts.length - 2];
+            const province = addressParts[addressParts.length - 1];
+
+            setCustomerInfo({
+              street,
+              ward,
+              district,
+              province,
+            });
+
+            const selectedProvince = provinces.find(p => p.full_name === province);
+            const selectedDistrict = districts.find(d => d.full_name === district);
+            const selectedWard = wards.find(w => w.full_name === ward);
+
+            setSelectedProvince(selectedProvince);
+            setSelectedDistrict(selectedDistrict);
+            setSelectedWard(selectedWard);
+          }
+        }
       } else {
-        setError(data.message || "Có lỗi xảy ra khi fetch dữ liệu.");
+        setError(data.message || "Lỗi khi lấy dữ liệu.");
       }
     } catch (error) {
-      setError("Có lỗi xảy ra: " + error.message);
+      setError("Lỗi: " + error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  // Cập nhật thông tin người dùng
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      const res = await fetch("https://esgoo.net/api-tinhthanh/1/0.htm");
+      const data = await res.json();
+      setProvinces(data.data);
+    };
+    fetchProvinces();
+  }, []);
+
+  useEffect(() => {
+    if (selectedProvince) {
+      const fetchDistricts = async () => {
+        const res = await fetch(
+          `https://esgoo.net/api-tinhthanh/2/${selectedProvince.id}.htm`
+        );
+        const data = await res.json();
+        setDistricts(data.data);
+        setWards([]);
+      };
+      fetchDistricts();
+    }
+  }, [selectedProvince]);
+
+  useEffect(() => {
+    if (selectedDistrict) {
+      const fetchWards = async () => {
+        const res = await fetch(
+          `https://esgoo.net/api-tinhthanh/3/${selectedDistrict.id}.htm`
+        );
+        const data = await res.json();
+        setWards(data.data);
+      };
+      fetchWards();
+    }
+  }, [selectedDistrict]);
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setCustomerInfo((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
   const updateUserData = async (e) => {
     e.preventDefault();
-
-    // Lấy giá trị từ form
     const fullname = document.getElementById("fullname").value;
     const email = document.getElementById("email").value;
     const username = document.getElementById("username").value;
     const phone = document.getElementById("phone").value;
-    const address = document.getElementById("address").value;
-    const gender = document.querySelector(
-      'input[name="gender"]:checked'
-    )?.value;
-
+    const address = {
+      street: customerInfo.street,
+      ward: customerInfo.ward,
+      district: customerInfo.district,
+      province: customerInfo.province,
+    };
+    
     const data = {
       fullname,
       email,
       username,
       phone,
       address,
-      gender,
     };
 
     try {
@@ -67,16 +160,73 @@ const Profile = () => {
 
       const result = await response.json();
       if (response.ok) {
-        // Cập nhật state `userData` với dữ liệu mới
-        setUserData(result.data); // Dùng result.data nếu API trả về dữ liệu người dùng đã được cập nhật
-        alert("Thông tin đã được cập nhật thành công!");
+        setUserData(result.data); 
+        alert("Cập nhật thông tin người dùng thành công!");
       } else {
-        alert("Có lỗi xảy ra: " + result.message);
+        alert("Lỗi: " + result.message);
       }
     } catch (error) {
-      alert("Có lỗi xảy ra: " + error.message);
+      alert("Lỗi: " + error.message);
     }
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const isValid = {
+      province: customerInfo.province !== "",
+      district: customerInfo.district !== "",
+      ward: customerInfo.ward !== "",
+      street: customerInfo.street !== "",
+    };
+
+    setValidFields(isValid);
+
+    if (Object.values(isValid).every(Boolean)) {
+      const address = {
+        street: customerInfo.street,
+        ward: customerInfo.ward,
+        district: customerInfo.district,
+        province: customerInfo.province,
+      };
+
+      const data = {
+        fullname: userData?.fullname || "",
+        email: userData?.email || "",
+        username: userData?.username || "",
+        phone: userData?.phone || "",
+        address,
+      };
+
+      try {
+        const response = await fetch("http://localhost:8000/api/profiles", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          setUserData(result.data); 
+          alert("Cập nhật địa chỉ thành công!");
+        } else {
+          alert("Lỗi: " + result.message);
+        }
+      } catch (error) {
+        alert("Lỗi: " + error.message);
+      }
+    } else {
+      alert("Vui lòng điền đầy đủ thông tin địa chỉ.");
+    }
+  };
+
+  const formattedAddress = `${userData?.address?.street || ""}, ${userData?.address?.ward || ""}, ${userData?.address?.district || ""}, ${userData?.address?.province || ""}`;
+
+  
+
 
   useEffect(() => {
     fetchUserData();
@@ -90,135 +240,246 @@ const Profile = () => {
     return <div>Error: {error}</div>; // Hiển thị lỗi nếu có
   }
 
+
   return (
-    <div className="row">
-      <div
-        className="row"
-        style={{ borderBottom: "1px solid gray", paddingBottom: 10 }}
-      >
-        <h3>Hồ sơ của tôi</h3>
-        <span>Quản lý thông tin hồ sơ để bảo mật tài khoản</span>
-      </div>
-      <div className="row mt-3">
-        <div className="col-sm-9">
-          <form className="form-container" onSubmit={updateUserData}>
-            <div className="form-group">
-              <label htmlFor="fullname">Họ và tên:</label>
-              <input
-               type="text"
-               className="form-control"
-               id="username"
-               defaultValue={userData?.username || ""}
-               required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email:</label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                defaultValue={userData?.email || ""}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="username">Tên đăng nhập:</label>
-              <input
-              
-
-                type="text"
-                className="form-control"
-                id="fullname"
-                defaultValue={userData?.fullname || ""}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="phone">Số điện thoại:</label>
-              <input
-                type="text"
-                className="form-control"
-                id="phone"
-                defaultValue={userData?.phone || ""}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="address">Địa chỉ:</label>
-              <input
-                type="text"
-                className="form-control"
-                id="address"
-                defaultValue={userData?.address || ""}
-              />
-            </div>
-            <div className="form-group form-group-gender d-flex gap-3">
-              <label>Giới tính:</label>
-              <div>
-                <input
-                  type="radio"
-                  id="male"
-                  name="gender"
-                  value="1"
-                  defaultChecked={userData?.gender === "1"}
-                />
-                <label htmlFor="male">Nam</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="female"
-                  name="gender"
-                  value="2"
-                  defaultChecked={userData?.gender === "2"}
-                />
-                <label htmlFor="female">Nữ</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="other"
-                  name="gender"
-                  value="3"
-                  defaultChecked={userData?.gender === "3"}
-                />
-                <label htmlFor="other">Khác</label>
-              </div>
-            </div>
-
-            <div className="d-flex justify-content-center">
-              <button
-                className="btn btn-primary"
-                style={{ width: "20%" }}
-                type="submit"
-              >
-                Lưu thay đổi
-              </button>
-            </div>
-          </form>
+    <div className="row" style={{ marginTop: '0px' }}>
+      <h2 style={{ marginLeft: '-20px' }} >Thông tin tài khoản</h2>
+    <div className="row" style={{ maxWidth: '1000px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+        <div className="card-header" style={{ backgroundColor: '#f8f9fa', fontWeight: 'bold' }}>
+            THÔNG TIN CÁ NHÂN
         </div>
-        <div className="col-sm-3">
-          <div className="my-3 d-flex flex-column align-items-center">
-            <span className="m-3">
-              <LuUser2
-                size={120}
-                className="p-3 border border-secondary rounded-circle"
-              />
-            </span>
-            <input
-              type="file"
-              id="image-upload"
-              name="image-upload"
-              className="form-control"
-              accept="image/*"
-            />
-            <span className="opacity-75">
-              Dụng lượng file tối đa 1 MB Định dạng:.JPEG, .PNG
-            </span>
-          </div>
+        <div className="card-body" style={{ backgroundColor: '#f8f9fa' }}>
+            <p> <span>{userData?.fullname || ""}- {userData?.phone || ""}</span>  <span className="details-btn" onClick={toggleDetails} style={{ color: 'blue', cursor: 'pointer' }}>Chi tiết</span></p>
+            {showDetails && (
+                <div id="details" className="details">
+                    <form onSubmit={updateUserData}>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="gender" id="male" value="male" defaultChecked />
+                            <label className="form-check-label" htmlFor="male">Anh</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="gender" id="female" value="female" />
+                            <label className="form-check-label" htmlFor="female">Chị</label>
+                        </div>
+                        <div className="row mt-3">
+                            <div className="col-md-6">
+                                <div className="mb-3">
+                                    <label htmlFor="name" className="form-label">Họ & Tên:</label>
+                                    <input
+                                    type="text"
+                                    className="form-control"
+                                    id="fullname"
+                                    defaultValue={userData?.fullname || ""}
+                                    required
+                                  />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="mb-3">
+                                    <label htmlFor="phone" className="form-label">Số điện thoại:</label>
+                                    <input
+                                    type="text"
+                                    className="form-control"
+                                    id="phone"
+                                    defaultValue={userData?.phone || ""}
+                                  />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="mb-3">
+                                    <label htmlFor="username" className="form-label">Tên đăng nhập:</label>
+                                    <input
+                                    type="text"
+                                    className="form-control"
+                                    id="username"
+                                    defaultValue={userData?.username || ""}
+                                    required
+                                    />
+
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="mb-3">
+                                    <label htmlFor="email" className="form-label">Email:</label>
+                                    <input
+                                    type="email"
+                                    className="form-control"
+                                    id="email"
+                                    defaultValue={userData?.email || ""}
+                                    required
+                                  />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div className="d-flex justify-content-end">
+                            <button type="button" className="btn btn-link btn-cancel" style={{ color: 'black' }}>Hủy</button>
+                            <button type="submit" className="btn btn-link btn-save" style={{ color: 'blue' }}>Lưu</button>
+                        </div>
+                    </form>
+                </div>
+            )}
         </div>
-      </div>
     </div>
+    <div className="row" style={{
+      maxWidth: '1000px',
+      margin: '50px auto',
+      backgroundColor: '#ffffff',
+      padding: '20px',
+      borderRadius: '5px',
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+      marginLeft: '-10px',
+      marginRight: '0px',
+      marginTop:"20px",
+    }}>
+      <h5>ĐỊA CHỈ NHẬN HÀNG </h5>
+      <div className="row mb-3">
+      <div className="row mb-3" style={{ display: 'none' }}>
+  Địa chỉ hiện tại: <p>{formattedAddress}</p>
+</div></div>
+      <form onSubmit={handleSubmit}>
+       
+  <div className="row mb-3">
+        <div className="col">
+          
+  <label htmlFor="province" style={{ fontWeight: 'bold' }}>Tỉnh, thành phố:</label>
+  <div className="input-group" style={{ marginBottom: '15px' }}>
+    <select
+      id="province"
+      className="form-select"
+      onChange={(e) => {
+        const selectedProvince = provinces.find(
+          (p) => p.full_name === e.target.value
+        );
+        setSelectedProvince(selectedProvince); // Update selectedProvince state
+        setCustomerInfo((prev) => ({
+          ...prev,
+          province: selectedProvince ? selectedProvince.full_name : "",
+          district: "",
+          ward: "",
+        }));
+        setDistricts([]); // Reset districts when province changes
+        setWards([]); // Reset wards when province changes
+      }}
+      value={customerInfo.province || ""}
+      style={{
+        borderColor: validFields.province ? "" : "red",
+        marginBottom: 0,
+        backgroundColor: "#fff",
+      }}
+    >
+      <option value="">Chọn tỉnh thành phố</option>
+      {provinces.map((province) => (
+        <option key={province.id} value={province.full_name}>
+          {province.full_name}
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
+<div className="col">
+  <label htmlFor="district" style={{ fontWeight: 'bold' }}>Quận huyện:</label>
+  <div className="input-group" style={{ marginBottom: '15px' }}>
+    <select
+      id="district"
+      className="form-select"
+      onChange={(e) => {
+        const selectedDistrict = districts.find(
+          (d) => d.full_name === e.target.value
+        );
+        setSelectedDistrict(selectedDistrict); // Update selectedDistrict state
+        setCustomerInfo((prev) => ({
+          ...prev,
+          district: selectedDistrict ? selectedDistrict.full_name : "",
+          ward: "",
+        }));
+        setWards([]); // Reset wards when district changes
+      }}
+      value={customerInfo.district || ""}
+      style={{
+        borderColor: validFields.district ? "" : "red",
+        marginBottom: 0,
+        backgroundColor: "#fff",
+      }}
+    >
+      <option value="">Chọn quận huyện</option>
+      {districts.map((district) => (
+        <option key={district.id} value={district.full_name}>
+          {district.full_name}
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
+</div>
+
+        <div className="row mb-3">
+          <div className="col">
+            <label htmlFor="ward" style={{ fontWeight: 'bold' }}>Phường xã:</label>
+            <div className="input-group" style={{ marginBottom: '15px' }}>
+              <select
+                id="ward"
+                className="form-select"
+                onChange={(e) => {
+                  const selectedWard = wards.find(
+                    (w) => w.full_name === e.target.value
+                  );
+                  setCustomerInfo((prev) => ({
+                    ...prev,
+                    ward: selectedWard ? selectedWard.full_name : "",
+                  }));
+                }}
+                value={customerInfo.ward || ""}
+                style={{
+                  borderColor: validFields.ward ? "" : "red",
+                  marginBottom: 0,
+                  backgroundColor: "#fff",
+                }}
+              >
+                <option value="">Chọn phường xã</option>
+                {wards.map((ward) => (
+                  <option key={ward.id} value={ward.full_name}>
+                    {ward.full_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="col">
+            <label htmlFor="street" style={{ fontWeight: 'bold' }}>Số nhà, tên đường:</label>
+            <input
+              style={{  marginTop: '0px',  padding: '6px', borderColor: validFields.street ? "" : "red" }}
+              id="street"
+              type="text"
+              className="form-control"
+              value={customerInfo.street}
+              onChange={handleInputChange}
+
+            />
+          </div>
+
+        </div>
+
+        <div className="form-check mb-3">
+          <input className="form-check-input" type="checkbox" id="defaultAddress" />
+          <label className="form-check-label" htmlFor="defaultAddress">
+            Đặt làm địa chỉ mặc định
+          </label>
+        </div>
+
+        <div className="d-flex justify-content-center">
+          <button type="submit" className="btn" style={{
+            backgroundColor: '#3f8ff0',
+            color: '#ffffff',
+            border: 'none',
+            width: '150px'
+          }}>CẬP NHẬT</button>
+        </div>
+      </form>
+    </div>
+</div>
+
+  
   );
 };
 
