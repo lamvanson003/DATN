@@ -10,6 +10,7 @@ import {
   News,
   FlashSale,
   Recommend,
+  Popup,
 } from "../../components";
 import "./css/Home.css";
 import { useSelector } from "react-redux";
@@ -20,7 +21,7 @@ const Home = () => {
   const { productsData } = useSelector((state) => state.pro);
   const [phonesData, setPhonesData] = useState([]);
   const [laptopsData, setLaptopsData] = useState([]);
-
+  const [isSendingSuccess, setIsSendingSuccess] = useState(false);
   useEffect(() => {
     if (productsData) {
       setPhonesData(productsData.phone);
@@ -28,9 +29,15 @@ const Home = () => {
     }
   }, [productsData]);
   console.log(phonesData);
+  useEffect(() => {
+    if (responseCode === "00") {
+      setIsSendingSuccess(true);
+    }
+  }, []);
 
   return (
     <>
+      {isSendingSuccess && <Popup orderId={11} />}
       <Banner />
 
       <Sbanner />
@@ -51,8 +58,8 @@ const Home = () => {
       <div className="container mt-5">
         <div className="row bg-box">
           <div className="d-flex title-p align-items-center">
-              <span>Điện thoại</span>
-              <a href="">Xem tất cả</a>
+            <span>Điện thoại</span>
+            <a href="">Xem tất cả</a>
           </div>
           <div className="row justify-content-start align-items-center pt-3 pb-3">
             {phonesData
@@ -80,26 +87,26 @@ const Home = () => {
       <div className="container mt-5">
         <div className="row justify-content-start bg-box">
           <div className="d-flex title-p align-items-center">
-                <span>Laptop</span>
-                <a href="">Xem tất cả</a>
-            </div>
+            <span>Laptop</span>
+            <a href="">Xem tất cả</a>
+          </div>
           <div className="row justify-content-start align-items-center pt-3 pb-3">
-          {laptopsData
-            .filter((value, index) => index < 8)
-            .map((pro, index) => (
-              <div key={index} className="col-md-3">
-                <BoxPro
-                  id={pro.id}
-                  name={pro.name}
-                  category={pro.category}
-                  brand={pro.brand}
-                  slug={pro.slug}
-                  image={pro.images}
-                  product_image_items={pro.product_image_items}
-                  variant={pro.product_variant}
-                />
-              </div>
-            ))}
+            {laptopsData
+              .filter((value, index) => index < 8)
+              .map((pro, index) => (
+                <div key={index} className="col-md-3">
+                  <BoxPro
+                    id={pro.id}
+                    name={pro.name}
+                    category={pro.category}
+                    brand={pro.brand}
+                    slug={pro.slug}
+                    image={pro.images}
+                    product_image_items={pro.product_image_items}
+                    variant={pro.product_variant}
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </div>
