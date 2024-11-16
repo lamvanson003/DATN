@@ -27,6 +27,7 @@ const Home = () => {
       setLaptopsData(productsData.laptop);
     }
   }, [productsData]);
+  console.log(phonesData);
 
   return (
     <>
