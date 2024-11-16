@@ -23,7 +23,7 @@ class FlashSaleRequest extends BaseRequest
             'quantity_limit.*' => 'nullable|integer|min:1',
             'is_active' => 'required|integer',
             'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time',
+            'end_time' => 'required|date',
         ];
     }
 
