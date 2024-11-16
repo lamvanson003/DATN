@@ -16,3 +16,4 @@ export { default as BankingOnline } from "./BankingOnline";
 export { default as Contact } from "./Contact";
 export { default as OrderDetail } from "./OrderDetail";
 export { default as Invoice } from "./Invoice";
+export { default as Post } from "./Post";
