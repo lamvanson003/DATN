@@ -65,13 +65,13 @@
                                     <!-- price -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Giá <span style="color: red">*</span>:</label>
-                                        <input type="text" value="{{ $product_variant->price }}"  required class="form-control formatPrice" name="price" placeholder="VND">
+                                        <input type="text" value="{{ $product_variant->price }}"  required class="form-control" name="price" placeholder="VND">
                                     </div>
 
                                     <!-- price sale -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Giá khuyến mãi :</label>
-                                        <input type="text" value="{{ $product_variant->sale }}" class="form-control formatPrice" name="sale" placeholder="VND">
+                                        <input type="text" value="{{ $product_variant->sale }}" class="form-control" name="sale" placeholder="VND">
                                     </div>
                                 </div>
 
