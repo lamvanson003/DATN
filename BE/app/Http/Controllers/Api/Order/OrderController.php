@@ -15,17 +15,14 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller {
     public function detailByPhone(Request $request) {
-        // Kiểm tra số điện thoại có trong request
         $validatedData = $request->validate([
             'phone' => 'required|string',
         ]);
 
-        // Tìm tất cả các đơn hàng có cùng số điện thoại
         $orders = Order::with('order_details.product_variant.product')
                         ->where('phone', $validatedData['phone'])
                         ->get();
 
-        // Kiểm tra nếu không tìm thấy đơn hàng nào
         if ($orders->isEmpty()) {
             return response()->json([
                 'success' => false,
@@ -33,7 +30,6 @@ class OrderController extends Controller {
             ], 404);
         }
 
-        // Trả về thông tin các đơn hàng tìm thấy
         return response()->json([
             'success' => true,
             'data' => OrderResource::collection($orders)
