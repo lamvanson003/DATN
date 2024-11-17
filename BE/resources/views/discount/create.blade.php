@@ -50,6 +50,12 @@
                                         <input type="number" step="0.01" class="form-control" name="discount_value" id="discount_value" required value="{{ old('discount_value') }}">
                                     </div>
                                 </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="code" class="form-label">Số lượng:<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="code" id="code" required value="{{ old('code') }}">
+                                    </div>
+                                </div>
 
                                 <div class="row mb-3">
                                     <div class="col-md-6">

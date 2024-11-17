@@ -38,7 +38,9 @@ class ProductController extends controller{
                     'brand'=> function ($query){
                         $query->where('status', BrandStatus::Active);
                     }, 
-                    'product_variant', 
+                    'product_variant' => function($query){
+                        $query->where('is_flash_sale',false);
+                    } ,
                     'product_image_items' => function ($query){
                         $query->where('status', Status::Active);
                     }, 

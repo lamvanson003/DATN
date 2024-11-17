@@ -80,9 +80,12 @@ class UserController extends Controller
 
         $user->fullname = $request->input('fullname');
         $user->username = $request->input('username')??$user->username;
+        $user->address = $request->input('address');
         $user->status = $request->input('status');
         $user->phone = $request->input('phone');
-        $user->email = $request->input('email');
+        if($request->input('email') != ""){
+            $user->email = $request->input('email');
+        }
 
         if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
