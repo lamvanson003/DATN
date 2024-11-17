@@ -86,7 +86,6 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
         Route::prefix('/notifications')->as('notification.')->group(function () {
             Route::controller(App\Http\Controllers\Notification\NotificationController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
-                Route::get('/{id}', 'detail')->name('detail');
                 Route::get('/type/{type}', 'type')->name('type');
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
@@ -211,7 +210,11 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
             });
         });
 
-
+        Route::prefix('/search')->as('search.')->group(function () {
+            Route::prefix('/select')->as('select.')->group(function () {
+                Route::get('/customer', [App\Http\Controllers\User\CustomerSearchSelectController::class, 'selectSearch'])->name('customer');
+            });
+        });
 
 
 });
