@@ -189,52 +189,47 @@ const Product = () => {
         </div>
       </section>
       <section className="pagi">
-        <div className="row">
-          <div className="col-md-3"></div>
-          <div className="col-md-9">
-            <nav aria-label="Page navigation example">
-              <ul className="pagination justify-content-center">
-                <li className="page-item">
-                  <a
-                    className="page-link"
-                    href="#"
-                    aria-label="Previous"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      paginate(curPage - 1);
-                    }}
-                  >
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                {pageNumbers.map((number) => (
-                  <li key={number} className="page-item">
-                    <a
-                      onClick={() => paginate(number)}
-                      href="#"
-                      className="page-link"
-                    >
-                      {number}
-                    </a>
-                  </li>
-                ))}
-                <li className="page-item">
-                  <a
-                    className="page-link"
-                    href="#"
-                    aria-label="Next"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      paginate(curPage + 1);
-                    }}
-                  >
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
+        <nav aria-label="Page navigation example">
+          <ul className="pagination justify-content-center">
+            <li className="page-item">
+              <a
+                className="page-link"
+                href="#"
+                aria-label="Previous"
+                onClick={(e) => {
+                  e.preventDefault();
+                  paginate(curPage - 1);
+                }}
+              >
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {pageNumbers.map((number) => (
+              <li key={number} className="page-item">
+                <a
+                  onClick={() => paginate(number)}
+                  href="#"
+                  className="page-link"
+                >
+                  {number}
+                </a>
+              </li>
+            ))}
+            <li className="page-item">
+              <a
+                className="page-link"
+                href="#"
+                aria-label="Next"
+                onClick={(e) => {
+                  e.preventDefault();
+                  paginate(curPage + 1);
+                }}
+              >
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </section>
     </div>
   );
