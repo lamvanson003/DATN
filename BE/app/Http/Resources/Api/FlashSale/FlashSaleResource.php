@@ -30,20 +30,22 @@ class FlashSaleResource extends JsonResource
         'brand' => [
             'name' => optional($this->product_variant->product->brand)->name ?? 'Chưa có thông tin',
         ],
-        'product_variant' => $this->whenLoaded('product_variant', function () {
-            return [
-                'id' => optional($this->product_variant)->id,
-                'sku' => optional($this->product_variant)->sku,
-                'storage' => optional($this->product_variant)->storage,
-                'sale' => optional($this->product_variant)->sale,
-                'price' => optional($this->product_variant)->price,
-                'images' => optional($this->product_variant)->images,
-                'color' => optional($this->product_variant)->color,
-                'instock' => optional($this->product_variant)->instock,
-                'is_flash_sale' => optional($this->product_variant)->is_flash_sale,
-                'sold' => optional($this->product_variant)->sold,
-            ];
-        }),
+        'product_variant' =>[
+            $this->whenLoaded('product_variant', function () {
+                return [
+                    'id' => optional($this->product_variant)->id,
+                    'sku' => optional($this->product_variant)->sku,
+                    'storage' => optional($this->product_variant)->storage,
+                    'sale' => optional($this->product_variant)->sale,
+                    'price' => optional($this->product_variant)->price,
+                    'images' => optional($this->product_variant)->images,
+                    'color' => optional($this->product_variant)->color,
+                    'instock' => optional($this->product_variant)->instock,
+                    'is_flash_sale' => optional($this->product_variant)->is_flash_sale,
+                    'sold' => optional($this->product_variant)->sold,
+                ];
+            }),
+        ],
 
         'product_image_items' => $this->product_variant->product->product_image_items->map(function ($item) {
             return [
