@@ -36,6 +36,7 @@ class ProductDetailResource extends JsonResource
                     'variants' => $items->map(function($item) {
                         return [
                             'id' => $item->id,
+                            'is_flash_sale' => $item->is_flash_sale,
                             'sku' => $item->sku,
                             'sale' => $item->sale,
                             'price' => $item->price,

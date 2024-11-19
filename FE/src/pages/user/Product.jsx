@@ -160,82 +160,76 @@ const Product = () => {
         </div>
       </section>
       <section id="body-product ">
-        <div className="row">
+        <div className="row ">
           <div className="col-md-12 p-3">
             {searchTerm && (
-              <div style={{ backgroundColor: "#fff" }}>
-                Bạn đang tìm kiếm với từ khóa: {`${searchTerm}`}
-              </div>
+              <div>Bạn đang tìm kiếm với từ khóa: {`${searchTerm}`}</div>
             )}
 
-            <div className="row justify-content ">
+            <div className="row ">
               <Brand />
-
-              {sortedItems.map((item) => (
-                <div key={item?.id} className="col-md-3">
-                  <BoxPro
-                    id={item.id}
-                    name={item.name}
-                    category={item.category}
-                    brand={item.brand}
-                    slug={item.slug}
-                    image={item.images}
-                    product_image_items={item.product_image_items}
-                    variant={item.product_variant}
-                  />
-                </div>
-              ))}
+              <div className="row mt-5 py-2 bg-box">
+                {sortedItems.map((item) => (
+                  <div key={item?.id} className="col-md-3">
+                    <BoxPro
+                      id={item.id}
+                      name={item.name}
+                      category={item.category}
+                      brand={item.brand}
+                      slug={item.slug}
+                      image={item.images}
+                      product_image_items={item.product_image_items}
+                      variant={item.product_variant}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
       <section className="pagi">
-        <div className="row">
-          <div className="col-md-3"></div>
-          <div className="col-md-9">
-            <nav aria-label="Page navigation example">
-              <ul className="pagination justify-content-center">
-                <li className="page-item">
-                  <a
-                    className="page-link"
-                    href="#"
-                    aria-label="Previous"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      paginate(curPage - 1);
-                    }}
-                  >
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                {pageNumbers.map((number) => (
-                  <li key={number} className="page-item">
-                    <a
-                      onClick={() => paginate(number)}
-                      href="#"
-                      className="page-link"
-                    >
-                      {number}
-                    </a>
-                  </li>
-                ))}
-                <li className="page-item">
-                  <a
-                    className="page-link"
-                    href="#"
-                    aria-label="Next"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      paginate(curPage + 1);
-                    }}
-                  >
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
+        <nav aria-label="Page navigation example">
+          <ul className="pagination justify-content-center">
+            <li className="page-item">
+              <a
+                className="page-link"
+                href="#"
+                aria-label="Previous"
+                onClick={(e) => {
+                  e.preventDefault();
+                  paginate(curPage - 1);
+                }}
+              >
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {pageNumbers.map((number) => (
+              <li key={number} className="page-item">
+                <a
+                  onClick={() => paginate(number)}
+                  href="#"
+                  className="page-link"
+                >
+                  {number}
+                </a>
+              </li>
+            ))}
+            <li className="page-item">
+              <a
+                className="page-link"
+                href="#"
+                aria-label="Next"
+                onClick={(e) => {
+                  e.preventDefault();
+                  paginate(curPage + 1);
+                }}
+              >
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </section>
     </div>
   );

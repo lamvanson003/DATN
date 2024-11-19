@@ -17,6 +17,8 @@ import {
   Contact,
   OrderDetail,
   Invoice,
+  Post,
+  SearchOrder,
 } from "./pages/user";
 import { Routes, Route } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
@@ -50,6 +52,8 @@ function App() {
               </Route>
               <Route path={path.HISTORY} element={<History />} />
             </Route>
+            <Route path={path.POST} element={<Post />} />
+            <Route path={path.SEARCH_ORDER} element={<SearchOrder />} />
             <Route path={path.PAYMENT} element={<Payment />} />
             <Route path={path.INVOICE__ID} element={<Invoice />} />
             <Route path={path.BANKINGONLINE} element={<BankingOnline />} />

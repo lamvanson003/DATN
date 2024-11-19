@@ -206,27 +206,27 @@ const Detail = () => {
   // Submit comment
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     if (!comment.trim()) {
       alert("Vui lòng nhập bình luận!");
       return;
     }
-  
+
     setLoadingComment(true);
 
     console.log("Bình luận:", comment);
-    console.log("Số sao:", rating);  
-    
-    console.log("Hình ảnh:", images);  
-      setTimeout(() => {
+    console.log("Số sao:", rating);
+
+    console.log("Hình ảnh:", images);
+    setTimeout(() => {
       setLoadingComment(false);
       setComment("");
       setImages([]);
-      setRating(0);  
-    
+      setRating(0);
     }, 2000);
   };
-  
+
+  console.log(detailData);
   return (
     <>
       <section className="px-2 mb-2" id="Breadcrumb" ref={ref}>
@@ -271,11 +271,10 @@ const Detail = () => {
                           } `}
                         >
                           <img
-                              src={item?.images}
-                              alt=""
-                              onClick={() => handleImageClick(item?.images)}
+                            src={item?.images}
+                            alt=""
+                            onClick={() => handleImageClick(item?.images)}
                           />
-
                         </div>
                       ))}
                   </div>
@@ -377,18 +376,97 @@ const Detail = () => {
                     </div>
                   </div>
                 </div>
-                <div className="info-product-price mt-2">
-                  <div className="sale">
-                    {currentVariant?.color?.sale
-                      ? formatCurrency(currentVariant?.color?.sale)
-                      : formatCurrency(currentVariant?.color?.price ?? 0)}
+                {currentVariant?.color?.is_flash_sale ? (
+                  <div
+                    style={{
+                      border: "1px solid #f00",
+                      borderRadius: "8px",
+                      padding: "12px",
+                      width: "100%",
+                      backgroundColor: "#fff",
+                      position: "relative",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div>
+                      <span
+                        style={{
+                          backgroundColor: "#ffebcd",
+                          color: "#f90",
+                          fontWeight: "bold",
+                          borderRadius: "4px",
+                          padding: "4px 8px",
+                          fontSize: "14px",
+                          display: "inline-block",
+                        }}
+                      >
+                        ⚡ Giá online siêu rẻ
+                      </span>
+                    </div>
+
+                    <div
+                      style={{
+                        marginTop: "12px",
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        color: "#000",
+                      }}
+                    >
+                      <span style={{ fontSize: "20px" }}>
+                        18.890.000 <sup>đ</sup>
+                      </span>
+                      <span
+                        style={{
+                          color: "#f00",
+                          fontSize: "18px",
+                          marginLeft: "8px",
+                        }}
+                      >
+                        -10%
+                      </span>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        paddingTop: "10px",
+                        borderTop: "1px dotted gray",
+                      }}
+                    >
+                      <div
+                        style={{
+                          backgroundColor: "#ffd9d9",
+                          color: "#fff",
+                          borderRadius: "4px",
+                          padding: "4px 8px",
+                        }}
+                      >
+                        🔥 Đã bán <strong>0/10</strong> suất
+                      </div>
+                      <div>
+                        Kết thúc vào:
+                        <strong style={{ color: "#000" }}> 18/11/2024</strong>
+                      </div>
+                    </div>
                   </div>
-                  <div className="price">
-                    {currentVariant?.color?.price && currentVariant?.color?.sale
-                      ? formatCurrency(currentVariant?.color?.price)
-                      : null}
+                ) : (
+                  <div className="info-product-price mt-2">
+                    <div className="sale">
+                      {currentVariant?.color?.sale
+                        ? formatCurrency(currentVariant?.color?.sale)
+                        : formatCurrency(currentVariant?.color?.price ?? 0)}
+                    </div>
+                    <div className="price">
+                      {currentVariant?.color?.price &&
+                      currentVariant?.color?.sale
+                        ? formatCurrency(currentVariant?.color?.price)
+                        : null}
+                    </div>
                   </div>
-                </div>
+                )}
+
                 <div className="short_desc"></div>
                 <p>{detailData?.short_desc}</p>
                 <div className="option-group">
@@ -572,73 +650,75 @@ const Detail = () => {
 
       {/* Modal */}
       {isModalOpen && (
-      <div className="modal" onClick={handleOutsideClick}>
-        <div className="modal-content" ref={modalContentRef}>
-          <span className="close" onClick={closeModal}>&times;</span>
+        <div className="modal" onClick={handleOutsideClick}>
+          <div className="modal-content" ref={modalContentRef}>
+            <span className="close" onClick={closeModal}>
+              &times;
+            </span>
 
-          <div className="form-comment">
-            <span className="comment-label">Vui lòng để lại cảm nghĩ về sản phẩm:</span>
-            <form className="comment-form" onSubmit={handleSubmit}>
-              
-              {/* Chọn số sao */}
-              <div className="star-rating">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <span
-                    key={star}
-                    className={star <= rating ? "star selected" : "star"}
-                    onClick={() => setRating(star)}
-                  >
-                    ★
-                  </span>
-                ))}
-              </div>     
-              <textarea
-                className="comment-textarea"
-                placeholder="Hãy nêu suy nghĩ của bạn"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              />
-
-              <div className="form-footer">
-                <div className="image-upload">
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    id="image-upload"
-                  />
-                  <label htmlFor="image-upload" className="upload-label">
-                    <i className="fas fa-image"></i> Chọn hình ảnh
-                  </label>
+            <div className="form-comment">
+              <span className="comment-label">
+                Vui lòng để lại cảm nghĩ về sản phẩm:
+              </span>
+              <form className="comment-form" onSubmit={handleSubmit}>
+                {/* Chọn số sao */}
+                <div className="star-rating">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <span
+                      key={star}
+                      className={star <= rating ? "star selected" : "star"}
+                      onClick={() => setRating(star)}
+                    >
+                      ★
+                    </span>
+                  ))}
                 </div>
-
-                <button
-                  className="btn-submit"
-                  type="submit"
-                  disabled={loadingComment}
-                >
-                  {loadingComment ? "Đang gửi ..." : "Gửi đánh giá"}
-                </button>
-              </div>
-            </form>
-
-            {/* Hiển thị hình ảnh đã chọn */}
-            <div className="image-preview">
-              {images.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`chosen-preview-${index}`}
-                  className="preview-img"
+                <textarea
+                  className="comment-textarea"
+                  placeholder="Hãy nêu suy nghĩ của bạn"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
                 />
-              ))}
+
+                <div className="form-footer">
+                  <div className="image-upload">
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      id="image-upload"
+                    />
+                    <label htmlFor="image-upload" className="upload-label">
+                      <i className="fas fa-image"></i> Chọn hình ảnh
+                    </label>
+                  </div>
+
+                  <button
+                    className="btn-submit"
+                    type="submit"
+                    disabled={loadingComment}
+                  >
+                    {loadingComment ? "Đang gửi ..." : "Gửi đánh giá"}
+                  </button>
+                </div>
+              </form>
+
+              {/* Hiển thị hình ảnh đã chọn */}
+              <div className="image-preview">
+                {images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`chosen-preview-${index}`}
+                    className="preview-img"
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-)}
-
+      )}
     </>
   );
 };
