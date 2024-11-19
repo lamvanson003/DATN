@@ -8,9 +8,9 @@
         <div class="text-center mb-4">
             <img src="{{ asset('admin/assets/img/blogpost.jpg') }}" class="custom_avatar" width="200" alt="Logo">
         </div>
-        <form action="{{ route('admin.login') }}" method="POST" class="card card-md">
-            <input type="hidden" name="device_token" id="device_token">
+        <form action="{{ route('admin.login') }}" method="POST" class="card card-md">           
             @csrf
+            <input type="hidden" name="device_token" id="device_token">
             <div class="card-body">
                 <h2 class="card-title text-center mb-4">Đăng nhập</h2>
                 <div class="mb-3">
@@ -58,7 +58,7 @@
         .then((token) => {
             if (token) {
                 console.log("Device token:", token);
-                document.getElementById('device_token').value = token; // Set token in form input
+                document.getElementById('device_token').value = token || ''; // Set token in form input
             } else {
                 console.log("No registration token available.");
             }

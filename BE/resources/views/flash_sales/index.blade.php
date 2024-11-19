@@ -44,10 +44,10 @@
                   <tr>
                     <th></th>
                     <th>Sản phẩm</th>
-                    <th>Biến thể</th>
-                    <th >Hình ảnh </th>
+                    <th >Giá khuyến mãi</th>
                     <th>Trạng thái</th>
                     <th>Lượt bán</th>
+                    <th>Số lượng</th>
                     <th>Hành động</th>
                   </tr>
                 </thead>
@@ -55,48 +55,50 @@
                   <tr>
                     <th></th>
                     <th>Sản phẩm</th>
-                    <th>Biến thể</th>
-                    <th >Hình ảnh </th>
+                    <th >Giá khuyến mãi</th>
                     <th>Trạng thái</th>
                     <th>Lượt bán</th>
+                    <th>Số lượng</th>
                     <th>Hành động</th>
                   </tr>
                 </tfoot>
                 <tbody>
                   @foreach ($saleItems as $item)
                     <tr>
-                      <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt="{{ $item->name }}"></td>
-                      <td><a href="{{ route('admin.product.edit', $item->id) }}">{{ $item->name }}</a></td> 
+                      <td><img class="text-center fix-image" src="{{ asset($item->product_variant->images) }}" alt="{{ $item->name }}"></td>
                       <td>
-                        
+                        <a href="{{ route('admin.product.edit', $item->id) }}">
+                          {{ $item->product_variant->product->name }}-{{ $item->product_variant->storage }}
+                        </a>
+                        <div>{{ $item->product_variant->color }}</div>
                       </td> 
-
+                      <td>{{ number_format($item->discount_price) }}</td>
                       <td>
-                       
-                      </td>
-                      <td>
-                        @switch($item->status)
-                            @case(\App\Enums\Product\ProductStatus::Active)
-                                <span class="badge rounded-pill badge-success">{{ \App\Enums\Product\ProductStatus::getDescription($item->status) }}</span>
+                        @switch($item->is_active)
+                            @case(\App\Enums\ActiveStatus::Active)
+                                <span class="badge rounded-pill badge-success">{{ \App\Enums\ActiveStatus::getDescription($item->is_active) }}</span>
                             @break
-                            @case(\App\Enums\Product\ProductStatus::Inactive)
-                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\Product\ProductStatus::getDescription($item->status) }}</span>
-                            @break
-                            @case(\App\Enums\Product\ProductStatus::Deleted)
-                                <span class="badge rounded-pill badge-danger">{{ \App\Enums\Product\ProductStatus::getDescription($item->status) }}</span>
+                            @case(\App\Enums\ActiveStatus::Inactive)
+                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\ActiveStatus::getDescription($item->is_active) }}</span>
                             @break
                             @default
                                 <span class="badge rounded-pill badge-secondary">Không xác định</span>
                         @endswitch
                       </td>
                       <td>
-                        @if($item->product_variant->sum('sold') > 0)
-                              {{ $item->product_variant->sum('sold') }}
+                        @if($item->sum('sold') > 0)
+                              {{ $item->sum('sold') }}
                           @else
                               <span class="badge text-danger">Chưa có lượt mua</span>
                         @endif
                       </td>
                       <td>
+                        {{ $item->quantity_limit }}
+                      </td>
+                      <td>
+                          <a href="{{ route('admin.flashSale.edit', $item->id) }}" class="btn btn-primary text-white btn-sm">
+                            <i class="fa fa-pencil-alt"></i>
+                          </a>
                           <button type="button" data-bs-toggle="modal" title="Chỉnh sửa" class="btn btn-danger btn-icon" data-bs-target="#exampleModal{{ $item->id }}">
                             <i class="fa fa-trash-alt"></i>
                           </button>

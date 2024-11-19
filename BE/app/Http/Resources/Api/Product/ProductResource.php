@@ -39,6 +39,7 @@ class ProductResource extends JsonResource
                             'color' => $item->color,
                             'instock' => $item->instock,
                             'sold' => $item->sold,
+                            'is_flash_sale' => $item->is_flash_sale,
                             'percent' => (!is_null($item->sale) && $item->sale < $item->price && $item->price > 0)
                                     ? round((($item->price - $item->sale) / $item->price) * 100)
                                     : null,
