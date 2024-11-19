@@ -242,7 +242,7 @@ const Profile = () => {
 
 
   return (
-    <div className="row" style={{ marginTop: '0px' }}>
+    <div className="row" style={{ marginTop: '0px', maxWidth:"1000px", }}>
       <h2 style={{ marginLeft: '-20px' }} >Thông tin tài khoản</h2>
     <div className="row" style={{ maxWidth: '1000px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
         <div className="card-header" style={{ backgroundColor: '#f8f9fa', fontWeight: 'bold' }}>

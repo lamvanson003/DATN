@@ -271,4 +271,57 @@ public function logout(Request $request)
         ], 500);
     }
 }
+public function changePassword(Request $request)
+{
+    $user = Auth::user(); // Lấy người dùng đã xác thực
+
+    // Xác thực dữ liệu đầu vào
+    $validator = Validator::make($request->all(), [
+        'current_password' => 'required|string',
+        'new_password' => 'required|string|min:6|confirmed',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'errors' => $validator->errors(),
+        ], 422); // Trả về lỗi xác thực
+    }
+
+    try {
+        $data = $validator->validated();
+
+        // Kiểm tra xem mật khẩu hiện tại có đúng không
+        if (!Hash::check($data['current_password'], $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Current password is incorrect.',
+            ], 403); // Trả về lỗi nếu mật khẩu hiện tại không đúng
+        }
+
+        // Cập nhật mật khẩu mới
+        $user->password = Hash::make($data['new_password']); // Mã hóa mật khẩu mới
+        $user->save(); // Lưu thay đổi
+
+        Log::info('User password changed successfully', [
+            'user_id' => $user->id,
+            'updated_at' => now(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password changed successfully.',
+        ], 200);
+    } catch (Exception $e) {
+        Log::error('Error changing password', [
+            'error' => $e->getMessage(),
+            'user_id' => $user->id,
+        ]);
+
+        return response()->json([
+            'success' => false,
+            'message' => 'An error occurred while changing the password: ' . $e->getMessage(),
+        ], 500); // Trả về lỗi tổng quát
+    }
+}
 }

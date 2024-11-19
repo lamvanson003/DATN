@@ -64,6 +64,8 @@ Route::controller(UsersLoginController::class)->prefix('/logins')
 ->group(function(){
     Route::get('/', 'index');
     Route::post('/', 'index');
+    Route::post('/request-otp', 'requestOtp')->name('requestOtp');
+    Route::post('/verify-otp', 'verifyOtpAndResetPassword')->name('verifyOtp');
 
 });
 
@@ -82,6 +84,7 @@ Route::controller(UserProfileController::class)->prefix('/profiles')
     Route::post('/comment', 'addComment');
     Route::get('/comment', 'addComment');
     Route::get('/comments', 'getComments');
+    Route::post('/change-password', 'changePassword')->name('changePassword');
 
 
 });

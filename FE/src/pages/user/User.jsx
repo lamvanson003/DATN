@@ -109,7 +109,7 @@ const User = () => {
 
   return (
     <>
-      <div className="mt-5" style={{ width: "100%", margin: "0 100px" }}>
+      <div className="mt-5" style={{ width: "90%", margin: "0 100px" }}>
         <div className="row" style={{ width: "100%" }}>
           <div className="col-md-3 px-5">
             <span className="px-5 d-flex flex-column gap-4">
@@ -169,7 +169,7 @@ const User = () => {
               </button>
             </span>
           </div>
-          <div className="col-md-9 px-5">
+          <div  className="col-md-9 px-1 ">
             <Outlet />
           </div>
         </div>
