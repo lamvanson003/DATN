@@ -95,6 +95,57 @@
             </div>
 
             <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Doanh thu theo tháng</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="orderRevenue"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Lượng đơn hàng theo tháng</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="orderCountChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Lượng người đăng ký theo tháng</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="userRegistrationChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="card-title">Thống kê sản phẩm</div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart-container">
+                          <canvas id="doughnutChart"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
                 <div class="col-md-4">
                     <div class="card card-round">
                         <div class="card-body">
@@ -212,37 +263,174 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6 col-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">BIỂU ĐỒ THỐNG KÊ</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <script>
-                    window.onload = function() {
-                        var chart = new CanvasJS.Chart("chartContainer", {
-                            animationEnabled: true,
-                            data: [{
-                                type: "doughnut",
-                                indexLabel: "{symbol}  {y}",
-                                yValueFormatString: "#,##0",
-                                showInLegend: true,
-                                legendText: "{label} : {y}",
-                                dataPoints: @json($dataPoints)
-                            }]
-                        });
-                        chart.render();
-                    }
-                </script>
-                <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-            </div>
-
         </div>
     </div>
+    <script>
+        var orderRevenue = document.getElementById("orderRevenue").getContext("2d"),
+            userRegistrationChart = document.getElementById("userRegistrationChart").getContext("2d"),
+            orderCountChart = document.getElementById("orderCountChart").getContext("2d"),
+            doughnutChart = document.getElementById("doughnutChart").getContext("2d");
+    
+        new Chart(orderRevenue, {
+            type: "line",
+            data: {
+                labels: @json($orderRevenue['labels']),
+                datasets: [
+                    {
+                        label: "Doanh thu",
+                        data: @json($orderRevenue['revenueData']),
+                        borderColor: "#59d05d",
+                        pointBorderColor: "#59d05d",
+                        pointBackgroundColor: "#59d05d",
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 4,
+                        pointRadius: 4,
+                        backgroundColor: "transparent",
+                        borderWidth: 2,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: { position: "bottom" },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            let value = tooltipItem.yLabel;
+                            return value.toLocaleString("vi-VN") + "đ";
+                        },
+                    },
+                },
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                callback: function (value) {
+                                    return value.toLocaleString("vi-VN") + "đ";
+                                },
+                            },
+                        },
+                    ],
+                },
+            },
+        });
+
+        new Chart(userRegistrationChart, {
+            type: "line",
+            data: {
+                labels: @json($userRegistration['labels']),
+                datasets: [
+                    {
+                        label: "Người dùng",
+                        borderColor: "#ff5733",
+                        pointBorderColor: "#FFF",
+                        pointBackgroundColor: "#ff5733",
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 4,
+                        pointRadius: 4,
+                        backgroundColor: "transparent",
+                        borderWidth: 2,
+                        data: @json($userRegistration['userData']),
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: { position: "bottom" },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return tooltipItem.yLabel + " người";
+                        },
+                    },
+                },
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                callback: function (value) {
+                                    return value + " người";
+                                },
+                            },
+                        },
+                    ],
+                },
+            },
+        });
+
+        new Chart(orderCountChart, {
+            type: "line",
+            data: {
+                labels: @json($orderCount['labels']),
+                datasets: [
+                    {
+                        label: "Số lượng đơn hàng",
+                        borderColor: "#1d7af3",
+                        pointBorderColor: "#FFF",
+                        pointBackgroundColor: "#1d7af3",
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 4,
+                        pointRadius: 4,
+                        backgroundColor: "transparent",
+                        borderWidth: 2,
+                        data: @json($orderCount['orderData']),
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: { position: "bottom" },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return tooltipItem.yLabel + " đơn";
+                        },
+                    },
+                },
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                callback: function (value) {
+                                    return value + " đơn";
+                                },
+                            },
+                        },
+                    ],
+                },
+            },
+        });
+        
+        new Chart(doughnutChart, {
+            type: "doughnut",
+            data: {
+            datasets: [
+                {
+                data: @json($productCounts['counts']),
+                backgroundColor: ["#1d7af3", "#f3545d"],
+                },
+            ],
+
+            labels: @json($productCounts['labels']),
+            },
+            options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: "bottom",
+            },
+            layout: {
+                padding: {
+                left: 20,
+                right: 20,
+                top: 20,
+                bottom: 20,
+                },
+            },
+            },
+        });
+    </script>
 @endsection

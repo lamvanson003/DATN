@@ -19,7 +19,8 @@ class LoginController extends Controller
     }
 
     public function login(LoginRequest $request)
-    {
+    {   
+        Log::info('messsss',['mess'=> $request]);
         $validatedData = $request->validated();
         if (Auth::attempt([
             'email' => $validatedData['email'],

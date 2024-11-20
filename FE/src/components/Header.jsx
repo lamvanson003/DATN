@@ -26,6 +26,7 @@ const {
   MdOutlineSettingsSuggest,
   BiLogIn,
   FaKey,
+  IoMdListBox,
 } = icons;
 const Header = ({ cartItemAmout, favorItemAmount }) => {
   const { cartItems, getCartTotal } = useContext(CartContext);
@@ -421,7 +422,10 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
             }}
           >
             <div className="d-flex fw-semibold align-items-center justify-content-between h-100  container ">
-              <div className="d-flex align-items-center fixFontsize " style={{ gap: 50 }}>
+              <div
+                className="d-flex align-items-center fixFontsize "
+                style={{ gap: 50 }}
+              >
                 {navMenu.map((item) => (
                   <div className="" key={item.path}>
                     <NavLink
@@ -440,6 +444,15 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
               </div>
 
               <div className="d-flex gap-2 text-white gap-4">
+                <span className="d-flex align-items-center gap-1">
+                  <IoMdListBox size={20} />
+                  <Link
+                    style={{ textDecoration: "none", color: "#fff" }}
+                    to={"search-order"}
+                  >
+                    Tra cứu đơn hàng
+                  </Link>
+                </span>
                 <span className="d-flex align-items-center gap-1">
                   <BiLogIn size={20} />
                   <Link
