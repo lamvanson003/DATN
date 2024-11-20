@@ -47,6 +47,7 @@
                     <th >Giá khuyến mãi</th>
                     <th>Trạng thái</th>
                     <th>Lượt bán</th>
+                    <th>Số lượng</th>
                     <th>Hành động</th>
                   </tr>
                 </thead>
@@ -57,6 +58,7 @@
                     <th >Giá khuyến mãi</th>
                     <th>Trạng thái</th>
                     <th>Lượt bán</th>
+                    <th>Số lượng</th>
                     <th>Hành động</th>
                   </tr>
                 </tfoot>
@@ -91,6 +93,12 @@
                         @endif
                       </td>
                       <td>
+                        {{ $item->quantity_limit }}
+                      </td>
+                      <td>
+                          <a href="{{ route('admin.flashSale.edit', $item->id) }}" class="btn btn-primary text-white btn-sm">
+                            <i class="fa fa-pencil-alt"></i>
+                          </a>
                           <button type="button" data-bs-toggle="modal" title="Chỉnh sửa" class="btn btn-danger btn-icon" data-bs-target="#exampleModal{{ $item->id }}">
                             <i class="fa fa-trash-alt"></i>
                           </button>

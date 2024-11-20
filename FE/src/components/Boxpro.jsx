@@ -23,12 +23,16 @@ const BoxPro = ({
   hot,
   hoverCart,
   hoverCartItem,
-  flashsale,
+  flashsale_variant,
+  quantity_limit,
+  sold,
+  flashsale_price,
 }) => {
   const { IoIosStar, IoIosStarHalf, IoIosStarOutline, FaFire } = icons;
   const [currentVariant, setCurrentVariant] = useState();
   const [activeStorage, setActiveStorage] = useState(null);
   const [activeColor, setActiveColor] = useState(null);
+
   useEffect(() => {
     if (variant && variant.length > 0) {
       const firstStorage = variant[0];
@@ -96,7 +100,7 @@ const BoxPro = ({
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
   return (
     <div>
-      {flashsale ? (
+      {flashsale_variant ? (
         <div
           className="card product-card"
           style={{
@@ -137,31 +141,51 @@ const BoxPro = ({
           />
 
           <div className="card-body text-center">
-            <h5
-              className="card-title"
-              style={{ fontSize: "1rem", fontWeight: "bold" }}
+            <Link
+              to={`/detail/${slug ? slug : ""}`}
+              style={{ textDecoration: "none" }}
             >
-              {name}
-            </h5>
+              <span
+                style={{
+                  width: "100%",
+                  display: "inline-block",
+                  overflow: "hidden",
+                }}
+              >
+                <h5 className="card-title m-0" style={{ cursor: "pointer" }}>
+                  {name
+                    ? name.length > 40
+                      ? name.slice(0, 40) + "..."
+                      : `${name}${
+                          currentVariant?.color?.color
+                            ? ` ${currentVariant?.color?.color}`
+                            : ""
+                        }`
+                    : testname.length > 40
+                    ? testname.slice(0, 40) + "..."
+                    : testname}
+                </h5>
+              </span>
+            </Link>
 
             <div
-              className="price-container d-flex justify-content-center align-items-center mb-1"
+              className="price-container d-flex justify-content-center align-items-center "
               style={{ gap: "8px" }}
             >
-              <p
-                className="price text-danger mb-0"
-                style={{ fontSize: "1.2rem", fontWeight: "bold" }}
-              >
-                290.000₫
-              </p>
-              <p
-                className="text-muted text-decoration-line-through mb-0"
-                style={{ fontSize: "0.9rem" }}
-              >
-                890.000₫
-              </p>
+              {flashsale_price && (
+                <p
+                  className="price text-danger mb-0"
+                  style={{ fontSize: "1.2rem", fontWeight: "bold" }}
+                >
+                  {formatCurrency(flashsale_price)}
+                </p>
+              )}
             </div>
-
+            <div className="storage-variant m-0 ">
+              <span className="storage-option storage-selected ">
+                {flashsale_variant[0].storage}
+              </span>
+            </div>
             <div
               className="progress my-3 position-relative"
               style={{ height: "20px", borderRadius: "10px" }}
@@ -169,12 +193,18 @@ const BoxPro = ({
               <div
                 className="progress-bar"
                 role="progressbar"
-                style={{ width: "60%", backgroundColor: "orange" }}
-                aria-valuenow="60"
+                style={{
+                  width: `${((quantity_limit - sold) / quantity_limit) * 100}%`,
+                  backgroundColor: "orange",
+                }}
+                aria-valuenow={quantity_limit - sold}
                 aria-valuemin="0"
-                aria-valuemax="100"
+                aria-valuemax={quantity_limit}
               >
-                Còn 6/10 suất
+                <span className="position-absolute w-100 text-center text-white">
+                  Còn <span>{quantity_limit - sold}</span>/
+                  <span>{quantity_limit}</span> suất
+                </span>
               </div>
             </div>
 
@@ -353,7 +383,7 @@ const BoxPro = ({
                   overflow: "hidden",
                 }}
               >
-                <h5 className="card-title" style={{ cursor: "pointer" }}>
+                <h5 className="card-title mb-0" style={{ cursor: "pointer" }}>
                   {name
                     ? name.length > 40
                       ? name.slice(0, 40) + "..."

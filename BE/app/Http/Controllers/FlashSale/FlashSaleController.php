@@ -27,7 +27,9 @@ class FlashSaleController extends Controller
 
     public function create()
     {
-        $productVariants = ProductVariant::where('status', DefaultStatus::Active)->get();
+        $productVariants = ProductVariant::where('status', DefaultStatus::Active)
+        ->where('is_flash_sale',false)
+        ->get();
         $status = ActiveStatus::asSelectArray();
         return view('flash_sales.create', compact('status', 'productVariants'));
     }
@@ -64,15 +66,18 @@ class FlashSaleController extends Controller
                 throw new \Exception("Discount price or quantity limit for variant {$variantId} should not be an array.");
             }
 
-            SaleItem::create([
+            $saleItems= SaleItem::create([
                 'flash_sale_id' => $flashSaleId,
                 'product_variant_id' => $variantId,
                 'discount_price' => $discountPrice,
                 'quantity_limit' => $quantityLimit,
                 'is_active' => $data['is_active'],
             ]);
+
+            $variantIds[] = $variantId;        
         }
 
+        ProductVariant::whereIn('id', $variantIds)->update(['is_flash_sale' => true]);
         DB::commit();
 
         return redirect()->route('admin.flashSale.index')->with('success', 'Flash sale created successfully!');
@@ -85,5 +90,10 @@ class FlashSaleController extends Controller
     }
 }
 
+    public function updateProductVariant($productVariantId){
+        $productVariant = ProductVariant::findOrfail($productVariantId);
+        $productVariant->is_flash_sale = true;
+        $productVariant->save();
+    }
 
 }

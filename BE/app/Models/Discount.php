@@ -29,16 +29,6 @@ class Discount extends Model
         'type' => DiscountType::class,      
     ];
 
-    public function getStatusAttribute($value)
-    {
-        return DiscountStatus::getDescription($value);
-    }
-    
-    public function getTypeAttribute($value)
-    {
-        return DiscountType::getDescription($value);
-    }
-
     public function getDateStartAttribute($value)
     {
         return $value ? Carbon::parse($value)->format('d/m/Y') : null; 

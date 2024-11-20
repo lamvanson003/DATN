@@ -3,19 +3,18 @@ import { BoxPro } from ".";
 import flashsale from "../assets/images/iHome/flashsale.png";
 import "./css/FlashSale.css";
 import icons from "../ultis/icon";
+import { productApi } from "../apis";
 const { IoArrowRedoOutline, IoArrowUndoOutline } = icons;
-const FlashSale = ({ fsproducts, itemsPerPage }) => {
+const FlashSale = () => {
   const [countdown, setCountdown] = useState(() => {
     const savedCountdown = localStorage.getItem("countdown");
     return savedCountdown ? parseInt(savedCountdown, 10) : 3600;
   });
+  const [flashSale, setFlashSale] = useState([]);
   const [activeTab, setActiveTab] = useState("current");
   const [currentPage, setCurrentPage] = useState(0);
-  const totalPage = Math.ceil(fsproducts?.length / itemsPerPage);
-  const curItems = fsproducts?.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
+  const totalPage = Math.ceil(flashSale?.length / 4);
+  const curItems = flashSale?.slice(currentPage * 4, (currentPage + 1) * 4);
 
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 0 ? prevPage - 1 : totalPage - 1));
@@ -60,6 +59,13 @@ const FlashSale = ({ fsproducts, itemsPerPage }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+  useEffect(() => {
+    const fetchFlashSale = async () => {
+      const res = await productApi.getFlashSale();
+      setFlashSale(res);
+    };
+    fetchFlashSale();
+  }, []);
 
   return (
     <div
@@ -68,7 +74,7 @@ const FlashSale = ({ fsproducts, itemsPerPage }) => {
         backgroundColor: "#fff",
         padding: "10px",
         overflow: "hidden",
-        borderRadius: "5px 5px 10px 10px"
+        borderRadius: "5px 5px 10px 10px",
       }}
     >
       <div className="fs-img">
@@ -107,8 +113,10 @@ const FlashSale = ({ fsproducts, itemsPerPage }) => {
                 slug={pro.slug}
                 image={pro.images}
                 product_image_items={pro.product_image_items}
-                variant={pro.product_variant}
-                flashsale
+                flashsale_variant={pro.product_variant}
+                flashsale_price={pro.discount_price}
+                sold={pro.sold}
+                quantity_limit={pro.quantity_limit}
               />
             </div>
           ))}

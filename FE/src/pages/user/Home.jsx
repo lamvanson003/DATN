@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import hotB from "../../assets/images/iHome/hot-banner.png";
 import recommend from "../../assets/images/iHome/recommend.png";
 import {
@@ -10,49 +10,67 @@ import {
   News,
   FlashSale,
   Recommend,
+  Popup,
 } from "../../components";
 import "./css/Home.css";
 import { useSelector } from "react-redux";
 import { Brand } from "../../components";
+import { CartContext } from "../../context/Cart";
 const Home = () => {
   const url = new URL(window.location.href);
   const responseCode = url.searchParams.get("vnp_ResponseCode");
+  const { cartItems, setCartItems } = useContext(CartContext);
   const { productsData } = useSelector((state) => state.pro);
   const [phonesData, setPhonesData] = useState([]);
   const [laptopsData, setLaptopsData] = useState([]);
-
+  const [flashSale, setFlashSale] = useState([]);
+  const [isSendingSuccess, setIsSendingSuccess] = useState(false);
   useEffect(() => {
     if (productsData) {
       setPhonesData(productsData.phone);
       setLaptopsData(productsData.laptop);
     }
   }, [productsData]);
-  console.log(phonesData);
+
+  useEffect(() => {
+    if (responseCode === "00") {
+      const PendingLeftCartItems = localStorage.getItem("PendingLeftCartItems");
+      console.log(PendingLeftCartItems);
+
+      if (PendingLeftCartItems) {
+        try {
+          const parsedItems = JSON.parse(PendingLeftCartItems);
+          if (Array.isArray(parsedItems)) {
+            setCartItems(parsedItems);
+            localStorage.setItem("cartItems", PendingLeftCartItems); // Không cần stringify lại
+          } else {
+            console.error("Parsed items are not an array:", parsedItems);
+          }
+        } catch (error) {
+          console.error("Error parsing PendingLeftCartItems:", error);
+        }
+      }
+
+      setIsSendingSuccess(true);
+    }
+  }, [responseCode, setCartItems]);
 
   return (
     <>
+      {isSendingSuccess && <Popup />}
       <Banner />
 
       <Sbanner />
 
       <Brand />
 
-      {/* <div className="container mt-5">
-        <span className="d-flex align-items-center justify-content-between">
-          <span className="browseCloudlab">Sản phẩm mới ra mắt</span>
-          <span className="browseCloudlab">Sản phẩm bán chạy</span>
-          <span className="browseCloudlab">Sản phẩm được đánh giá cao</span>
-          <span className="browseCloudlab">Phù hợp với bạn</span>
-        </span>
-      </div> */}
-
-      <FlashSale fsproducts={phonesData} itemsPerPage={4} />
+      <FlashSale />
 
       <div className="container mt-5">
         <div className="row bg-box">
           <div className="d-flex title-p align-items-center">
-              <span>Điện thoại</span>
-              <a href="">Xem tất cả</a>
+            <span>Điện thoại</span>
+            <a href="">Xem tất cả</a>
           </div>
           <div className="row justify-content-start align-items-center pt-3 pb-3">
             {phonesData
@@ -80,26 +98,26 @@ const Home = () => {
       <div className="container mt-5">
         <div className="row justify-content-start bg-box">
           <div className="d-flex title-p align-items-center">
-                <span>Laptop</span>
-                <a href="">Xem tất cả</a>
-            </div>
+            <span>Laptop</span>
+            <a href="">Xem tất cả</a>
+          </div>
           <div className="row justify-content-start align-items-center pt-3 pb-3">
-          {laptopsData
-            .filter((value, index) => index < 8)
-            .map((pro, index) => (
-              <div key={index} className="col-md-3">
-                <BoxPro
-                  id={pro.id}
-                  name={pro.name}
-                  category={pro.category}
-                  brand={pro.brand}
-                  slug={pro.slug}
-                  image={pro.images}
-                  product_image_items={pro.product_image_items}
-                  variant={pro.product_variant}
-                />
-              </div>
-            ))}
+            {laptopsData
+              .filter((value, index) => index < 8)
+              .map((pro, index) => (
+                <div key={index} className="col-md-3">
+                  <BoxPro
+                    id={pro.id}
+                    name={pro.name}
+                    category={pro.category}
+                    brand={pro.brand}
+                    slug={pro.slug}
+                    image={pro.images}
+                    product_image_items={pro.product_image_items}
+                    variant={pro.product_variant}
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </div>
