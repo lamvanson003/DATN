@@ -69,23 +69,23 @@
                         <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $item->date_end)->format('d/m/Y') }}</td>
                         <td>{{ $item->desc }}</td>
                         <td>
-                      <span class="badge rounded-pill 
-                          @switch($item->type)
-                              @case(\App\Enums\Discount\DiscountType::Percent)
-                                  badge-success
-                              @break
-                              @case(\App\Enums\Discount\DiscountType::Fixed)
-                                  badge-info
-                              @break
-                              @default
-                                  badge-secondary
-                          @endswitch">
-                          {{ $item->type }} 
-                      </span>
-                  </td>
+                            <span class="badge rounded-pill 
+                                @switch($item->type->value)
+                                    @case(\App\Enums\Discount\DiscountType::Percent)
+                                        badge-secondary
+                                    @break
+                                    @case(\App\Enums\Discount\DiscountType::Fixed)
+                                        badge-primary
+                                    @break
+                                    @default
+                                        badge-secondary
+                                @endswitch">
+                                {{ $item->type->description }}
+                            </span>
+                        </td>
                         <td>
                           <span class="badge rounded-pill 
-                            @switch($item->status)
+                            @switch($item->status->value)
                               @case(\App\Enums\Discount\DiscountStatus::Active)
                                 badge-success
                               @break
@@ -95,7 +95,7 @@
                               @default
                                 badge-secondary
                           @endswitch">
-                          {{ $item->status }}
+                          {{ $item->status->description }}
                           </span>
                         </td>
                         <td>
