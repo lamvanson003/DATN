@@ -12,6 +12,7 @@ const path = {
   POST: "post",
   PAYMENT: "payment",
   USER: "user",
+  SEARCH_ORDER: "search-order",
   ACCOUNT: "account",
   HISTORY: "history",
   PROFILE: "profile",

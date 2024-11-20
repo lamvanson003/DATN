@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\Payment\PaymentController;
 use App\Http\Controllers\Api\Slider\SliderController;
 use App\Http\Controllers\Api\Search\SearchController;
+use App\Http\Controllers\Api\FlashSale\FlashSaleController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
 ->as('category')
@@ -27,6 +28,13 @@ Route::controller(ProductController::class)->prefix('/products')
         Route::get('/{slug}', 'detail');
 
         Route::get('/category/{slug}', 'productByCate');
+    });
+
+Route::controller(FlashSaleController::class)->prefix('/flash-sales')
+    ->as('flashSale')
+    ->group(function(){
+        Route::get('/active', 'flashSaleActive');
+        Route::get('/upcoming', 'flashSaleUpcoming');
     });
 
 Route::controller(BrandController::class)->prefix('/brands')

@@ -14,6 +14,9 @@ const Popup = ({ orderId }) => {
       alert("Order ID không tồn tại.");
     }
   };
+  const handleNaSeO = () => {
+    navigate("/search-order");
+  };
 
   return (
     <div className="custom-modal-overlay">
@@ -26,6 +29,9 @@ const Popup = ({ orderId }) => {
         <div className="group-custom-modal-button">
           <span className="custom-modal-button" onClick={handleNaInvoice}>
             chi tiết hóa đơn
+          </span>
+          <span className="custom-modal-button" onClick={handleNaSeO}>
+            Tra cứu hóa đơn
           </span>
           <span className="custom-modal-button" onClick={handleNaPro}>
             Trang sản phẩm

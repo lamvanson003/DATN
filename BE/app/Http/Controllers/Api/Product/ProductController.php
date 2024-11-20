@@ -30,26 +30,31 @@ class ProductController extends controller{
                 ], 404);
             }
 
-            $products = Product::with(
-                [
-                    'category' => function ($query) {
+            $products = Product::with([
+                'category' => function ($query) {
                     $query->where('status', CategoryStatus::Active);
-                    }, 
-                    'brand'=> function ($query){
-                        $query->where('status', BrandStatus::Active);
-                    }, 
-                    'product_variant', 
-                    'product_image_items' => function ($query){
-                        $query->where('status', Status::Active);
-                    }, 
-                    'product_variant.comments' => function($query){
-                        $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
-                    },
-                ])
-                ->where('status', ProductStatus::Active)
-                ->where('category_id', $category->id)
-                ->get();
+                }, 
+                'brand' => function ($query) {
+                    $query->where('status', BrandStatus::Active);
+                },
+                'product_variant' => function ($query) {
+                    $query->where('is_flash_sale', false);
+                },
+                'product_image_items' => function ($query) {
+                    $query->where('status', Status::Active);
+                }, 
+                'product_variant.comments' => function ($query) {
+                    $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
+                },
+            ])
+            ->where('status', ProductStatus::Active)
+            ->where('category_id', $category->id)
+            ->whereHas('product_variant', function ($query) {
+                $query->where('is_flash_sale', false);
+            }) // Chỉ lấy sản phẩm có product_variant hợp lệ
+            ->get();
 
+            
             return response()->json([
                 'success' => true,
                 'data' => ProductResource::collection($products)

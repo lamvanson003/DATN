@@ -50,7 +50,7 @@
             <div class="collapse" id="notification">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="#themthongbao">
+                  <a href="{{ route('admin.notification.create') }}">
                     <i class="fas fa-plus"></i>
                     <span>Thêm thông báo</span>
                   </a>

@@ -27,6 +27,7 @@ import {
   IoIosStar,
   IoIosStarHalf,
   IoIosStarOutline,
+  IoMdListBox,
 } from "react-icons/io";
 import { MdNotificationsNone } from "react-icons/md";
 import {
@@ -105,5 +106,6 @@ const icons = {
   FaFilter,
   BiLogIn,
   FaKey,
+  IoMdListBox,
 };
 export default icons;
