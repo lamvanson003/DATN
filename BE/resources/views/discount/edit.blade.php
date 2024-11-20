@@ -82,7 +82,7 @@
                             <div class="card-body p-2">
                             <select required class="form-select" name="status" id="status">
                             @foreach (\App\Enums\Discount\DiscountStatus::asSelectArray() as $key => $value)
-                                <option value="{{ (int) $key }}" {{ $discount->status == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                <option value="{{ (int) $key }}" {{ $discount->status->value == $key ? 'selected' : '' }}>{{ $value }}</option>
                             @endforeach
                         </select>
                             </div>
@@ -93,7 +93,7 @@
                             <div class="card-body p-2">
                             <select required class="form-select" name="type">
                             @foreach (\App\Enums\Discount\DiscountType::asSelectArray() as $key => $value)
-                                <option value="{{ (int) $key }}" {{ $discount->type == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                <option value="{{ (int) $key }}" {{ $discount->type->value == $key ? 'selected' : '' }}>{{ $value }}</option>
                             @endforeach
                         </select>
                             </div>

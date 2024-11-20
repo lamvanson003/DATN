@@ -32,6 +32,16 @@ class LoginController extends Controller
 
                     $user = User::findOrfail($user->id);
                     $user->device_token = $request->input('device_token');
+                    Log::info('Device token:', ['token' => $request->input('device_token')]);
+                        $user->device_token = $request->input('device_token');
+                        if ($user->save()) {
+                            Log::info('Device token saved successfully.');
+                        } else {
+                            Log::error('Failed to save device token.');
+                        }
+
+
+                  
                     $user->save();
                     
                 }
