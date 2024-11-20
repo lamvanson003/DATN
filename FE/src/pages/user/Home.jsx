@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import hotB from "../../assets/images/iHome/hot-banner.png";
 import recommend from "../../assets/images/iHome/recommend.png";
 import {
@@ -15,10 +15,11 @@ import {
 import "./css/Home.css";
 import { useSelector } from "react-redux";
 import { Brand } from "../../components";
-import { orderApi, productApi } from "../../apis";
+import { CartContext } from "../../context/Cart";
 const Home = () => {
   const url = new URL(window.location.href);
   const responseCode = url.searchParams.get("vnp_ResponseCode");
+  const { cartItems, setCartItems } = useContext(CartContext);
   const { productsData } = useSelector((state) => state.pro);
   const [phonesData, setPhonesData] = useState([]);
   const [laptopsData, setLaptopsData] = useState([]);
@@ -33,25 +34,30 @@ const Home = () => {
 
   useEffect(() => {
     if (responseCode === "00") {
-      // const fetchCreateOrder = async () => {
-      //    const res = await orderApi.create(orderInfo);
-      //    const invoice = await orderApi.getOne(res);
-      //    console.log("Invoice: ", invoice);
+      const PendingLeftCartItems = localStorage.getItem("PendingLeftCartItems");
+      console.log(PendingLeftCartItems);
 
-      //    setOrderId(res);
-      //    const LeftItems = cartItems.filter(
-      //      (item) => item.color.id !== res.product_variant_id
-      //    );
-      //    setCartItems(LeftItems);
-      //    localStorage.setItem("cartItems", JSON.stringify(LeftItems));
-      // }
+      if (PendingLeftCartItems) {
+        try {
+          const parsedItems = JSON.parse(PendingLeftCartItems);
+          if (Array.isArray(parsedItems)) {
+            setCartItems(parsedItems);
+            localStorage.setItem("cartItems", PendingLeftCartItems); // Không cần stringify lại
+          } else {
+            console.error("Parsed items are not an array:", parsedItems);
+          }
+        } catch (error) {
+          console.error("Error parsing PendingLeftCartItems:", error);
+        }
+      }
+
       setIsSendingSuccess(true);
     }
-  }, []);
+  }, [responseCode, setCartItems]);
 
   return (
     <>
-      {isSendingSuccess && <Popup orderId={11} />}
+      {isSendingSuccess && <Popup />}
       <Banner />
 
       <Sbanner />
