@@ -376,7 +376,7 @@ const Detail = () => {
                     </div>
                   </div>
                 </div>
-                {currentVariant?.color?.is_flash_sale ? (
+                {currentVariant?.color?.is_flash_sale === 1 ? (
                   <div
                     style={{
                       border: "1px solid #f00",

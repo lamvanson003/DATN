@@ -66,7 +66,7 @@ const FlashSale = () => {
     };
     fetchFlashSale();
   }, []);
-  console.log(curItems[0]?.sold);
+
   return (
     <div
       className="container d-flex flex-column justify-content-center mt-5 mb-5 "
@@ -105,7 +105,6 @@ const FlashSale = () => {
         <div className="fsproducts-container">
           {curItems.map((pro, index) => (
             <div key={index}>
-              {console.log("Product data:", pro)}
               <BoxPro
                 id={pro.id}
                 name={pro.name}
@@ -115,6 +114,7 @@ const FlashSale = () => {
                 image={pro.images}
                 product_image_items={pro.product_image_items}
                 flashsale_variant={pro.product_variant}
+                flashsale_price={pro.discount_price}
                 sold={pro.sold}
                 quantity_limit={pro.quantity_limit}
               />

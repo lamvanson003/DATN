@@ -34,8 +34,8 @@ const Public = () => {
         <div>
           {!shouldHideHeaderFooter && (
             <Header
-              cartItemAmout={cartItems.length}
-              favorItemAmount={favorItems.length}
+              cartItemAmout={cartItems?.length}
+              favorItemAmount={favorItems?.length}
             />
           )}
           <div>

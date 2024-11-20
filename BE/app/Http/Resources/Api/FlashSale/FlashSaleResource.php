@@ -18,6 +18,7 @@ class FlashSaleResource extends JsonResource
         'id' => $this->product_variant->product->id,
         'quantity_limit' => $this->quantity_limit,
         'sold' => $this->sold,
+        'discount_price' => $this->discount_price,
         'is_active' => $this->is_active,
         'name' => $this->product_variant->product->name,
         'images' => $this->product_variant->product->images,
@@ -43,6 +44,7 @@ class FlashSaleResource extends JsonResource
                     'instock' => optional($this->product_variant)->instock,
                     'is_flash_sale' => optional($this->product_variant)->is_flash_sale,
                     'sold' => optional($this->product_variant)->sold,
+                    
                 ];
             }),
         ],

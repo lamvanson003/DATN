@@ -7,13 +7,13 @@ const Popup = ({ orderId }) => {
   const handleNaPro = () => {
     navigate("/product");
   };
-  const handleNaInvoice = () => {
-    if (orderId) {
-      navigate(`/invoice/${orderId}`);
-    } else {
-      alert("Order ID không tồn tại.");
-    }
-  };
+  // const handleNaInvoice = () => {
+  //   if (orderId) {
+  //     navigate(`/invoice/${orderId}`);
+  //   } else {
+  //     alert("Order ID không tồn tại.");
+  //   }
+  // };
   const handleNaSeO = () => {
     navigate("/search-order");
   };
@@ -27,9 +27,6 @@ const Popup = ({ orderId }) => {
           <img className="modal-img" src={sending} alt="" />
         </div>
         <div className="group-custom-modal-button">
-          <span className="custom-modal-button" onClick={handleNaInvoice}>
-            chi tiết hóa đơn
-          </span>
           <span className="custom-modal-button" onClick={handleNaSeO}>
             Tra cứu hóa đơn
           </span>
