@@ -232,6 +232,10 @@
     });
   });
 </script>
+@include('validated.input')
+
+@stack('libs-js') 
+@stack('custom-js') 
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -270,26 +274,33 @@
 <!--   Show Image   -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-      function loadFile(event) {
-          const imagePreview = document.getElementById('imagePreview');
-          const file = event.target.files[0];
-          
-          if (file) {
-              imagePreview.src = URL.createObjectURL(file);
-              document.getElementById('imageUrl').value = 'path/to/uploaded/image.jpg';                                    
-          } else {
-              imagePreview.src = "asset('/images/default-image.png')";
-              document.getElementById('imageUrl').value = " ";                                    
-          }
-      }
+    const imageContainer = document.querySelector('.image-container');
+    const fileInput = document.getElementById('fileInput');
+    
+    // Kiểm tra nếu phần tử tồn tại
+    if (imageContainer && fileInput) {
+        imageContainer.addEventListener('click', function() {
+            fileInput.click();
+        });
 
-      document.querySelector('.image-container').addEventListener('click', function() {
-          document.getElementById('fileInput').click();
-      });
+        fileInput.addEventListener('change', loadFile);
+    }
 
-      document.getElementById('fileInput').addEventListener('change', loadFile);
-  });
-</script>  
+    function loadFile(event) {
+        const imagePreview = document.getElementById('imagePreview');
+        const file = event.target.files[0];
+        
+        if (file) {
+            imagePreview.src = URL.createObjectURL(file);
+            document.getElementById('imageUrl').value = 'path/to/uploaded/image.jpg';
+        } else {
+            imagePreview.src = "/images/default-image.png"; // Đảm bảo đường dẫn đúng
+            document.getElementById('imageUrl').value = "";
+        }
+    }
+});
+
+</script>
 
 
 <!--   Core JS Files   -->
@@ -311,15 +322,6 @@
    
 <!-- Thêm JS cho Select2 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Khởi tạo Select2 cho dropdown màu sắc
-        $('#colorSL').select2({
-            placeholder: "Vui lòng chọn màu", // Placeholder cho dropdown
-            allowClear: true // Cho phép xóa lựa chọn
-        });
-    });
-</script>
 
 <script>
   $(document).ready(function () {

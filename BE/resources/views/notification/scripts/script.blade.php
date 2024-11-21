@@ -18,19 +18,16 @@
             }
         });
 
-        // Khi thay đổi giá trị của loại thông báo
         $('.notification-option-select-value').change(function () {
             const selectedOption = $(this).val(); // Lấy giá trị hiện tại
-
             $('#notification-customer-select').hide(); // Reset trạng thái khách hàng
 
-            if (
-                selectedOption == {{ \App\Enums\Notification\NotificationOption::One }} &&
-                $('.notification-type').val() == {{ \App\Enums\Notification\NotificationTypes::Customer }}
-            ) {
+            if (selectedOption == {{ \App\Enums\Notification\NotificationOption::One }} &&
+                $('.notification-type').val() == {{ \App\Enums\Notification\NotificationTypes::Customer }}) {
                 $('#notification-customer-select').show(); // Hiển thị danh sách khách hàng
             }
         });
+
 
         // Khởi tạo select2 cho khách hàng
         $('#user_id').select2({

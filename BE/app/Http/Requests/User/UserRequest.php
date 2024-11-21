@@ -9,15 +9,15 @@ class UserRequest extends BaseRequest
     protected function methodPost()
     {
         return [
-            'username' => 'nullable|string|max:255',
+            'username' => 'nullable|string',
             'email' => 'required|email|unique:users',
             'phone' => 'required|string|unique:users,phone',
-            'fullname' => 'nullable|string|max:255',
+            'fullname' => 'nullable|string',
             'gender' => ['required', 'in:1,2,3'],
             // or 'gender' => 'required|in:1,2,3',
             'address' => 'nullable|string',
             'password' => 'required',
-            'avatar' => 'nullable|image|max:2048',
+            'avatar' => 'nullable|image',
             'status' => 'nullable|integer',
         ];
     }
@@ -31,14 +31,14 @@ class UserRequest extends BaseRequest
     {
         return [
             'id' => ['required', 'exists:users,id'],
-            'username' => 'nullable|string|max:255',
+            'username' => 'nullable|string',
             'email' => 'nullable|email',
             'phone' => 'nullable|string',
-            'fullname' => 'nullable|string|max:255',
+            'fullname' => 'nullable|string',
             'gender' => 'nullable|in:1,2,3',
             'address' => 'nullable|string',
             'password' => 'nullable|string',
-            'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'status' => 'nullable||in:0,1,2',
         ];
     }
