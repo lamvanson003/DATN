@@ -205,12 +205,24 @@ const Payment = () => {
       phone: customerInfo.phone,
       address: `${customerInfo.street}, ${customerInfo.ward}, ${customerInfo.district}, ${customerInfo.province}`,
       email: customerInfo.email,
-      note: "123",
+      note: customerInfo.note,
       total_price: finalPrice,
       products: products,
     };
 
     if (paymentMethod === 1) {
+      const PendingLeftCartItems = cartItems.filter(
+        (item) =>
+          !orderInfo.products.some(
+            (product) => product.product_variant_id === item.color.id
+          )
+      );
+      localStorage.setItem(
+        "PendingLeftCartItems",
+        JSON.stringify(PendingLeftCartItems)
+      );
+      console.log("pendingLeft:", PendingLeftCartItems);
+
       paymentApi.create(orderInfo);
     } else {
       try {
@@ -220,10 +232,15 @@ const Payment = () => {
 
         setOrderId(res);
         const LeftItems = cartItems.filter(
-          (item) => item.color.id !== res.product_variant_id
+          (item) =>
+            !orderInfo.products.some(
+              (product) => product.product_variant_id === item.color.id
+            )
         );
+
         setCartItems(LeftItems);
         localStorage.setItem("cartItems", JSON.stringify(LeftItems));
+        console.log("OrderInfo.product: ", orderInfo.products, "res: ", res);
       } catch (err) {
         console.log("có lỗi xảy ra khi: ", err);
       }
@@ -455,9 +472,10 @@ const Payment = () => {
                   {orderItems.map((item) => (
                     <div
                       key={item.variantKey}
-                      className="d-flex align-items-center gap-2 my-3"
+                      className="d-flex align-items-center gap-2 p-2"
+                      style={{ border: "1px solid #034387", borderRadius: 5 }}
                     >
-                      <span style={{ width: "15%" }}>
+                      <span style={{ width: "20%", marginRight: 6 }}>
                         <img
                           src={item.color.images}
                           alt="ảnh sản phẩm"
@@ -465,7 +483,7 @@ const Payment = () => {
                         />
                       </span>
                       <span
-                        style={{ width: "60%" }}
+                        style={{ width: "55%" }}
                         className="d-flex flex-column gap-1 "
                       >
                         <span className="text-start fw-semibold">

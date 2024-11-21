@@ -26,6 +26,7 @@ const BoxPro = ({
   flashsale_variant,
   quantity_limit,
   sold,
+  flashsale_price,
 }) => {
   const { IoIosStar, IoIosStarHalf, IoIosStarOutline, FaFire } = icons;
   const [currentVariant, setCurrentVariant] = useState();
@@ -168,35 +169,23 @@ const BoxPro = ({
             </Link>
 
             <div
-              className="price-container d-flex justify-content-center align-items-center mb-1"
+              className="price-container d-flex justify-content-center align-items-center "
               style={{ gap: "8px" }}
             >
-              <p
-                className="price text-danger mb-0"
-                style={{ fontSize: "1.2rem", fontWeight: "bold" }}
-              >
-                {flashsale_variant[0]?.sale
-                  ? flashsale_variant[0]?.sale > 100000000
-                    ? handleNumber(flashsale_variant[0]?.sale)
-                    : formatCurrency(flashsale_variant[0]?.sale)
-                  : flashsale_variant[0]?.price
-                  ? flashsale_variant[0]?.price > 100000000
-                    ? handleNumber(flashsale_variant[0]?.price)
-                    : formatCurrency(flashsale_variant[0]?.price)
-                  : null}
-              </p>
-              <p
-                className="text-muted text-decoration-line-through mb-0"
-                style={{ fontSize: "0.9rem" }}
-              >
-                {flashsale_variant[0]?.price
-                  ? flashsale_variant[0]?.price > 100000000
-                    ? handleNumber(flashsale_variant[0]?.price)
-                    : formatCurrency(flashsale_variant[0]?.price)
-                  : ""}
-              </p>
+              {flashsale_price && (
+                <p
+                  className="price text-danger mb-0"
+                  style={{ fontSize: "1.2rem", fontWeight: "bold" }}
+                >
+                  {formatCurrency(flashsale_price)}
+                </p>
+              )}
             </div>
-
+            <div className="storage-variant m-0 ">
+              <span className="storage-option storage-selected ">
+                {flashsale_variant[0].storage}
+              </span>
+            </div>
             <div
               className="progress my-3 position-relative"
               style={{ height: "20px", borderRadius: "10px" }}
@@ -394,7 +383,7 @@ const BoxPro = ({
                   overflow: "hidden",
                 }}
               >
-                <h5 className="card-title" style={{ cursor: "pointer" }}>
+                <h5 className="card-title mb-0" style={{ cursor: "pointer" }}>
                   {name
                     ? name.length > 40
                       ? name.slice(0, 40) + "..."
