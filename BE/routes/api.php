@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Payment\PaymentController;
 use App\Http\Controllers\Api\Slider\SliderController;
 use App\Http\Controllers\Api\Search\SearchController;
 use App\Http\Controllers\Api\FlashSale\FlashSaleController;
+use App\Http\Controllers\Api\DeviceToken\DeviceTokenController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
 ->as('category')
@@ -64,6 +65,7 @@ Route::controller(CommentController::class)->prefix('/comments')
 ->as('comment')
 ->group(function(){
     Route::post('/', 'create');
+    Route::get('/{prduct_variant_id}', 'index');
 });
 
 
@@ -116,6 +118,13 @@ Route::controller(SliderController::class)->prefix('/sliders')
     Route::get('/', 'index');
 });
 
+Route::controller(PostController::class)->prefix('/posts')
+    ->as('post')
+    ->group(function () {
+        Route::get('/', 'index');  // Lấy tất cả bài viết
+        Route::get('/{slug}', 'detail');  // Lấy chi tiết bài viết theo slug
+        Route::get('/category/{slug}', 'postsByCategory');  // Lấy bài viết theo danh mục slug
+    });
 
 Route::get('/firebase-config', function () {
     return response()->json([
@@ -127,11 +136,3 @@ Route::get('/firebase-config', function () {
         'appId' => config('firebase.app_id'),
     ]);
 });
-
-Route::controller(PostController::class)->prefix('/posts')
-    ->as('post')
-    ->group(function () {
-        Route::get('/', 'index');  // Lấy tất cả bài viết
-        Route::get('/{slug}', 'detail');  // Lấy chi tiết bài viết theo slug
-        Route::get('/category/{slug}', 'postsByCategory');  // Lấy bài viết theo danh mục slug
-    });

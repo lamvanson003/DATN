@@ -3,7 +3,7 @@ import axios from "axios";
 export const commentApi = {
   getAll: async () => {
     try {
-      const response = await axios.get("/api/comment");
+      const response = await axios.get("http://127.0.0.1:8000/api/comments/{product_variant_id}");
       return response.data;
     } catch (err) {
       console.log("không thể fetch được dữ liệu", err);
@@ -27,7 +27,7 @@ export const commentApi = {
   postComment: async (uId, pId, comment) => {
     try {
       const response = await axios({
-        url: "https://api.example.com/comments",
+        url: "http://127.0.0.1:8000/api/comments",
         method: "post",
         headers: {
           "Content-Type": "application/json",

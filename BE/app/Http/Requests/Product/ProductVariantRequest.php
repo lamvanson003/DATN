@@ -27,7 +27,7 @@ class ProductVariantRequest extends BaseRequest
             'variants.*.instock' => 'required|integer',
             
             'variants.*.image_color' => 'nullable|array',
-            'variants.*.image_color' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'variants.*.image_color' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp',
         ];
     }
 

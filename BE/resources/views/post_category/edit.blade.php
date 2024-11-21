@@ -54,16 +54,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Ảnh đại diện -->
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Ảnh đại diện:</label>
-                                        <input type="file" class="form-control" name="images" accept="image/*">
-                                        @if ($postCategory->images)
-                                            <img src="{{ asset('storage/' . $postCategory->images) }}" alt="Ảnh hiện tại" style="max-width: 100%; margin-top: 10px;">
-                                        @endif
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -78,6 +68,16 @@
                                         <option value="{{ $key }}" {{ $postCategory->status == $key ? 'selected' : '' }}>{{ $value }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
+                            <div class="card-body p-2">
+                                <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
+                                <div class="image-container" style="cursor: pointer;" onclick="document.getElementById('fileInput').click();">
+                                    <img id="imagePreview" src="{{ asset('/images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
+                                </div>
                             </div>
                         </div>
 

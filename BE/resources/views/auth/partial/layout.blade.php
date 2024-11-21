@@ -60,6 +60,7 @@
                 notification.style.display = 'none'; 
             }, duration); 
         }
-    </script>    
+    </script>   
+    @include('validated.input')
 </body>
 </html>
