@@ -54,7 +54,8 @@ class DiscountController extends Controller
                 'discount_type' => 'required|in:percent,fixed',  
                 'date_start' => 'required|date',
                 'date_end' => 'required|date|after_or_equal:date_start',
-                'status' => 'required|in:0,1'
+                'status' => 'required|in:0,1',
+                'amount' => 'required|integer|min:0'
             ]);
     
             if ($validated['discount_type'] == 'percent') {
@@ -92,7 +93,8 @@ class DiscountController extends Controller
                 'discount_type' => 'required|in:percent,fixed', 
                 'date_start' => 'required|date',
                 'date_end' => 'required|date|after_or_equal:date_start',
-                'status' => 'required|in:0,1'
+                'status' => 'required|in:0,1',
+                'amount' => 'required|integer|min:0'
             ]);
     
             if ($validated['discount_type'] == 'percent') {
@@ -100,7 +102,7 @@ class DiscountController extends Controller
                 if ($validated['discount_value'] > 99) {
                     return response()->json([
                         'success' => false,
-                        'message' => 'Discount value cannot exceed 99% for percentage discounts'
+                        'message' => 'Gía trị mã giảm giá không thể vượt qua 99% '
                     ], 400);
                 }
             }
