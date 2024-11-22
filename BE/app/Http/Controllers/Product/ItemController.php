@@ -66,7 +66,7 @@ class ItemController extends controller
     }
 
     public function update(Request $request)
-{       
+    {       
     dd(1111111111);
     $request->validate([
         'id' => 'required|exists:product_image_items,id', 

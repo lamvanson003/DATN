@@ -35,8 +35,7 @@ class ProductVariantController extends Controller
     public function delete($product_id,$id)
     {
         $product_variant = ProductVariant::findOrFail($id);
-        $product_variant->status = DefaultStatus::Deleted;
-        $product_variant->save();
+        $product_variant->delete();
         return redirect()->route('admin.product.product_item.index',$product_id)->with('success', 'Thực hiện thành công.');
     }
 
@@ -88,23 +87,22 @@ class ProductVariantController extends Controller
     }
 
     public function update(Request $request)
-    {
+    {   
         $product_variant = ProductVariant::find($request['id']);
-        $product_image_item = ProductImageItem::findOrFail($request['id']);
         $baseUrl = url()->to('/');
 
         if ($request->hasFile('new_image')) {
-            if ($product_image_item->images && file_exists(public_path('images/variant_images/' . basename($product_image_item->images)))) {
-                unlink(public_path('images/variant_images/' . basename($product_image_item->images)));
+            if ($product_variant->images && file_exists(public_path('images/variant_images/' . basename($product_variant->images)))) {
+                unlink(public_path('images/variant_images/' . basename($product_variant->images)));
             }
             $newImage = $request->file('new_image');
             $newImageName = time() . '.' . $newImage->getClientOriginalExtension();
             $newImage->move(public_path('images/variant_images'), $newImageName);
 
-            $product_image_item->images = $baseUrl . '/images/variant_images/' . $newImageName;
+            $product_variant->images = $baseUrl . '/images/variant_images/' . $newImageName;
         }
 
-        $product_image_item->images = $product_image_item->images ?? $request->input('old_image');
+        $product_variant->images = $product_variant->images ?? $request->input('old_image');
         
         $product_variant->update([
             'memory' => $request->input('memory'),
@@ -112,9 +110,8 @@ class ProductVariantController extends Controller
             'sale' => $request->input('sale'),
             'instock' => $request->input('instock'),
             'storage' => $request->input('storage'),
-            'images' => $product_image_item->images,
+            'images' => $product_variant->images,
         ]);
-
-        return redirect()->back()->with('success', 'Cập nhật thành công!');
+        return redirect()->route('admin.product.product_item.index', $request['product_id'])->with('success', 'Thực hiện thành công');
     }
 }

@@ -33,8 +33,8 @@ class Order extends Model
 
     public function getOrder(){
         $dateTime = Carbon::now();
-        $startTime = $dateTime->copy()->startOfMinute(10); 
-        $endTime = $dateTime->copy()->endOfMinute(10);
+        $startTime = $dateTime->copy()->startOfMinute(); 
+        $endTime = $dateTime->copy()->endOfMinute();    
     
         return Order::whereBetween('created_at', [$startTime, $endTime])->get();
     }

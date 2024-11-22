@@ -56,17 +56,19 @@ class FlashSaleController extends Controller
             $discountPrice = $data['discount_price'][$variantId] ?? null;
             $quantityLimit = $data['quantity_limit'][$variantId] ?? null;
 
-            Log::info("Variant: {$variantId}, Discount Price: {$discountPrice}, Quantity Limit: {$quantityLimit}");
+            if ($quantityLimit < 0 || $quantityLimit > 127) { 
+                return redirect()->route('admin.flashSale.create')->with('error',"Sản phẩm vượt quá giới hạn cho phép.");
+            }
 
             if ($discountPrice === null || $quantityLimit === null) {
                 continue;
             }
 
             if (is_array($discountPrice) || is_array($quantityLimit)) {
-                throw new \Exception("Discount price or quantity limit for variant {$variantId} should not be an array.");
+                return redirect()->route('admin.flashSale.create')->with('error','Số lượng không đủ để Sale');
             }
 
-            $saleItems= SaleItem::create([
+            SaleItem::create([
                 'flash_sale_id' => $flashSaleId,
                 'product_variant_id' => $variantId,
                 'discount_price' => $discountPrice,
@@ -83,9 +85,6 @@ class FlashSaleController extends Controller
         return redirect()->route('admin.flashSale.index')->with('success', 'Flash sale created successfully!');
     } catch (\Exception $e) {
         DB::rollBack();
-
-        Log::error('Error creating flash sale: ', ['error' => $e->getMessage()]);
-
         return back()->withErrors('Error: ' . $e->getMessage());
     }
 }

@@ -1,44 +1,70 @@
-// firebase-messaging-sw.js
 
-importScripts('https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js');
+importScripts('https://www.gstatic.com/firebasejs/9.20.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.20.0/firebase-messaging-compat.js');
 
+self.addEventListener('message', event => {
+    if (event.data && event.data.type === 'SETUP') {
+        if (!firebase.apps.length) {
+            firebase.initializeApp(event.data.config);
+        }
+        const messaging = firebase.messaging();
 
-// Firebase config
-const firebaseConfig = {
-    apiKey: "AIzaSyADoX7jz4ESYSVmYozwKRCyCSiMKgKrQoM",
-    authDomain: "app-tmdt-97150.firebaseapp.com",
-    projectId: "app-tmdt-97150",
-    storageBucket: "app-tmdt-97150.appspot.com",
-    messagingSenderId: "925256118208",
-    appId: "1:925256118208:web:47e23b8d635065e0b7e225",
-    measurementId: "G-BJCL2E7522"
-};
+        messaging.setBackgroundMessageHandler(function(payload) {
+            console.log("Background message received.", payload);
 
-// Initialize Firebase in Service Worker
-firebase.initializeApp(firebaseConfig);
+            const notificationTitle = payload.notification.title;
+            const notificationOptions = {
+                body: payload.notification.body,
+                icon: payload.notification.image
+            };
 
-// Retrieve Firebase Messaging
-const messaging = firebase.messaging();
-
-// Handle background messages
-messaging.onBackgroundMessage(function(payload) {
-    console.log('Received background message ', payload);
-    const notificationTitle = 'New Notification';
-    const notificationOptions = {
-        body: payload.notification.body,
-        icon: payload.notification.icon
-    };
-
-    self.registration.showNotification(notificationTitle, notificationOptions);
+            return self.registration.showNotification(notificationTitle, notificationOptions);
+        });
+    }
+});
+self.addEventListener('activate', event => {
+    event.waitUntil(self.clients.claim());
 });
 
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/firebase-messaging-sw.js')
-    .then(function(registration) {
-        console.log('Service Worker registered with scope: ', registration.scope);
-    })
-    .catch(function(error) {
-        console.log('Service Worker registration failed: ', error);
+self.addEventListener('push', function(event) {
+    const messageData = event.data.json();
+    console.log('Push message received:', messageData);
+    const notificationOptions = {
+        body: messageData.notification.body,
+        icon: messageData.notification.image,
+        data: {
+            click_action: 'ACTION_URL',
+        }
+    };
+    self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+            client.postMessage({
+                type: "Notification received",
+                payload: messageData
+            });
+        });
     });
-}
+
+    event.waitUntil(
+        self.registration.showNotification(messageData.notification.title, notificationOptions)
+    );
+});
+
+self.addEventListener('notificationclick', function(event) {
+    console.log('On notification click: ', event.notification.tag);
+    event.notification.close();
+
+    event.waitUntil(
+        clients.matchAll({
+            type: "window"
+        }).then(function(clientList) {
+            for (var i = 0; i < clientList.length; i++) {
+                var client = clientList[i];
+                if (client.url === 'http://127.0.0.1:8000/admin/orders/' && 'focus' in client)
+                    return client.focus();
+            }
+            if (clients.openWindow)
+                return clients.openWindow('http://127.0.0.1:8000/admin/orders/');
+        })
+    );
+});

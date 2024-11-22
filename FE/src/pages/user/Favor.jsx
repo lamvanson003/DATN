@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, act } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import "./css/Product.css";
 import { BoxPro, Sbanner } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +13,8 @@ import { useContext } from "react";
 import axios from "axios";
 import { FavorContext } from "../../context/Favor";
 import { formatCurrency } from "../../ultis/func";
+import blank from "../../assets/images/iHome/blank.svg";
+import "./css/Favor.css";
 const Favor = () => {
   const { isLoading } = useSelector((state) => state.app);
   const dispatch = useDispatch();
@@ -61,121 +63,148 @@ const Favor = () => {
       return sorted.sort((a, b) => b.sale - a.sale);
     }
   }, [curItems, sortOrder]);
-  console.log(sortedItems);
+
+  const navigate = useNavigate();
+  const handleNaPro = () => {
+    navigate("/product");
+  };
 
   return (
     <div className="container ">
-      <section id="header">
-        <section className="px-2 mb-2" id="Breadcrumb">
-          <div className="container p-3 bg-Breadcrumb ">
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <a href="/" className="route">
-                    <i className="fa-solid fa-house" /> Trang chủ
-                  </a>
-                </li>
-                <li className="breadcrumb-item active_route">
-                  <a href="/product" className="route">
-                    Sản phẩm
-                  </a>
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </section>
-        <Sbanner product />
-        <div className="row my-3">
-          <div className="col-md-6"></div>
-          <div className="col-md-6 d-flex align-items-center justify-content-end gap-4">
-            <span style={{ cursor: "pointer" }} onClick={() => setSortOrder(1)}>
-              <FontAwesomeIcon
-                icon={faArrowUpZA}
-                size="xl"
-                className={`increase ${sortOrder === 1 ? "fa-active" : ""}`}
-              />
+      {sortedItems.length === 0 ? (
+        <div className="favorite-container d-flex flex-column align-items-center justify-content-center mt-3">
+          <img src={blank} alt="No Favorites" className="favorite-image" />
+          <p className="favorite-text">
+            Bạn chưa có sản phẩm yêu thích, quay lại
+            <span
+              onClick={handleNaPro}
+              style={{ color: "blue", marginLeft: 5, cursor: "pointer" }}
+            >
+              trang sản phẩm
             </span>
-            <span style={{ cursor: "pointer" }} onClick={() => setSortOrder(0)}>
-              <FontAwesomeIcon
-                icon={faArrowDownAZ}
-                size="xl"
-                className={`decrease ${sortOrder === 0 ? "fa-active" : ""}`}
-              />
-            </span>
-            <Filter
-              minPrice={minPrice}
-              maxPrice={maxPrice}
-              setMinPrice={setMinPrice}
-              setMaxPrice={setMaxPrice}
-            />
-          </div>
+          </p>
         </div>
-      </section>
-      <div className="row justify-content ">
-        <Brand />
-        {sortedItems.map((item) => (
-          <div key={item?.id} className="col-md-3">
-            <BoxPro
-              id={item.id}
-              name={item.name}
-              category={item.category}
-              brand={item.brand}
-              slug={item.slug}
-              image={item.image}
-              product_image_items={item.product_image_items}
-              variant={item.product_variant}
-            />
+      ) : (
+        <div>
+          <section id="header">
+            <section className="px-2 mb-2" id="Breadcrumb">
+              <div className="container p-3 bg-Breadcrumb ">
+                <nav aria-label="breadcrumb">
+                  <ol className="breadcrumb mb-0">
+                    <li className="breadcrumb-item">
+                      <a href="/" className="route">
+                        <i className="fa-solid fa-house" /> Trang chủ
+                      </a>
+                    </li>
+                    <li className="breadcrumb-item active_route">
+                      <a href="/product" className="route">
+                        Sản phẩm
+                      </a>
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+            </section>
+            <Sbanner product />
+            <div className="row my-3">
+              <div className="col-md-6"></div>
+              <div className="col-md-6 d-flex align-items-center justify-content-end gap-4">
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setSortOrder(1)}
+                >
+                  <FontAwesomeIcon
+                    icon={faArrowUpZA}
+                    size="xl"
+                    className={`increase ${sortOrder === 1 ? "fa-active" : ""}`}
+                  />
+                </span>
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setSortOrder(0)}
+                >
+                  <FontAwesomeIcon
+                    icon={faArrowDownAZ}
+                    size="xl"
+                    className={`decrease ${sortOrder === 0 ? "fa-active" : ""}`}
+                  />
+                </span>
+                <Filter
+                  minPrice={minPrice}
+                  maxPrice={maxPrice}
+                  setMinPrice={setMinPrice}
+                  setMaxPrice={setMaxPrice}
+                />
+              </div>
+            </div>
+          </section>
+          <div className="row justify-content ">
+            <Brand />
+            {sortedItems.map((item) => (
+              <div key={item?.id} className="col-md-3">
+                <BoxPro
+                  id={item.id}
+                  name={item.name}
+                  category={item.category}
+                  brand={item.brand}
+                  slug={item.slug}
+                  image={item.image}
+                  product_image_items={item.product_image_items}
+                  variant={item.product_variant}
+                />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <section className="pagi">
-        <div className="row">
-          <div className="col-md-3"></div>
-          <div className="col-md-9">
-            <nav aria-label="Page navigation example">
-              <ul className="pagination justify-content-center">
-                <li className="page-item">
-                  <a
-                    className="page-link"
-                    href="#"
-                    aria-label="Previous"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      paginate(curPage - 1);
-                    }}
-                  >
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                {pageNumbers.map((number) => (
-                  <li key={number} className="page-item">
-                    <a
-                      onClick={() => paginate(number)}
-                      href="#"
-                      className="page-link"
-                    >
-                      {number}
-                    </a>
-                  </li>
-                ))}
-                <li className="page-item">
-                  <a
-                    className="page-link"
-                    href="#"
-                    aria-label="Next"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      paginate(curPage + 1);
-                    }}
-                  >
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+          <section className="pagi">
+            <div className="row">
+              <div className="col-md-3"></div>
+              <div className="col-md-9">
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination justify-content-center">
+                    <li className="page-item">
+                      <a
+                        className="page-link"
+                        href="#"
+                        aria-label="Previous"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          paginate(curPage - 1);
+                        }}
+                      >
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    {pageNumbers.map((number) => (
+                      <li key={number} className="page-item">
+                        <a
+                          onClick={() => paginate(number)}
+                          href="#"
+                          className="page-link"
+                        >
+                          {number}
+                        </a>
+                      </li>
+                    ))}
+                    <li className="page-item">
+                      <a
+                        className="page-link"
+                        href="#"
+                        aria-label="Next"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          paginate(curPage + 1);
+                        }}
+                      >
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </section>
         </div>
-      </section>
+      )}
     </div>
   );
 };

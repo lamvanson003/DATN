@@ -36,7 +36,7 @@
 
         <!-- Short Description -->
         <div class="col-md-12 col-sm-12">
-            <div class="mb-3 col-6">
+            <div class="mb-3 col-12">
                 <label class="control-label">Mô tả ngắn:</label>
                 <input type="text" class="form-control" name="short_desc" value="{{ $product->short_desc }}" placeholder="Mô tả ngắn về sản phẩm">
             </div>
