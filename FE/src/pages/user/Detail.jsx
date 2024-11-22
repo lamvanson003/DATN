@@ -214,18 +214,16 @@ const Detail = () => {
 
     setLoadingComment(true);
     const formData = new FormData();
-    formData.append('user_id', userId); // ID người dùng
-    formData.append('product_variant_id', productVariantId); // ID sản phẩm
-    formData.append('content', comment); // Nội dung bình luận
-    formData.append('rating', rating); // Số sao
+    formData.append("user_id", userId); // ID người dùng
+    formData.append("product_variant_id", productVariantId); // ID sản phẩm
+    formData.append("content", comment); // Nội dung bình luận
+    formData.append("rating", rating); // Số sao
     images.forEach((image, index) => {
-      formData.append('images[]', image); // Thêm từng ảnh vào formData
+      formData.append("images[]", image); // Thêm từng ảnh vào formData
     });
 
     console.log("Bình luận:", comment);
     console.log("Số sao:", rating);
-
-    
 
     console.log("Hình ảnh:", images);
     setTimeout(() => {
@@ -617,18 +615,18 @@ const Detail = () => {
                     <div className="comment-info">
                       <span className="comment-author">Nguyễn Văn A</span>
                       <span className="comment-date">12/11/2024</span>
-                      <span style={
-                        { 
+                      <span
+                        style={{
                           marginLeft: "5px",
                           color: "rgb(240 204 9)  ",
-                          fontSize: "20px"
-                        }
-                      }>
-                        ★</span>
+                          fontSize: "20px",
+                        }}
+                      >
+                        ★
+                      </span>
                     </div>
                     <p className="comment-text">
-                      Sản phẩm rất tốt! Tôi sẽ mua lại. 
-                      
+                      Sản phẩm rất tốt! Tôi sẽ mua lại.
                     </p>
                     <div className="d-flex gap-2  ">
                       <img

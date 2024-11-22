@@ -3,7 +3,9 @@ import axios from "axios";
 export const commentApi = {
   getAll: async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/comments/{product_variant_id}");
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/comments/{product_variant_id}"
+      );
       return response.data;
     } catch (err) {
       console.log("không thể fetch được dữ liệu", err);
@@ -24,24 +26,32 @@ export const commentApi = {
       return []; // Trả về mảng rỗng nếu có lỗi xảy ra
     }
   },
-  postComment: async (uId, pId, comment) => {
+  postComment: async (uId, pId, content, rating, images) => {
     try {
-      const response = await axios({
-        url: "http://127.0.0.1:8000/api/comments",
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          uId,
-          pId,
-          comment,
-        },
+      const formData = new FormData();
+      formData.append("uId", uId);
+      formData.append("pId", pId);
+      formData.append("content", content);
+      formData.append("rating", rating);
+      images.forEach((image, index) => {
+        formData.append(`images[${index}]`, image);
       });
-      console.log("bình luận đã được đăng !");
+
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/comments",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Bình luận đã được đăng!", response.data);
       return response.data;
     } catch (err) {
-      console.log("Không thể đăng tải bình luận", err);
+      console.error("Không thể đăng tải bình luận", err);
+      throw err;
     }
   },
 };
