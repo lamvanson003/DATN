@@ -3,7 +3,9 @@ import axios from "axios";
 export const commentApi = {
   getAll: async () => {
     try {
-      const response = await axios.get("/api/comment");
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/comments/{product_variant_id}"
+      );
       return response.data;
     } catch (err) {
       console.log("không thể fetch được dữ liệu", err);
@@ -11,37 +13,62 @@ export const commentApi = {
   },
   getCommentByPid: async (pid) => {
     try {
-      // Lấy file comment.json từ public folder
-      const response = await axios.get("/comment.json");
-
-      // Lọc dữ liệu dựa trên product id (pid)
-      const data = response.data;
-      const commentpid = data.filter((cmt) => cmt.productId === pid);
-
-      return commentpid;
-    } catch (err) {
-      console.log("Không thể fetch được dữ liệu", err);
-      return []; // Trả về mảng rỗng nếu có lỗi xảy ra
-    }
-  },
-  postComment: async (uId, pId, comment) => {
-    try {
-      const response = await axios({
-        url: "https://api.example.com/comments",
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          uId,
-          pId,
-          comment,
-        },
-      });
-      console.log("bình luận đã được đăng !");
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/comments/${pid}`
+      );
       return response.data;
     } catch (err) {
-      console.log("Không thể đăng tải bình luận", err);
+      console.log("không thể fetch được dữ liệu", err);
+    }
+  },
+  postComment: async ({
+    pId,
+    name,
+    content,
+    uId = null,
+    rating = null,
+    images = [],
+  }) => {
+    if (!pId || !name || !content) {
+      throw new Error(
+        "Missing required parameters: product ID, name, or content."
+      );
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("product_variant_id", pId);
+      formData.append("name", name);
+      formData.append("content", content);
+      formData.append("user_id", uId);
+      if (rating !== null) formData.append("rating", rating);
+
+      // Append image files (ensure they are File objects)
+      if (images.length > 0) {
+        images.forEach((image, index) => {
+          if (image instanceof File) {
+            formData.append(`images[${index}]`, image); // Append file objects
+          } else {
+            console.error("Invalid image type:", image); // Log error if not a valid file
+          }
+        });
+      }
+
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/comments",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Bình luận đã được đăng!", response.data);
+      return response.data;
+    } catch (err) {
+      console.error("Không thể đăng tải bình luận", err);
+      throw err;
     }
   },
 };

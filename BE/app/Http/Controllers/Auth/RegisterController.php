@@ -21,7 +21,14 @@ class RegisterController extends Controller
     {
         try {
             $data = $request->validated();
-            
+
+            $existingUser = User::where('email', $data['email'])
+            ->orWhere('phone', $data['phone'])
+            ->first();
+
+            if ($existingUser) {
+                return redirect()->route('register.index')->with('error', 'Email hoặc số điện thoại đã tồn tại.');
+            }
             User::create([
                 'username' => $data['phone']??$data['username'],
                 'email' => $data['email'],

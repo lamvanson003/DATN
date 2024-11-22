@@ -110,6 +110,13 @@ Route::controller(SliderController::class)->prefix('/sliders')
     Route::get('/', 'index');
 });
 
+Route::controller(PostController::class)->prefix('/posts')
+    ->as('post')
+    ->group(function () {
+        Route::get('/', 'index');  // Lấy tất cả bài viết
+        Route::get('/{slug}', 'detail');  // Lấy chi tiết bài viết theo slug
+        Route::get('/category/{slug}', 'postsByCategory');  // Lấy bài viết theo danh mục slug
+    });
 
 Route::get('/firebase-config', function () {
     return response()->json([
@@ -121,11 +128,3 @@ Route::get('/firebase-config', function () {
         'appId' => config('firebase.app_id'),
     ]);
 });
-
-Route::controller(PostController::class)->prefix('/posts')
-    ->as('post')
-    ->group(function () {
-        Route::get('/', 'index');  // Lấy tất cả bài viết
-        Route::get('/{slug}', 'detail');  // Lấy chi tiết bài viết theo slug
-        Route::get('/category/{slug}', 'postsByCategory');  // Lấy bài viết theo danh mục slug
-    });

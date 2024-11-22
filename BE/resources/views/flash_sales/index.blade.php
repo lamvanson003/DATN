@@ -67,7 +67,7 @@
                     <tr>
                       <td><img class="text-center fix-image" src="{{ asset($item->product_variant->images) }}" alt="{{ $item->name }}"></td>
                       <td>
-                        <a href="{{ route('admin.product.edit', $item->id) }}">
+                        <a href="{{ route('admin.product.edit', $item->product_variant->product->id) }}">
                           {{ $item->product_variant->product->name }}-{{ $item->product_variant->storage }}
                         </a>
                         <div>{{ $item->product_variant->color }}</div>

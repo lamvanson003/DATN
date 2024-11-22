@@ -36,10 +36,11 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product.product_item.update',$product_variant->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.product.product_item.update',[$product_variant->product->id,$product_variant->id]) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="_method" value="PUT">   
                 <input type="hidden" name="id" value="{{ $product_variant->id }}">   
+                <input type="hidden" name="product_id" value="{{ $product_variant->product->id }}">   
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">

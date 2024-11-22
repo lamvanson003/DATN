@@ -1,52 +1,33 @@
 @extends('layout_admin')
-
 @section('title','Thông báo')
-
 @section('content_admin')
-@include('notification.scripts.script')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+@push('libs-css')
+<link rel="stylesheet" href="{{ asset('/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('/select2/css/select2-bootstrap-5-theme.min.css') }}">
+@endpush
 <style>
-   /* Tùy chỉnh cho select2 */
-    #user_id {
-        width: 100% !important; /* Đảm bảo rằng select2 chiếm toàn bộ chiều rộng */
+
+    .select2-container .select2-selection--multiple {
+        height: auto !important; 
+        min-height: 38px; 
+        max-height: 150px; 
+        overflow-y: auto; 
+        border: 1px solid #ced4da; 
+        border-radius: 0.25rem;
     }
 
-    .select2-container {
-        width: 100% !important; /* Đảm bảo container của select2 không bị giới hạn */
+    .select2-container--bootstrap5 .select2-selection--multiple .select2-selection__choice {
+        background-color: #007bff; 
+        color: #fff; 
+        border: none;
+        padding: 0.25rem 0.5rem;
+        margin-right: 5px;
+        border-radius: 0.25rem;
     }
 
-    .select2-dropdown {
-        max-height: 300px !important; /* Điều chỉnh chiều cao tối đa của dropdown */
-        overflow-y: auto !important; /* Cho phép cuộn dọc nếu cần thiết */
-        border-radius: 4px; /* Bo góc dropdown */
-        border: 1px solid #ccc; /* Thêm viền cho dropdown */
-    }
-
-    .select2-selection {
-        height: auto !important; /* Điều chỉnh chiều cao của ô chọn */
-        min-height: 40px !important; /* Tạo khoảng cách cho nội dung */
-    }
-
-    .select2-selection__rendered {
-        padding: 6px 12px !important; /* Tùy chỉnh khoảng cách bên trong */
-    }
-
-    /* Tùy chỉnh khi select2 có nhiều lựa chọn */
-    .select2-selection--multiple {
-        min-height: 40px !important; /* Tăng chiều cao cho select2 với lựa chọn nhiều */
-    }
-
-    /* Tùy chỉnh khi đang chọn */
-    .select2-selection__choice {
-        background-color: #007bff !important; /* Màu nền của lựa chọn */
-        color: white !important; /* Màu chữ */
-        border-radius: 3px;
-        margin: 2px;
-    }
-
-    .select2-search__field {
-        padding: 5px 10px !important; /* Tùy chỉnh khoảng cách cho ô tìm kiếm */
+    .select2-container--bootstrap5 .select2-selection--multiple .select2-selection__choice:not(:first-child) {
+        margin-left: 5px;
     }
 
 </style>
@@ -91,7 +72,7 @@
                                     <div class="mb-3">
                                         <i class="fa fa-user"></i>
                                         <label for="types">{{ __('Đối tượng') }}</label>
-                                        <select id="types" class="notification-type form-action form-select" name="types" required>
+                                        <select id="types" class="notification-type form-action form-select required" name="types">
                                             <option value="">{{ __('Chọn đối tượng') }}</option>
                                             @foreach ($types as $key => $value)
                                                 <option value="{{ $key }}">
@@ -121,19 +102,14 @@
                                 </div>
 
                                 <!-- Khách hàng -->
-                                <div id="notification-customer-select" class="col-12" style="display: none;">
-                                    <div class="mb-3">
-                                        <i class="ti ti-user-plus"></i>
-                                        <label for="user_id">{{ __('Khách hàng') }}</label>
-                                        <br>
-                                        <select
-                                            name="user_id[]"
-                                            id="user_id"
-                                            class="js-example-basic-single form-action form-select"
-                                            data-url="{{ route('admin.search.select.customer') }}"
-                                            multiple="multiple">
-                                        </select>
-                                    </div>
+                                <div id="notification-customer-select" class="mb-3" style="display: none;">
+                                    <label for="user_id" class="form-label"><i class="ti ti-user-plus"></i> Khách hàng</label>
+                                    <select name="user_id[]" 
+                                            id="user_id" 
+                                            class="select2-bs5-ajax form-select"
+                                            multiple="multiple" 
+                                            data-url="{{ route('admin.search.select.customer') }}">
+                                    </select>
                                 </div>
 
                                 <!-- Tiêu đề -->
@@ -142,7 +118,7 @@
                                         <label for="title" class="control-label">
                                             {{ __('Tiêu đề') }} <span style="color: red">*</span>:
                                         </label>
-                                        <input type="text" id="title" required class="form-control" name="title" placeholder="Nhập tiêu đề">
+                                        <input type="text" id="title"  class="form-control required" name="title" placeholder="Nhập tiêu đề">
                                     </div>
                                 </div>
 
@@ -152,7 +128,7 @@
                                         <label for="message" class="control-label">
                                             {{ __('Nội dung') }} <span style="color: red">*</span>:
                                         </label>
-                                        <textarea id="message" required class="form-control" name="message" placeholder="Nhập nội dung"></textarea>
+                                        <textarea id="message"  class="form-control required" name="message" placeholder="Nhập nội dung"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -170,17 +146,6 @@
                         </div>
 
                         <div class="card mb-3">
-                            <div class="card-header">Trạng thái</div>
-                            <div class="card-body p-2">
-                                <select required class="form-select" name="status">
-                                    @foreach ($status as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3">
                             <div class="card-header">Loại</div>
                             <div class="card-body p-2">
                                 <select required class="form-select" name="type">
@@ -190,11 +155,27 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">Đường dẫn tĩnh</div>
+                            <div class="card-body p-2">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" name="url" placeholder="Url thông báo">
+                                </div>
+                            </div>
+                        </div>
                     </div>                    
                 </div>
             </form>    
         </div>
     </div>   
 </div>
+@push('libs-js')
+    <script src="{{ asset('/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('/select2/js/i18n/vi.js') }}"></script>
+@endpush
 
+@push('custom-js')
+@include('notification.scripts.script')
+@endpush
 @endsection

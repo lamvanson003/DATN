@@ -14,9 +14,9 @@ class RegisterRequest extends BaseRequest
     protected function methodPost()
     {
         return [
-            'email' => ['required','email','unique:App\Models\User,email'],
+            'email' => ['required','email'],
             'gender' => ['required','integer'],
-            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/', 'unique:App\Models\User,phone'],
+            'phone' => ['required', 'regex:/((09|03|07|08|05)+([0-9]{8})\b)/'],
             'password' => ['required', 'string', 'max:255', 'confirmed'],
         ];
     }

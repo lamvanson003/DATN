@@ -23,7 +23,6 @@ const {
 const Payment = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const { cartItems, getCartTotal, buyNow, setCartItems } =
     useContext(CartContext);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
@@ -36,6 +35,7 @@ const Payment = () => {
   const [selectedWard, setSelectedWard] = useState(null);
   const [discountPrice, setDiscountPrice] = useState(0);
   const [discountCode, setDiscountCode] = useState("");
+  const [discountId, setDiscountId] = useState(null);
   const [applyingDiscount, setApplyingDiscount] = useState(false);
   const [isSuccessDiscount, setIsSuccessDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState(2);
@@ -71,17 +71,15 @@ const Payment = () => {
     try {
       setApplyingDiscount(true);
       const discountData = await discountApi.getOne(discountCode);
+      setDiscountId(discountData.id);
+      console.log(discountData.id);
 
       setApplyingDiscount(false);
       if (discountData.discount_value < 100) {
         const dv = discountData.discount_value;
         setDiscountPrice((total_price * dv) / 100);
-        console.log("total_price: ", total_price);
-        console.log("discount value: ", dv);
-        console.log("discountprice: ", discountPrice);
       } else {
         setDiscountPrice(discountData.discount_value);
-        console.log("discount value: ", discountPrice);
       }
 
       setDiscountCode("");
@@ -201,27 +199,45 @@ const Payment = () => {
       user_id: 1,
       payment_method_id: 1,
       shipping_method: 0,
+      discount_id: discountId ? discountId : null,
       fullname: customerInfo.name,
       phone: customerInfo.phone,
       address: `${customerInfo.street}, ${customerInfo.ward}, ${customerInfo.district}, ${customerInfo.province}`,
       email: customerInfo.email,
-      note: "123",
+      note: customerInfo.note,
       total_price: finalPrice,
       products: products,
     };
 
     if (paymentMethod === 1) {
+      const PendingLeftCartItems = cartItems.filter(
+        (item) =>
+          !orderInfo.products.some(
+            (product) => product.product_variant_id === item.color.id
+          )
+      );
+      localStorage.setItem(
+        "PendingLeftCartItems",
+        JSON.stringify(PendingLeftCartItems)
+      );
+      console.log("pendingLeft:", PendingLeftCartItems);
+
       paymentApi.create(orderInfo);
     } else {
       try {
+        console.log(orderInfo);
         const res = await orderApi.create(orderInfo);
         const invoice = await orderApi.getOne(res);
         console.log("Invoice: ", invoice);
 
         setOrderId(res);
         const LeftItems = cartItems.filter(
-          (item) => item.color.id !== res.product_variant_id
+          (item) =>
+            !orderInfo.products.some(
+              (product) => product.product_variant_id === item.color.id
+            )
         );
+
         setCartItems(LeftItems);
         localStorage.setItem("cartItems", JSON.stringify(LeftItems));
       } catch (err) {
@@ -455,9 +471,10 @@ const Payment = () => {
                   {orderItems.map((item) => (
                     <div
                       key={item.variantKey}
-                      className="d-flex align-items-center gap-2 my-3"
+                      className="d-flex align-items-center gap-2 p-2"
+                      style={{ border: "1px solid #034387", borderRadius: 5 }}
                     >
-                      <span style={{ width: "15%" }}>
+                      <span style={{ width: "20%", marginRight: 6 }}>
                         <img
                           src={item.color.images}
                           alt="ảnh sản phẩm"
@@ -465,7 +482,7 @@ const Payment = () => {
                         />
                       </span>
                       <span
-                        style={{ width: "60%" }}
+                        style={{ width: "55%" }}
                         className="d-flex flex-column gap-1 "
                       >
                         <span className="text-start fw-semibold">

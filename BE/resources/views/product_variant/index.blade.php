@@ -114,10 +114,6 @@
                       
                       <td >
                         <div class="d-flex align-items-center gap-3">
-                          <button type="button" class="btn btn-primary btn-icon">
-                            <i class="fa fa-pencil-alt"></i>
-                          </button>                       
-
                           <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
                             <i class="fa fa-trash"></i>
                           </button>             
@@ -134,7 +130,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                              Bạn chỉ có thể chuyển trạng thái  <span class="red">{{ $item->storage }} </span>thành đã xóa.
+                              Xóa biến thể  <span class="red">{{ $item->storage }} </span> khỏi dữ liệu hệ thống ?.
                           </div>
                           <div class="modal-footer">
                             <form action="{{ route('admin.product.product_item.delete',[$product->id,$item->id]) }}" method="post">

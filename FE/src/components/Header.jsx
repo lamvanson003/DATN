@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import "./css/Header.css";
 import path from "../ultis/path";
@@ -45,43 +51,55 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
     setIsFocus(false);
     setIsHover(false);
   }, [location]);
+  const debouncedSearch = useCallback(
+    debounce(async (term) => {
+      if (!term) {
+        setSearchProducts([]);
+        return;
+      }
+
+      const fuseOptions = {
+        keys: ["name"],
+        threshold: 0.3,
+        includeScore: true,
+      };
+
+      const allProducts = await productApi.search(term);
+
+      const keywords = term.toLowerCase().split(/\s+/);
+
+      const fuse = new Fuse(allProducts, fuseOptions);
+
+      const searchResults = keywords.flatMap((keyword) => fuse.search(keyword));
+
+      const uniqueResults = [];
+      const productMap = {};
+      searchResults.forEach((result) => {
+        const product = result.item;
+        if (!productMap[product.name]) {
+          uniqueResults.push(product);
+          productMap[product.name] = true;
+        }
+      });
+
+      setSearchProducts(uniqueResults.slice(0, 5));
+    }, 1000),
+    [] // Ensures the debounce function is created only once
+  );
+
+  useEffect(() => {
+    // Cleanup function to cancel debounce on unmount
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
+
   const handleSearch = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
     debouncedSearch(term);
   };
-  const debouncedSearch = debounce(async (term) => {
-    if (!term) {
-      setSearchProducts([]);
-      return;
-    }
 
-    const fuseOptions = {
-      keys: ["name"],
-      threshold: 0.3,
-      includeScore: true,
-    };
-
-    const allProducts = await productApi.search(term);
-
-    const keywords = term.toLowerCase().split(/\s+/);
-
-    const fuse = new Fuse(allProducts, fuseOptions);
-
-    const searchResults = keywords.flatMap((keyword) => fuse.search(keyword));
-
-    const uniqueResults = [];
-    const productMap = {};
-    searchResults.forEach((result) => {
-      const product = result.item;
-      if (!productMap[product.name]) {
-        uniqueResults.push(product);
-        productMap[product.name] = true;
-      }
-    });
-
-    setSearchProducts(uniqueResults.slice(0, 5));
-  }, 1000);
   const handleSearchHistory = (e) => {
     if (e.key === "Enter" && searchTerm) {
       e.preventDefault();
@@ -129,7 +147,6 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
         setSearchProducts([]);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);

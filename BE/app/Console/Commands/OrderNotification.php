@@ -59,12 +59,12 @@ class OrderNotification extends Command{
         $orderNotification = config('notifications.new_order');
         if ($orders->isNotEmpty() ) {
             foreach ($orders as $order) {
-                $user = $this->userModel->findOrFail($order->user_id);
+                $user = $this->userModel->GetAdmin();
                 $deviceTokens = [$user->device_token]; 
                 $orderMessage = str_replace('#ORDER_ID#', $order->code, $orderNotification['message']);
 
                 Log::info('check',['orderMessage'=>$orderMessage]);
-
+                
                 $this->sendFirebaseNotification($deviceTokens, null, $orderNotification['title'],$orderMessage);
                 
                 $this->notificationModel->create([
