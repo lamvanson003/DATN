@@ -14,19 +14,20 @@ const {
 } = icons;
 
 const User = () => {
-  const [fullname, setFullname] = useState(""); // State để lưu trữ fullname
-  const [loading, setLoading] = useState(true); // State để kiểm soát trạng thái loading
-  const [error, setError] = useState(null);     // State để lưu trữ lỗi nếu có
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Kiểm tra xem người dùng đã đăng nhập hay chưa
-  const navigate = useNavigate(); // Hook dùng để điều hướng người dùng
+  const [fullname, setFullname] = useState(""); // State to store fullname
+  const [loading, setLoading] = useState(true); // State to track loading state
+  const [error, setError] = useState(null); // State for errors
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Check if user is logged in
+  const [selectedItem, setSelectedItem] = useState(""); // State to track selected item
+  const navigate = useNavigate(); // Navigate hook
 
-  // Hàm fetch dữ liệu từ API
+  // Function to fetch user data
   const fetchUserData = async () => {
     try {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        setIsLoggedIn(false); // Nếu không có token, người dùng chưa đăng nhập
+        setIsLoggedIn(false);
         return;
       }
 
@@ -41,13 +42,13 @@ const User = () => {
       const data = await response.json();
       if (response.ok) {
         setFullname(data.data?.fullname || "");
-        setIsLoggedIn(true); // Nếu đăng nhập thành công
+        setIsLoggedIn(true); // User logged in successfully
       } else {
-        setError(data.message || "Có lỗi xảy ra khi fetch dữ liệu.");
+        setError(data.message || "Error fetching data.");
         setIsLoggedIn(false);
       }
     } catch (error) {
-      setError("Có lỗi xảy ra: " + error.message);
+      setError("Error occurred: " + error.message);
       setIsLoggedIn(false);
     } finally {
       setLoading(false);
@@ -64,26 +65,36 @@ const User = () => {
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
   };
 
-  // Gọi API khi component được mount
+  // Fetch user data when component mounts
   useEffect(() => {
     fetchUserData();
   }, []);
 
-  // Hàm đăng xuất
+  // Logout function
   const logout = () => {
-    // Xóa token trong localStorage
     localStorage.removeItem("token");
-    
-    // Chuyển hướng về trang đăng nhập
-    navigate("/login"); // Giả sử route đăng nhập là "/login"
+    navigate("/login");
+  };
+
+  // Function to handle item click and set selected item
+  const handleItemClick = (item) => {
+    setSelectedItem(item); // Set the clicked item as selected
+  };
+
+  // Inline style for selected item
+  const selectedStyle = {
+    backgroundColor: "#cde7ff", // Highlight color for selected item
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // Add shadow to make it look active
+    padding: "10px",
+    borderRadius: "5px",
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Hiển thị trạng thái loading khi fetch API
+    return <div>Loading...</div>; // Show loading while fetching data
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Hiển thị lỗi nếu có
+    return <div>Error: {error}</div>; // Show error message if there's an issue
   }
 
   if (!isLoggedIn) {
@@ -91,7 +102,7 @@ const User = () => {
       <div
         style={{
           textAlign: "center",
-          marginTop:"20px",
+          marginTop: "20px",
           padding: "50px",
           backgroundColor: "#cde7ff",
           borderRadius: "10px",
@@ -109,51 +120,38 @@ const User = () => {
 
   return (
     <>
-      <div className="mt-5" style={{ width: "90%", margin: "0 100px" }}>
+      <div className="mt-5" style={{ width: "90%", margin: "0 100px", marginLeft: "50px" }}>
         <div className="row" style={{ width: "100%" }}>
           <div className="col-md-3 px-5">
             <span className="px-5 d-flex flex-column gap-4">
               <div className="d-flex align-items-center gap-3">
                 <span>
-                  <FaRegCircleUser size={30} />
+                  <FaRegCircleUser size={30} style={{ marginLeft: "10px" }} />
                 </span>
                 <span className="d-flex flex-column">
-                  <span className="fw-bold" style={{ fontSize: 16 }}>
+                  <span className="fw-bold" style={{ fontSize: 20, marginTop: "10px" }}>
                     {fullname || "Tên user"}
                   </span>
-                  <span className="opacity-75" style={{ fontSize: 14 }}></span>
                 </span>
               </div>
               <div className="d-flex flex-column gap-2 fw-semibold">
                 <span
                   className="d-flex align-items-center gap-1"
-                  style={hoverEffectStyle}
-                  onMouseEnter={(e) =>
-                    Object.assign(e.target.style, hoverEffectStyleHover)
-                  }
-                  onMouseLeave={(e) =>
-                    Object.assign(e.target.style, { boxShadow: "none" })
-                  }
+                  style={{
+                    ...hoverEffectStyle,
+                    ...(selectedItem === "account" ? selectedStyle : {}),
+                  }}
+                  onClick={() => handleItemClick("account")}
+                  onMouseEnter={(e) => Object.assign(e.target.style, hoverEffectStyleHover)}
+                  onMouseLeave={(e) => Object.assign(e.target.style, { boxShadow: "none" })}
                 >
                   <FaRegUser color="rgb(0, 123, 255)" />
                   Tài khoản của tôi
                 </span>
-                <span
-                  className="d-flex align-items-center gap-1"
-                  style={hoverEffectStyle}
-                  onMouseEnter={(e) =>
-                    Object.assign(e.target.style, hoverEffectStyleHover)
-                  }
-                  onMouseLeave={(e) =>
-                    Object.assign(e.target.style, { boxShadow: "none" })
-                  }
-                >
-                  <FaHistory color="rgb(0, 123, 255)" />
-                  Đơn mua
-                </span>
+                
               </div>
               <button
-                onClick={logout} // Gọi hàm logout khi nhấn nút
+                onClick={logout}
                 style={{
                   backgroundColor: "rgb(0, 123, 255)",
                   color: "white",
@@ -169,7 +167,7 @@ const User = () => {
               </button>
             </span>
           </div>
-          <div  className="col-md-9 px-1 ">
+          <div className="col-md-9 px-1">
             <Outlet />
           </div>
         </div>

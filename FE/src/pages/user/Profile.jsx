@@ -242,10 +242,10 @@ const Profile = () => {
 
 
   return (
-    <div className="row" style={{ marginTop: '0px', maxWidth:"1000px", }}>
+    <div className="row" style={{ marginLeft:"45px", marginTop: '0px', maxWidth:"1000px", }}>
       <h2 style={{ marginLeft: '-20px' }} >Thông tin tài khoản</h2>
-    <div className="row" style={{ maxWidth: '1000px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
-        <div className="card-header" style={{ backgroundColor: '#f8f9fa', fontWeight: 'bold' }}>
+    <div className="row" style={{ maxWidth: '1000px',backgroundColor: '#f8f9fa', padding:"   0 25px 0 25px  ", borderRadius: '5px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+        <div className="card-header" style={{ backgroundColor: '#f8f9fa', fontWeight: 'bold' , marginTop:"10px",marginBottom:"20px",maxWidth:"500px"}}>
             THÔNG TIN CÁ NHÂN
         </div>
         <div className="card-body" style={{ backgroundColor: '#f8f9fa' }}>
@@ -253,14 +253,7 @@ const Profile = () => {
             {showDetails && (
                 <div id="details" className="details">
                     <form onSubmit={updateUserData}>
-                        <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="gender" id="male" value="male" defaultChecked />
-                            <label className="form-check-label" htmlFor="male">Anh</label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="gender" id="female" value="female" />
-                            <label className="form-check-label" htmlFor="female">Chị</label>
-                        </div>
+                     
                         <div className="row mt-3">
                             <div className="col-md-6">
                                 <div className="mb-3">

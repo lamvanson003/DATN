@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Http\Controllers\Api\Comment;
 
 use App\Http\Controllers\Controller;
@@ -31,7 +31,7 @@ class CommentController extends Controller {
                 'rating' => $validatedData['rating'],
                 'status' => CommentStatus::Pending,
             ]);
-            
+
             DB::commit();
             return response()->json(['message' => 'Comments created successfully'], 201);
         } catch (\Exception $e) {
