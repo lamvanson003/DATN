@@ -7,38 +7,40 @@ use App\Models\Comment;
 use App\Enums\Comment\CommentStatus;
 use App\Http\Resources\Api\Comment\CommentResource;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller {
 
 
     public function create(Request $request){
         $validatedData = $request->validate([
-            'user_id' => 'required|integer',
-            'product_variant_id' => 'required|integer',
+            'user_id' => 'nullable',
+            'product_variant_id' => ['required','exists:App\Models\ProductVariant,id'],
             'content' => 'required|string',
-            'rating' => 'required|integer',
+            'rating' => 'nullable|integer',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg', 
         ]);
+        Log::info($validatedData);
         try {
             DB::beginTransaction();
 
             $baseUrl = url()->to('/');
             $imagePath = [];
-            if ($validatedData['images']) {
+           if (!empty($validatedData['images'])) {
                 foreach ($validatedData['images'] as $image) {
-                    $image = $request->file('images');
                     $fileName = time() . '_' . $image->getClientOriginalName();
                     $image->move(public_path('images/comment'), $fileName);
                     $imagePath[] = $baseUrl . '/images/comment/' . $fileName;
                 }
             }
 
+
             Comment::create([
                 'user_id' => $validatedData['user_id'],
                 'product_variant_id' => $validatedData['product_variant_id'],
                 'content' => $validatedData['content'],
-                'images' =>  json_encode($imagePath),
+                'images' =>  json_encode($imagePath) ?? null, 
                 'rating' => $validatedData['rating'],
                 'status' => CommentStatus::Pending,
             ]);
