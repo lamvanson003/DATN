@@ -7,10 +7,29 @@
 <link rel="stylesheet" href="{{ asset('/select2/css/select2-bootstrap-5-theme.min.css') }}">
 @endpush
 <style>
-    .form-select {
-  max-height: 200px; /* Giới hạn chiều cao của dropdown */
-  overflow-y: auto; /* Cho phép thanh cuộn vertical nếu nội dung quá dài */
-}
+
+    .select2-container .select2-selection--multiple {
+        height: auto !important; 
+        min-height: 38px; 
+        max-height: 150px; 
+        overflow-y: auto; 
+        border: 1px solid #ced4da; 
+        border-radius: 0.25rem;
+    }
+
+    .select2-container--bootstrap5 .select2-selection--multiple .select2-selection__choice {
+        background-color: #007bff; 
+        color: #fff; 
+        border: none;
+        padding: 0.25rem 0.5rem;
+        margin-right: 5px;
+        border-radius: 0.25rem;
+    }
+
+    .select2-container--bootstrap5 .select2-selection--multiple .select2-selection__choice:not(:first-child) {
+        margin-left: 5px;
+    }
+
 </style>
 <div class="container">
     <div class="page-inner">
@@ -53,7 +72,7 @@
                                     <div class="mb-3">
                                         <i class="fa fa-user"></i>
                                         <label for="types">{{ __('Đối tượng') }}</label>
-                                        <select id="types" class="notification-type form-action form-select" name="types" required>
+                                        <select id="types" class="notification-type form-action form-select required" name="types">
                                             <option value="">{{ __('Chọn đối tượng') }}</option>
                                             @foreach ($types as $key => $value)
                                                 <option value="{{ $key }}">
@@ -99,7 +118,7 @@
                                         <label for="title" class="control-label">
                                             {{ __('Tiêu đề') }} <span style="color: red">*</span>:
                                         </label>
-                                        <input type="text" id="title" class="form-control required" name="title" placeholder="Nhập tiêu đề">
+                                        <input type="text" id="title"  class="form-control required" name="title" placeholder="Nhập tiêu đề">
                                     </div>
                                 </div>
 
@@ -109,7 +128,7 @@
                                         <label for="message" class="control-label">
                                             {{ __('Nội dung') }} <span style="color: red">*</span>:
                                         </label>
-                                        <textarea id="message" class="form-control required" name="message" placeholder="Nhập nội dung"></textarea>
+                                        <textarea id="message"  class="form-control required" name="message" placeholder="Nhập nội dung"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -127,17 +146,6 @@
                         </div>
 
                         <div class="card mb-3">
-                            <div class="card-header">Trạng thái</div>
-                            <div class="card-body p-2">
-                                <select required class="form-select" name="status">
-                                    @foreach ($status as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3">
                             <div class="card-header">Loại</div>
                             <div class="card-body p-2">
                                 <select required class="form-select" name="type">
@@ -145,6 +153,15 @@
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">Đường dẫn tĩnh</div>
+                            <div class="card-body p-2">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" name="url" placeholder="Url thông báo">
+                                </div>
                             </div>
                         </div>
                     </div>                    

@@ -1,6 +1,14 @@
 @extends('layout_admin')
 
 @section('title', 'Đơn hàng')
+<style>
+  .checkbox-column {
+    display: none;
+  }
+
+</style>
+
+
 
 @section('content_admin')
 <div class="container">
@@ -26,39 +34,46 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <div class="d-flex align-items-center">
-              <h4 class="card-title">Tất cả đơn hàng</h4>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="card-title col-md-5">Tất cả đơn hàng</h4>
+              <div class="col-md-7 d-flex justify-content-end">
+                <!-- Ẩn toàn bộ box này ban đầu -->
+                <div id="action-box" class="col-md-9 d-flex align-items-center" >
+                  <select id="action-select" class="form-control w-75 col-6" style="display: none;">
+                    <option>--Chọn hành động--</option>
+                    <option value="apply-status">Cập nhật trạng thái</option>
+                  </select>
+                  <button id="apply-action" class="btn btn-success" style="display: none;">Áp dụng</button>
+                </div>
+                <div class="col-md-3 text-end">
+                  <button id="select-toggle" class="btn btn-primary">Chọn</button>
+                </div>
+              </div>
             </div>
           </div>
-
+          
           <div class="card-body">
             <div class="table-responsive">
               <table id="add-row" class="fontTable display table table-hover fix_table">
                 <thead>
                   <tr>
+                    <th class="checkbox-column" style="display:none;">
+                      <input type="hidden" id="check-all">
+                    </th>
                     <th>Mã</th>
                     <th>Khách hàng</th>
                     <th>Tổng tiền</th>
                     <th>Ngày tạo</th>
                     <th>Phương thức thanh toán</th>
                     <th>Trạng thái</th>
-                    <th>Hành động</th>
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th>Mã</th>
-                    <th>Khách hàng</th>
-                    <th>Tổng tiền</th>
-                    <th>Ngày tạo</th>
-                    <th>Phương thức thanh toán</th>
-                    <th>Trạng thái</th>
-                    <th>Hành động</th>
-                  </tr>
-                </tfoot>
                 <tbody>
                   @foreach ($orders as $item)
                     <tr>
+                      <td class="checkbox-column" style="display:none;">
+                        <input type="checkbox" class="check-item" value="{{ $item->id }}">
+                      </td>
                       <td><a href="{{route('admin.order.edit',$item->id)}}">{{ $item->code }}</a></td>
                       <td>
                         @if (isset($item->user))
@@ -109,14 +124,6 @@
                             @default
                               <span class="badge rounded-pill badge-secondary">Không xác định</span>
                         @endswitch
-                      </td>
-                      <td>
-                        <form action="{{route('admin.order.delete',$item->id)}}" method="post">
-                          @csrf
-                          <button type="submit" class="btn btn-danger btn-icon" data-bs-toggle="modal" >
-                            <i class="fa fa-trash-alt"></i>
-                          </button>
-                        </form>
                       </td>
                     </tr>
                   @endforeach

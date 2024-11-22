@@ -10,8 +10,13 @@ use App\Enums\Notification\{NotificationReadAt
 };
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\Notification\NotificationRequest;
 
+use App\Mail\OrderStatusUpdated;
+use App\Mail\NotificationVoucher;
+use Illuminate\Support\Facades\Mail;
 
 class NotificationController extends Controller
 {
@@ -31,11 +36,74 @@ class NotificationController extends Controller
     }
 
     public function delete($id)
-    {
+    {   
         $notification = Notification::findOrfail($id);
         $notification->delete();
 
         return redirect()->back()->with('success', 'Thực hiện thành công.');
+    }
+
+    public function store(NotificationRequest $request){
+
+        
+        $data = $request->validated();
+        $users = User::active()->get();
+        $types = $data['types'];
+        $url = $data['url'] ?? null;
+        switch ($types) {
+            case NotificationTypes::All:
+                $users = User::active()->get();
+                
+                foreach ($users as $user) {
+                    $email = $user->email;
+                    $dataNoti = [
+                        'title' => $data['title'],
+                        'message' => $data['message'],
+                        'user_id' => $user->id,
+                        'type' => $data['type'],
+                    ];
+
+                    $notification = Notification::create($dataNoti);
+                    Mail::to($email)->send(new NotificationVoucher($notification,$url));
+                }
+                break;
+            case NotificationTypes::Customer:
+                $users = User::GetUserActive();
+                $option = $data['option'];
+                if ($option == NotificationOption::All) {
+                    foreach ($users as $user) {
+                        $dataNoti = [
+                            'title' => $data['title'],
+                            'message' => $data['message'],
+                            'user_id' => $user->id,
+                            'type' => $data['type'],
+                        ];
+                        $notification = Notification::create($dataNoti);
+                        Mail::to($user->email)->send(new NotificationVoucher($notification,$url));
+                    }
+                } 
+                if($option == NotificationOption::One){
+                    foreach ($data['user_id'] as $userId) {
+                        $user = User::findOrfail($userId);
+                        $dataNoti = [
+                            'title' => $data['title'],
+                            'message' => $data['message'],
+                            'user_id' => $user->id,
+                            'type' => $data['type'],
+                        ];
+                        $notification = Notification::create($dataNoti);
+                        Mail::to($user->email)->send(new NotificationVoucher($notification,$url));
+                    }
+
+                }
+                
+
+                break;
+            default:
+                # code...
+                break;
+        }
+        return redirect()->route('admin.notification.index')->with('success','Thực hiện thành công');
     }
 
     public function create(){

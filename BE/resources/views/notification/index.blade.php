@@ -38,6 +38,7 @@
                   <tr>
                     <th>Tiêu đề</th>
                     <th>Khách hàng</th>
+                    <th>Admin</th>
                     <th>Nội dung</th>
                     <th>Trạng thái</th>
                     <th>Loại </th>
@@ -45,22 +46,26 @@
                     <th>Hành động</th>
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th> Tiêu đề </th>
-                    <th> Khách hàng </th>
-                    <th> Nội dung </th>
-                    <th> Trạng thái </th>
-                    <th> Loại </th>
-                    <th> Ngày tạo </th>
-                    <th> Hành động </th>
-                  </tr>
-                </tfoot>
                 <tbody>
+                 
                   @foreach ($notification as $item)
                     <tr>
                       <td><a href="">{{ $item->title }}</a></td>
-                      <td><a href="{{ route('admin.user.edit', $item->user_id) }}">{{ $item->user->fullname }}</a></td> 
+                      <td>
+                        @if ($item->user->roles == 2)
+                            <a href="{{ route('admin.user.edit',$item->user->id) }}">
+                              {{ $item->user->fullname }}
+                            </a>                                                        
+                        @endif
+                        
+                      </td> 
+                      <td>
+                        @if ($item->user->roles == 1)
+                            <a href="{{ route('admin.admin.edit',$item->user->id) }}">
+                              {{ $item->user->fullname }}
+                            </a>
+                        @endif
+                      </td> 
                       <td>{{ $item->message }}</td> 
                         <td>
                             @switch($item->read_at)
@@ -68,7 +73,7 @@
                                     <span class="badge rounded-pill badge-success">{{ \App\Enums\Notification\NotificationReadAt::getDescription($item->read_at) }}</span>
                                 @break
                                 @case(\App\Enums\Notification\NotificationReadAt::Not_Read)
-                                    <span class="badge rounded-pill badge-primary">{{ \App\Enums\Notification\NotificationReadAt::getDescription($item->read_at) }}</span>
+                                    <span class="badge rounded-pill badge-secondary">{{ \App\Enums\Notification\NotificationReadAt::getDescription($item->read_at) }}</span>
                                 @break
                                 @default
                                     <span class="badge rounded-pill badge-danger">Không xác định</span>
@@ -80,10 +85,10 @@
                                     <span class="badge rounded-pill badge-success">{{ \App\Enums\Notification\NotificationType::getDescription($item->type) }}</span>
                                 @break
                                 @case(\App\Enums\Notification\NotificationType::VOUCHER)
-                                    <span class="badge rounded-pill badge-warning">{{ \App\Enums\Notification\NotificationType::getDescription($item->type) }}</span>
+                                    <span class="badge rounded-pill badge-danger">{{ \App\Enums\Notification\NotificationType::getDescription($item->type) }}</span>
                                 @break
                                 @default
-                                    <span class="badge rounded-pill badge-danger">Không xác định</span>
+                                    <span class="badge rounded-pill badge-primary">Không xác định</span>
                             @endswitch
                         </td>
                         <td>{{ $item->created_at }}</td>
@@ -101,7 +106,7 @@
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                Xóa khỏi thông báo khỏi dự liệu hệ thống ?
+                                Xóa khỏi thông báo khỏi dữ liệu hệ thống ?
                             </div>
                             <div class="modal-footer">
                               <form action="{{ route('admin.notification.delete',$item->id) }}" method="POST">

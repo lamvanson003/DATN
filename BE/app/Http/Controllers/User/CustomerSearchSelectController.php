@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Enums\User\UserRole;
 
 class CustomerSearchSelectController extends Controller
 {
@@ -13,29 +14,38 @@ class CustomerSearchSelectController extends Controller
      */
     public function selectSearch(Request $request)
     {
-        $query = $request->input('q', ''); // Lấy từ khóa tìm kiếm nếu có
+        try {
+            $query = $request->get('q', '');
+            $showAll = filter_var($request->get('show_all', false), FILTER_VALIDATE_BOOLEAN); 
+    
+            $customers = User::query();
 
-        // Trả về tất cả khách hàng nếu không có từ khóa tìm kiếm
-        $customers = User::query()
-            ->where('roles', '=', 2)
-            ->where(function ($q) use ($query) {
-                if ($query) {
-                    $q->where('fullname', 'LIKE', "%{$query}%")
-                    ->orWhere('email', 'LIKE', "%{$query}%");
+            $customers->where('roles', UserRole::User);
+
+            if (!$showAll) {
+                if (!empty($query)) {
+                    $customers->where(function ($q) use ($query) {
+                        $q->where('fullname', 'like', '%' . $query . '%')
+                          ->orWhere('phone', 'like', '%' . $query . '%');
+                    });
                 }
-            })
-            ->limit(10)
-            ->get(['id', 'fullname', 'phone']); // Lấy id, fullname và phone của khách hàng
-
-        return response()->json($customers->map(function ($customer) {
-            return [
-                'id' => $customer->id,
-                'text' => $customer->fullname, 
-                'phone' => $customer->phone, 
-            ];
-        }));
+            }
+    
+            $results = $customers->limit(50)->get();
+    
+            return response()->json($results->map(function ($customer) {
+                return [
+                    'id' => $customer->id,
+                    'text' => $customer->fullname,
+                ];
+            }));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()], 500);
+        }
     }
-
-
-
+    
 }
+
+
+
+
