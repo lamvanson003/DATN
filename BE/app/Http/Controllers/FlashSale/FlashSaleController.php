@@ -52,21 +52,45 @@ class FlashSaleController extends Controller
 
         $flashSaleId = $flashSale->id;
 
+
+        if (Carbon::parse($request->start_time)->lessThan(Carbon::now())) {
+
+            return redirect()->route('admin.flashSale.create')
+            ->with('error',"Thời gian bắt đầu phải lớn hơn thời gian hiện tại.");
+        }
+
+        if ($data['start_time'] >= $data['end_time']) {
+
+            return redirect()->route('admin.flashSale.create')
+            ->with('error',"Thời gian khuyến mãi kết thúc phải lớn hơn bắt đầu.");
+        }
+        
+
         foreach ($data['selected_variants'] as $variantId) {
             $discountPrice = $data['discount_price'][$variantId] ?? null;
             $quantityLimit = $data['quantity_limit'][$variantId] ?? null;
 
-            Log::info("Variant: {$variantId}, Discount Price: {$discountPrice}, Quantity Limit: {$quantityLimit}");
+            if ($quantityLimit < 0 || $quantityLimit > 127) { 
+                return redirect()->route('admin.flashSale.create')->with('error',"Sản phẩm vượt quá giới hạn cho phép.");
+            }
+
+            if ($data['instock'] < $quantityLimit) { 
+                return redirect()->route('admin.flashSale.create')->with('error',"Số lượng sản phẩm không đủ.");
+            }
+
+            if ($data['price'] < $data['discount_price']) { 
+                return redirect()->route('admin.flashSale.create')->with('error',"Số tiền giảm không hợp lệ.");
+            }
 
             if ($discountPrice === null || $quantityLimit === null) {
                 continue;
             }
 
             if (is_array($discountPrice) || is_array($quantityLimit)) {
-                throw new \Exception("Discount price or quantity limit for variant {$variantId} should not be an array.");
+                return redirect()->route('admin.flashSale.create')->with('error','Số lượng không đủ để Sale');
             }
 
-            $saleItems= SaleItem::create([
+            SaleItem::create([
                 'flash_sale_id' => $flashSaleId,
                 'product_variant_id' => $variantId,
                 'discount_price' => $discountPrice,
@@ -83,9 +107,6 @@ class FlashSaleController extends Controller
         return redirect()->route('admin.flashSale.index')->with('success', 'Flash sale created successfully!');
     } catch (\Exception $e) {
         DB::rollBack();
-
-        Log::error('Error creating flash sale: ', ['error' => $e->getMessage()]);
-
         return back()->withErrors('Error: ' . $e->getMessage());
     }
 }

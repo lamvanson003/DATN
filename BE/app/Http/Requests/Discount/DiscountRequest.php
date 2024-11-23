@@ -27,11 +27,11 @@ class DiscountRequest extends BaseRequest
      protected function methodPost()
      {
          return [
-             'code' => 'required|string|max:255',
+             'code' => 'required|string|min:6|max:255',
              'discount_value' => 'required|numeric',
              'desc' => 'nullable|string',
+             'date_start' => 'required|date|after_or_equal:today',
              'amount' => 'required|integer|min:0',
-             'date_start' => 'required|date',
              'date_end' => 'required|date|after_or_equal:date_start',
              'type' => 'required|in:' . implode(',', array_keys(\App\Enums\Discount\DiscountType::asSelectArray())),
             'status' => 'required|in:' . implode(',', array_keys(\App\Enums\Discount\DiscountStatus::asSelectArray())),

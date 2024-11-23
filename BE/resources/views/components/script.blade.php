@@ -4,7 +4,7 @@
             let value = $(this).val();
             value = value.replace(/\D/g, ''); 
             if (value !== "") {
-                value = new Intl.NumberFormat('vi-VN').format(value) + " VNĐ"; 
+                value = new Intl.NumberFormat('vi-VN').format(value); 
             }
             $(this).val(value);
         });
@@ -13,7 +13,7 @@
             let value = $(this).val();
             if (value !== '') {
                 value = value.replace(/\D/g, ''); 
-                value = new Intl.NumberFormat('vi-VN').format(value) + ' VNĐ'; 
+                value = new Intl.NumberFormat('vi-VN').format(value); 
                 $(this).val(value);
             }
          });

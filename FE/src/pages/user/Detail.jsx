@@ -29,12 +29,13 @@ const Detail = () => {
   const [viewedProducts, setViewedProducts] = useState([]);
 
   const [images, setImages] = useState([]);
-  const [comment, setComment] = useState("");
+  const [name, setName] = useState("");
+  const [content, setContent] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalContentRef = useRef(null);
-
   const [rating, setRating] = useState(0);
 
+  const [comment, setComment] = useState([]);
   useEffect(() => {
     const rePhonePro = productsData?.phone.filter(
       (p) =>
@@ -62,6 +63,17 @@ const Detail = () => {
       }
     }
   }, [detailData]);
+  useEffect(() => {
+    const fetchCmt = async () => {
+      const response = await commentApi.getCommentByPid(
+        currentVariant?.color?.id
+      );
+
+      setComment(response);
+    };
+    fetchCmt();
+  }, [currentVariant]);
+  console.log(comment);
 
   const clearViewedProducts = () => {
     localStorage.removeItem("viewedProducts");
@@ -178,12 +190,7 @@ const Detail = () => {
     handleChangeVariant(color);
   };
 
-  // Handle image selection
-  const handleImageChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    const imageUrls = selectedFiles.map((file) => URL.createObjectURL(file));
-    setImages((prevImages) => [...prevImages, ...imageUrls]);
-  };
+ 
 
   // Mở modal
   const openModal = () => {
@@ -203,30 +210,78 @@ const Detail = () => {
       closeModal();
     }
   };
+  console.log(currentVariant);
+
   // Submit comment
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!comment.trim()) {
+    // Validate fields
+    if (!name.trim()) {
+      alert("Vui lòng nhập họ tên!");
+      return;
+    }
+    if (name.trim().length <= 4) {
+      alert("Tên phải có nhiều hơn 4 ký tự!");
+      return;
+    }
+    if (!content.trim()) {
       alert("Vui lòng nhập bình luận!");
       return;
     }
 
     setLoadingComment(true);
+    console.log(currentVariant?.color?.id);
 
-    console.log("Bình luận:", comment);
-    console.log("Số sao:", rating);
+    try {
+      // Use the provided postComment function
+      await commentApi.postComment({
+        pId: currentVariant?.color?.id,
+        name,
+        content,
+        rating,
+        images,
+        uId: 1,
+      });
+      console.log(images);
 
-    console.log("Hình ảnh:", images);
-    setTimeout(() => {
-      setLoadingComment(false);
-      setComment("");
+      // Reset form after successful submission
+      setName("");
+      setContent("");
       setImages([]);
       setRating(0);
-    }, 2000);
+      setIsModalOpen(false);
+    } catch (error) {
+      alert("Đã xảy ra lỗi khi gửi bình luận!");
+    } finally {
+      setLoadingComment(false);
+    }
   };
 
-  console.log(detailData);
+  const removeImage = (indexToRemove) => {
+    setImages((prevImages) =>
+      prevImages.filter((_, index) => index !== indexToRemove)
+    );
+  };
+
+   // Handle image selection
+  const handleImageChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+  
+    // Lọc các file hợp lệ
+    const validImages = selectedFiles.filter((file) =>
+      ["image/jpeg", "image/png", "image/jpg", "image/gif", "image/svg+xml"].includes(file.type)
+    );
+  
+    if (validImages.length !== selectedFiles.length) {
+      alert("Một số tệp không phải định dạng hình ảnh hợp lệ!");
+    }
+  
+    // Lưu trực tiếp các file vào state
+    setImages((prevImages) => [...prevImages, ...validImages]);
+  };
+  
+
   return (
     <>
       <section className="px-2 mb-2" id="Breadcrumb" ref={ref}>
@@ -601,30 +656,44 @@ const Detail = () => {
                 <p className="comment-customer">
                   Các đánh giá của khách hàng :
                 </p>
-                <div className="comment-item">
-                  <div className="comment-avatar d-flex">T</div>
-                  <div className="comment-content">
-                    <div className="comment-info">
-                      <span className="comment-author">Nguyễn Văn A</span>
-                      <span className="comment-date">12/11/2024</span>
+                {comment && comment.length > 0 ? (
+                  comment.map((item) => (
+                    <div className="comment-item" key={item.id}>
+                      <div className="comment-avatar d-flex">T</div>
+                      <div className="comment-content">
+                        <div className="comment-info">
+                          <span className="comment-author">{item.name}</span>
+                          <span className="comment-date">12/11/2024</span>
+                          <span
+                            style={{
+                              marginLeft: "5px",
+                              color: "rgb(240 204 9)",
+                              fontSize: "20px",
+                            }}
+                          >
+                            ★
+                          </span>
+                        </div>
+                        <p className="comment-text">{item.comment}</p>
+                        <div className="d-flex gap-2">
+                          <img
+                            src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
+                            alt="Review Image"
+                            className="comment-image"
+                          />
+                          <img
+                            src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
+                            alt="Review Image"
+                            className="comment-image"
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <p className="comment-text">
-                      Sản phẩm rất tốt! Tôi sẽ mua lại.
-                    </p>
-                    <div className="d-flex gap-2  ">
-                      <img
-                        src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
-                        alt="Review Image"
-                        className="comment-image "
-                      />
-                      <img
-                        src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
-                        alt="Review Image"
-                        className="comment-image"
-                      />
-                    </div>
-                  </div>
-                </div>
+                  ))
+                ) : (
+                  <p>No comments available.</p>
+                )}
+
                 <div className="comment-item">
                   <div className="comment-avatar d-flex">T</div>
                   <div className="comment-content">
@@ -661,7 +730,6 @@ const Detail = () => {
                 Vui lòng để lại cảm nghĩ về sản phẩm:
               </span>
               <form className="comment-form" onSubmit={handleSubmit}>
-                {/* Chọn số sao */}
                 <div className="star-rating">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <span
@@ -673,13 +741,19 @@ const Detail = () => {
                     </span>
                   ))}
                 </div>
+                <input
+                  type="text"
+                  className="comment-input"
+                  value={name}
+                  placeholder="Họ tên của bạn"
+                  onChange={(e) => setName(e.target.value)}
+                />
                 <textarea
                   className="comment-textarea"
                   placeholder="Hãy nêu suy nghĩ của bạn"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
                 />
-
                 <div className="form-footer">
                   <div className="image-upload">
                     <input
@@ -707,14 +781,23 @@ const Detail = () => {
               {/* Hiển thị hình ảnh đã chọn */}
               <div className="image-preview">
                 {images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`chosen-preview-${index}`}
-                    className="preview-img"
-                  />
+                  <div key={index} className="preview-item">
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt={`chosen-preview-${index}`}
+                      className="preview-img"
+                    />
+                    <button
+                      type="button"
+                      className="remove-image"
+                      onClick={() => removeImage(index)}
+                    >
+                      X
+                    </button>
+                  </div>
                 ))}
               </div>
+
             </div>
           </div>
         </div>

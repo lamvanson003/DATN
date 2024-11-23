@@ -24,6 +24,7 @@ class FlashSaleRequest extends BaseRequest
             'is_active' => 'required|integer',
             'start_time' => 'required|date',
             'end_time' => 'required|date',
+            'instock' => 'required|integer',
         ];
     }
 

@@ -13,7 +13,6 @@ use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\Payment\PaymentController;
 use App\Http\Controllers\Api\Slider\SliderController;
 use App\Http\Controllers\Api\Search\SearchController;
-use App\Http\Controllers\Api\FlashSale\FlashSaleController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
 ->as('category')
@@ -28,13 +27,6 @@ Route::controller(ProductController::class)->prefix('/products')
         Route::get('/{slug}', 'detail');
 
         Route::get('/category/{slug}', 'productByCate');
-    });
-
-Route::controller(FlashSaleController::class)->prefix('/flash-sales')
-    ->as('flashSale')
-    ->group(function(){
-        Route::get('/active', 'flashSaleActive');
-        Route::get('/upcoming', 'flashSaleUpcoming');
     });
 
 Route::controller(BrandController::class)->prefix('/brands')
@@ -63,7 +55,9 @@ Route::controller(OrderController::class)->prefix('/orders')
 Route::controller(CommentController::class)->prefix('/comments')
 ->as('comment')
 ->group(function(){
-    Route::post('/', 'create');
+    Route::post('/', 'create')->middleware('auth:sanctum');
+    Route::get('/', 'create');
+
 });
 
 
@@ -72,6 +66,8 @@ Route::controller(UsersLoginController::class)->prefix('/logins')
 ->group(function(){
     Route::get('/', 'index');
     Route::post('/', 'index');
+    Route::post('/request-otp', 'requestOtp')->name('requestOtp');
+    Route::post('/verify-otp', 'verifyOtpAndResetPassword')->name('verifyOtp');
 
 });
 
@@ -87,9 +83,7 @@ Route::controller(UserProfileController::class)->prefix('/profiles')
     Route::post('/', 'index');
     Route::patch('/','index');
     Route::post('/logout', 'logout');
-    Route::post('/comment', 'addComment');
-    Route::get('/comment', 'addComment');
-    Route::get('/comments', 'getComments');
+    Route::post('/change-password', 'changePassword')->name('changePassword');
 
 
 });
@@ -117,6 +111,13 @@ Route::controller(SliderController::class)->prefix('/sliders')
     Route::get('/', 'index');
 });
 
+Route::controller(PostController::class)->prefix('/posts')
+    ->as('post')
+    ->group(function () {
+        Route::get('/', 'index');  // Lấy tất cả bài viết
+        Route::get('/{slug}', 'detail');  // Lấy chi tiết bài viết theo slug
+        Route::get('/category/{slug}', 'postsByCategory');  // Lấy bài viết theo danh mục slug
+    });
 
 Route::get('/firebase-config', function () {
     return response()->json([
@@ -128,11 +129,3 @@ Route::get('/firebase-config', function () {
         'appId' => config('firebase.app_id'),
     ]);
 });
-
-Route::controller(PostController::class)->prefix('/posts')
-    ->as('post')
-    ->group(function () {
-        Route::get('/', 'index');  // Lấy tất cả bài viết
-        Route::get('/{slug}', 'detail');  // Lấy chi tiết bài viết theo slug
-        Route::get('/category/{slug}', 'postsByCategory');  // Lấy bài viết theo danh mục slug
-    });

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {            
-            $table->string('device_token')->after('address')->nullable();
+        Schema::table('comments', function (Blueprint $table) {
+            $table->dropColumn('user_id');
         });
     }
 

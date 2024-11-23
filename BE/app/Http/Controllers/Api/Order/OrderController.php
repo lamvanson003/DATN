@@ -9,9 +9,11 @@ use App\Models\OrderDetail;
 use App\Http\Resources\Api\Order\OrderResource;
 use Illuminate\Http\JsonResponse;
 use App\Enums\User\UserRole;
+use App\Models\FlashSale;
 use App\Models\ProductVariant;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller {
     public function detailByPhone(Request $request) {
@@ -87,10 +89,17 @@ class OrderController extends Controller {
                 ]);
 
                 $productVariant = ProductVariant::find($productData['product_variant_id']);
+
                 if ($productVariant) {
                     $productVariant->instock -= $productData['quantity'];
                     $productVariant->sold += $productData['quantity'];
                     $productVariant->save();
+                }
+
+                if($productVariant->is_flash_sale == true){
+                    $flashSale = FlashSale::findOrFail($productVariant->id);
+                    $flashSale->sold += $productData['quantity'];
+                    $flashSale->save();
                 }
             }
             DB::commit();
