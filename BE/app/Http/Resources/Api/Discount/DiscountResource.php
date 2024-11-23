@@ -19,6 +19,7 @@ class DiscountResource extends JsonResource
             'date_start' => $this->date_start,
             'date_end' => $this->date_end,
             'status' => $this->status,
+            'amount' => $this->amount,
         ];
     }
 }

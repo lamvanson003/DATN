@@ -39,41 +39,43 @@
                                 <h3 class="mb-0 strong text-center">Thông Tin Mã Giảm Giá</h3>
                             </div>
                             <div class="card-body">
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="code" class="form-label">Mã Giảm Giá<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="code" id="code" required value="{{ old('code') }}">
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="discount_value" class="form-label">Giá Trị Giảm<span class="text-danger">*</span></label>
-                                        <input type="number" step="0.01" class="form-control" name="discount_value" id="discount_value" required value="{{ old('discount_value') }}">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="code" class="form-label">Số lượng:<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="code" id="code" required value="{{ old('code') }}">
-                                    </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="code" class="form-label">Mã Giảm Giá<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="code" id="code" required value="{{ old('code') }}">
                                 </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="date_start" class="form-label">Ngày Bắt Đầu<span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" name="date_start" id="date_start" required value="{{ old('date_start') }}">
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="date_end" class="form-label">Ngày Kết Thúc<span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" name="date_end" id="date_end" required value="{{ old('date_end') }}">
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="desc" class="form-label">Mô Tả</label>
-                                    <textarea class="form-control" name="desc" id="desc" rows="3">{{ old('desc') }}</textarea>
+                                <div class="col-md-6">
+                                    <label for="discount_value" class="form-label">Giá Trị Giảm<span class="text-danger">*</span></label>
+                                    <input type="number" step="0.01" class="form-control" name="discount_value" id="discount_value" required value="{{ old('discount_value') }}">
                                 </div>
                             </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="amount" class="form-label">Số lượng<span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" name="amount" id="amount" required value="{{ old('amount') }}">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="date_start" class="form-label">Ngày Bắt Đầu<span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" name="date_start" id="date_start" required value="{{ old('date_start') }}">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="date_end" class="form-label">Ngày Kết Thúc<span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" name="date_end" id="date_end" required value="{{ old('date_end') }}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="desc" class="form-label">Mô Tả</label>
+                                <textarea class="form-control" name="desc" id="desc" rows="3">{{ old('desc') }}</textarea>
+                            </div>
+                        </div>
+
                         </div>
                     </div>
 
