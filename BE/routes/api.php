@@ -55,8 +55,8 @@ Route::controller(OrderController::class)->prefix('/orders')
 Route::controller(CommentController::class)->prefix('/comments')
 ->as('comment')
 ->group(function(){
-    Route::post('/', 'create')->middleware('auth:sanctum');
-    Route::get('/', 'create');
+    Route::post('/', 'create');
+    Route::get('/{product_variant_id}', 'index');
 
 });
 
