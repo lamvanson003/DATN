@@ -81,8 +81,13 @@ export const handleNumber = (number) => {
 };
 export function debounce(func, delay) {
   let timeout;
-  return function (...args) {
+  function debounced(...args) {
     clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(this, args), delay);
+  }
+  debounced.cancel = () => {
+    clearTimeout(timeout);
   };
+
+  return debounced;
 }
