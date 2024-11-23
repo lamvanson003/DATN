@@ -101,6 +101,7 @@ Route::controller(DiscountController::class)->prefix('/discounts')
         Route::get('/{id}', 'show');
         Route::put('/{id}', 'update');
         Route::delete('/{id}', 'destroy');
+        Route::post('/update', 'updateDiscount');
     });
 
 Route::controller(PaymentController::class)->prefix('/payments')

@@ -7,6 +7,9 @@ use App\Models\Discount;
 use Illuminate\Http\Request;
 use App\Http\Resources\Api\Discount\DiscountResource;
 use Illuminate\Support\Facades\Log;
+use App\Enums\Discount\DiscountStatus;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DiscountController extends Controller
 {
@@ -138,5 +141,50 @@ class DiscountController extends Controller
                 'error' => $th->getMessage()
             ], 500);
         }
+    }
+
+    public function updateDiscount(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $discountCode = $request->input('code');
+    
+        $discount = Discount::where('code', $discountCode)
+            ->where('status', DiscountStatus::Active)
+            ->where('date_start', '<=', Carbon::now())
+            ->where('date_end', '>=', Carbon::now())
+            ->first();
+    
+        if (!$discount) {
+            return response()->json(['error' => 'Mã giảm giá không hợp lệ hoặc đã hết hạn.'], 400);
+        }
+    
+        $alreadyUsed = DB::table('used_discounts')
+            ->where('user_id', $userId)
+            ->where('discount_id', $discount->id)
+            ->exists();
+    
+        if ($alreadyUsed) {
+            return response()->json(['error' => 'Bạn đã sử dụng mã giảm giá này.'], 400);
+        }
+    
+        if ($discount->amount <= 0) {
+            return response()->json(['error' => 'Mã giảm giá đã hết số lượng sử dụng.'], 400);
+        }
+    
+        DB::transaction(function () use ($discount, $userId) {
+            $discount->decrement('amount');
+    
+            DB::table('used_discounts')->insert([
+                'user_id' => $userId,
+                'discount_id' => $discount->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        });
+        if (!$discount) {
+            return response()->json(['error' => 'Mã giảm giá không hợp lệ hoặc đã hết hạn.'], 400);
+        }
+        
+        return response()->json(['success' => 'Áp dụng mã giảm giá thành công.', 'discount_value' => $discount->discount_value]);
     }
 }

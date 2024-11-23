@@ -21,6 +21,8 @@ class Discount extends Model
         'amount',
         'type',  
         'status',
+        'order_id',
+        'used_by'
     ];
 
     protected $casts = [
