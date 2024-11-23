@@ -59,13 +59,6 @@ class FlashSaleController extends Controller
             ->with('error',"Thời gian bắt đầu phải lớn hơn thời gian hiện tại.");
         }
 
-        if ($data['start_time'] >= $data['end_time']) {
-
-            return redirect()->route('admin.flashSale.create')
-            ->with('error',"Thời gian khuyến mãi kết thúc phải lớn hơn bắt đầu.");
-        }
-        
-
         foreach ($data['selected_variants'] as $variantId) {
             $discountPrice = $data['discount_price'][$variantId] ?? null;
             $quantityLimit = $data['quantity_limit'][$variantId] ?? null;
@@ -77,11 +70,6 @@ class FlashSaleController extends Controller
             if ($data['instock'] < $quantityLimit) { 
                 return redirect()->route('admin.flashSale.create')->with('error',"Số lượng sản phẩm không đủ.");
             }
-
-            if ($data['price'] < $data['discount_price']) { 
-                return redirect()->route('admin.flashSale.create')->with('error',"Số tiền giảm không hợp lệ.");
-            }
-
             if ($discountPrice === null || $quantityLimit === null) {
                 continue;
             }
