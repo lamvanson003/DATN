@@ -128,7 +128,7 @@ const BoxPro = ({
           </div>
 
           <img
-            src={image}
+            src={flashsale_variant[0].images}
             className="card-img-top p-3"
             alt="Product"
             style={{

@@ -18,7 +18,7 @@ export const productApi = {
         url: " http://127.0.0.1:8000/api/flash-sales/active",
         method: "get",
       });
-      console.log(response.data.data);
+
       return response.data.data;
     } catch (err) {
       console.log("Ko thể fetch được dữ liệu", err);
