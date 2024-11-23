@@ -36,7 +36,7 @@ class ProductDetailResource extends JsonResource
                     'storage' => $storage,
                     'variants' => $items->map(function($item) {
                         if ($item->is_flash_sale == true) {
-                           $flashSale = FlashSale::findOrfail($item->id);
+                           $flashSale = FlashSale::find($item->id);
                         }
                         return [
                             'id' => $item->id,
