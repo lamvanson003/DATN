@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Discount\DiscountController;
 use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\Payment\PaymentController;
 use App\Http\Controllers\Api\Slider\SliderController;
+use App\Http\Controllers\Api\FlashSale\FlashSaleController;
 use App\Http\Controllers\Api\Search\SearchController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
@@ -57,6 +58,13 @@ Route::controller(CommentController::class)->prefix('/comments')
 ->group(function(){
     Route::post('/', 'create');
     Route::get('/{product_variant_id}', 'index');
+
+});
+
+Route::controller(FlashSaleController::class)->prefix('/flash-sales')
+->as('flashSale')
+->group(function(){
+    Route::get('/{active}', 'flashSaleActive');
 
 });
 
