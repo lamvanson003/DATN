@@ -40,22 +40,12 @@
                   <tr>
                     <th>Hình ảnh sản phẩm</th>
                     <th>Nội dung</th>
-                    <th>Người dùng</th>
+                    <th>Tên người dùng</th>
                     <th>Đánh giá</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th>Hình ảnh sản phẩm</th>
-                    <th>Nội dung</th>
-                    <th>Người dùng</th>
-                    <th>Đánh giá</th>
-                    <th>Trạng thái</th>
-                    <th style="width: 10%">Hành động</th>
-                  </tr>
-                </tfoot>
                 <tbody>
                   @foreach ($comments as $item)
                     <tr>
@@ -63,7 +53,7 @@
                         <img class="text-center fix-image" src="{{ asset($item->productVariant->images) }}" alt="{{ $item->productVariant->name }}">
                       </td>
                       <td>{{ $item->content }}</td>
-                      <td>{{ $item->user->fullname }}</td>
+                      <td>{{ $item->fullname }}</td>
                       <td>{{ $item->rating }} ⭐</td>
                       <td>
                         <span class="badge rounded-pill 

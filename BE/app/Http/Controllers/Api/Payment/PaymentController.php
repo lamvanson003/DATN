@@ -9,6 +9,7 @@ use App\Services\VnpayService;
 use App\Models\Order;
 use App\Models\TemporaryOrder;
 use App\Models\OrderDetail; 
+use App\Models\FlashSale; 
 use App\Models\ProductVariant; 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -100,6 +101,12 @@ class PaymentController extends Controller
                         $productVariant->instock -= $productData['quantity'];
                         $productVariant->sold += $productData['quantity'];
                         $productVariant->save();
+                    }
+
+                    if($productVariant->is_flash_sale == true){
+                        $flashSale = FlashSale::findOrFail('product_variant_id',$productVariant->id);
+                        $flashSale->sold += $productData['quantity'];
+                        $flashSale->save();
                     }
                 }
 
