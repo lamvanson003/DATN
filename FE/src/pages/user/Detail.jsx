@@ -668,7 +668,9 @@ const Detail = () => {
                           <span className="comment-author">
                             {item.fullname}
                           </span>
-                          <span className="comment-date">12/11/2024</span>
+                          <span className="comment-date">
+                            {item.created_at}
+                          </span>
                           <span
                             style={{
                               marginLeft: "5px",
@@ -698,24 +700,6 @@ const Detail = () => {
                 ) : (
                   <p>No comments available.</p>
                 )}
-
-                <div className="comment-item">
-                  <div className="comment-avatar d-flex">T</div>
-                  <div className="comment-content">
-                    <div className="comment-info">
-                      <span className="comment-author">Nguyễn Văn A</span>
-                      <span className="comment-date">12/11/2024</span>
-                    </div>
-                    <p className="comment-text">
-                      Sản phẩm rất tốt! Tôi sẽ mua lại.
-                    </p>
-                    {/* <img
-                        src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
-                        alt="Review Image"
-                        className="comment-image"
-                      /> */}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
