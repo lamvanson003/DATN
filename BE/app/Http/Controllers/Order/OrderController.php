@@ -7,7 +7,8 @@ use App\Models\Order;
 use App\Enums\Order\OrderStatus;
 use Illuminate\Http\Request;
 
-
+use App\Mail\OrderStatusUpdated;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -42,7 +43,10 @@ class OrderController extends Controller
             'note' => $data['note'],
             'status' => $data['status'],
         ]);
-        return redirect()->route('admin.order.edit', $order->id)->with('success', 'Đơn hàng đã được cập nhật thành công!');
+
+        Mail::to($order->email)->send(new OrderStatusUpdated($order));
+
+        return redirect()->route('admin.order.index')->with('success', 'Đơn hàng đã được cập nhật thành công!');
     }
 
     public function getByStatus($status)
@@ -82,6 +86,8 @@ class OrderController extends Controller
         }
 
         $order->save();
+        
+        Mail::to($order->email)->send(new OrderStatusUpdated($order));
 
         return redirect()->back()->with('success', 'Trạng thái đơn hàng đã được cập nhật.');
     }

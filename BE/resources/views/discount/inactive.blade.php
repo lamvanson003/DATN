@@ -43,6 +43,7 @@
                     <th>Bắt đầu</th>
                     <th>Kết thúc</th>
                     <th>Mô tả</th>
+                    <th>Số lượng</th> 
                     <th>Loại</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
@@ -55,6 +56,7 @@
                     <th>Bắt đầu</th>
                     <th>Kết thúc</th>
                     <th>Mô tả</th>
+                    <th>Số lượng</th> 
                     <th>Loại</th>
                     <th>Trạng thái</th>
                     <th style="width: 10%">Hành động</th>
@@ -72,6 +74,7 @@
                         <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $item->date_start)->format('d/m/Y') }}</td>
                         <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $item->date_end)->format('d/m/Y') }}</td>
                         <td>{{ $item->desc }}</td>
+                        <td>{{ $item->amount }}</td>
                         <td>
                         <span class="badge rounded-pill 
                                 @switch($item->type->value)

@@ -23,7 +23,6 @@ const {
 const Payment = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const { cartItems, getCartTotal, buyNow, setCartItems } =
     useContext(CartContext);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
@@ -36,6 +35,7 @@ const Payment = () => {
   const [selectedWard, setSelectedWard] = useState(null);
   const [discountPrice, setDiscountPrice] = useState(0);
   const [discountCode, setDiscountCode] = useState("");
+  const [discountId, setDiscountId] = useState(null);
   const [applyingDiscount, setApplyingDiscount] = useState(false);
   const [isSuccessDiscount, setIsSuccessDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState(2);
@@ -71,17 +71,15 @@ const Payment = () => {
     try {
       setApplyingDiscount(true);
       const discountData = await discountApi.getOne(discountCode);
+      setDiscountId(discountData.id);
+      console.log(discountData.id);
 
       setApplyingDiscount(false);
       if (discountData.discount_value < 100) {
         const dv = discountData.discount_value;
         setDiscountPrice((total_price * dv) / 100);
-        console.log("total_price: ", total_price);
-        console.log("discount value: ", dv);
-        console.log("discountprice: ", discountPrice);
       } else {
         setDiscountPrice(discountData.discount_value);
-        console.log("discount value: ", discountPrice);
       }
 
       setDiscountCode("");
@@ -201,6 +199,7 @@ const Payment = () => {
       user_id: 1,
       payment_method_id: 1,
       shipping_method: 0,
+      discount_id: discountId ? discountId : null,
       fullname: customerInfo.name,
       phone: customerInfo.phone,
       address: `${customerInfo.street}, ${customerInfo.ward}, ${customerInfo.district}, ${customerInfo.province}`,
@@ -226,6 +225,7 @@ const Payment = () => {
       paymentApi.create(orderInfo);
     } else {
       try {
+        console.log(orderInfo);
         const res = await orderApi.create(orderInfo);
         const invoice = await orderApi.getOne(res);
         console.log("Invoice: ", invoice);
@@ -240,7 +240,6 @@ const Payment = () => {
 
         setCartItems(LeftItems);
         localStorage.setItem("cartItems", JSON.stringify(LeftItems));
-        console.log("OrderInfo.product: ", orderInfo.products, "res: ", res);
       } catch (err) {
         console.log("có lỗi xảy ra khi: ", err);
       }

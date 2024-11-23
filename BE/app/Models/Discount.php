@@ -18,8 +18,11 @@ class Discount extends Model
         'date_start',
         'date_end',
         'desc',
+        'amount',
         'type',  
         'status',
+        'order_id',
+        'used_by'
     ];
 
     protected $casts = [

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('product_variants', function (Blueprint $table) {
-            $table->tinyInteger('is_flash_sale')->default(false)->change();
+        Schema::table('comments', function (Blueprint $table) {
+            $table->string('fullname')->nullable();
         });
     }
 
@@ -21,8 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('product_variants', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('collum_fullname_comment');
     }
 };

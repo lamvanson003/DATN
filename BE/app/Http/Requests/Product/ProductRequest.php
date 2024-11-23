@@ -23,11 +23,11 @@ class ProductRequest extends BaseRequest
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
             'status' => 'required|integer',
-            'images' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'images' => 'required|image|mimes:jpeg,png,jpg,gif,webp',
 
             // image_items
             'image_items' => 'nullable|array', 
-            'image_items.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048', 
+            'image_items.*' => 'image|mimes:jpeg,png,jpg,gif,webp', 
 
             // variants
             'variants' => 'required|array',
@@ -39,7 +39,7 @@ class ProductRequest extends BaseRequest
             'variants.*.instock' => 'required|integer',
             
             'variants.*.image_color' => 'nullable|array',
-            'variants.*.image_color' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'variants.*.image_color' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp',
         ];
     }
 
