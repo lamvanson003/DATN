@@ -14,14 +14,13 @@ class CommentController extends Controller {
 
     public function create(Request $request){
         $validatedData = $request->validate([
-            'user_id' => 'nullable',
+            'name' => 'required|string',
             'product_variant_id' => ['required','exists:App\Models\ProductVariant,id'],
             'content' => 'required|string',
             'rating' => 'nullable|integer',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg', 
         ]);
-        Log::info($validatedData);
         try {
             DB::beginTransaction();
 
@@ -34,10 +33,8 @@ class CommentController extends Controller {
                     $imagePath[] = $baseUrl . '/images/comment/' . $fileName;
                 }
             }
-
-
             Comment::create([
-                'user_id' => $validatedData['user_id'],
+                'fullname' => $validatedData['name'],
                 'product_variant_id' => $validatedData['product_variant_id'],
                 'content' => $validatedData['content'],
                 'images' =>  json_encode($imagePath) ?? null, 
@@ -49,6 +46,7 @@ class CommentController extends Controller {
             return response()->json(['message' => 'Comments created successfully'], 200);
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('Error creating comment: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to create Comments', 'details' => $e->getMessage()], 500);
         }
     }

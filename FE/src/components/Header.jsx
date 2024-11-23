@@ -33,6 +33,8 @@ const {
   BiLogIn,
   FaKey,
   IoMdListBox,
+  FaUser
+  
 } = icons;
 const Header = ({ cartItemAmout, favorItemAmount }) => {
   const { cartItems, getCartTotal } = useContext(CartContext);
@@ -171,6 +173,45 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
   const handleCheckAll = () => {
     localStorage.setItem("checkedItems", JSON.stringify(cartItems));
     navigate("/payment");
+  };
+
+
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // Check for token and user info on component mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Simulate an API call to fetch user info
+      fetchUserProfile(token)
+        .then((userInfo) => {
+          setIsAuthenticated(true);
+          setUser(userInfo);
+        })
+        .catch(() => {
+          // Token might be invalid or API failed, so clear auth
+          setIsAuthenticated(false);
+          setUser(null);
+        });
+    }
+  }, []);
+
+  // Mock function to simulate an API call for user profile
+  const fetchUserProfile = async (token) => {
+    // Normally, you would make an API call here
+    return new Promise((resolve) =>
+      setTimeout(() => {
+        resolve({ username: "Tài khoản " }); // Mock user info
+      }, 1000)
+    );
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove token
+    setIsAuthenticated(false);
+    setUser(null);
   };
 
   return (
@@ -461,34 +502,52 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
               </div>
 
               <div className="d-flex gap-2 text-white gap-4">
-                <span className="d-flex align-items-center gap-1">
-                  <IoMdListBox size={20} />
-                  <Link
-                    style={{ textDecoration: "none", color: "#fff" }}
-                    to={"search-order"}
-                  >
-                    Tra cứu đơn hàng
-                  </Link>
-                </span>
-                <span className="d-flex align-items-center gap-1">
-                  <BiLogIn size={20} />
-                  <Link
-                    style={{ textDecoration: "none", color: "#fff" }}
-                    to={"login"}
-                  >
-                    Đăng nhập
-                  </Link>
-                </span>
-                <span className="d-flex align-items-center gap-1">
-                  <FaKey size={16} />
-                  <Link
-                    style={{ textDecoration: "none", color: "#fff" }}
-                    to={"signup"}
-                  >
-                    Đăng ký
-                  </Link>
-                </span>
-              </div>
+      <span className="d-flex align-items-center gap-1">
+        <IoMdListBox size={20} />
+        <Link style={{ textDecoration: "none", color: "#fff" }} to={"search-order"}>
+          Tra cứu đơn hàng
+        </Link>
+      </span>
+
+      {isAuthenticated ? (
+        <>
+          <span className="d-flex align-items-center gap-1">
+            <BiLogIn size={20} />
+            <Link
+              style={{ textDecoration: "none", color: "#fff" }}
+              to={"#"}
+              onClick={handleLogout}
+            >
+              Đăng xuất
+            </Link>
+          </span>
+          <span className="d-flex align-items-center gap-1">
+            <FaUser size={16} />
+            <Link
+              style={{ textDecoration: "none", color: "#fff" }}
+              to={"/User/account/profile"}
+            >
+              {user?.username}
+            </Link>
+          </span>
+        </>
+      ) : (
+        <>
+          <span className="d-flex align-items-center gap-1">
+            <BiLogIn size={20} />
+            <Link style={{ textDecoration: "none", color: "#fff" }} to={"login"}>
+              Đăng nhập
+            </Link>
+          </span>
+          <span className="d-flex align-items-center gap-1">
+            <FaKey size={16} />
+            <Link style={{ textDecoration: "none", color: "#fff" }} to={"signup"}>
+              Đăng ký
+            </Link>
+          </span>
+        </>
+      )}
+    </div>
             </div>
           </div>
         </div>

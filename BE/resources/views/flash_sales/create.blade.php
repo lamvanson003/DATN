@@ -5,60 +5,60 @@
     .table th {
     background-color: #f8f9fa;
     text-align: center;
-}
+    }
 
-.table td {
-    text-align: center;
-}
+    .table td {
+        text-align: center;
+    }
 
-.table input {
-    margin-top: 5px;
-}
-.table input:focus-visible{
-    color: red
-}
+    .table input {
+        margin-top: 5px;
+    }
+    .table input:focus-visible{
+        color: red
+    }
 
-.table input[type="checkbox"] {
-    margin-top: 10px;
-}
-.flashsale .card-header{
-    background-color: #161b2c;
-}
-.flashsale .card-header> label{
-    color: #ffffff !important;
-}
+    .table input[type="checkbox"] {
+        margin-top: 10px;
+    }
+    .flashsale .card-header{
+        background-color: #161b2c;
+    }
+    .flashsale .card-header> label{
+        color: #ffffff !important;
+    }
 
-.table-responsive table {
-    width: 100%;
-    table-layout: fixed; 
-}
+    .table-responsive table {
+        width: 100%;
+        table-layout: fixed; 
+    }
 
-.table-responsive th, 
-.table-responsive td {
-    text-align: center; 
-    vertical-align: middle; 
-    font-size: 12px
-}
+    .table-responsive th, 
+    .table-responsive td {
+        text-align: center; 
+        vertical-align: middle; 
+        font-size: 12px
+    }
 
-.table-responsive input.form-control {
-    width: 100%; 
-    padding: 5px; 
-    box-sizing: border-box; 
-    font-size: 12px
-}
+    .table-responsive input.form-control {
+        width: 100%; 
+        padding: 5px; 
+        box-sizing: border-box; 
+        font-size: 12px
+    }
 
-.table-responsive .form-control[disabled] {
-    background-color: #f5f5f5; 
-    color: #333; 
-}
-.fix-checkbox{
-    width: 30px !important
-}
-.fix-image {
-    width: 50px; 
-    height: 50px; 
-    object-fit: cover; 
-}
+    .table-responsive .form-control[disabled] {
+        background-color: #f5f5f5; 
+        color: #333; 
+    }
+    .fix-checkbox{
+        width: 30px !important
+    }
+    .fix-image {
+        width: 50px; 
+        height: 50px; 
+        object-fit: cover; 
+    }
 
 </style>
 <div class="container">
@@ -90,12 +90,12 @@
                             <div class="card-header">
                                 <h3 class="mb-0">Thêm Flash sale  <i class="fas fa-bolt text-danger"></i></h3>
                             </div>
-                            <div class="card-body flashsale">
+                            <div class="lashsale">
                                 <!-- Chọn biến thể sản phẩm và giá giảm -->
                                     <div class="card-header">
                                         <label for="product_variants">Biến thể sản phẩm:</label>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="">
                                         <div class="table-responsive">
                                             <table id="add-row" class="fontTable display table table-hover fix_table">
                                               <thead>
@@ -139,6 +139,10 @@
 
                                                             </td>
                                                             <td>
+                                                                <span class="text-left">
+                                                                    Còn lại: {{ $variant->instock }}
+                                                                    <input type="hidden" name="instock" value="{{ $variant->instock }}">
+                                                                </span>
                                                                 <input class="form-control" type="number" value="1" name="quantity_limit[{{ $variant->id }}]" placeholder="VD:1">
                                                             </td>                                                            
                                                             <td class="fix-checkbox">
@@ -184,7 +188,7 @@
                                 <i class="fa fa-calendar-minus pr-1"></i>
                                 Ngày-Giờ bắt đầu</div>
                             <div class="card-body">
-                                <input type="datetime-local" class="form-control" name="start_time" id="" required>                            
+                                <input type="datetime-local" class="form-control required" name="start_time" id="" >                            
                             </div>
                         </div>
 
@@ -194,7 +198,7 @@
                                 <i class="fa fa-calendar-minus pr-1"></i>
                                 Ngày-Giờ kết thúc</div>
                             <div class="card-body">
-                                <input type="datetime-local" class="form-control" name="end_time" id="" required>                            
+                                <input type="datetime-local" class="form-control required" name="end_time" id="" >                            
                             </div>
                         </div>
                     </div>                    

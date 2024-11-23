@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import icons from "../../ultis/icon";
 const { BsSearch } = icons;
 
-// Modal component
 const Modal = ({ order, onClose }) => {
   if (!order) return null;
 
@@ -20,7 +19,7 @@ const Modal = ({ order, onClose }) => {
     alignItems: "center",
     zIndex: 1000,
   }}
-  onClick={onClose} // Close modal when clicking outside the content
+  onClick={onClose} 
 >
   <div
     style={{
@@ -30,10 +29,10 @@ const Modal = ({ order, onClose }) => {
       maxWidth: "600px",
       width: "80%",
       boxShadow: "0 2px 10px rgba(0, 0, 0, 0.3)",
-      maxHeight: "80vh", // Limit the height of the modal
-      overflowY: "auto", // Enable vertical scroll if content overflows
+      maxHeight: "80vh", 
+      overflowY: "auto", 
     }}
-    onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the content
+    onClick={(e) => e.stopPropagation()} 
   >
     <h3 style={{ marginTop: 0 }}>Mã Đơn Hàng: {order.code}</h3>
     <p>Trạng thái: {order.status}</p>
@@ -48,8 +47,8 @@ const Modal = ({ order, onClose }) => {
           borderTop: "1px solid #eee",
           padding: "10px 0",
           display: "flex",
-          alignItems: "center", // Align items vertically in the center
-          gap: "20px", // Space between text and image
+          alignItems: "center", 
+          gap: "20px",
         }}
       >
         <div style={{ flex: 1 }}>
@@ -105,10 +104,10 @@ const Modal = ({ order, onClose }) => {
 
 const History = () => {
   const [orders, setOrders] = useState([]);
-  const [phone, setPhone] = useState("0377708612");
+  const [phone, setPhone] = useState("");
   const [error, setError] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null); // Track selected order for modal
+  const [selectedOrder, setSelectedOrder] = useState(null); 
 
   const fetchOrderDetails = useCallback(async () => {
     if (!phone.trim()) {
@@ -158,7 +157,7 @@ const History = () => {
   };
 
   return (
-    <div style={{ maxWidth: "1100px", paddingLeft: "20px", padding: "0px", marginLeft: "-100px", fontFamily: "Arial, sans-serif" }}>
+    <div style={{ maxWidth: "1100px", paddingLeft: "20px", padding: "0px", marginLeft: "0px", fontFamily: "Arial, sans-serif" }}>
     <h2 style={{ textAlign: "center" }}>Lịch Sử Đơn Hàng</h2>
   
     <form

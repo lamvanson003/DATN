@@ -13,8 +13,6 @@ use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\Payment\PaymentController;
 use App\Http\Controllers\Api\Slider\SliderController;
 use App\Http\Controllers\Api\Search\SearchController;
-use App\Http\Controllers\Api\FlashSale\FlashSaleController;
-use App\Http\Controllers\Api\DeviceToken\DeviceTokenController;
 
 Route::controller(CategoryController::class)->prefix('/categories')
 ->as('category')
@@ -29,13 +27,6 @@ Route::controller(ProductController::class)->prefix('/products')
         Route::get('/{slug}', 'detail');
 
         Route::get('/category/{slug}', 'productByCate');
-    });
-
-Route::controller(FlashSaleController::class)->prefix('/flash-sales')
-    ->as('flashSale')
-    ->group(function(){
-        Route::get('/active', 'flashSaleActive');
-        Route::get('/upcoming', 'flashSaleUpcoming');
     });
 
 Route::controller(BrandController::class)->prefix('/brands')
@@ -64,8 +55,9 @@ Route::controller(OrderController::class)->prefix('/orders')
 Route::controller(CommentController::class)->prefix('/comments')
 ->as('comment')
 ->group(function(){
-    Route::post('/', 'create');
-    Route::get('/{prduct_variant_id}', 'index');
+    Route::post('/', 'create')->middleware('auth:sanctum');
+    Route::get('/', 'create');
+
 });
 
 
@@ -74,6 +66,8 @@ Route::controller(UsersLoginController::class)->prefix('/logins')
 ->group(function(){
     Route::get('/', 'index');
     Route::post('/', 'index');
+    Route::post('/request-otp', 'requestOtp')->name('requestOtp');
+    Route::post('/verify-otp', 'verifyOtpAndResetPassword')->name('verifyOtp');
 
 });
 
@@ -89,9 +83,7 @@ Route::controller(UserProfileController::class)->prefix('/profiles')
     Route::post('/', 'index');
     Route::patch('/','index');
     Route::post('/logout', 'logout');
-    Route::post('/comment', 'addComment');
-    Route::get('/comment', 'addComment');
-    Route::get('/comments', 'getComments');
+    Route::post('/change-password', 'changePassword')->name('changePassword');
 
 
 });

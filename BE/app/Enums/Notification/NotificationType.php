@@ -6,15 +6,16 @@ use BenSampo\Enum\Enum;
 
 final class NotificationType extends Enum
 {
-    const ORDER = 'order';   
+      
     const VOUCHER = 'voucher'; 
+    const ORDER = 'order'; 
 
    
     public static function asSelectArray(): array
     {
         return [
-            self::ORDER => 'Thông báo đơn hàng',
             self::VOUCHER => 'Thông báo khuyến mãi',
+            self::ORDER => 'Thông báo đơn hàng',
         ];
     }
 
@@ -22,8 +23,8 @@ final class NotificationType extends Enum
     public static function getDescription($value): string
     {
         return match ($value) {
-            self::ORDER => 'Thông báo đơn hàng',
             self::VOUCHER => 'Thông báo khuyến mãi',
+            self::ORDER => 'Thông báo đơn hàng',
             default => 'Không xác định',
         };
     }

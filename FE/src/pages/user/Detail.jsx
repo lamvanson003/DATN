@@ -190,27 +190,7 @@ const Detail = () => {
     handleChangeVariant(color);
   };
 
-  // Handle image selection
-  const handleImageChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-
-    // Validate image type before creating object URLs
-    const validImages = selectedFiles.filter((file) =>
-      [
-        "image/jpeg",
-        "image/png",
-        "image/jpg",
-        "image/gif",
-        "image/svg+xml",
-      ].includes(file.type)
-    );
-
-    // Create URLs for valid images
-    const imageUrls = validImages.map((file) => URL.createObjectURL(file));
-
-    // Append the valid image URLs to the existing images state
-    setImages((prevImages) => [...prevImages, ...imageUrls]);
-  };
+ 
 
   // Mở modal
   const openModal = () => {
@@ -283,6 +263,24 @@ const Detail = () => {
       prevImages.filter((_, index) => index !== indexToRemove)
     );
   };
+
+   // Handle image selection
+  const handleImageChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+  
+    // Lọc các file hợp lệ
+    const validImages = selectedFiles.filter((file) =>
+      ["image/jpeg", "image/png", "image/jpg", "image/gif", "image/svg+xml"].includes(file.type)
+    );
+  
+    if (validImages.length !== selectedFiles.length) {
+      alert("Một số tệp không phải định dạng hình ảnh hợp lệ!");
+    }
+  
+    // Lưu trực tiếp các file vào state
+    setImages((prevImages) => [...prevImages, ...validImages]);
+  };
+  
 
   return (
     <>
@@ -785,7 +783,7 @@ const Detail = () => {
                 {images.map((image, index) => (
                   <div key={index} className="preview-item">
                     <img
-                      src={image}
+                      src={URL.createObjectURL(image)}
                       alt={`chosen-preview-${index}`}
                       className="preview-img"
                     />
@@ -799,6 +797,7 @@ const Detail = () => {
                   </div>
                 ))}
               </div>
+
             </div>
           </div>
         </div>

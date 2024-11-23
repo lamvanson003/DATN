@@ -150,10 +150,11 @@
                     <div class="card card-round">
                         <div class="card-body">
                             <div class="card-head-row card-tools-still-right">
-                                <div class="card-title">New Customers</div>
+                                <div class="card-title">Khách hàng mới</div>
                                 <div class="card-tools">
                                     <div class="dropdown">
-                                        <button class="btn btn-icon btn-clean me-0" type="button" id="dropdownMenuButton"
+                                        <a href="{{ route('admin.user.index') }}">Xem tất cả</a>
+                                        {{-- <button class="btn btn-icon btn-clean me-0" type="button" id="dropdownMenuButton"
                                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-h"></i>
                                         </button>
@@ -161,7 +162,7 @@
                                             <a class="dropdown-item" href="#">Action</a>
                                             <a class="dropdown-item" href="#">Another action</a>
                                             <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -191,18 +192,12 @@
                     <div class="card card-round">
                         <div class="card-header">
                             <div class="card-head-row card-tools-still-right">
-                                <div class="card-title">Orders History</div>
+                                <div class="card-title">Đơn hàng gần đây</div>
                                 <div class="card-tools">
                                     <div class="dropdown">
-                                        <button class="btn btn-icon btn-clean me-0" type="button" id="dropdownMenuButton"
-                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-h"></i>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
+                                        <a href="{{ route('admin.order.index') }}">
+                                            Xem tất cả
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -213,11 +208,11 @@
                                 <table class="fontTable table align-items-center mb-0">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th scope="col">Code</th>
-                                            <th scope="col">Customer</th>
-                                            <th scope="col" class="text-end">Date & Time</th>
-                                            <th scope="col" class="text-end">Amount</th>
-                                            <th scope="col" class="text-end">Status</th>
+                                            <th scope="col">Mã</th>
+                                            <th scope="col">Tên khách hàng</th>
+                                            <th scope="col" class="text-end">Thời gian đặt hàng</th>
+                                            <th scope="col" class="text-end">Tổng tiền</th>
+                                            <th scope="col" class="text-end">Trạng thái</th>
                                         </tr>
                                     </thead>
                                     <tbody>

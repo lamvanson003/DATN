@@ -39,6 +39,12 @@ class User extends Authenticatable
         return $query->where('roles', UserRole::User)->orderBy('id','desc')->get();
     }
 
+    public function scopeGetUserActive($query){
+        return $query->where('roles', UserRole::User)
+        ->where('status', UserStatus::Active)
+        ->orderBy('id','desc')->get();
+    }
+
     public function scopeGetAdmin($query){
         return $query->where('roles', UserRole::Admin)
                     ->orderBy('id','desc')->get();
@@ -56,5 +62,10 @@ class User extends Authenticatable
 
     public function orders(){
         return $this->hasMany(Order::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', UserStatus::Active); 
     }
 }

@@ -48,7 +48,7 @@ import {
   MdHistory,
   MdOutlineSettingsSuggest,
 } from "react-icons/md";
-import { FaRocketchat, FaPencilAlt, FaTicketAlt } from "react-icons/fa";
+import { FaRocketchat, FaPencilAlt, FaTicketAlt,FaUser } from "react-icons/fa";
 import { FaRegCircleUser, FaCheckDouble } from "react-icons/fa6";
 import { BsCashCoin } from "react-icons/bs";
 import { LuUser2 } from "react-icons/lu";
@@ -107,5 +107,6 @@ const icons = {
   BiLogIn,
   FaKey,
   IoMdListBox,
+  FaUser 
 };
 export default icons;

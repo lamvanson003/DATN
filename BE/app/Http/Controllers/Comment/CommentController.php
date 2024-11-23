@@ -16,7 +16,7 @@ class CommentController extends Controller
   
     public function index()
     {
-        $comments = Comment::with(['user', 'productVariant'])->get(); 
+        $comments = Comment::with('productVariant')->get(); 
         return view('comment.index', compact('comments')); 
     }
 
@@ -30,28 +30,6 @@ class CommentController extends Controller
             'users' => $users,
             'products' => $products
         ]); 
-    }
-
-    
-    public function store(Request $request)
-    {
-        $request->validate([
-            'content' => 'required|string|max:255',
-            'user_id' => 'required|integer|exists:users,id',
-            'product_variant_id' => 'required|integer|exists:product_variants,id',
-            'status' => 'required|in:' . implode(',', CommentStatus::getValues()), 
-            'rating' => 'required|integer|between:1,5', 
-        ]);
-
-        Comment::create([
-            'content' => $request->input('content'),
-            'user_id' => $request->input('user_id'),
-            'product_variant_id' => $request->input('product_variant_id'), 
-            'status' => $request->input('status'), 
-            'rating' => $request->input('rating'), 
-        ]);
-
-        return redirect()->route('admin.comment.index')->with('success', 'Comment created successfully.');
     }
 
     // Hiển thị form sửa comment

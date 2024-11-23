@@ -26,7 +26,7 @@ trait NotifiesViaFirebase{
     public function sendFirebaseNotification(array  $deviceTokens, ?string $topic,
                                              string $title, string $body, ?int $notificationId = null): void
     {
-        $image = asset('/admin/assets/img/kaiadmin/logo_light.svg');
+        $image = ' <img src="{{ asset("/admin/assets/img/kaiadmin/logo_light.png") }}" alt="mm">';
         $notificationData = [
             'title' => $title,
             'body' => $body,
