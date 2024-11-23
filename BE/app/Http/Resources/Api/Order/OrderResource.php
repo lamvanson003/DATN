@@ -37,6 +37,7 @@ class OrderResource extends JsonResource
                         'id' => $item->product_variant->id,
                         'storage' => $item->product_variant->storage,
                         'sku' => $item->product_variant->sku,
+                        'images' => $item->product_variant->images,
                         'color' => $item->product_variant->color,
                         'name' => optional($item->product_variant->product)->name,
                     ],
