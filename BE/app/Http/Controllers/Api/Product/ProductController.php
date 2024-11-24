@@ -35,44 +35,25 @@ class ProductController extends controller
 
             $brandId = $request->get('brand_id');
 
-            // Lấy tất cả sản phẩm trong danh mục
             $products = Product::with([
                 'category',
                 'brand',
-                'product_variant.comments'
+                'product_variant.comments',
+                'product_image_items'
             ])
                 ->where('status', ProductStatus::Active)
                 ->where('category_id', $category->id)
                 ->when($brandId, function ($query, $brandId) {
                     $query->where('brand_id', $brandId);
                 })
+                ->whereHas('product_variant', function ($query) {
+                    $query->where('is_flash_sale', false);
+                })
                 ->get();
-
-            $flattenedVariants = $products->flatMap(function ($product) {
-                return $product->product_variant->map(function ($variant) use ($product) {
-                    return [
-                        'id' => $variant->id,
-                        'name' => $product->name, 
-                        'slug' => $product->slug,
-                        'category' => optional($product->category)->name,
-                        'brand' => optional($product->brand)->name,
-                        'image' => $variant->images,
-                        'storage' => $variant->storage,
-                        'price' => $variant->price,
-                        'sale' => $variant->sale,
-                        'percent' => (!is_null($variant->sale) && $variant->sale < $variant->price && $variant->price > 0)
-                            ? round((($variant->price - $variant->sale) / $variant->price) * 100)
-                            : null,
-                        'instock' => $variant->instock,
-                        'sold' => $variant->sold,
-                        'is_flash_sale' => $variant->is_flash_sale,
-                    ];
-                });
-            });
 
             return response()->json([
                 'success' => true,
-                'data' => $flattenedVariants
+                'data' => ProductResource::collection($products)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -82,7 +63,6 @@ class ProductController extends controller
             ], 500);
         }
     }
-
 
     public function index()
     {
