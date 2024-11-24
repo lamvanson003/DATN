@@ -8,7 +8,7 @@
         <div class="page-inner">
             <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
                 <div>
-                    <h3 class="fw-bold mb-3">Dashboard</h3>
+                    <h3 class="fw-bold mb-3">CloudLab</h3>
                 </div>
                 {{-- <div class="ms-md-auto py-2 py-md-0">
           <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col col-stats ms-3 ms-sm-0">
                                     <div class="numbers">
-                                        <p class="card-category">Visitors</p>
+                                        <p class="card-category">Khách hàng</p>
                                         <h4 class="card-title">{{ $countUser }}</h4>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="col col-stats ms-3 ms-sm-0">
                                     <div class="numbers">
-                                        <p class="card-category">Subscribers</p>
+                                        <p class="card-category">Đăng ký mới</p>
                                         <h4 class="card-title">{{ $countSubcription }}</h4>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="col col-stats ms-3 ms-sm-0">
                                     <div class="numbers">
-                                        <p class="card-category">Product</p>
+                                        <p class="card-category">Sản phẩm</p>
                                         <h4 class="card-title">{{ $countProduct }}</h4>
                                     </div>
                                 </div>
@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="col col-stats ms-3 ms-sm-0">
                                     <div class="numbers">
-                                        <p class="card-category">Order</p>
+                                        <p class="card-category">Đơn hàng</p>
                                         <h4 class="card-title">{{ $countOrder }}</h4>
                                     </div>
                                 </div>

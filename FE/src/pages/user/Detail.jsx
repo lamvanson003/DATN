@@ -190,8 +190,6 @@ const Detail = () => {
     handleChangeVariant(color);
   };
 
- 
-
   // Mở modal
   const openModal = () => {
     setIsModalOpen(true);
@@ -264,23 +262,28 @@ const Detail = () => {
     );
   };
 
-   // Handle image selection
+  // Handle image selection
   const handleImageChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
-  
+
     // Lọc các file hợp lệ
     const validImages = selectedFiles.filter((file) =>
-      ["image/jpeg", "image/png", "image/jpg", "image/gif", "image/svg+xml"].includes(file.type)
+      [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/gif",
+        "image/svg+xml",
+      ].includes(file.type)
     );
-  
+
     if (validImages.length !== selectedFiles.length) {
       alert("Một số tệp không phải định dạng hình ảnh hợp lệ!");
     }
-  
+
     // Lưu trực tiếp các file vào state
     setImages((prevImages) => [...prevImages, ...validImages]);
   };
-  
 
   return (
     <>
@@ -662,8 +665,12 @@ const Detail = () => {
                       <div className="comment-avatar d-flex">T</div>
                       <div className="comment-content">
                         <div className="comment-info">
-                          <span className="comment-author">{item.name}</span>
-                          <span className="comment-date">12/11/2024</span>
+                          <span className="comment-author">
+                            {item.fullname}
+                          </span>
+                          <span className="comment-date">
+                            {item.created_at}
+                          </span>
                           <span
                             style={{
                               marginLeft: "5px",
@@ -693,24 +700,6 @@ const Detail = () => {
                 ) : (
                   <p>No comments available.</p>
                 )}
-
-                <div className="comment-item">
-                  <div className="comment-avatar d-flex">T</div>
-                  <div className="comment-content">
-                    <div className="comment-info">
-                      <span className="comment-author">Nguyễn Văn A</span>
-                      <span className="comment-date">12/11/2024</span>
-                    </div>
-                    <p className="comment-text">
-                      Sản phẩm rất tốt! Tôi sẽ mua lại.
-                    </p>
-                    {/* <img
-                        src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
-                        alt="Review Image"
-                        className="comment-image"
-                      /> */}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -797,7 +786,6 @@ const Detail = () => {
                   </div>
                 ))}
               </div>
-
             </div>
           </div>
         </div>

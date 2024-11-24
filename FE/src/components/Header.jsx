@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import "./css/Header.css";
-import path from "../ultis/path";
+
 import icons from "../ultis/icon";
 import { navMenu } from "../ultis/menu";
 import logoCloudLab from "../assets/images/logo.svg";
@@ -18,7 +18,7 @@ import { BoxPro } from ".";
 import { CartContext } from "../context/Cart";
 import { formatCurrency } from "../ultis/func";
 import { productApi } from "../apis";
-import { useParams } from "react-router-dom";
+
 import { debounce } from "../ultis/func";
 const {
   BsSearch,
@@ -33,8 +33,7 @@ const {
   BiLogIn,
   FaKey,
   IoMdListBox,
-  FaUser
-  
+  FaUser,
 } = icons;
 const Header = ({ cartItemAmout, favorItemAmount }) => {
   const { cartItems, getCartTotal } = useContext(CartContext);
@@ -174,8 +173,6 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
     localStorage.setItem("checkedItems", JSON.stringify(cartItems));
     navigate("/payment");
   };
-
-
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
@@ -502,52 +499,61 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
               </div>
 
               <div className="d-flex gap-2 text-white gap-4">
-      <span className="d-flex align-items-center gap-1">
-        <IoMdListBox size={20} />
-        <Link style={{ textDecoration: "none", color: "#fff" }} to={"search-order"}>
-          Tra cứu đơn hàng
-        </Link>
-      </span>
+                <span className="d-flex align-items-center gap-1">
+                  <IoMdListBox size={20} />
+                  <Link
+                    style={{ textDecoration: "none", color: "#fff" }}
+                    to={"search-order"}
+                  >
+                    Tra cứu đơn hàng
+                  </Link>
+                </span>
 
-      {isAuthenticated ? (
-        <>
-          <span className="d-flex align-items-center gap-1">
-            <BiLogIn size={20} />
-            <Link
-              style={{ textDecoration: "none", color: "#fff" }}
-              to={"#"}
-              onClick={handleLogout}
-            >
-              Đăng xuất
-            </Link>
-          </span>
-          <span className="d-flex align-items-center gap-1">
-            <FaUser size={16} />
-            <Link
-              style={{ textDecoration: "none", color: "#fff" }}
-              to={"/User/account/profile"}
-            >
-              {user?.username}
-            </Link>
-          </span>
-        </>
-      ) : (
-        <>
-          <span className="d-flex align-items-center gap-1">
-            <BiLogIn size={20} />
-            <Link style={{ textDecoration: "none", color: "#fff" }} to={"login"}>
-              Đăng nhập
-            </Link>
-          </span>
-          <span className="d-flex align-items-center gap-1">
-            <FaKey size={16} />
-            <Link style={{ textDecoration: "none", color: "#fff" }} to={"signup"}>
-              Đăng ký
-            </Link>
-          </span>
-        </>
-      )}
-    </div>
+                {isAuthenticated ? (
+                  <>
+                    <span className="d-flex align-items-center gap-1">
+                      <BiLogIn size={20} />
+                      <Link
+                        style={{ textDecoration: "none", color: "#fff" }}
+                        to={"#"}
+                        onClick={handleLogout}
+                      >
+                        Đăng xuất
+                      </Link>
+                    </span>
+                    <span className="d-flex align-items-center gap-1">
+                      <FaUser size={16} />
+                      <Link
+                        style={{ textDecoration: "none", color: "#fff" }}
+                        to={"/User/account/profile"}
+                      >
+                        {user?.username}
+                      </Link>
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="d-flex align-items-center gap-1">
+                      <BiLogIn size={20} />
+                      <Link
+                        style={{ textDecoration: "none", color: "#fff" }}
+                        to={"login"}
+                      >
+                        Đăng nhập
+                      </Link>
+                    </span>
+                    <span className="d-flex align-items-center gap-1">
+                      <FaKey size={16} />
+                      <Link
+                        style={{ textDecoration: "none", color: "#fff" }}
+                        to={"signup"}
+                      >
+                        Đăng ký
+                      </Link>
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>

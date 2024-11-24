@@ -62,6 +62,8 @@ const FlashSale = () => {
   useEffect(() => {
     const fetchFlashSale = async () => {
       const res = await productApi.getFlashSale();
+      console.log(res);
+
       setFlashSale(res);
     };
     fetchFlashSale();
