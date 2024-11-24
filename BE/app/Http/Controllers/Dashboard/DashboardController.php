@@ -18,6 +18,7 @@ class DashboardController extends Controller
     public function index()
     {   
         $countUser = $this->countUser();
+        $getTotalpriceOrder = $this->getTotalpriceOrder();
         $countProduct = $this->countProduct();
         $countSubcription = $this->countSubcription();
         $countOrder = $this->countOrder();
@@ -32,6 +33,7 @@ class DashboardController extends Controller
         
 
         return view('dashboard.dashboard', [
+            'getTotalpriceOrder' => $getTotalpriceOrder,
             'countUser' => $countUser,
             'countProduct' => $countProduct,
             'countSubcription' => $countSubcription,
@@ -66,6 +68,12 @@ class DashboardController extends Controller
     public function getUserDash(){
         $q = User::where('roles',UserRole::User)
         ->orderBy('id','desc')->limit(10)->get();
+        return $q;
+    }
+
+    public function getTotalpriceOrder(){
+        $q = Order::where('completed',true)
+        ->sum('total_price');
         return $q;
     }
 
