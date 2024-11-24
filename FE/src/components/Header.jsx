@@ -20,6 +20,7 @@ import { formatCurrency } from "../ultis/func";
 import { productApi } from "../apis";
 
 import { debounce } from "../ultis/func";
+import { toast } from "react-toastify";
 const {
   BsSearch,
   CiLocationOn,
@@ -207,6 +208,7 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token"); // Remove token
+    toast.info("Đăng xuất thành công");
     setIsAuthenticated(false);
     setUser(null);
   };

@@ -91,3 +91,41 @@ export function debounce(func, delay) {
 
   return debounced;
 }
+export const transformFormatProducts = (product) => {
+  return {
+    id: product.id,
+    name: product.name,
+    images: product.images,
+    slug: product.slug,
+    category: {
+      name: product.category.name,
+    },
+    brand: {
+      name: product.brand.name,
+    },
+    sold: product.sold,
+    quantity_limit: product.quantity_limit,
+    product_variant: [
+      {
+        storage: product.product_variant[0]?.storage,
+        variants: product.product_variant.map((variant) => ({
+          id: variant.id,
+          sku: variant.sku,
+          storage: variant.storage,
+          sale: product.discount_price,
+          price: variant.price,
+          images: variant.images,
+          color: variant.color,
+          instock: variant.instock,
+          sold: variant.sold,
+          is_flash_sale: variant.is_flash_sale,
+        })),
+      },
+    ],
+    product_image_items: product.product_image_items.map((item) => ({
+      id: item.id,
+      name: item.name,
+      images: item.images,
+    })),
+  };
+};

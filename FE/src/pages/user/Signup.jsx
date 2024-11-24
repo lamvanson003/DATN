@@ -38,7 +38,8 @@ const Signup = () => {
       newErrors.passwordConfirmation = "Mật khẩu không khớp";
       isValid = false;
     }
-    if (phone && !/^\d{10,15}$/.test(phone)) {  // Updated regex to accept 10-15 digits
+    if (phone && !/^\d{10,15}$/.test(phone)) {
+      // Updated regex to accept 10-15 digits
       newErrors.phone = "Số điện thoại phải từ 10 đến 15 ký tự số";
       isValid = false;
     }
@@ -51,9 +52,9 @@ const Signup = () => {
     e.preventDefault();
     setError("");
     setErrors({});
-  
+
     if (!validateForm()) return;
-  
+
     const data = {
       username,
       email,
@@ -61,29 +62,39 @@ const Signup = () => {
       password_confirmation: passwordConfirmation, // Key should match what's expected
       phone,
     };
-  
+
     setIsSubmitting(true);
     try {
       console.log("Sending data:", data); // Log the data being sent
-      const response = await axios.post("http://localhost:8000/api/registers", data, {
-        headers: { "Content-Type": "application/json" },
-      });
-  
+      const response = await axios.post(
+        "http://localhost:8000/api/registers",
+        data,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
       if (response.status === 200) {
-        navigate("/login"); // Navigate to login on success
+        localStorage.setItem("signupSuccess", "true");
+        navigate("/login");
       }
     } catch (err) {
       console.error("Error response:", err.response); // Log the full error response
-  
+
       if (err.response) {
-        const errorMessage = err.response.data.error || err.response.data.errors;
-  
+        const errorMessage =
+          err.response.data.error || err.response.data.errors;
+
         if (errorMessage) {
           // Handle specific error messages
           if (errorMessage.email) {
-            setErrors({ email: "Email đã được sử dụng. Vui lòng nhập email khác." });
+            setErrors({
+              email: "Email đã được sử dụng. Vui lòng nhập email khác.",
+            });
           } else if (errorMessage.phone) {
-            setErrors({ phone: "Số điện thoại đã được sử dụng. Vui lòng nhập số khác." });
+            setErrors({
+              phone: "Số điện thoại đã được sử dụng. Vui lòng nhập số khác.",
+            });
           } else {
             setError("Tên tài khoản đã tồn tại . Vui lòng thử lại.");
           }
@@ -97,7 +108,6 @@ const Signup = () => {
       setIsSubmitting(false);
     }
   };
-  
 
   return (
     <div className="container">
@@ -108,7 +118,9 @@ const Signup = () => {
               <img alt="Signup" style={{ width: "100%" }} src={login} />
             </div>
             <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-              <h3 className="fw-bold text-center text-primary my-4 custom-title">SIGN UP</h3>
+              <h3 className="fw-bold text-center text-primary my-4 custom-title">
+                SIGN UP
+              </h3>
               <form onSubmit={handleSubmit}>
                 <div className="d-flex mb-2">
                   <div className="form-outline flex-fill mb-0">
@@ -123,7 +135,9 @@ const Signup = () => {
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                     />
-                    {errors.username && <div className="text-danger">{errors.username}</div>}
+                    {errors.username && (
+                      <div className="text-danger">{errors.username}</div>
+                    )}
                   </div>
                 </div>
                 <div className="d-flex mb-2">
@@ -139,7 +153,9 @@ const Signup = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
-                    {errors.email && <div className="text-danger">{errors.email}</div>}
+                    {errors.email && (
+                      <div className="text-danger">{errors.email}</div>
+                    )}
                   </div>
                 </div>
                 <div className="d-flex mb-2">
@@ -155,7 +171,9 @@ const Signup = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    {errors.password && <div className="text-danger">{errors.password}</div>}
+                    {errors.password && (
+                      <div className="text-danger">{errors.password}</div>
+                    )}
                   </div>
                 </div>
                 <div className="d-flex mb-2">
@@ -171,7 +189,11 @@ const Signup = () => {
                       value={passwordConfirmation}
                       onChange={(e) => setPasswordConfirmation(e.target.value)}
                     />
-                    {errors.passwordConfirmation && <div className="text-danger">{errors.passwordConfirmation}</div>}
+                    {errors.passwordConfirmation && (
+                      <div className="text-danger">
+                        {errors.passwordConfirmation}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="d-flex mb-2">
@@ -187,19 +209,24 @@ const Signup = () => {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                     />
-                    {errors.phone && <div className="text-danger">{errors.phone}</div>}
+                    {errors.phone && (
+                      <div className="text-danger">{errors.phone}</div>
+                    )}
                   </div>
                 </div>
                 {error && <div className="text-danger">{error}</div>}
                 <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                  <button className="btn btn-primary btn-lg" type="submit" disabled={isSubmitting}>
+                  <button
+                    className="btn btn-primary btn-lg"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
                     {isSubmitting ? "Đang đăng ký..." : "Đăng ký"}
                   </button>
                 </div>
                 <div className="form-check d-flex justify-content-center mb-2">
                   <label className="form-check-label" htmlFor="form2Example4">
-                    Bạn đã có tài khoản?{" "}
-                    <Link to="/login">Đăng nhập</Link>
+                    Bạn đã có tài khoản? <Link to="/login">Đăng nhập</Link>
                   </label>
                 </div>
               </form>
