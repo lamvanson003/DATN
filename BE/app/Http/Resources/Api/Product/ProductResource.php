@@ -6,57 +6,39 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param Request $request
-     * @return array
-     */
     public function toArray($request): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'images' => $this->images,
             'slug' => $this->slug,
             'category' => [
                 'name' => optional($this->category)->name,
             ],
             'brand' => [
-                'name' =>  optional($this->brand)->name,
+                'id' => optional($this->brand)->id,
+                'name' => optional($this->brand)->name,
             ],
-            'product_variant' => $this->product_variant->groupBy('storage')->map(function($item,$storage) {
+            'product_variants' => $this->product_variant->map(function ($variant) {
                 return [
-                    'storage' => $storage,
-                    'variants' => $item->map(function($item){
-                        return[
-                            'id' => $item->id,
-                            'sku' => $item->sku,
-                            'storage' => $item->storage,
-                            'sale' => $item->sale,
-                            'price' => $item->price,
-                            'images' => $item->images,
-                            'color' => $item->color,
-                            'instock' => $item->instock,
-                            'sold' => $item->sold,
-                            'is_flash_sale' => $item->is_flash_sale,
-                            'percent' => (!is_null($item->sale) && $item->sale < $item->price && $item->price > 0)
-                                    ? round((($item->price - $item->sale) / $item->price) * 100)
-                                    : null,
-                            'average_rating' => round(optional($item->comments->first())->average_rating ?? 0 , 2),
-                            'total_comments' => $item->comments->first()->total_comments ?? 0,
-                        ];
-                    })->values()
+                    'id' => $variant->id,
+                    'sku' => $variant->sku,
+                    'images' => $variant->images,
+                    'storage' => $variant->storage,
+                    'color' => $variant->color,
+                    'price' => $variant->price,
+                    'sale' => $variant->sale,
+                    'percent' => (!is_null($variant->sale) && $variant->sale < $variant->price && $variant->price > 0)
+                        ? round((($variant->price - $variant->sale) / $variant->price) * 100)
+                        : null,
+                    'instock' => $variant->instock,
+                    'sold' => $variant->sold,
+                    'is_flash_sale' => $variant->is_flash_sale,
+                    'average_rating' => round(optional($variant->comments->first())->average_rating ?? 0, 2),
+                    'total_comments' => $variant->comments->first()->total_comments ?? 0,
                 ];
             })->values(),
-            'product_image_items' => $this->product_image_items->map(function($item){
-                return [
-                    'id' => $item->id,
-                    'name' => $item->name??'chưa có thông tin',
-                    'images' => $item->images??'chưa có thông tin',
-                ];
-            })->values(),
-            
+            'images' => $this->images,
         ];
     }
 }
