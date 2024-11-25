@@ -23,8 +23,8 @@ class RegisterController extends Controller
             $data = $request->validated();
 
             $existingUser = User::where('email', $data['email'])
-            ->orWhere('phone', $data['phone'])
-            ->first();
+                ->orWhere('phone', $data['phone'])
+                ->first();
 
             if ($existingUser) {
                 $message = 'Email hoặc số điện thoại đã tồn tại.';
@@ -35,9 +35,9 @@ class RegisterController extends Controller
                 }
                 return redirect()->route('register.index')->with('error', $message);
             }
-            
+
             User::create([
-                'username' => $data['phone']??$data['username'],
+                'username' => $data['phone'] ?? $data['username'],
                 'email' => $data['email'],
                 'phone' => $data['phone'],
                 'roles' => UserRole::Admin,
@@ -45,11 +45,9 @@ class RegisterController extends Controller
                 'gender' => $data['gender'],
                 'password' => bcrypt($data['password']),
             ]);
-        return redirect()->route('admin.index')->with('success', 'Đăng ký thành công. Vui lòng chờ Admin DUYỆT ');
+            return redirect()->route('admin.index')->with('success', 'Đăng ký thành công. Vui lòng chờ Admin DUYỆT ');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
-            
     }
-
 }

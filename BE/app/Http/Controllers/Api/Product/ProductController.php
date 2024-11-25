@@ -49,6 +49,7 @@ class ProductController extends controller
                 ->whereHas('product_variant', function ($query) {
                     $query->where('is_flash_sale', false);
                 })
+                ->orderBy('id','desc')
                 ->get();
 
             return response()->json([
