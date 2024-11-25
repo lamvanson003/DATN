@@ -32,11 +32,9 @@ class CommentController extends Controller
         ]); 
     }
 
-    // Hiển thị form sửa comment
     public function edit($id)
     {
         $comment = Comment::findOrFail($id); 
-        $statuses = CommentStatus::asSelectArray();
         return view('comment.edit', [
             'comment' => $comment,
             'statuses' => CommentStatus::asSelectArray(), 
@@ -45,21 +43,11 @@ class CommentController extends Controller
     }
 
     
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'content' => 'required|string|max:255', 
-            'status' => 'required|in:' . implode(',', CommentStatus::getValues()), 
-            'rating' => 'required|integer|between:1,5', 
-        ]);
-
-        $comment = Comment::findOrFail($id); 
-    $comment->update([
-        'content' => $request->input('content'), 
-        'status' => $request->input('status'), 
-        'rating' => $request->input('rating'),
-    ]);
-
+    public function update(Request $request)
+    {       
+        $comment = Comment::findOrFail($request->input('id')); 
+        $comment->status = $request->input('status');
+        $comment->save();
         return redirect()->route('admin.comment.index')->with('success', 'Comment updated successfully.');
     }
 

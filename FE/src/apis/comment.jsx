@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const commentApi = {
   getAll: async () => {
@@ -43,17 +44,16 @@ export const commentApi = {
       formData.append("user_id", uId);
       if (rating !== null) formData.append("rating", rating);
 
-      
       if (images.length > 0) {
         images.forEach((image, index) => {
           if (image instanceof File) {
             formData.append(`images[${index}]`, image);
           } else {
-            console.error("Invalid image type:", image); 
+            console.error("Invalid image type:", image);
           }
         });
       }
-      
+
       const response = await axios.post(
         "http://127.0.0.1:8000/api/comments",
         formData,
@@ -63,7 +63,7 @@ export const commentApi = {
           },
         }
       );
-
+      toast.info("Bình luận của bạn đang được chờ duyệt");
       console.log("Bình luận đã được đăng!", response.data);
       return response.data;
     } catch (err) {

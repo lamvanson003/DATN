@@ -23,10 +23,10 @@ const BoxPro = ({
   hot,
   hoverCart,
   hoverCartItem,
-  flashsale_variant,
+
   quantity_limit,
   sold,
-  flashsale_price,
+  flashSale,
 }) => {
   const { IoIosStar, IoIosStarHalf, IoIosStarOutline, FaFire } = icons;
   const [currentVariant, setCurrentVariant] = useState();
@@ -100,7 +100,7 @@ const BoxPro = ({
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
   return (
     <div>
-      {flashsale_variant ? (
+      {flashSale ? (
         <div
           className="card product-card"
           style={{
@@ -128,7 +128,7 @@ const BoxPro = ({
           </div>
 
           <img
-            src={flashsale_variant[0].images}
+            src={currentVariant?.color?.images}
             className="card-img-top p-3"
             alt="Product"
             style={{
@@ -170,20 +170,25 @@ const BoxPro = ({
 
             <div
               className="price-container d-flex justify-content-center align-items-center "
-              style={{ gap: "8px" }}
+              style={{ gap: "8px", fontSize: "1.2rem", fontWeight: "bold" }}
             >
-              {flashsale_price && (
-                <p
-                  className="price text-danger mb-0"
-                  style={{ fontSize: "1.2rem", fontWeight: "bold" }}
-                >
-                  {formatCurrency(flashsale_price)}
+              {
+                <p className="price text-danger mb-0">
+                  {currentVariant?.color?.sale &&
+                    formatCurrency(currentVariant?.color?.sale)}
                 </p>
-              )}
+              }
+              <span className="old-price">
+                {currentVariant?.color?.price
+                  ? currentVariant?.color?.price > 100000000
+                    ? handleNumber(currentVariant?.color?.price)
+                    : formatCurrency(currentVariant?.color?.price)
+                  : "---"}
+              </span>
             </div>
             <div className="storage-variant m-0 ">
               <span className="storage-option storage-selected ">
-                {flashsale_variant[0].storage}
+                {currentVariant?.storage}
               </span>
             </div>
             <div
@@ -215,6 +220,7 @@ const BoxPro = ({
                 width: "100%",
                 fontWeight: "bold",
               }}
+              onClick={() => buyNow(main, currentVariant)}
             >
               Mua ngay
             </button>

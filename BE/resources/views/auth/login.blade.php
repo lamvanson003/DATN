@@ -6,7 +6,7 @@
 <div class="page page-center">
     <div class="container-tight py-4">
         <div class="text-center mb-4">
-            <img src="{{ asset('admin/assets/img/blogpost.jpg') }}" class="custom_avatar" width="200" alt="Logo">
+            <img src="{{ asset('admin/assets/img/kaiadmin/logoSentMail.png') }}" class="custom_avatar mb-3" width="200" alt="Logo">
         </div>
         <form action="{{ route('admin.login') }}" method="POST" class="card card-md" id="login-form">
             @csrf
@@ -41,7 +41,7 @@
                     </span>
 
                     <span class="register">
-                        <a href="{{ route('register.index')}}">Quên mật khẩu ?</a>
+                        <a href="{{ route('forgetPassword.index')}}">Quên mật khẩu ?</a>
                     </span>
                 </div>
         

@@ -63,7 +63,7 @@
                                 <button type="submit" class="btn btn-primary p-1-2" title="Sửa">
                                     Sửa
                                 </button>
-                                <button type="submit" class="btn btn-primary p-1-2" title="Xóa">
+                                <button type="button" class="btn btn-danger p-1-2" title="Xóa" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Xóa
                                 </button>
                             </div>

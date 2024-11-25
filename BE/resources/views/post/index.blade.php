@@ -81,7 +81,7 @@
                             @endforeach
                         </td>
                         <td>
-                            <a href="{{ route('admin.post.edit', $post->id) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ route('admin.post.edit', $post->id) }}" class="btn btn-primary text-white btn-sm">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $post->id }}">
