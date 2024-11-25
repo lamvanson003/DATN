@@ -27,8 +27,15 @@ class RegisterController extends Controller
             ->first();
 
             if ($existingUser) {
-                return redirect()->route('register.index')->with('error', 'Email hoặc số điện thoại đã tồn tại.');
+                $message = 'Email hoặc số điện thoại đã tồn tại.';
+                if ($existingUser->email === $data['email']) {
+                    $message = 'Email đã tồn tại.';
+                } elseif ($existingUser->phone === $data['phone']) {
+                    $message = 'Số điện thoại đã tồn tại.';
+                }
+                return redirect()->route('register.index')->with('error', $message);
             }
+            
             User::create([
                 'username' => $data['phone']??$data['username'],
                 'email' => $data['email'],
