@@ -103,29 +103,20 @@ class PaymentController extends Controller
                         $productVariant->save();
                     }
 
-                    if($productVariant->is_flash_sale == true){
-                        $flashSale = FlashSale::findOrFail('product_variant_id',$productVariant->id);
-                        $flashSale->sold += $productData['quantity'];
-                        $flashSale->save();
-                    }
+                    
                 }
 
                 DB::commit();
 
-                return response()->json([
-                    'message' => 'Order processed successfully',
-                    'order_id' => $order->id,
-                    'product_variant_id' => $orderDetail -> product_variant_id,
-                    'order_code' => $order->code,
-                ], 200);
+                return redirect()->away('http://localhost:5173/?status=success&order_code=' . $order->code);
 
             } catch (\Exception $e) {
                 DB::rollBack();
                 Log::error('Payment Processing Error:', ['error' => $e->getMessage()]);
-                return response()->json(['message' => 'Order processing failed'], 500);
+                return redirect()->away('http://localhost:5173/?status=error');
             }
         } else {
-            return response()->json(['message' => 'Payment failed'], 400);
+            return redirect()->away('http://localhost:5173/?status=failed');
         }
     }
 }

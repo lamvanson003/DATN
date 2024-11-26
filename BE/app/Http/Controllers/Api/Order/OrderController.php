@@ -96,11 +96,7 @@ class OrderController extends Controller {
                     $productVariant->save();
                 }
 
-                if($productVariant->is_flash_sale == true){
-                    $flashSale = FlashSale::findOrFail($productVariant->id);
-                    $flashSale->sold += $productData['quantity'];
-                    $flashSale->save();
-                }
+                
             }
             DB::commit();
 

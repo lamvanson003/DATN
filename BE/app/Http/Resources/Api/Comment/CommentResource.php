@@ -14,7 +14,7 @@ class CommentResource extends JsonResource
             'rating' => $this->rating,
             'product_variant_id ' => $this->product_variant_id ,
             'content' => $this->content,
-            'fullname' => $this->user->fullname,
+            'fullname' => $this->fullname,
             'images' => json_decode($this->images),
             'created_at' =>$this->created_at->format('d-m-Y') ,
         ];

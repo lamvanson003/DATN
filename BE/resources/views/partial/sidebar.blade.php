@@ -5,12 +5,16 @@
       <!-- Logo Header -->
       <div class="logo-header" data-background-color="dark">
         <a href="{{ route('admin.dashboard.index') }}" class="logo">
-          <img
-            src="{{ asset('admin/assets/img/kaiadmin/logo_light.svg') }}"
+          <div class="d-flex align-items-center gap-3">
+            <img
+            src="{{ asset('admin/assets/img/kaiadmin/logo.png') }}"
             alt="navbar brand"
             class="navbar-brand"
-            height="20"
+            width="50"
+            height="auto"
           />
+            <span style="color: #ffffff ; font-size: 20px">CloudLab</span>
+          </div>
         </a>
         <div class="nav-toggle">
           <button class="btn btn-toggle toggle-sidebar">

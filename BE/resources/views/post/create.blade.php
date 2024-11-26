@@ -45,28 +45,28 @@
                     <div class="col-md-12 col-sm-12">
                         <div class="mb-3">
                             <label class="control-label">Tiêu đề<span style="color: red">*</span>:</label>
-                            <input type="text" required class="form-control" name="title" placeholder="VD: Công nghệ">
+                            <input type="text" class="form-control required" name="title" placeholder="VD: Công nghệ">
                         </div>
                     </div>
 
                     <div class="col-md-12 col-sm-12">
                         <div class="mb-3">
                             <label class="control-label">Slug<span style="color: red">*</span>:</label>
-                            <input type="text" required class="form-control" name="slug" placeholder="VD: cong-nghe">
+                            <input type="text" class="form-control required" name="slug" placeholder="VD: cong-nghe">
                         </div>
                     </div>
 
                     <div class="col-md-12 col-sm-12">
                         <div class="mb-3">
                             <label class="control-label">Nội dung<span style="color: red">*</span>:</label>
-                            <textarea class="form-control" name="content" rows="5" placeholder="Nội dung bài viết..." required>{{ old('content') }}</textarea>
+                            <textarea class="form-control required" name="content" rows="5" placeholder="Nội dung bài viết...">{{ old('content') }}</textarea>
                         </div>
                     </div>
 
                     <div class="col-md-12 col-sm-12">
                         <div class="mb-3">
                             <label class="control-label">Thời gian đăng<span style="color: red">*</span>:</label>
-                            <input type="datetime-local" required class="form-control" name="posted_at"
+                            <input type="datetime-local" class="form-control required" name="posted_at"
                                 value="{{ old('posted_at') ?? date('Y-m-d\TH:i') }}" 
                                 min="{{ date('Y-m-d\TH:i') }}" pattern="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}">
                         </div>
@@ -124,7 +124,7 @@
             <div class="card mb-3">
                 <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
                 <div class="card-body p-2">
-                    <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
+                    <input type="file" id="fileInput" name="images" class="d-none required" accept="image/*">
                     <div class="image-container" style="cursor: pointer;" onclick="document.getElementById('fileInput').click();">
                         <img id="imagePreview" src="{{ asset('/images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
                     </div>

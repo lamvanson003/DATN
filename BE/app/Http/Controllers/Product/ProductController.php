@@ -92,7 +92,6 @@ class ProductController extends Controller
             }
         }
         
-
         if ($request->has('variants')) {
             foreach ($request->input('variants') as $key => $variant) {
                 
@@ -118,7 +117,6 @@ class ProductController extends Controller
                 ]);
             }
         }        
-
         return redirect()->route('admin.product.index')->with('success', 'Thêm sản phẩm và biến thể thành công.');
     } catch (Exception $e) {
         return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());

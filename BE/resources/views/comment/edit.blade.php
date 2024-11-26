@@ -28,9 +28,10 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.comment.update', $comment->id) }}" method="POST">
+            <form action="{{ route('admin.comment.update') }}" method="POST">
                 @csrf
                 <input type="hidden" name="_method" value="PUT">
+                <input type="hidden" name="id" value="{{ $comment->id }}">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
@@ -38,18 +39,26 @@
                                 <h3 class="mb-0 strong text-center">Chỉnh sửa bình luận</h3>
                             </div>
                             <div class="row card-body">
+                                <!-- Người bình luận -->
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="mb-3">
+                                        <label class="control-label">Họ và tên<span style="color: red">*</span>:</label>
+                                        <input disabled class="form-control" name="fullname" rows="4" value="{{ $comment->fullname }}"/>
+                                    </div>
+                                </div>
+
                                 <!-- Nội dung bình luận -->
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Nội dung bình luận<span style="color: red">*</span>:</label>
-                                        <textarea required class="form-control" name="content" rows="4" placeholder="Nội dung bình luận">{{ $comment->content }}</textarea>
+                                        <textarea disabled class="form-control" name="content" rows="4" placeholder="Nội dung bình luận">{{ $comment->content }}</textarea>
                                     </div>
                                 </div>
                                 <!-- Đánh giá -->
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Đánh giá<span style="color: red">*</span>:</label>
-                                        <select name="rating" class="form-select" required>
+                                        <select name="rating" class="form-select" disabled>
                                             <option value="">Chọn đánh giá</option>
                                             @for ($i = 1; $i <= 5; $i++)
                                                 <option value="{{ $i }}" {{ $i == $comment->rating ? 'selected' : '' }}>
@@ -59,21 +68,19 @@
                                         </select>
                                     </div>
                                 </div>
-                                <!-- Trạng thái -->
+                                    
+                            @if (!empty($comment->images))
                                 <div class="col-md-12 col-sm-12">
-                                <div class="mb-3">
-                                    <label class="control-label">Trạng thái<span style="color: red">*</span>:</label>
-                                    <select class="form-select" name="status">
-                                        @foreach ($statuses as $key => $value)
-                                            <option value="{{ $key }}" {{ $key == $comment->status ? 'selected' : '' }}>
-                                                {{ $value }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                </div>
-                            </div>
-
+                                    <div class="mb-3">
+                                        <label class="control-label">Ảnh<span style="color: red">*</span>:</label>
+                                        <div class="d-flex">
+                                            @foreach (json_decode($comment->images, true) as $item)
+                                                <img src="{{ $item }}" alt="{{ $comment->images }}" style="width: 100px; height: auto; margin-right: 10px;">
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>                            
+                            @endif
                             </div>
                         </div>
                     </div>
@@ -88,6 +95,20 @@
                                 <button type="button" class="btn btn-danger p-1-2" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $comment->id }}" title="Xóa">
                                     Xóa
                                 </button>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-header">Trạng thái</div>
+                            <div class="card-body p-2 gap-2">
+                                <div class="mb-3">
+                                    <select class="form-select" name="status">
+                                        @foreach ($statuses as $key => $value)
+                                            <option value="{{ $key }}" {{ $key == $comment->status ? 'selected' : '' }}>
+                                                {{ $value }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
