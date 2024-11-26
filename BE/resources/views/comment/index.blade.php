@@ -39,10 +39,11 @@
                 <thead>
                   <tr>
                     <th>Hình ảnh sản phẩm</th>
-                    <th>Nội dung</th>
                     <th>Tên người dùng</th>
+                    <th>Nội dung</th>
                     <th>Đánh giá</th>
                     <th>Trạng thái</th>
+                    <th>Thời gian</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
@@ -52,8 +53,8 @@
                       <td>
                         <img class="text-center fix-image" src="{{ asset($item->productVariant->images) }}" alt="{{ $item->productVariant->name }}">
                       </td>
-                      <td>{{ $item->content }}</td>
                       <td>{{ $item->fullname }}</td>
+                      <td>{{ $item->content }}</td>
                       <td>{{ $item->rating }} ⭐</td>
                       <td>
                         <span class="badge rounded-pill 
@@ -76,6 +77,7 @@
                           {{ \App\Enums\Comment\CommentStatus::getDescription($item->status) }}
                         </span>
                       </td>
+                      <td>{{ $item->created_at }}</td>
                       <td>
                         <div class="form-button-action gap-2">
                           <a href="{{ route('admin.comment.edit', $item->id) }}">

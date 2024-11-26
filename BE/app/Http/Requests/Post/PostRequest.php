@@ -23,7 +23,7 @@ class PostRequest extends BaseRequest
             'category_id' => 'required|exists:post_categories,id', // Kiểm tra category_id có tồn tại trong bảng post_categories
             'status' => ['required', new Enum(PostStatus::class)], // Sử dụng enum cho trạng thái
             'user_id' => 'required|exists:users,id', // Kiểm tra user_id có tồn tại trong bảng users
-            'posted_at' => 'required|datetime-local', // Đảm bảo posted_at là một ngày hợp lệ
+            'posted_at' => 'required', // Đảm bảo posted_at là một ngày hợp lệ
         ];
     }
 
