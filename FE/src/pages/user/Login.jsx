@@ -1,46 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import login from "../../assets/images/log.svg";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Login.css";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  useEffect(() => {
+    const signupSuccess = localStorage.getItem("signupSuccess");
+    if (signupSuccess === "true") {
+      toast.success("Tạo tài khoản thành công");
+      localStorage.removeItem("signupSuccess"); // Clear the flag
+    }
+  }, []);
   const handleLogin = async (event) => {
     event.preventDefault();
 
     const loginData = { email, password };
 
     try {
-      const response = await axios.post("http://localhost:8000/api/logins", loginData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    
+      const response = await axios.post(
+        "http://localhost:8000/api/logins",
+        loginData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       const data = response.data;
       console.log(data);
-    
+
       if (data.token) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("loginSuccess", "true");
         navigate("/");
       }
     } catch (error) {
       if (error.response) {
         console.error("Response data:", error.response.data);
         setErrorMessage(error.response.data.error || "Đăng nhập thất bại");
+        toast.error(error.response.data.error || "Login failed!");
       } else if (error.request) {
         console.error("Request error:", error.request);
         setErrorMessage("Không thể kết nối đến server.");
+        toast.error("Unable to connect to the server."); // Error toast
       } else {
         setErrorMessage("An unexpected error occurred.");
       }
     }
-    
   };
 
   const navigateSignup = () => {
@@ -59,11 +73,11 @@ const Login = () => {
               <h3 className="fw-bold text-center text-primary my-4 custom-title">
                 LOGIN
               </h3>
-              {errorMessage && (
+              {/* {errorMessage && (
                 <div className="alert alert-danger" role="alert">
                   {errorMessage}
                 </div>
-              )}
+              )} */}
               <form onSubmit={handleLogin}>
                 <div className="form-outline mb-4">
                   <label className="form-label" htmlFor="form1Example13">

@@ -19,8 +19,7 @@ class LoginController extends Controller
     }
 
     public function login(LoginRequest $request)
-    {   
-        Log::info('messsss',['mess'=> $request]);
+    {
         $validatedData = $request->validated();
         if (Auth::attempt([
             'email' => $validatedData['email'],
@@ -33,23 +32,18 @@ class LoginController extends Controller
                     $user = User::findOrfail($user->id);
                     $user->device_token = $request->input('device_token');
                     Log::info('Device token:', ['token' => $request->input('device_token')]);
-                        $user->device_token = $request->input('device_token');
-                        if ($user->save()) {
-                            Log::info('Device token saved successfully.');
-                        } else {
-                            Log::error('Failed to save device token.');
-                        }
-
-
-                  
+                    $user->device_token = $request->input('device_token');
+                    if ($user->save()) {
+                        Log::info('Device token saved successfully.');
+                    } else {
+                        Log::error('Failed to save device token.');
+                    }
                     $user->save();
-                    
                 }
 
                 return redirect()->route('admin.dashboard.index')
                     ->with('success', 'Đăng nhập thành công');
             }
-
             Auth::logout();
             return back()->with('error', 'Bạn không có quyền truy cập.');
         }

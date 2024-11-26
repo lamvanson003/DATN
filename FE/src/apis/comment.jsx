@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const commentApi = {
   getAll: async () => {
@@ -43,13 +44,12 @@ export const commentApi = {
       formData.append("user_id", uId);
       if (rating !== null) formData.append("rating", rating);
 
-      // Append image files (ensure they are File objects)
       if (images.length > 0) {
         images.forEach((image, index) => {
           if (image instanceof File) {
-            formData.append(`images[${index}]`, image); // Append file objects
+            formData.append(`images[${index}]`, image);
           } else {
-            console.error("Invalid image type:", image); // Log error if not a valid file
+            console.error("Invalid image type:", image);
           }
         });
       }
@@ -63,7 +63,7 @@ export const commentApi = {
           },
         }
       );
-
+      toast.info("Bình luận của bạn đang được chờ duyệt");
       console.log("Bình luận đã được đăng!", response.data);
       return response.data;
     } catch (err) {

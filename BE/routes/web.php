@@ -9,6 +9,14 @@ Route::controller(App\Http\Controllers\Auth\RegisterController::class)
         Route::post('/', 'store')->name('store');
     });
 
+Route::controller(App\Http\Controllers\Auth\ForgetPasswordController::class)
+    ->prefix('admin/forget-password')->as('forgetPassword.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'checkEmail')->name('checkEmail');
+        Route::get('/reset', 'reset')->name('reset');
+        Route::post('/update', 'update')->name('update');
+    });
+
 
 Route::prefix('admin/login')->as('admin.')->group(function () {
     Route::get('/', [LoginController::class, 'index'])->name('index');
@@ -162,7 +170,7 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
                 Route::get('/sua/{id}', 'edit')->name('edit');
-                Route::put('/sua/{id}', 'update')->name('update');
+                Route::put('/sua', 'update')->name('update');
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
             });
 
