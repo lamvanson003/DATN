@@ -38,7 +38,7 @@ const Signup = () => {
       newErrors.passwordConfirmation = "Mật khẩu không khớp";
       isValid = false;
     }
-    if (phone && !/^\d{10,15}$/.test(phone)) {  // Updated regex to accept 10-15 digits
+    if (phone && !/^\d{10,15}$/.test(phone)) {  
       newErrors.phone = "Số điện thoại phải từ 10 đến 15 ký tự số";
       isValid = false;
     }
@@ -64,22 +64,21 @@ const Signup = () => {
   
     setIsSubmitting(true);
     try {
-      console.log("Sending data:", data); // Log the data being sent
+      console.log("Sending data:", data); 
       const response = await axios.post("http://localhost:8000/api/registers", data, {
         headers: { "Content-Type": "application/json" },
       });
   
       if (response.status === 200) {
-        navigate("/login"); // Navigate to login on success
+        navigate("/login"); 
       }
     } catch (err) {
-      console.error("Error response:", err.response); // Log the full error response
+      console.error("Error response:", err.response);
   
       if (err.response) {
         const errorMessage = err.response.data.error || err.response.data.errors;
   
         if (errorMessage) {
-          // Handle specific error messages
           if (errorMessage.email) {
             setErrors({ email: "Email đã được sử dụng. Vui lòng nhập email khác." });
           } else if (errorMessage.phone) {
