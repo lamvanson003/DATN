@@ -73,7 +73,6 @@ const Detail = () => {
     };
     fetchCmt();
   }, [currentVariant]);
-  console.log(comment);
 
   const clearViewedProducts = () => {
     localStorage.removeItem("viewedProducts");
@@ -586,7 +585,6 @@ const Detail = () => {
                       Xóa tất cả
                     </span>
                   </div>
-
                   {viewedProducts.map((item) => (
                     <div key={item.id} className="box-viewP">
                       <div className="d-flex box-item ">
