@@ -51,6 +51,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
+                                        <label class="control-label">Số lượng<span style="color: red">*</span>:</label>
+                                        <input type="number" name="amount" class="form-control" required 
+                                            value="{{ $discount->amount }}" placeholder="Nhập số lượng giảm giá">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
                                         <label class="control-label">Ngày bắt đầu<span style="color: red">*</span>:</label>
                                         <input type="date" name="date_start" class="form-control" required 
                                             value="{{ \Carbon\Carbon::createFromFormat('d/m/Y', $discount->date_start)->format('Y-m-d') }}">

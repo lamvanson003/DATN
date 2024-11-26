@@ -16,15 +16,24 @@ import "./css/Home.css";
 import { useSelector } from "react-redux";
 import { Brand } from "../../components";
 import { CartContext } from "../../context/Cart";
+import { toast } from "react-toastify";
 const Home = () => {
   const url = new URL(window.location.href);
-  const responseCode = url.searchParams.get("vnp_ResponseCode");
+  const status = url.searchParams.get("status");
   const { cartItems, setCartItems } = useContext(CartContext);
   const { productsData } = useSelector((state) => state.pro);
   const [phonesData, setPhonesData] = useState([]);
   const [laptopsData, setLaptopsData] = useState([]);
   const [flashSale, setFlashSale] = useState([]);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
+  useEffect(() => {
+    // Check if login was successful
+    const loginSuccess = localStorage.getItem("loginSuccess");
+    if (loginSuccess === "true") {
+      toast.success("Đăng nhập thành công");
+      localStorage.removeItem("loginSuccess"); // Clear the flag
+    }
+  }, []);
   useEffect(() => {
     if (productsData) {
       setPhonesData(productsData.phone);
@@ -33,7 +42,7 @@ const Home = () => {
   }, [productsData]);
 
   useEffect(() => {
-    if (responseCode === "00") {
+    if (status === "success") {
       const PendingLeftCartItems = localStorage.getItem("PendingLeftCartItems");
       console.log(PendingLeftCartItems);
 
@@ -53,7 +62,7 @@ const Home = () => {
 
       setIsSendingSuccess(true);
     }
-  }, [responseCode, setCartItems]);
+  }, [status, setCartItems]);
 
   return (
     <>

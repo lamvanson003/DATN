@@ -34,6 +34,7 @@ class CommentRequest extends BaseRequest
             'id' => ['required', 'exists:comments,id'], 
             'product_variant_id' => 'nullable|exists:product_variants,id', 
             'user_id' => 'nullable|exists:users,id', 
+            'fullname' => 'nullable', 
             'content' => 'nullable|string|max:1000', 
             'rating' => 'nullable|integer|min:1|max:5', 
             'status' => 'required|integer|in:0,1,2,3', 

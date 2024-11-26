@@ -32,15 +32,16 @@ class BrandController extends Controller
     }
 
     public function store(BrandRequest $request)
-    {
+    {   
         try {
+            $baseUrl = url()->to('/');
             $imagePath = '';
             if ($request->hasFile('images')) {
                 $image = $request->file('images');
 
                 $fileName = time() . '_' . $image->getClientOriginalName();
                 $image->move(public_path('images/brand'), $fileName);
-                $imagePath = 'http://127.0.0.1:8000/images/brand/' . $fileName;
+                $imagePath =  $baseUrl.'/images/brand/' . $fileName;
             }
 
             Brand::create([

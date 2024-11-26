@@ -69,7 +69,7 @@ const Detail = () => {
         currentVariant?.color?.id
       );
 
-      setComment(response);
+      setComment(response.data);
     };
     fetchCmt();
   }, [currentVariant]);
@@ -190,28 +190,6 @@ const Detail = () => {
     handleChangeVariant(color);
   };
 
-  // Handle image selection
-  const handleImageChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-
-    // Validate image type before creating object URLs
-    const validImages = selectedFiles.filter((file) =>
-      [
-        "image/jpeg",
-        "image/png",
-        "image/jpg",
-        "image/gif",
-        "image/svg+xml",
-      ].includes(file.type)
-    );
-
-    // Create URLs for valid images
-    const imageUrls = validImages.map((file) => URL.createObjectURL(file));
-
-    // Append the valid image URLs to the existing images state
-    setImages((prevImages) => [...prevImages, ...imageUrls]);
-  };
-
   // Mở modal
   const openModal = () => {
     setIsModalOpen(true);
@@ -282,6 +260,29 @@ const Detail = () => {
     setImages((prevImages) =>
       prevImages.filter((_, index) => index !== indexToRemove)
     );
+  };
+
+  // Handle image selection
+  const handleImageChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+
+    // Lọc các file hợp lệ
+    const validImages = selectedFiles.filter((file) =>
+      [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/gif",
+        "image/svg+xml",
+      ].includes(file.type)
+    );
+
+    if (validImages.length !== selectedFiles.length) {
+      alert("Một số tệp không phải định dạng hình ảnh hợp lệ!");
+    }
+
+    // Lưu trực tiếp các file vào state
+    setImages((prevImages) => [...prevImages, ...validImages]);
   };
 
   return (
@@ -664,55 +665,45 @@ const Detail = () => {
                       <div className="comment-avatar d-flex">T</div>
                       <div className="comment-content">
                         <div className="comment-info">
-                          <span className="comment-author">{item.name}</span>
-                          <span className="comment-date">12/11/2024</span>
-                          <span
-                            style={{
-                              marginLeft: "5px",
-                              color: "rgb(240 204 9)",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ★
+                          <span className="comment-author">
+                            {item.fullname}
+                          </span>
+
+                          <span>
+                            {Array.from({ length: item.rating }, (_, index) => (
+                              <span
+                                key={index}
+                                style={{
+                                  color: "rgb(240 204 9)", // Gold color for stars
+                                  fontSize: "20px",
+                                }}
+                              >
+                                ★
+                              </span>
+                            ))}
+                          </span>
+                          <span className="comment-date">
+                            {item.created_at}
                           </span>
                         </div>
                         <p className="comment-text">{item.comment}</p>
                         <div className="d-flex gap-2">
-                          <img
-                            src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
-                            alt="Review Image"
-                            className="comment-image"
-                          />
-                          <img
-                            src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
-                            alt="Review Image"
-                            className="comment-image"
-                          />
+                          {item.images.map((item, index) => (
+                            <img
+                              key={index}
+                              src={item}
+                              alt="Review Image"
+                              className="comment-image"
+                            />
+                          ))}
                         </div>
+                        <div>{item.content}</div>
                       </div>
                     </div>
                   ))
                 ) : (
                   <p>No comments available.</p>
                 )}
-
-                <div className="comment-item">
-                  <div className="comment-avatar d-flex">T</div>
-                  <div className="comment-content">
-                    <div className="comment-info">
-                      <span className="comment-author">Nguyễn Văn A</span>
-                      <span className="comment-date">12/11/2024</span>
-                    </div>
-                    <p className="comment-text">
-                      Sản phẩm rất tốt! Tôi sẽ mua lại.
-                    </p>
-                    {/* <img
-                        src="http://127.0.0.1:8000/images/product/1729263239_ip15-promax.jpg"
-                        alt="Review Image"
-                        className="comment-image"
-                      /> */}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -785,7 +776,7 @@ const Detail = () => {
                 {images.map((image, index) => (
                   <div key={index} className="preview-item">
                     <img
-                      src={image}
+                      src={URL.createObjectURL(image)}
                       alt={`chosen-preview-${index}`}
                       className="preview-img"
                     />

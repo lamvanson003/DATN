@@ -72,10 +72,6 @@ const Product = () => {
     return filteredPros.slice(indexOfFirstItem, indexOfLastItem);
   }, [filteredPros, indexOfFirstItem, indexOfLastItem]);
 
-  const handleRangeChange = (e) => {
-    setMaxPrice(e.target.value);
-  };
-
   const [sortOrder, setSortOrder] = useState(1); // 1: tăng dần, 0: giảm dần
 
   const sortedItems = useMemo(() => {

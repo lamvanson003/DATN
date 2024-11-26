@@ -94,4 +94,11 @@ class UserController extends Controller
         $user->save();
         return redirect()->route('admin.user.edit', $user->id)->with('success', 'Người dùng đã được cập nhật thành công!');
     }
+
+    public function delete($id)
+    {
+        $user = User::findorFail($id);
+        $user->delete();
+        return redirect()->back()->with('success','Thực hiện thành công');
+    }
 }

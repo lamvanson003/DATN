@@ -4,6 +4,7 @@ import flashsale from "../assets/images/iHome/flashsale.png";
 import "./css/FlashSale.css";
 import icons from "../ultis/icon";
 import { productApi } from "../apis";
+import { transformFormatProducts } from "../ultis/func";
 const { IoArrowRedoOutline, IoArrowUndoOutline } = icons;
 const FlashSale = () => {
   const [countdown, setCountdown] = useState(() => {
@@ -62,7 +63,9 @@ const FlashSale = () => {
   useEffect(() => {
     const fetchFlashSale = async () => {
       const res = await productApi.getFlashSale();
-      setFlashSale(res);
+      const fstonomalpro = res.map(transformFormatProducts);
+      console.log(fstonomalpro);
+      setFlashSale(fstonomalpro);
     };
     fetchFlashSale();
   }, []);
@@ -113,8 +116,8 @@ const FlashSale = () => {
                 slug={pro.slug}
                 image={pro.images}
                 product_image_items={pro.product_image_items}
-                flashsale_variant={pro.product_variant}
-                flashsale_price={pro.discount_price}
+                variant={pro.product_variant}
+                flashSale
                 sold={pro.sold}
                 quantity_limit={pro.quantity_limit}
               />

@@ -9,6 +9,7 @@ use App\Services\VnpayService;
 use App\Models\Order;
 use App\Models\TemporaryOrder;
 use App\Models\OrderDetail; 
+use App\Models\FlashSale; 
 use App\Models\ProductVariant; 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -101,24 +102,21 @@ class PaymentController extends Controller
                         $productVariant->sold += $productData['quantity'];
                         $productVariant->save();
                     }
+
+                    
                 }
 
                 DB::commit();
 
-                return response()->json([
-                    'message' => 'Order processed successfully',
-                    'order_id' => $order->id,
-                    'product_variant_id' => $orderDetail -> product_variant_id,
-                    'order_code' => $order->code,
-                ], 200);
+                return redirect()->away('http://localhost:5173/?status=success&order_code=' . $order->code);
 
             } catch (\Exception $e) {
                 DB::rollBack();
                 Log::error('Payment Processing Error:', ['error' => $e->getMessage()]);
-                return response()->json(['message' => 'Order processing failed'], 500);
+                return redirect()->away('http://localhost:5173/?status=error');
             }
         } else {
-            return response()->json(['message' => 'Payment failed'], 400);
+            return redirect()->away('http://localhost:5173/?status=failed');
         }
     }
 }

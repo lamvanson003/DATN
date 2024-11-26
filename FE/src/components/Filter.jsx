@@ -10,36 +10,41 @@ import {
 } from "react-icons/fa";
 import "./css/Filter.css";
 const filters = [
-  {
-    title: "RAM",
-    icon: <FaMemory />,
-    options: ["3 GB", "4 GB", "6 GB", "8 GB", "12 GB"],
-  },
-  {
-    title: "Độ phân giải",
-    icon: <FaTv />,
-    options: ["QQVGA", "QVGA", "HD+", "Full HD+", "2K+", "Retina (iPhone)"],
-  },
-  {
-    title: "Tần số quét",
-    icon: <FaSyncAlt />,
-    options: ["60 Hz", "90 Hz", "120 Hz", "144 Hz"],
-  },
+  // {
+  //   title: "RAM",
+  //   icon: <FaMemory />,
+  //   options: ["3 GB", "4 GB", "6 GB", "8 GB", "12 GB"],
+  // },
+  // {
+  //   title: "Độ phân giải",
+  //   icon: <FaTv />,
+  //   options: ["QQVGA", "QVGA", "HD+", "Full HD+", "2K+", "Retina (iPhone)"],
+  // },
+  // {
+  //   title: "Tần số quét",
+  //   icon: <FaSyncAlt />,
+  //   options: ["60 Hz", "90 Hz", "120 Hz", "144 Hz"],
+  // },
   {
     title: "Dung lượng lưu trữ",
     icon: <FaDatabase />,
     options: ["64 GB", "128 GB", "256 GB", "512 GB", "1 TB"],
   },
   {
-    title: "Tính năng sạc",
-    icon: <FaBolt />,
-    options: ["Sạc nhanh (từ 20W)", "Sạc siêu nhanh (từ 60W)"],
+    title: "Màu sắc",
+    icon: <FaTv />,
+    options: ["Vàng", "Xanh ", "Đỏ", "Tím"],
   },
-  {
-    title: "Tính năng đặc biệt",
-    icon: <FaShieldAlt />,
-    options: ["Kháng nước, bụi", "Hỗ trợ 5G", "Bảo mật khuôn mặt 3D"],
-  },
+  // {
+  //   title: "Tính năng sạc",
+  //   icon: <FaBolt />,
+  //   options: ["Sạc nhanh (từ 20W)", "Sạc siêu nhanh (từ 60W)"],
+  // },
+  // {
+  //   title: "Tính năng đặc biệt",
+  //   icon: <FaShieldAlt />,
+  //   options: ["Kháng nước, bụi", "Hỗ trợ 5G", "Bảo mật khuôn mặt 3D"],
+  // },
 ];
 
 const Filter = ({ minPrice, maxPrice, setMinPrice, setMaxPrice }) => {

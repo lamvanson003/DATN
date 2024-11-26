@@ -6,7 +6,7 @@
     <title>@yield('title')</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ asset('/admin/assets/img/kaiadmin/favicon.ico') }}" type="image/x-icon"/>
+    <link rel="icon" href="{{ asset('admin/assets/img/kaiadmin/logo.png') }}" type="image/x-icon"/>
     @include('partial.link')
   </head>
   <body>

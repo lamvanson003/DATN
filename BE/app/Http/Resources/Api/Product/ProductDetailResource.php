@@ -4,6 +4,7 @@ namespace App\Http\Resources\Api\Product;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\FlashSale;
 
 class ProductDetailResource extends JsonResource
 {
@@ -34,9 +35,13 @@ class ProductDetailResource extends JsonResource
                 return [
                     'storage' => $storage,
                     'variants' => $items->map(function($item) {
+                        if ($item->is_flash_sale == true) {
+                           $flashSale = FlashSale::find($item->id);
+                        }
                         return [
                             'id' => $item->id,
                             'is_flash_sale' => $item->is_flash_sale,
+                            'flashSale_price' => $flashSale->discount_price ?? null,
                             'sku' => $item->sku,
                             'sale' => $item->sale,
                             'price' => $item->price,
