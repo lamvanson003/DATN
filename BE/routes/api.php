@@ -25,6 +25,7 @@ Route::controller(ProductController::class)->prefix('/products')
     ->as('product')
     ->group(function(){
         Route::get('/', 'index');
+        Route::get('/hotdeal', 'hotdeal');
         Route::get('/{slug}', 'detail');
 
         Route::get('/category/{slug}', 'productByCate');

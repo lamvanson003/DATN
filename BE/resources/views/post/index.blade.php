@@ -44,36 +44,59 @@
                   <tr>
  
                     <th>Tiêu đề</th>
-                    <th>Slug</th>
                     <th>Hình ảnh</th>
                     <th>Lượt xem</th>
                     <th>Trạng thái</th>
+                    <th>Nổi bậc</th>
                     <th>Danh mục</th>
                     <th>Hành động</th>
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-
-                    <th>Tiêu đề</th>
-                    <th>Slug</th>
-                    <th>Hình ảnh</th>
-                    <th>Lượt xem</th>
-                    <th>Trạng thái</th>
-                    <th>Danh mục</th>
-                    <th>Hành động</th>
-                  </tr>
-                </tfoot>
                 <tbody>
                     @foreach ($posts as $post)
                     <tr>
-                        <td>{{ $post->title }}</td>
-                        <td>{{ $post->slug }}</td>
+                        <td><a href="{{ route('admin.post.edit',$post->id) }}">{{ $post->title }}</a></td>
                         <td>
                             <img src="{{ asset($post->images) }}" alt="Hình ảnh" width="50">
                         </td>
                         <td>{{ $post->views }}</td>
-                        <td>{{ $post->status == 1 ? 'Hiển thị' : 'Ẩn' }}</td>
+                        <td>
+                          @switch($post->status->value)
+                            @case(\App\Enums\Post\PostStatus::Active)
+                                <span class="badge rounded-pill badge-success">
+                                  {{ \App\Enums\Post\PostStatus::getDescription($post->status->value) }}
+                                </span>
+                            @break
+                            @case(\App\Enums\Post\PostStatus::Inactive)
+                                <span class="badge rounded-pill badge-warning">
+                                  {{ \App\Enums\Post\PostStatus::getDescription($post->status->value) }}
+                                </span>
+                            @break
+                            @case(\App\Enums\Post\PostStatus::Draf)
+                                <span class="badge rounded-pill badge-dark">
+                                  {{ \App\Enums\Post\PostStatus::getDescription($post->status->value) }}
+                                </span>
+                            @break
+                            @default
+                                <span class="badge rounded-pill badge-secondary">Không xác định</span>
+                        @endswitch
+                        </td>
+                        <td>
+                          @switch($post->is_featured->value)
+                            @case(\App\Enums\Is_featured::Is_featured)
+                                <span class="badge rounded-pill badge-danger">
+                                  {{ \App\Enums\Is_featured::getDescription($post->is_featured->value) }}
+                                </span>
+                            @break
+                            @case(\App\Enums\Is_featured::Default)
+                                <span class="badge rounded-pill badge-black">
+                                  {{ \App\Enums\Is_featured::getDescription($post->is_featured->value) }}
+                                </span>
+                            @break
+                            @default
+                                <span class="badge rounded-pill badge-secondary">Không xác định</span>
+                        @endswitch
+                        </td>
                         <td>
                   
                             @foreach ($post->categories as $category)
@@ -81,9 +104,6 @@
                             @endforeach
                         </td>
                         <td>
-                            <a href="{{ route('admin.post.edit', $post->id) }}" class="btn btn-primary text-white btn-sm">
-                                <i class="fa fa-pencil-alt"></i>
-                            </a>
                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $post->id }}">
                                 <i class="fa fa-trash"></i>
                             </button>

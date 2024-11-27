@@ -233,6 +233,7 @@
   });
 </script>
 @include('validated.input')
+@include('validated.main')
 
 @stack('libs-js') 
 @stack('custom-js') 

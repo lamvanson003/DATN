@@ -78,13 +78,20 @@ class PostController extends Controller
 
     public function detail($slug)
     {
-        $post = Post::with('categories', 'user')->where('slug', $slug)->first();
-    
-        if (!$post) {
-            return response()->json(['message' => 'Post not found'], 404);
+        try {
+            $post = Post::with('categories', 'user')->where('slug', $slug)->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => PostResource::collection($post)
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch data post',
+                'error' => $th->getMessage()
+            ], 500);
         }
-    
-        return response()->json($post);
     }
     
 

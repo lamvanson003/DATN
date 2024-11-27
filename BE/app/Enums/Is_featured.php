@@ -13,7 +13,7 @@ final class Is_featured extends Enum
     {
         return [
             self::Is_featured => 'Nổi bậc',
-            self::Default => 'Ngưng hoạt động',
+            self::Default => 'Mặc định',
         ];
     }
 
@@ -21,7 +21,7 @@ final class Is_featured extends Enum
     {
         return match ($value) {
             self::Is_featured => 'Nổi bậc',
-            self::Default => 'Ngưng hoạt động',
+            self::Default => 'Mặc định',
         };
     }
 }

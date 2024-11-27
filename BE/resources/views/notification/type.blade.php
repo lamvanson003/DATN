@@ -1,6 +1,6 @@
 @extends('layout_admin')
 
-@section('title', 'Sản phẩm')
+@section('title', 'Thông báo')
 
 @section('content_admin')
 <div class="container">
@@ -27,7 +27,9 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Danh sách Thông báo</h4>
+              <h4 class="card-title">
+                {{ $title }}
+              </h4>
             </div>
           </div>
 
@@ -48,7 +50,7 @@
                 </thead>
                 <tbody>
                  
-                  @foreach ($notification as $item)
+                  @foreach ($notifiType as $item)
                     <tr>
                       <td><a href="{{ route('admin.notification.edit',$item->id) }}">{{ $item->title }}</a></td>
                       <td>

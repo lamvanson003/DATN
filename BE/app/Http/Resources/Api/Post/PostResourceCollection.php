@@ -3,7 +3,7 @@ namespace App\Http\Resources\Api\Post;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Carbon\Carbon;
 class PostResourceCollection extends JsonResource
 {
     /**
@@ -20,7 +20,7 @@ class PostResourceCollection extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'images' => $this->images,
-            'posted_at' => $this->posted_at,
+            'posted_at' => Carbon::parse($this->posted_at)->format('H:i:s'),
             'status' => $this->status,
             'is_featured' => $this->is_featured,
             'user' => [
