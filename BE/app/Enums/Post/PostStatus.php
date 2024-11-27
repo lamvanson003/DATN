@@ -16,7 +16,7 @@ final class PostStatus extends Enum
         return [
             self::Active => 'Đang hoạt động',
             self::Inactive => 'Không hoạt động',
-            self::Draft => 'Nháp',
+            self::Draft => 'Bản nháp',
         ];
     }
 
@@ -26,7 +26,7 @@ final class PostStatus extends Enum
         return match ($value) {
             self::Active => 'Đang hoạt động',
             self::Inactive => 'Không hoạt động',
-            self::Draft => 'Nháp',
+            self::Draft => 'Bản nháp',
             default => 'Không xác định',
         };
     }
