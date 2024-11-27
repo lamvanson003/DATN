@@ -39,7 +39,7 @@ class Order extends Model
         return Order::whereBetween('created_at', [$startTime, $endTime])->get();
     }
     
-    protected $cast = [
+    protected $casts = [
         'status' => OrderStatus::class,
     ];
 }

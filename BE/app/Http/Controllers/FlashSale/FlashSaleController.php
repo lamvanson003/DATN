@@ -52,8 +52,8 @@ class FlashSaleController extends Controller
 
             $flashSaleId = $flashSale->id;
 
-
-            if (Carbon::parse($request->start_time)->lessThan(Carbon::now())) {
+            
+            if( Carbon::now()->addMinutes(5)->lessThan(Carbon::parse($request->start_time))) {
 
                 return redirect()->route('admin.flashSale.create')
                 ->with('error',"Thời gian bắt đầu phải lớn hơn thời gian hiện tại.");
@@ -92,7 +92,7 @@ class FlashSaleController extends Controller
             ProductVariant::whereIn('id', $variantIds)->update(['is_flash_sale' => true]);
             DB::commit();
 
-            return redirect()->route('admin.flashSale.index')->with('success', 'Flash sale created successfully!');
+            return redirect()->route('admin.flashSale.index')->with('success', 'Thực hiện thành công!');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors('Error: ' . $e->getMessage());

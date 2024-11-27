@@ -204,6 +204,7 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::put('/sua/{id}', 'update')->name('update');
 
                 Route::get('/status/{status}', 'getByStatus')->name('status');
+                Route::post('/return-confirm/{id}', 'returnConfirm')->name('returnConfirm');
                 Route::post('/change-status/{order_id}', 'changeStatus')->name('changeStatus');
             });
         });

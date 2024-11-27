@@ -25,7 +25,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Image-items</a>
+          <a href="#">Ảnh chi tiết</a>
         </li>
       </ul>
     </div>

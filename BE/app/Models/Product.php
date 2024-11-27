@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\Product\ProductStatus;
 
 class Product extends Model
 {
@@ -26,9 +27,11 @@ class Product extends Model
     ];
 
 
-    // public function countProductInactive($query){
-    //     $count = $query->COUNT('');
-    // }  
+    protected $casts = [
+        'status'=> ProductStatus::class,
+    ];
+
+   
 
     public function countUser($query){
         return $query->COUNT('id');
