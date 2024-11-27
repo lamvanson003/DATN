@@ -27,7 +27,6 @@ const Home = () => {
   const [flashSale, setFlashSale] = useState([]);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
   useEffect(() => {
-    // Check if login was successful
     const loginSuccess = localStorage.getItem("loginSuccess");
     if (loginSuccess === "true") {
       toast.success("Đăng nhập thành công");
@@ -51,7 +50,7 @@ const Home = () => {
           const parsedItems = JSON.parse(PendingLeftCartItems);
           if (Array.isArray(parsedItems)) {
             setCartItems(parsedItems);
-            localStorage.setItem("cartItems", PendingLeftCartItems); // Không cần stringify lại
+            localStorage.setItem("cartItems", PendingLeftCartItems);
           } else {
             console.error("Parsed items are not an array:", parsedItems);
           }
@@ -70,8 +69,6 @@ const Home = () => {
       <Banner />
 
       <Sbanner />
-
-      <Brand />
 
       <FlashSale />
 
