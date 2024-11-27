@@ -103,24 +103,8 @@ class ProductController extends controller
     {
         try {
 
-            $product = Product::with(
-                [
-                    'category' => function ($query) {
-                        $query->where('status', CategoryStatus::Active);
-                    },
-                    'brand' => function ($query) {
-                        $query->where('status', BrandStatus::Active);
-                    },
-                    'product_image_items' => function ($query) {
-                        $query->where('status', Status::Active);
-                    },
-                    'product_variant.comments' => function ($query) {
-                        $query->selectRaw('AVG(rating) as average_rating');
-                    },
-
-                ]
-            )
-                ->where('slug', $slug)
+            $product = Product::
+                where('slug', $slug)
                 ->where('status', ProductStatus::Active)
                 ->firstOrFail();
             return response()->json([

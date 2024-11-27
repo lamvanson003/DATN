@@ -122,9 +122,11 @@ Route::controller(SliderController::class)->prefix('/sliders')
 Route::controller(PostController::class)->prefix('/posts')
     ->as('post')
     ->group(function () {
-        Route::get('/', 'index');  // Lấy tất cả bài viết
-        Route::get('/{slug}', 'detail');  // Lấy chi tiết bài viết theo slug
-        Route::get('/category/{slug}', 'postsByCategory');  // Lấy bài viết theo danh mục slug
+        Route::get('/', 'index');  
+        Route::get('/is_featured', 'postFeatured');
+        Route::get('/category', 'category');
+        Route::get('/{slug}', 'detail');  
+        Route::get('/category/{slug}', 'postsByCategory');  
     });
 
 Route::get('/firebase-config', function () {

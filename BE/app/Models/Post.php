@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Enums\ActiveStatus;
+use App\Enums\Is_featured;
 class Post extends Model
 {
     use HasFactory;
@@ -22,6 +23,10 @@ class Post extends Model
         'posted_at'
     ];
 
+    protected $casts = [
+        'status'=> ActiveStatus::class,
+        'is_featured'=> Is_featured::class,
+    ];
 
     public function categories()
     {
