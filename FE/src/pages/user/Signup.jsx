@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import login from "../../assets/images/log.svg"; // Path to image
+import login from "../../assets/images/iHome/image_login-removebg-preview (1).png"; // Path to image
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Signup.css"; // Ensure correct CSS file path
+
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -112,8 +113,7 @@ const Signup = () => {
             </div>
             <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
               <h3 className="fw-bold text-center text-primary my-4 custom-title">
-                SIGN UP
-              </h3>
+Đăng ký               </h3>
               <form onSubmit={handleSubmit}>
                 <div className="d-flex mb-2">
                   <div className="form-outline flex-fill mb-0">
