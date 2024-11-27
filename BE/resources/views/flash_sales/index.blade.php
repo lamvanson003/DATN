@@ -17,7 +17,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="{{ route('admin.product.index') }}">Sản phẩm</a>
+          <a href="{{ route('admin.flashSale.index') }}">Flash Sale</a>
         </li>
       </ul>
     </div>
@@ -116,7 +116,7 @@
                               Chuyển trạng thái <strong>{{ $item->name }}</strong> thành đã xóa
                           </div>
                           <div class="modal-footer">
-                            <form action="{{ route('admin.product.delete',$item->id) }}" method="POST">
+                            <form action="{{ route('admin.flashSale.delete',$item->id) }}" method="POST">
                               @csrf
                               <input type="hidden" name="_method" value="DELETE">
                               <button type="submit" class="btn btn-danger">Xóa</button>

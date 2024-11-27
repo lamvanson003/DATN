@@ -99,28 +99,66 @@ class ProductController extends controller
         }
     }
 
-    public function detail($slug)
+    public function hotdeal(Request $request)
     {
         try {
+            $categoryFilter = $request->query('category'); 
 
-            $product = Product::with(
-                [
-                    'category' => function ($query) {
-                        $query->where('status', CategoryStatus::Active);
+            if (!$categoryFilter) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Category filter is required.'
+                ], 400);
+            }
+
+            $products = Product::with(
+                [   
+                    'category' => function ($query) use ($categoryFilter) {
+                        $query->where('status', CategoryStatus::Active)
+                            ->where('slug', $categoryFilter);
+                            
                     },
                     'brand' => function ($query) {
                         $query->where('status', BrandStatus::Active);
                     },
+                    'product_variant',
                     'product_image_items' => function ($query) {
                         $query->where('status', Status::Active);
                     },
                     'product_variant.comments' => function ($query) {
-                        $query->selectRaw('AVG(rating) as average_rating');
+                        $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
                     },
-
                 ]
-            )
-                ->where('slug', $slug)
+            )->where('status', ProductStatus::Active)
+           
+            ->get();
+
+            if ($products->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No products found for the selected category.'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => ProductResource::collection($products)
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch data',
+                'error' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function detail($slug)
+    {
+        try {
+
+            $product = Product::
+                where('slug', $slug)
                 ->where('status', ProductStatus::Active)
                 ->firstOrFail();
             return response()->json([

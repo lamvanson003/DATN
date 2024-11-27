@@ -36,7 +36,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <form action="{{ route('admin.product.product_item.update',[$product_variant->product->id,$product_variant->id]) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.product.product_item.update',[$product_variant->product->id,$product_variant->id]) }}" id="updateForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="_method" value="PUT">   
                 <input type="hidden" name="id" value="{{ $product_variant->id }}">   
@@ -66,13 +66,13 @@
                                     <!-- price -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Giá <span style="color: red">*</span>:</label>
-                                        <input type="text" value="{{ $product_variant->price }}"  required class="form-control" name="price" placeholder="VND">
+                                        <input type="text" value="{{ number_format($product_variant->price, 0, ',', '.') }}"  required class="form-control" name="price" id="price" placeholder="VND">
                                     </div>
 
                                     <!-- price sale -->
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Giá khuyến mãi :</label>
-                                        <input type="text" value="{{ $product_variant->sale }}" class="form-control" name="sale" placeholder="VND">
+                                        <input type="text" value="{{ number_format($product_variant->sale, 0, ',', '.') }}" class="form-control" name="sale" id="salePrice" placeholder="VND">
                                     </div>
                                 </div>
 
@@ -161,6 +161,44 @@
                                 document.getElementById('fileInput').addEventListener('change', loadFile);
                             });
                        </script>
+
+                        <script>
+                            const originalPrice = {{ $product_variant->price }};
+                            const price = document.getElementById('price');
+                            const salePrice = document.getElementById('salePrice');
+
+                            price.addEventListener('input', function (e) {
+                                let value = price.value.replace(/\D/g, '');
+
+                                if (value) {
+                                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                                }
+                                price.value = value;
+                            });
+
+                            salePrice.addEventListener('input', function (e) {
+                                let quantityValue = salePrice.value.replace(/\D/g, '');
+
+                                if (parseInt(quantityValue) > originalPrice) {
+                                    quantityValue = quantityValue.slice(0, -1);
+                                    alert(`Giá khuyễn mãi không được vượt quá số lượng tồn kho: ${originalPrice.toLocaleString()}.`);
+                                }
+
+                                if (quantityValue) {
+                                    quantityValue = quantityValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                                }
+                                salePrice.value = quantityValue;
+                            });
+                        </script>
+
+                        <script>
+                            document.getElementById('updateForm').addEventListener('submit', function (e) {
+                                const price = document.getElementById('price');
+                                const salePrice = document.getElementById('salePrice');
+                                price.value = price.value.replace(/\./g, '');
+                                salePrice.value = salePrice.value.replace(/\./g, '');
+                            });
+                        </script>
                     </div>
                 </div>
             </form>

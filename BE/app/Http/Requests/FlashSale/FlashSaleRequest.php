@@ -36,7 +36,9 @@ class FlashSaleRequest extends BaseRequest
     protected function methodPut()
     {
         return [
-            
+            'discount_price' => 'required|numeric|min:0',
+            'quantity_limit' => 'required|integer|min:1|max:127',
+            'is_active' => 'required|integer',
         ];
     }
 
