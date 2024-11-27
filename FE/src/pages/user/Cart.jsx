@@ -29,14 +29,12 @@ const Cart = () => {
         (checkedItem) => checkedItem.color.sku === item.color.sku
       )
     ) {
-      // Nếu đã có trong danh sách checked, thì xóa nó ra
       setCheckedItemsInCart((prevCheckedItems) =>
         prevCheckedItems.filter(
           (checkedItem) => checkedItem.color.sku !== item.color.sku
         )
       );
     } else {
-      // Nếu chưa có, thì thêm nó vào
       const itemInCart = cartItems.find(
         (cartItem) => cartItem.color.sku === item.color.sku
       );

@@ -20,9 +20,7 @@ const Login = () => {
   }, []);
   const handleLogin = async (event) => {
     event.preventDefault();
-
     const loginData = { email, password };
-
     try {
       const response = await axios.post(
         "http://localhost:8000/api/logins",
@@ -33,10 +31,8 @@ const Login = () => {
           },
         }
       );
-
       const data = response.data;
       console.log(data);
-
       if (data.token) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("loginSuccess", "true");
@@ -73,11 +69,6 @@ const Login = () => {
               <h3 className="fw-bold text-center text-primary my-4 custom-title">
                 Đăng nhập 
               </h3>
-              {/* {errorMessage && (
-                <div className="alert alert-danger" role="alert">
-                  {errorMessage}
-                </div>
-              )} */}
               <form onSubmit={handleLogin}>
                 <div className="form-outline mb-4">
                   <label className="form-label" htmlFor="form1Example13">

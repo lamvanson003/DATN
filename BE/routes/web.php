@@ -98,7 +98,7 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
                 Route::get('/sua/{id}', 'edit')->name('edit');
-                Route::put('/sua/{id}', 'update')->name('update');
+                Route::put('/sua', 'update')->name('update');
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
                 Route::post('/xoa', 'action')->name('action');
             });

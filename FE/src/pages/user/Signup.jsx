@@ -19,7 +19,6 @@ const Signup = () => {
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
-
     if (!username) {
       newErrors.username = "Tên không được để trống";
       isValid = false;
@@ -39,11 +38,11 @@ const Signup = () => {
       newErrors.passwordConfirmation = "Mật khẩu không khớp";
       isValid = false;
     }
-    if (phone && !/^\d{10,15}$/.test(phone)) {  
+    if (phone && !/^\d{10,15}$/.test(phone)) {
+
       newErrors.phone = "Số điện thoại phải từ 10 đến 15 ký tự số";
       isValid = false;
     }
-
     setErrors(newErrors);
     return isValid;
   };
@@ -52,24 +51,25 @@ const Signup = () => {
     e.preventDefault();
     setError("");
     setErrors({});
-
     if (!validateForm()) return;
-
     const data = {
       username,
       email,
       password,
-      password_confirmation: passwordConfirmation, // Key should match what's expected
+      password_confirmation: passwordConfirmation,
       phone,
     };
-
     setIsSubmitting(true);
     try {
-      console.log("Sending data:", data); 
-      const response = await axios.post("http://localhost:8000/api/registers", data, {
-        headers: { "Content-Type": "application/json" },
-      });
-  
+      console.log("Sending data:", data);
+      const response = await axios.post(
+        "http://localhost:8000/api/registers",
+        data,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
       if (response.status === 200) {
         navigate("/login"); 
       }

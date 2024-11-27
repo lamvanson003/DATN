@@ -17,6 +17,7 @@ use App\Http\Requests\Notification\NotificationRequest;
 use App\Mail\OrderStatusUpdated;
 use App\Mail\NotificationVoucher;
 use Illuminate\Support\Facades\Mail;
+use PHPUnit\Event\Test\NoticeTriggered;
 
 class NotificationController extends Controller
 {
@@ -30,9 +31,33 @@ class NotificationController extends Controller
     }
     public function type($type)
     {  
-        $notifiType = Notification::where('type',$type);
-        dd($notifiType);
-        return view('notification.type', compact('notifiType'));
+        $notifiType = Notification::where('type',$type)->get();
+        $title = NotificationType::getDescription($type);
+        return view('notification.type', compact('notifiType','title'));
+    }
+
+    public function edit($id)
+    {
+        $notification = Notification::findOrFail($id);
+        return view('notification.edit', [
+            'notification' => $notification,
+            'read_at' => NotificationReadAt::asSelectArray(),
+            'type' => NotificationType::asSelectArray(),
+        ]);
+    }
+
+    public function update(Request $request)
+    {   
+        $data = $request->all();
+        $notification = Notification::findOrFail($data['id']);
+        
+        $notification->title = $data['title'];
+        $notification->message = $data['message'];
+        $notification->type = $data['type'];
+
+        $notification->save();
+
+        return redirect()->back()->with('success', 'Thực hiện thành công.');
     }
 
     public function delete($id)

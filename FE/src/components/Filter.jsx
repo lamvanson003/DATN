@@ -10,21 +10,6 @@ import {
 } from "react-icons/fa";
 import "./css/Filter.css";
 const filters = [
-  // {
-  //   title: "RAM",
-  //   icon: <FaMemory />,
-  //   options: ["3 GB", "4 GB", "6 GB", "8 GB", "12 GB"],
-  // },
-  // {
-  //   title: "Độ phân giải",
-  //   icon: <FaTv />,
-  //   options: ["QQVGA", "QVGA", "HD+", "Full HD+", "2K+", "Retina (iPhone)"],
-  // },
-  // {
-  //   title: "Tần số quét",
-  //   icon: <FaSyncAlt />,
-  //   options: ["60 Hz", "90 Hz", "120 Hz", "144 Hz"],
-  // },
   {
     title: "Dung lượng lưu trữ",
     icon: <FaDatabase />,
