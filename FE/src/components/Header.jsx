@@ -83,11 +83,10 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
 
       setSearchProducts(uniqueResults.slice(0, 5));
     }, 1000),
-    [] // Ensures the debounce function is created only once
+    []
   );
 
   useEffect(() => {
-    // Cleanup function to cancel debounce on unmount
     return () => {
       debouncedSearch.cancel();
     };
@@ -238,7 +237,8 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
             >
               <div
                 style={{
-                  padding: 20,
+                  paddingTop: 20,
+                  paddingBottom: 20,
                 }}
                 className="rounded-pill"
               >

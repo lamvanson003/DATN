@@ -55,7 +55,7 @@ const Product = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(pros.length / itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(pros?.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
 

@@ -70,8 +70,6 @@ const Home = () => {
 
       <Sbanner />
 
-      <Brand />
-
       <FlashSale />
 
       <div className="container mt-5">

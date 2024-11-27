@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 import "./css/AboutUs.css";
 import pro1 from "../../assets/images/img1.webp";
 import pro2 from "../../assets/images/img2.png";
@@ -90,7 +90,7 @@ const About = () => {
   const handleToggle = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
-  
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -100,68 +100,84 @@ const About = () => {
   const customerRate = [
     {
       imgSrc: avt1,
-      name: 'Nguyễn Văn A',
-      role: 'Khách hàng',
-      text: 'Sản phẩm rất chất lượng, tôi rất hài lòng với dịch vụ và sẽ tiếp tục ủng hộ!',
+      name: "Nguyễn Văn A",
+      role: "Khách hàng",
+      text: "Sản phẩm rất chất lượng, tôi rất hài lòng với dịch vụ và sẽ tiếp tục ủng hộ!",
     },
     {
       imgSrc: avt2,
-      name: 'Lê Thị B',
-      role: 'Khách hàng',
-      text: 'Dịch vụ giao hàng nhanh chóng, nhân viên rất nhiệt tình, tôi sẽ giới thiệu cho bạn bè.',
+      name: "Lê Thị B",
+      role: "Khách hàng",
+      text: "Dịch vụ giao hàng nhanh chóng, nhân viên rất nhiệt tình, tôi sẽ giới thiệu cho bạn bè.",
     },
     {
       imgSrc: avt3,
-      name: 'Trần Minh C',
-      role: 'Khách hàng',
-      text: 'Tôi rất ấn tượng với chất lượng sản phẩm. Sẽ quay lại mua hàng tiếp trong tương lai.',
+      name: "Trần Minh C",
+      role: "Khách hàng",
+      text: "Tôi rất ấn tượng với chất lượng sản phẩm. Sẽ quay lại mua hàng tiếp trong tương lai.",
     },
     {
       imgSrc: avt4,
-      name: 'Phạm Quang D',
-      role: 'Khách hàng',
-      text: 'Một trải nghiệm tuyệt vời, hỗ trợ khách hàng rất chu đáo và sản phẩm hoàn toàn như mong đợi.',
+      name: "Phạm Quang D",
+      role: "Khách hàng",
+      text: "Một trải nghiệm tuyệt vời, hỗ trợ khách hàng rất chu đáo và sản phẩm hoàn toàn như mong đợi.",
     },
     {
       imgSrc: avt5,
-      name: 'Vũ Minh E',
-      role: 'Khách hàng',
-      text: 'Dịch vụ rất tốt, sản phẩm chất lượng xứng đáng với giá tiền. Tôi rất hài lòng!',
+      name: "Vũ Minh E",
+      role: "Khách hàng",
+      text: "Dịch vụ rất tốt, sản phẩm chất lượng xứng đáng với giá tiền. Tôi rất hài lòng!",
     },
   ];
-  
+
   return (
     <div className="container my-5">
-      <div className="row g-5 mt-5" data-aos="fade-up">
+      <div className="row g-5" data-aos="fade-up">
         <div className="col-md-6">
           <h2 className="mb-4">Chúng tôi là ai?</h2>
           <p>
-            Chào mừng bạn đến với <strong className="text-primary">CloudlAB!</strong> Chúng tôi
-            chuyên cung cấp các sản phẩm điện tử chất lượng cao, bao gồm điện thoại, laptop và nhiều thiết bị công nghệ khác. 
-            Với mong muốn mang đến trải nghiệm mua sắm tiện lợi và đáng tin cậy, 
-            chúng tôi cam kết chỉ cung cấp những sản phẩm chính hãng với dịch vụ chăm sóc khách hàng tận tâm.
+            Chào mừng bạn đến với{" "}
+            <strong className="text-primary">CloudlAB!</strong> Chúng tôi chuyên
+            cung cấp các sản phẩm điện tử chất lượng cao, bao gồm điện thoại,
+            laptop và nhiều thiết bị công nghệ khác. Với mong muốn mang đến trải
+            nghiệm mua sắm tiện lợi và đáng tin cậy, chúng tôi cam kết chỉ cung
+            cấp những sản phẩm chính hãng với dịch vụ chăm sóc khách hàng tận
+            tâm.
           </p>
           <h4 className="mt-4">Tại sao CloudlAB?</h4>
           <ul className="list-unstyled">
             <li className="d-flex align-items-center mb-2">
-              <i className="bi bi-check-circle me-2" style={{ color: "#28a745" }}></i>
-              <strong>Đội ngũ chuyên gia</strong> - Được xây dựng từ những người đam mê công nghệ.
+              <i
+                className="bi bi-check-circle me-2"
+                style={{ color: "#28a745" }}
+              ></i>
+              <strong>Đội ngũ chuyên gia</strong> - Được xây dựng từ những người
+              đam mê công nghệ.
             </li>
             <li className="d-flex align-items-center mb-2">
-              <i className="bi bi-check-circle me-2" style={{ color: "#28a745" }}></i>
-              <strong>Sản phẩm chất lượng</strong> - Chỉ bán các sản phẩm chính hãng với bảo hành đầy đủ.
+              <i
+                className="bi bi-check-circle me-2"
+                style={{ color: "#28a745" }}
+              ></i>
+              <strong>Sản phẩm chất lượng</strong> - Chỉ bán các sản phẩm chính
+              hãng với bảo hành đầy đủ.
             </li>
             <li className="d-flex align-items-center mb-2">
-              <i className="bi bi-check-circle me-2" style={{ color: "#28a745" }}></i>
-              <strong>Dịch vụ khách hàng hoàn hảo</strong> - Cam kết hỗ trợ nhanh chóng và tận tâm.
+              <i
+                className="bi bi-check-circle me-2"
+                style={{ color: "#28a745" }}
+              ></i>
+              <strong>Dịch vụ khách hàng hoàn hảo</strong> - Cam kết hỗ trợ
+              nhanh chóng và tận tâm.
             </li>
           </ul>
           <h4 className="mt-4">Khám phá CloudlAB ngay hôm nay!</h4>
           <p>
-            Hãy đến với CloudlAB để tìm kiếm các sản phẩm công nghệ tốt nhất với mức giá hợp lý. Chúng tôi luôn sẵn sàng phục vụ bạn!
+            Hãy đến với CloudlAB để tìm kiếm các sản phẩm công nghệ tốt nhất với
+            mức giá hợp lý. Chúng tôi luôn sẵn sàng phục vụ bạn!
           </p>
         </div>
-      
+
         <div className="col-md-6">
           <div className="row image-container">
             <div className="col-12 mb-3 main-image about-images">
@@ -202,17 +218,25 @@ const About = () => {
 
       <div id="services" className="services section light-background mt-5">
         <div className="container section-title" data-aos="fade-up">
-          <h2 className="text-center align-items-center">Dịch vụ của chúng tôi</h2>
+          <h2 className="text-center align-items-center">
+            Dịch vụ của chúng tôi
+          </h2>
         </div>
         <div className="row g-5">
           {cardData.map((card, index) => (
             <div className="col-lg-6" data-aos="fade-up" key={index}>
               <div className="service-item d-flex align-items-center">
-                <img src={card.imgSrc} className="service-img" alt={card.title}/>
+                <img
+                  src={card.imgSrc}
+                  className="service-img"
+                  alt={card.title}
+                />
                 <div className="service-content">
                   <h3>{card.title}</h3>
                   <p>{card.text}</p>
-                  <a href="#" className="read-more stretched-link">Learn More <i className="bi bi-arrow-right"></i></a>
+                  <a href="#" className="read-more stretched-link">
+                    Learn More <i className="bi bi-arrow-right"></i>
+                  </a>
                 </div>
               </div>
             </div>
@@ -222,8 +246,12 @@ const About = () => {
 
       <div className="container mt-5">
         <div className="container section-title" data-aos="fade-up">
-          <h2 className="text-center align-items-center">Đánh giá của khách hàng</h2>
-          <p className="text-center align-items-center">Tổng hợp những đánh giá của khách hàng về chúng tôi gần đây</p>
+          <h2 className="text-center align-items-center">
+            Đánh giá của khách hàng
+          </h2>
+          <p className="text-center align-items-center">
+            Tổng hợp những đánh giá của khách hàng về chúng tôi gần đây
+          </p>
         </div>
 
         <div className="container" data-aos="fade-up">
@@ -232,7 +260,11 @@ const About = () => {
             speed={600}
             autoplay={{ delay: 5000 }}
             slidesPerView="auto"
-            pagination={{ el: '.swiper-pagination', type: 'bullets', clickable: true }}
+            pagination={{
+              el: ".swiper-pagination",
+              type: "bullets",
+              clickable: true,
+            }}
             breakpoints={{
               320: { slidesPerView: 1, spaceBetween: 40 },
               1200: { slidesPerView: 3, spaceBetween: 1 },
@@ -243,7 +275,9 @@ const About = () => {
                 <div className="card customerRate-item d-flex justify-content-center align-items-center p-4">
                   <div className="card-body text-center">
                     <div className="stars mb-2">
-                      {Array.from({ length: Math.floor(Math.random() * 2) + 4 }).map((_, i) => (
+                      {Array.from({
+                        length: Math.floor(Math.random() * 2) + 4,
+                      }).map((_, i) => (
                         <i key={i} className="bi bi-star-fill"></i>
                       ))}
                     </div>
@@ -265,7 +299,7 @@ const About = () => {
           <div className="swiper-pagination"></div>
         </div>
       </div>
- 
+
       <div className="row g-5 mt-5">
         <div className="col-md-6 d-flex align-items-center">
           <img alt="Image description" className="w-50 h-50" src={spro1} />
@@ -307,18 +341,21 @@ const About = () => {
             />
             <span
               className="position-absolute top-50 translate-middle-y ps-2"
-              style={{
-                // left: "10px",
-                // color: "#6c757d",
-                // pointerEvents: "none"
-              }}
+              style={
+                {
+                  // left: "10px",
+                  // color: "#6c757d",
+                  // pointerEvents: "none"
+                }
+              }
             >
-              <img alt="" src={plane} style={{ height: "20px", width: "20px" }} />
+              <img
+                alt=""
+                src={plane}
+                style={{ height: "20px", width: "20px" }}
+              />
             </span>
-            <button
-              className="btn btn-primary btn-register"
-              type="submit"
-            >
+            <button className="btn btn-primary btn-register" type="submit">
               Đăng ký
             </button>
           </div>
@@ -333,7 +370,9 @@ const About = () => {
           <div className="accordion-item" key={index}>
             <h2 className="accordion-header">
               <button
-                className={`accordion-button ${openIndex !== index ? "collapsed" : ""}`}
+                className={`accordion-button ${
+                  openIndex !== index ? "collapsed" : ""
+                }`}
                 type="button"
                 onClick={() => handleToggle(index)}
                 aria-expanded={openIndex === index ? "true" : "false"}
@@ -344,7 +383,9 @@ const About = () => {
             </h2>
             <div
               id={`collapse${index}`}
-              className={`accordion-collapse collapse ${openIndex === index ? "show" : ""}`}
+              className={`accordion-collapse collapse ${
+                openIndex === index ? "show" : ""
+              }`}
               data-bs-parent="#accordionExample"
             >
               <div className="accordion-body">{faq.answer}</div>
