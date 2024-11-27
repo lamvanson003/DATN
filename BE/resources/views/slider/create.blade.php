@@ -6,7 +6,7 @@
 <div class="container">
     <div class="page-inner">
         <div class="page-header">
-            <h3 class="fw-bold mb-3">DataTables</h3>
+            <h3 class="fw-bold mb-3">CloudLab</h3>
             <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
                     <a href="{{ route('admin.dashboard.index') }}">
@@ -17,13 +17,13 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.slider.index') }}">Sản phẩm</a>
+                    <a href="{{ route('admin.slider.index') }}">Slider</a>
                 </li>
                 <li class="separator">
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Thêm sản phẩm</a>
+                    <a href="#">Thêm slider</a>
                 </li>
             </ul>
         </div>
