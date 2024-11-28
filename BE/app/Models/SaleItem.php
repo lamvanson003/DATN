@@ -21,7 +21,7 @@ class SaleItem extends Model
         return $this->belongsTo(ProductVariant::class,'product_variant_id');
     }
 
-    public $cast = [
+    public $casts = [
         'is_active' => ActiveStatus::class
     ];
 }

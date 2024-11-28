@@ -202,8 +202,10 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::get('/{id}', 'delete')->name('delete');
                 Route::get('/sua/{id}', 'edit')->name('edit');
                 Route::put('/sua/{id}', 'update')->name('update');
+                Route::post('/{id}/update-status', 'updateStatus')->name('updateStatus');
 
                 Route::get('/status/{status}', 'getByStatus')->name('status');
+                Route::post('/return-confirm/{id}', 'returnConfirm')->name('returnConfirm');
                 Route::post('/change-status/{order_id}', 'changeStatus')->name('changeStatus');
             });
         });

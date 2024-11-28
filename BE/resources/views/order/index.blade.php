@@ -92,33 +92,33 @@
                       </td>
                       <td><a href="">{{ $item->paymentMethod->name }}</a></td>
                       <td>
-                        @switch($item->status)
+                        @switch($item->status->value)
                             @case(\App\Enums\Order\OrderStatus::Pending)
-                                <span class="badge rounded-pill badge-secondary">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                                <span class="badge rounded-pill badge-secondary">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break
 
                             @case(\App\Enums\Order\OrderStatus::Confirm)
-                              <span class="badge rounded-pill badge-primary">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                              <span class="badge rounded-pill badge-primary">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break
 
                             @case(\App\Enums\Order\OrderStatus::Awaiting)
-                              <span class="badge rounded-pill badge-warning">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                              <span class="badge rounded-pill badge-warning">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break   
 
                             @case(\App\Enums\Order\OrderStatus::InTransit)
-                             <span class="badge rounded-pill badge-info">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                             <span class="badge rounded-pill badge-info">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break 
 
                             @case(\App\Enums\Order\OrderStatus::Delivered)
-                             <span class="badge rounded-pill badge-success">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                             <span class="badge rounded-pill badge-success">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break 
 
                             @case(\App\Enums\Order\OrderStatus::Canceled)
-                             <span class="badge rounded-pill badge-danger">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                             <span class="badge rounded-pill badge-danger">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break 
 
                             @case(\App\Enums\Order\OrderStatus::Returned)
-                             <span class="badge rounded-pill badge-dark">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                             <span class="badge rounded-pill badge-black">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break 
 
                             @default

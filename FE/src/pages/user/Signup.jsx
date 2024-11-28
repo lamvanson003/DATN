@@ -38,6 +38,7 @@ const Signup = () => {
       isValid = false;
     }
     if (phone && !/^\d{10,15}$/.test(phone)) {
+
       newErrors.phone = "Số điện thoại phải từ 10 đến 15 ký tự số";
       isValid = false;
     }
@@ -67,19 +68,18 @@ const Signup = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
+
       if (response.status === 200) {
-        localStorage.setItem("signupSuccess", "true");
-        navigate("/login");
+        navigate("/login"); 
       }
     } catch (err) {
-      console.error("Error response:", err.response); // Log the full error response
-
+      console.error("Error response:", err.response);
+  
       if (err.response) {
         const errorMessage =
           err.response.data.error || err.response.data.errors;
 
         if (errorMessage) {
-          // Handle specific error messages
           if (errorMessage.email) {
             setErrors({
               email: "Email đã được sử dụng. Vui lòng nhập email khác.",

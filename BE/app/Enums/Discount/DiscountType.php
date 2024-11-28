@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Enums\Discount;
 
 use BenSampo\Enum\Enum;
@@ -11,19 +12,19 @@ final class DiscountType extends Enum
     public static function asSelectArray(): array
     {
         return [
-            self::Percent => 'Giảm giá theo phần trăm',
-            self::Fixed => 'Giảm giá cố định',
+            self::Fixed => 'Tiền',
+            self::Percent => 'Phần trăm',
         ];
     }
     public static function getValues(array|string|null $keys = null): array
-{
-    return array_keys(self::asSelectArray());
-}
+    {
+        return array_keys(self::asSelectArray());
+    }
     public static function getDescription($value): string
     {
         return match ($value) {
-            self::Percent => 'Giảm giá theo phần trăm',
-            self::Fixed => 'Giảm giá cố định',
+            self::Fixed => 'Tiền',
+            self::Percent => 'Phần trăm',
             default => 'Không xác định',
         };
     }
