@@ -42,7 +42,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Tên danh mục<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" value="{{ $postCategory->name }}" placeholder="Nhập tên danh mục">
+                                        <input type="text" class="required form-control" name="name" value="{{ $postCategory->name }}" placeholder="Nhập tên danh mục">
                                     </div>
                                 </div>
 
@@ -50,7 +50,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Đường dẫn (Slug)<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="slug" value="{{ $postCategory->slug }}" placeholder="Nhập slug">
+                                        <input type="text" class="required form-control" name="slug" value="{{ $postCategory->slug }}" placeholder="Nhập slug">
                                     </div>
                                 </div>
 
@@ -59,7 +59,16 @@
                     </div>
 
                     <div class="col-12 col-md-3">
-                        <!-- Trạng thái -->
+
+                        <div class="card mb-3">
+                            <div class="card-header">Đăng</div>
+                            <div class="card-body p-2">
+                                <button type="submit" class="btn btn-primary p-1-2" title="Lưu">
+                                    Lưu
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="card mb-3">
                             <div class="card-header">Trạng thái</div>
                             <div class="card-body p-2">
@@ -74,22 +83,13 @@
                         <div class="card mb-3">
                             <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
                             <div class="card-body p-2">
-                                <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
+                                <input type="file" id="fileInput" name="images" class="required d-none" accept="image/*">
                                 <div class="image-container" style="cursor: pointer;" onclick="document.getElementById('fileInput').click();">
                                     <img id="imagePreview" src="{{ asset('/images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Button lưu -->
-                        <div class="card mb-3">
-                            <div class="card-header">Đăng</div>
-                            <div class="card-body p-2">
-                                <button type="submit" class="btn btn-primary p-1-2" title="Lưu">
-                                    Lưu
-                                </button>
-                            </div>
-                        </div>
                     </div>                    
                 </div>
             </form>    

@@ -96,7 +96,7 @@ const Footer = () => {
               <ul className="des">
                 <li>
                   <span>Địa chỉ: </span>
-                  6688Princess Road, London, Greater London BAS 23JK, UK
+                  Công viên Phần mềm Quang Trung, Quận 12
                 </li>
                 <li>
                   <span>SĐT: </span>
@@ -104,7 +104,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <span>Email: </span>
-                  <a href="mailto://info@yourdomain.com">info@yourdomain.com</a>
+                  <a href="mailto://info@yourdomain.com">cloudlab@gmail.com</a>
                 </li>
               </ul>
             </div>

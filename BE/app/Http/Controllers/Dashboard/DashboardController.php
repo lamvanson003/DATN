@@ -31,6 +31,7 @@ class DashboardController extends Controller
         $orderCount = $this->getOrderCountByMonth();
         $productCounts  = $this->getProductCountByCategory();
         
+        $status = OrderStatus::asSelectArray();
 
         return view('dashboard.dashboard', [
             'getTotalpriceOrder' => $getTotalpriceOrder,
@@ -39,11 +40,13 @@ class DashboardController extends Controller
             'countSubcription' => $countSubcription,
             'countOrder' => $countOrder,
             'getUser' => $getUser,
+            'status' => $status,
             'getOrder' => $getOrder,
             'orderRevenue' => $orderRevenue,
             'userRegistration' => $userRegistration,
             'orderCount' => $orderCount,
             'productCounts' => $productCounts,
+
         ]);
     }
     

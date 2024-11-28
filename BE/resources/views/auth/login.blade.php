@@ -53,14 +53,10 @@
         
     </div>
 </div>
-
-<!-- Import Firebase SDK dưới dạng module -->
 <script type="module">
-    // Import Firebase SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js";
     
-    // Firebase configuration
     const firebaseConfig = {
         apiKey: "AIzaSyADoX7jz4ESYSVmYozwKRCyCSiMKgKrQoM",
         authDomain: "app-tmdt-97150.firebaseapp.com",
@@ -71,16 +67,17 @@
         measurementId: "G-BJCL2E7522"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
     
-    // Get device token
-    getToken(messaging, { vapidKey: 'BIV6tWvfebfZKSNVZqgpkWY2EzVWbheWq1u0fIMomXhAaXYewyNKMEKWTyhIO7EcqgBiBGbXwLzxVVyblc2-dDQ' }) // Add VAPID Key
+    getToken(messaging, { vapidKey: 'BIV6tWvfebfZKSNVZqgpkWY2EzVWbheWq1u0fIMomXhAaXYewyNKMEKWTyhIO7EcqgBiBGbXwLzxVVyblc2-dDQ' })
         .then((token) => {
             if (token) {
                 console.log("Device token:", token);
-                document.getElementById('device_token').value = token || ''; // Set token in form input
+                const deviceTokenInput = document.getElementById('device_token');
+                if (deviceTokenInput) {
+                    deviceTokenInput.value = token || '';
+                } 
             } else {
                 console.log("No registration token available.");
             }
@@ -89,4 +86,5 @@
             console.error("Error getting device token:", error);
         });
 </script>
+
 @endsection

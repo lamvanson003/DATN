@@ -103,7 +103,7 @@
                                 <div class="mb-3">
                                     <select class="form-select" name="status">
                                         @foreach ($statuses as $key => $value)
-                                            <option value="{{ $key }}" {{ $key == $comment->status ? 'selected' : '' }}>
+                                            <option value="{{ $key }}" {{ $key == $comment->status->value ? 'selected' : '' }}>
                                                 {{ $value }}
                                             </option>
                                         @endforeach

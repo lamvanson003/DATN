@@ -5,6 +5,9 @@ export const orderApi = {
       const response = await axios({
         url: "http://127.0.0.1:8000/api/orders",
         method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
         data: orderInfo,
       });
 
@@ -22,6 +25,9 @@ export const orderApi = {
       const response = await axios({
         url: `http://127.0.0.1:8000/api/orders/detail/${id}`,
         method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       return response;

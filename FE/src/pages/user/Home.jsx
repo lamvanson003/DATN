@@ -79,7 +79,7 @@ const Home = () => {
             <a href="">Xem tất cả</a>
           </div>
           <div className="row justify-content-start align-items-center pt-3 pb-3">
-            {phonesData
+            {phonesData && phonesData
               .filter((value, index) => index < 8)
               .map((pro, index) => (
                 <div key={index} className="col-md-3">
@@ -108,7 +108,7 @@ const Home = () => {
             <a href="">Xem tất cả</a>
           </div>
           <div className="row justify-content-start align-items-center pt-3 pb-3">
-            {laptopsData
+            {laptopsData && laptopsData
               .filter((value, index) => index < 8)
               .map((pro, index) => (
                 <div key={index} className="col-md-3">
