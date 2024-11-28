@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import hotB from "../../assets/images/iHome/hot-banner.png";
+
 import recommend from "../../assets/images/iHome/recommend.png";
 import {
   BoxPro,
@@ -11,6 +11,7 @@ import {
   FlashSale,
   Recommend,
   Popup,
+  DealHot,
 } from "../../components";
 import "./css/Home.css";
 import { useSelector } from "react-redux";
@@ -128,27 +129,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="container mt-5">
-        <div className="row  flex-nowrap">
-          <div className="col-md-3">
-            <div className="hot-product position-relative">
-              <h5 className="text-center">DEAL HOT</h5>
-              <img src={hotB} alt="Hot Banner 1 Image" className="img-fluid" />
-            </div>
-          </div>
-          <div className="col-md-9">
-            <div className="row">
-              {Array(3)
-                .fill(0)
-                .map((_, index) => (
-                  <div key={index} className="col-md-4 ">
-                    <BoxPro />
-                  </div>
-                ))}
-            </div>
-          </div>
-        </div>
-      </div>
+      <DealHot />
 
       <div className="container mt-5">
         <div className="row  d-flex">
