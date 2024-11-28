@@ -49,6 +49,24 @@ class OrderController extends Controller
         return redirect()->route('admin.order.index')->with('success', 'Đơn hàng đã được cập nhật thành công!');
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        if (!in_array($request->status, \App\Enums\Order\OrderStatus::getValues())) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Trạng thái không hợp lệ.'
+            ]);
+        }
+
+        $order->status = $request->status;
+        $order->save();
+
+        return redirect()->back()->with('success','Thực hiện thành công');
+    }
+
+
     public function getByStatus($status)
     {
         $order = Order::with('user')->where('status',$status)->get();

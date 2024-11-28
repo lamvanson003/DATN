@@ -1,263 +1,71 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./css/Post.css";
+import { postApi } from "../../apis/post";
+import { Link } from "react-router-dom";
 const Post = () => {
+  const [postData, setPostData] = useState([]);
+  useEffect(() => {
+    const fetchPostData = async () => {
+      const res = await postApi.getAll();
+      setPostData(res);
+    };
+    fetchPostData();
+  }, []);
   return (
     <div className="container" style={{ margin: "0 auto", padding: 20 }}>
       <div className="row mt-5">
         <div className="right-content col-xl-9 col-lg-9 col-12">
           {/* <h1 className="title-page">Tin tức</h1> */}
           <div className="list-blogs">
-            <div className="clearfix">
-              <div className="blog-item clearfix">
-                <div className="row">
-                  <div className="blog-item-thumbnail col-xl-4 col-lg-4 col-md-4 col-12">
-                    <a
-                      className="thumb"
-                      href="/tablet-nokia-lumia-chua-bao-gio-ra-mat-vua-lo-dien-mot-lan-nua"
-                      title="Tablet Nokia Lumia vừa mới được lộ diện"
-                    >
-                      <img
-                        src="//bizweb.dktcdn.net/thumb/large/100/037/441/articles/lumiatablet1.jpg?v=1449042941343"
-                        data-src="//bizweb.dktcdn.net/thumb/large/100/037/441/articles/lumiatablet1.jpg?v=1449042941343"
-                        alt="Tablet Nokia Lumia vừa mới được lộ diện"
-                        className="lazyload img-responsive loaded"
-                        data-was-processed="true"
-                      />
-                    </a>
-                  </div>
-                  <div className="blog-item-info col-xl-7 col-lg-7 col-md-7 col-12">
-                    <h3 className="blog-item-name">
+            {postData?.map((item) => (
+              <div key={item?.id} className="clearfix">
+                <div className="blog-item clearfix">
+                  <div className="row">
+                    <div className="blog-item-thumbnail col-xl-4 col-lg-4 col-md-4 col-12">
                       <a
+                        className="thumb"
                         href="/tablet-nokia-lumia-chua-bao-gio-ra-mat-vua-lo-dien-mot-lan-nua"
-                        title="Tablet Nokia Lumia vừa mới được lộ diện"
+                        title={item?.title}
                       >
-                        Tablet Nokia Lumia vừa mới được lộ diện
+                        <img
+                          src={item?.images}
+                          data-src="//bizweb.dktcdn.net/thumb/large/100/037/441/articles/lumiatablet1.jpg?v=1449042941343"
+                          alt={item?.title}
+                          className="lazyload img-responsive loaded"
+                          data-was-processed="true"
+                        />
                       </a>
-                    </h3>
-                    <div className="post-time">01/12/2015</div>
-                    <p className="blog-item-summary">
-                      Surface hiện vẫn đang là dòng máy tính chủ lực của
-                      Microsoft, với hai sản phẩm mới nhất là Surface Pro 4 và
-                      Surface Book. Tuy nhiên theo thông tin rò rỉ từ trang
-                      twitter nổi tiếng @evleaks thì trước...
-                    </p>
-                    <a
-                      className="btn btn-more"
-                      href="/tablet-nokia-lumia-chua-bao-gio-ra-mat-vua-lo-dien-mot-lan-nua"
-                      title="Xem thêm"
-                    >
-                      Xem thêm{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 256 512"
+                    </div>
+                    <div className="blog-item-info col-xl-7 col-lg-7 col-md-7 col-12">
+                      <h3 className="blog-item-name">
+                        <Link
+                          title={item?.title}
+                          to={`post-detail/${item?.slug}`}
+                        >
+                          {item?.title}
+                        </Link>
+                      </h3>
+                      <div className="post-time">{item?.posted_at}</div>
+                      <p className="blog-item-summary">{item?.content}</p>
+                      <Link
+                        className="btn btn-more"
+                        title="Xem thêm"
+                        to={`post-detail/${item?.slug}`}
                       >
-                        <path d="M64 448c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L178.8 256L41.38 118.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25l-160 160C80.38 444.9 72.19 448 64 448z"></path>
-                      </svg>
-                    </a>
+                        Xem thêm
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 256 512"
+                        >
+                          <path d="M64 448c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L178.8 256L41.38 118.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25l-160 160C80.38 444.9 72.19 448 64 448z"></path>
+                        </svg>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="blog-item clearfix">
-                <div className="row">
-                  <div className="blog-item-thumbnail col-xl-4 col-lg-4 col-md-4 col-12">
-                    <a
-                      className="thumb"
-                      href="/huawei-sap-tung-smartphone-co-camera-doc-dao-khong-kem-gi-oppo-n3"
-                      title="Huawei sắp tung smartphone có camera cực độc"
-                    >
-                      <img
-                        src="//bizweb.dktcdn.net/thumb/large/100/037/441/articles/maxresdefault.jpg?v=1448966334947"
-                        data-src="//bizweb.dktcdn.net/thumb/large/100/037/441/articles/maxresdefault.jpg?v=1448966334947"
-                        alt="Huawei sắp tung smartphone có camera cực độc"
-                        className="lazyload img-responsive loaded"
-                        data-was-processed="true"
-                      />
-                    </a>
-                  </div>
-                  <div className="blog-item-info col-xl-7 col-lg-7 col-md-7 col-12">
-                    <h3 className="blog-item-name">
-                      <a
-                        href="/huawei-sap-tung-smartphone-co-camera-doc-dao-khong-kem-gi-oppo-n3"
-                        title="Huawei sắp tung smartphone có camera cực độc"
-                      >
-                        Huawei sắp tung smartphone có camera cực độc
-                      </a>
-                    </h3>
-                    <div className="post-time">01/12/2015</div>
-                    <p className="blog-item-summary">
-                      Sau khi ra mắt chiếc smartphone cực mạnh Mate 8 với chip
-                      Kirin 950 thì mới đây, hãng smartphone hàng đầu Trung Quốc
-                      Huawei tiếp tục đăng quảng cáo về một smartphone mới với
-                      camera rất độc đáo.
-                    </p>
-                    <a
-                      className="btn btn-more"
-                      href="/huawei-sap-tung-smartphone-co-camera-doc-dao-khong-kem-gi-oppo-n3"
-                      title="Xem thêm"
-                    >
-                      Xem thêm{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 256 512"
-                      >
-                        {/*! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. */}
-                        <path d="M64 448c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L178.8 256L41.38 118.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25l-160 160C80.38 444.9 72.19 448 64 448z"></path>
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="blog-item clearfix">
-                <div className="row">
-                  <div className="blog-item-thumbnail col-xl-4 col-lg-4 col-md-4 col-12">
-                    <a
-                      className="thumb"
-                      href="/iphone-6c-gia-re-tiep-tuc-xuat-hien"
-                      title="iPhone 6c giá rẻ tiếp tục xuất hiện"
-                    >
-                      <img
-                        src="//bizweb.dktcdn.net/thumb/large/100/037/441/articles/832-img1.jpg?v=1448965983470"
-                        data-src="//bizweb.dktcdn.net/thumb/large/100/037/441/articles/832-img1.jpg?v=1448965983470"
-                        alt="iPhone 6c giá rẻ tiếp tục xuất hiện"
-                        className="lazyload img-responsive loaded"
-                        data-was-processed="true"
-                      />
-                    </a>
-                  </div>
-                  <div className="blog-item-info col-xl-7 col-lg-7 col-md-7 col-12">
-                    <h3 className="blog-item-name">
-                      <a
-                        href="/iphone-6c-gia-re-tiep-tuc-xuat-hien"
-                        title="iPhone 6c giá rẻ tiếp tục xuất hiện"
-                      >
-                        iPhone 6c giá rẻ tiếp tục xuất hiện
-                      </a>
-                    </h3>
-                    <div className="post-time">01/12/2015</div>
-                    <p className="blog-item-summary">
-                      iPhone 6c một lần nữa rò rỉ các thông tin quan trọng và
-                      đặc biệt, nguồn tin còn khẳng định chắc chắn là nó sẽ được
-                      ra mắt. Dự kiến đây sẽ là mẫu iPhone giá rẻ nhưng có
-                      thiết...
-                    </p>
-                    <a
-                      className="btn btn-more"
-                      href="/iphone-6c-gia-re-tiep-tuc-xuat-hien"
-                      title="Xem thêm"
-                    >
-                      Xem thêm{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 256 512"
-                      >
-                        {/*! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. */}
-                        <path d="M64 448c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L178.8 256L41.38 118.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25l-160 160C80.38 444.9 72.19 448 64 448z"></path>
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="blog-item clearfix">
-                <div className="row">
-                  <div className="blog-item-thumbnail col-xl-4 col-lg-4 col-md-4 col-12">
-                    <a
-                      className="thumb"
-                      href="/co-nen-thao-cu-sac-thiet-bi-di-dong-ra-khoi-o-dien-khi-khong-dung"
-                      title="Có nên tháo củ sạc ra khỏi ổ điện khi không dùng?"
-                    >
-                      <img
-                        src="//bizweb.dktcdn.net/thumb/large/100/037/441/articles/adapter.jpg?v=1448965577950"
-                        data-src="//bizweb.dktcdn.net/thumb/large/100/037/441/articles/adapter.jpg?v=1448965577950"
-                        alt="Có nên tháo củ sạc ra khỏi ổ điện khi không dùng?"
-                        className="lazyload img-responsive loaded"
-                        data-was-processed="true"
-                      />
-                    </a>
-                  </div>
-                  <div className="blog-item-info col-xl-7 col-lg-7 col-md-7 col-12">
-                    <h3 className="blog-item-name">
-                      <a
-                        href="/co-nen-thao-cu-sac-thiet-bi-di-dong-ra-khoi-o-dien-khi-khong-dung"
-                        title="Có nên tháo củ sạc ra khỏi ổ điện khi không dùng?"
-                      >
-                        Có nên tháo củ sạc ra khỏi ổ điện khi không dùng?
-                      </a>
-                    </h3>
-                    <div className="post-time">01/12/2015</div>
-                    <p className="blog-item-summary">
-                      Giờ đây khi đi đâu, chúng ta sẽ không khó để tìm thấy
-                      những củ sạc di động. Bên cạnh đó, hình ảnh những bộ sạc
-                      này luôn được cắm vào ổ điện cũng không còn xa lạ gì
-                      nữa!...
-                    </p>
-                    <a
-                      className="btn btn-more"
-                      href="/co-nen-thao-cu-sac-thiet-bi-di-dong-ra-khoi-o-dien-khi-khong-dung"
-                      title="Xem thêm"
-                    >
-                      Xem thêm{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 256 512"
-                      >
-                        {/*! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. */}
-                        <path d="M64 448c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L178.8 256L41.38 118.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25l-160 160C80.38 444.9 72.19 448 64 448z"></path>
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="blog-item clearfix">
-                <div className="row">
-                  <div className="blog-item-thumbnail col-xl-4 col-lg-4 col-md-4 col-12">
-                    <a
-                      className="thumb"
-                      href="/bai-viet-mau"
-                      title="Kinh nghiệm chọn mua laptop bạn cần lưu ý"
-                    >
-                      <img
-                        src="//bizweb.dktcdn.net/thumb/large/100/037/441/articles/laptop-mistakes.jpg?v=1448965209083"
-                        data-src="//bizweb.dktcdn.net/thumb/large/100/037/441/articles/laptop-mistakes.jpg?v=1448965209083"
-                        alt="Kinh nghiệm chọn mua laptop bạn cần lưu ý"
-                        className="lazyload img-responsive loaded"
-                        data-was-processed="true"
-                      />
-                    </a>
-                  </div>
-                  <div className="blog-item-info col-xl-7 col-lg-7 col-md-7 col-12">
-                    <h3 className="blog-item-name">
-                      <a
-                        href="/bai-viet-mau"
-                        title="Kinh nghiệm chọn mua laptop bạn cần lưu ý"
-                      >
-                        Kinh nghiệm chọn mua laptop bạn cần lưu ý
-                      </a>
-                    </h3>
-                    <div className="post-time">30/11/2015</div>
-                    <p className="blog-item-summary">
-                      Chọn mua máy tính xách tay hoàn toàn khác máy tính để bàn.
-                      Tiêu chí “càng nhiều RAM, CPU càng mạnh càng tốt” trên PC
-                      hoàn toàn không áp dụng đựơc với laptop, và sau đây là 10
-                      điều nên...
-                    </p>
-                    <a
-                      className="btn btn-more"
-                      href="/bai-viet-mau"
-                      title="Xem thêm"
-                    >
-                      Xem thêm{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 256 512"
-                      >
-                        {/*! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. */}
-                        <path d="M64 448c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L178.8 256L41.38 118.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25l-160 160C80.38 444.9 72.19 448 64 448z"></path>
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
+
             <div className="text-center"></div>
           </div>
         </div>

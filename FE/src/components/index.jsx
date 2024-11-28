@@ -14,3 +14,4 @@ export { default as InfoPro } from "./InfoPro";
 export { default as FlashSale } from "./FlashSale";
 export { default as Recommend } from "./Recommend";
 export { default as Popup } from "./Popup";
+export { default as DealHot } from "./DealHot";

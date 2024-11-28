@@ -17,7 +17,7 @@ class Comment extends Model
         return $this->belongsTo(ProductVariant::class);
     }
 
-    protected $cast = [
+    protected $casts = [
         'status'=> CommentStatus::class,
     ];
 }

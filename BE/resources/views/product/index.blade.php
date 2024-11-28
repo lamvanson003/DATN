@@ -88,15 +88,15 @@
                       </div>                                     
                     </td>
                       <td>
-                        @switch($item->status)
+                        @switch($item->status->value)
                             @case(\App\Enums\Product\ProductStatus::Active)
-                                <span class="badge rounded-pill badge-success">{{ \App\Enums\Product\ProductStatus::getDescription($item->status) }}</span>
+                                <span class="badge rounded-pill badge-success">{{ \App\Enums\Product\ProductStatus::getDescription($item->status->value) }}</span>
                             @break
                             @case(\App\Enums\Product\ProductStatus::Inactive)
-                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\Product\ProductStatus::getDescription($item->status) }}</span>
+                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\Product\ProductStatus::getDescription($item->status->value) }}</span>
                             @break
                             @case(\App\Enums\Product\ProductStatus::Deleted)
-                                <span class="badge rounded-pill badge-danger">{{ \App\Enums\Product\ProductStatus::getDescription($item->status) }}</span>
+                                <span class="badge rounded-pill badge-danger">{{ \App\Enums\Product\ProductStatus::getDescription($item->status->value) }}</span>
                             @break
                             @default
                                 <span class="badge rounded-pill badge-secondary">Không xác định</span>

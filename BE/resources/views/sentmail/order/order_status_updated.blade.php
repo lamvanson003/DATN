@@ -9,9 +9,9 @@
     <p><strong>Chi tiết đơn hàng:</strong></p>
     <ul>
         <li><strong>Mã đơn hàng:</strong> {{ $order->code }}</li>
-        <li><strong>Trạng thái mới:</strong> {{ $order->status }}</li>
+        <li><strong>Trạng thái mới:</strong> {{ $order->status->description }}</li>
         <li><strong>Địa chỉ:</strong> {{ $order->address }}</li>
-        <li><strong>Ghi chú:</strong> {{ $order->note ?? chưa }}</li>
+        <li><strong>Ghi chú:</strong> {{ $order->note }}</li>
     </ul>
     <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</p>
 </body>
