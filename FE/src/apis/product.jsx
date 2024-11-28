@@ -5,6 +5,9 @@ export const productApi = {
       const response = await axios({
         url: " http://127.0.0.1:8000/api/products/category/dien-thoai",
         method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       return response;
     } catch (err) {
@@ -17,6 +20,9 @@ export const productApi = {
       const response = await axios({
         url: " http://127.0.0.1:8000/api/flash-sales/active",
         method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       return response.data.data;
@@ -30,6 +36,9 @@ export const productApi = {
       const response = await axios({
         url: " http://127.0.0.1:8000/api/products/category/laptop",
         method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       return response;
     } catch (err) {
@@ -42,10 +51,23 @@ export const productApi = {
       const response = await axios({
         url: `http://127.0.0.1:8000/api/products/${slug}`, // Sử dụng slug trực tiếp trong URL
         method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       return response.data.data;
     } catch (err) {
       console.log("Không thể fetch được dữ liệu", err);
+    }
+  },
+  getDealHot: async (cate) => {
+    try {
+      const res = await axios.get(
+        `http://127.0.0.1:8000/api/products/hotdeal?category=${cate}`
+      );
+      return res.data;
+    } catch (err) {
+      console.log("Lỗi không thể fetch dữ liệu: ", err);
     }
   },
   search: async (name) => {
@@ -55,6 +77,9 @@ export const productApi = {
         params: { name },
         timeout: 500,
         method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       if (res?.data?.data) {

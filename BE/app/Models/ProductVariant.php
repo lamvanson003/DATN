@@ -33,7 +33,7 @@ class ProductVariant extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public $cast = [
+    public $casts = [
         'status' => DefaultStatus::class
     ];
 

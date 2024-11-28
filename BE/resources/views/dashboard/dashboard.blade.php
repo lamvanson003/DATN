@@ -157,22 +157,14 @@
                                                 <td class="text-center">{{ $item->created_at }}</td>
                                                 <td class="text-center">{{ number_format($item->total_price) }}</td>
                                                 <td class="text-center">
-                                                    @switch($item->status)
-                                                        @case(\App\Enums\Order\OrderStatus::Pending)
-                                                            <span class="badge badge-secondary">
-                                                                {{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}
-                                                            </span>
-                                                        @break
-
-                                                        @case(\App\Enums\Order\OrderStatus::Completed)
-                                                            <span class="badge badge-success">
-                                                                {{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}
-                                                            </span>
-                                                        @break
-
-                                                        @default
-                                                    @endswitch
-                                                </td>
+                                                    <select class="form-select bg-dark text-white border-0 shadow-sm" name="status" aria-label="Select order status">
+                                                        @foreach ($status as $key => $value)
+                                                            <option value="{{ $key }}" {{ $item->status->value == $key ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>                                                
                                             </tr>
                                         @endforeach
                                     @endif

@@ -19,6 +19,7 @@ import {
   Invoice,
   Post,
   SearchOrder,
+  PostDetail,
 } from "./pages/user";
 import { Routes, Route } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
@@ -46,6 +47,7 @@ function App() {
             <Route path={path.PRODUCT} element={<Product />}></Route>
             <Route path={path.PRODUCT__DETAIL__SLUG} element={<Detail />} />
             <Route path={path.ORDER__DETAIL__ID} element={<OrderDetail />} />
+            <Route path={path.POST__DETAIL__SLUG} element={<PostDetail />} />
             <Route path={path.USER} element={<User />}>
               <Route path={path.ACCOUNT} element={<Account />}>
                 <Route path={path.PROFILE} element={<Profile />} />

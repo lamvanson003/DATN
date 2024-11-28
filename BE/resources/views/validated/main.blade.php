@@ -152,8 +152,44 @@
         const inputSource = document.getElementById('title'); 
         const inputTarget = document.getElementById('slug'); 
 
-        inputSource.addEventListener('input', function() {
-            inputTarget.value = formatToSlug(inputSource.value);
-        });
+        if (inputSource && inputTarget) {
+            inputSource.addEventListener('input', function() {
+                inputTarget.value = formatToSlug(inputSource.value);
+            });
+        } 
     });
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js";
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyADoX7jz4ESYSVmYozwKRCyCSiMKgKrQoM",
+        authDomain: "app-tmdt-97150.firebaseapp.com",
+        projectId: "app-tmdt-97150",
+        storageBucket: "app-tmdt-97150.appspot.com",
+        messagingSenderId: "925256118208",
+        appId: "1:925256118208:web:47e23b8d635065e0b7e225",
+        measurementId: "G-BJCL2E7522"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+    
+    getToken(messaging, { vapidKey: 'BIV6tWvfebfZKSNVZqgpkWY2EzVWbheWq1u0fIMomXhAaXYewyNKMEKWTyhIO7EcqgBiBGbXwLzxVVyblc2-dDQ' })
+        .then((token) => {
+            if (token) {
+                console.log("Device token:", token);
+                const deviceTokenInput = document.getElementById('device_token');
+                if (deviceTokenInput) {
+                    deviceTokenInput.value = token || '';
+                } 
+            } else {
+                console.log("No registration token available.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error getting device token:", error);
+        });
 </script>

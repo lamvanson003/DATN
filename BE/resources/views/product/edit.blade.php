@@ -87,7 +87,7 @@
                                 <div class="card-body p-2">
                                     <select class="form-select" name="status">
                                         @foreach ($status as $key => $value)
-                                            <option {{ $key == $product->status ? 'selected' : '' }}
+                                            <option {{ $key == $product->status->value ? 'selected' : '' }}
                                                 value="{{ $key }}">
                                                 {{ $value }}
                                             </option>
