@@ -17,13 +17,13 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.slider.index') }}">Sản phẩm</a>
+                    <a href="{{ route('admin.slider.index') }}">Slider</a>
                 </li>
                 <li class="separator">
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Thêm sản phẩm</a>
+                    <a href="#">Thêm slider</a>
                 </li>
             </ul>
         </div>

@@ -72,15 +72,22 @@ class SliderController extends Controller
         return view('slider.edit', compact('slider', 'status'));
     }
 
-    public function update(SliderRequest $request)
+    public function update(SliderRequest $request, $id)
     {
-        $slider =  Slider::find($request['id']);
-        $slider->name = $request->input('name');
-        $slider->status = $request->input('status');
-        $slider->desc = $request->input('desc');
-
-        $slider->save();
-
-        return redirect()->route('admin.slider.index', $slider->id)->with('success', 'Slider đã được cập nhật thành công!');
+        try {
+            $slider = Slider::findOrFail($id);
+            $slider->update([
+                'name' => $request->input('name'),
+                'status' => $request->input('status'),
+                'desc' => $request->input('desc'),
+            ]);
+    
+            return redirect()->route('admin.slider.index')
+                ->with('success', 'Slider đã được cập nhật thành công!');
+        } catch (Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        }
     }
+    
 }

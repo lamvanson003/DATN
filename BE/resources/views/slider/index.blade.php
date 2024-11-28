@@ -17,7 +17,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="{{ route('admin.slider.index') }}">Sản phẩm</a>
+          <a href="{{ route('admin.slider.index') }}">Slider</a>
         </li>
       </ul>
     </div>
