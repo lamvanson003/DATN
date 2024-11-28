@@ -48,6 +48,16 @@ export const productApi = {
       console.log("Không thể fetch được dữ liệu", err);
     }
   },
+  getDealHot: async (cate) => {
+    try {
+      const res = await axios.get(
+        `http://127.0.0.1:8000/api/products/hotdeal?category=${cate}`
+      );
+      return res.data;
+    } catch (err) {
+      console.log("Lỗi không thể fetch dữ liệu: ", err);
+    }
+  },
   search: async (name) => {
     try {
       const res = await axios({

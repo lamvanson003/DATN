@@ -68,7 +68,7 @@ const Product = () => {
   const [maxPrice, setMaxPrice] = useState(100000000);
 
   const filteredPros = useMemo(() => {
-    return pros.filter((pro) => {
+    return pros?.filter((pro) => {
       const price =
         pro?.product_variant[0]?.variants[0]?.sale ??
         pro?.product_variant[0]?.variants[0]?.price;
