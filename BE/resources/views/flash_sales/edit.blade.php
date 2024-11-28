@@ -82,9 +82,9 @@
                     <div class="card mb-3">
                         <div class="card-header">Trạng thái</div>
                         <div class="card-body">
-                            <select class="form-select" name="is_active">
+                            <select class="form-select" name="is_active">                                
                                 @foreach ($status as $key => $value)
-                                    <option value="{{ $key }}">{{ $value }}</option>
+                                    <option {{ $key == $saleItem->status->value ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>                                
                         </div>

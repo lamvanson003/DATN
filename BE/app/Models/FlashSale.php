@@ -17,7 +17,7 @@ class FlashSale extends Model
         return $this->hasMany(SaleItem::class);
     }
 
-    protected $cast = [
+    protected $casts = [
         'status' => Status::class,
     ];
 }

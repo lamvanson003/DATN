@@ -137,34 +137,7 @@ const Login = () => {
                     Hoặc
                   </p>
                 </div>
-                <div className="row mt-3 ">
-                  <span className="col-sm-6 text-start">
-                    <a
-                      className="btn btn-primary border-0 btn-lg btn-block"
-                      href="#!"
-                      style={{
-                        backgroundColor: "#3b5998",
-                        fontSize: 16,
-                      }}
-                    >
-                      <i className="fab fa-facebook-f me-2" />
-                      Đăng nhập bằng Facebook
-                    </a>
-                  </span>
-                  <span className="col-sm-6 text-end">
-                    <a
-                      className="btn btn-primary border-0 btn-lg btn-block"
-                      href="#!"
-                      style={{
-                        backgroundColor: "#DB4437",
-                        fontSize: 16,
-                      }}
-                    >
-                      <i className="fab fa-google me-2" />
-                      Đăng nhập bằng Google
-                    </a>
-                  </span>
-                </div>
+               
               </form>
             </div>
           </div>

@@ -140,6 +140,7 @@ const SearchOrder = () => {
       const data = await response.json();
 
       if (data.success) {
+        const sortedOrders = data.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         setOrders(data.data);
         setError(null);
       } else {

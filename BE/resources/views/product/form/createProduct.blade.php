@@ -7,11 +7,11 @@
         <div class="col-md-12 col-sm-12 d-flex mb-3">
             <div class="me-2 flex-grow-1">
                 <label class="control-label">Tên sản phẩm<span style="color: red">*</span>:</label>
-                <input type="text" required class="form-control" name="name" placeholder="VD: Iphone 13 Pro Max">
+                <input type="text" required class="form-control" id="title" name="name" placeholder="VD: Iphone 13 Pro Max">
             </div>
             <div class="flex-grow-1">
                 <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
-                <input type="text" required class="form-control" name="slug" placeholder="VD: iphone-13-promax">
+                <input type="text" required class="form-control" id="slug" name="slug" placeholder="VD: iphone-13-promax">
             </div>
         </div>
        <!-- Category ID and Brand ID in the same row -->

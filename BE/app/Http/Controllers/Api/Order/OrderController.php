@@ -23,6 +23,7 @@ class OrderController extends Controller {
 
         $orders = Order::with('order_details.product_variant.product')
                         ->where('phone', $validatedData['phone'])
+                        ->orderBy('id','desc')
                         ->get();
 
         if ($orders->isEmpty()) {
