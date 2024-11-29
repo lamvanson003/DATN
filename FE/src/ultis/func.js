@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 export const setupSlider = (slidesRef, formRef, prevRef, nextRef) => {
   let currentIndex = 0;
   let interval;
@@ -103,6 +105,8 @@ export const transformFormatProducts = (product) => {
     brand: {
       name: product.brand.name,
     },
+    start_time: product.start_time,
+    end_time: product.end_time,
     sold: product.sold,
     quantity_limit: product.quantity_limit,
     product_variant: [
@@ -128,4 +132,63 @@ export const transformFormatProducts = (product) => {
       images: item.images,
     })),
   };
+};
+
+export const useCountdown = (start_time, end_time) => {
+  const [timeRemaining, setTimeRemaining] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    status: "upcoming", // Could be "upcoming", "active", or "expired"
+  });
+
+  const calculateTimeRemaining = (endTime) => {
+    const currentTime = new Date();
+    const endDate = new Date(endTime);
+    const difference = endDate - currentTime;
+
+    if (difference <= 0) {
+      return { hours: 0, minutes: 0, seconds: 0 }; // Countdown expired
+    }
+
+    const hours = Math.floor(difference / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+    return { hours, minutes, seconds };
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const currentTime = new Date();
+      const startDate = new Date(start_time);
+      const endDate = new Date(end_time);
+
+      if (currentTime < startDate) {
+        const remaining = calculateTimeRemaining(start_time);
+        setTimeRemaining({
+          ...remaining,
+          status: "upcoming",
+        });
+      } else if (currentTime >= startDate && currentTime <= endDate) {
+        const remaining = calculateTimeRemaining(end_time);
+        setTimeRemaining({
+          ...remaining,
+          status: "active",
+        });
+      } else {
+        setTimeRemaining({
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+          status: "expired",
+        });
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [start_time, end_time]);
+
+  return timeRemaining;
 };
