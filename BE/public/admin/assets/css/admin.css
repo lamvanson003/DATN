@@ -10,7 +10,7 @@
   color: #C70039; 
 }
 
-td a {
+.fix-content {
   display: inline-block;       
   max-width: 200px;           
   white-space: nowrap;        

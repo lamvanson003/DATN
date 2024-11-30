@@ -12,6 +12,7 @@ use App\Models\FlashSale;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 use App\Http\Requests\FlashSale\FlashSaleRequest;
 
@@ -34,70 +35,73 @@ class FlashSaleController extends Controller
         return view('flash_sales.create', compact('status', 'productVariants'));
     }
 
-    public function store(FlashSaleRequest $request)
-    {
-        $data = $request->validated();
+        public function store(FlashSaleRequest $request)
+        {
+            $data = $request->validated();
 
-        $startTime = Carbon::parse($data['start_time'])->toDateTimeString();
-        $endTime = Carbon::parse($data['end_time'])->toDateTimeString();
+            $startTime = Carbon::parse($data['start_time'])->toDateTimeString();
+            $endTime = Carbon::parse($data['end_time'])->toDateTimeString();
 
-        DB::beginTransaction();
+            DB::beginTransaction();
 
-        try {
-            $flashSale = FlashSale::create([
-                'start_time' => $startTime,
-                'end_time' => $endTime,
-                'status' => DefaultStatus::Active,
-            ]);
-
-            $flashSaleId = $flashSale->id;
-
-            
-            if( Carbon::now()->addMinutes(5)->lessThan(Carbon::parse($request->start_time))) {
-
-                return redirect()->route('admin.flashSale.create')
-                ->with('error',"Thời gian bắt đầu phải lớn hơn thời gian hiện tại.");
-            }
-
-            foreach ($data['selected_variants'] as $variantId) {
-                $discountPrice = $data['discount_price'][$variantId] ?? null;
-                $quantityLimit = $data['quantity_limit'][$variantId] ?? null;
-
-                if ($quantityLimit < 0 || $quantityLimit > 127) { 
-                    return redirect()->route('admin.flashSale.create')->with('error',"Sản phẩm vượt quá giới hạn cho phép.");
-                }
-
-                if ($data['instock'] < $quantityLimit) { 
-                    return redirect()->route('admin.flashSale.create')->with('error',"Số lượng sản phẩm không đủ.");
-                }
-                if ($discountPrice === null || $quantityLimit === null) {
-                    continue;
-                }
-
-                if (is_array($discountPrice) || is_array($quantityLimit)) {
-                    return redirect()->route('admin.flashSale.create')->with('error','Số lượng không đủ để Sale');
-                }
-
-                SaleItem::create([
-                    'flash_sale_id' => $flashSaleId,
-                    'product_variant_id' => $variantId,
-                    'discount_price' => $discountPrice,
-                    'quantity_limit' => $quantityLimit,
-                    'is_active' => $data['is_active'],
+            try {
+                $flashSale = FlashSale::create([
+                    'start_time' => $startTime,
+                    'end_time' => $endTime,
+                    'status' => DefaultStatus::Active,
                 ]);
 
-                $variantIds[] = $variantId;        
+                $flashSaleId = $flashSale->id;
+
+                $bufferTime = Carbon::now()->addMinutes(5);
+
+                if (Carbon::parse($request->start_time)->lessThan($bufferTime)) {
+                    return redirect()->route('admin.flashSale.create')
+                        ->with('error', "Thời gian bắt đầu phải lớn hơn thời gian hiện tại ít nhất 5 phút.");
+                }
+
+
+                foreach ($data['selected_variants'] as $variantId) {
+                    $discountPrice = $data['discount_price'][$variantId] ?? null;
+                    $quantityLimit = $data['quantity_limit'][$variantId] ?? null;
+
+                    $variant = ProductVariant::find($variantId);
+
+                    if ($quantityLimit < 0 || $quantityLimit > 127) { 
+                        return redirect()->route('admin.flashSale.create')->with('error',"Sản phẩm vượt quá giới hạn cho phép.");
+                    }
+
+                    if ($data['instock'] < $quantityLimit) { 
+                        return redirect()->route('admin.flashSale.create')->with('error',"Số lượng sản phẩm không đủ.");
+                    }
+                    if ($discountPrice === null || $quantityLimit === null) {
+                        continue;
+                    }
+
+                    if (is_array($discountPrice) || is_array($quantityLimit)) {
+                        return redirect()->route('admin.flashSale.create')->with('error','Số lượng không đủ để Sale');
+                    }
+
+                    SaleItem::create([
+                        'flash_sale_id' => $flashSaleId,
+                        'product_variant_id' => $variantId,
+                        'discount_price' => $discountPrice,
+                        'quantity_limit' => $quantityLimit,
+                        'is_active' => $data['is_active'],
+                    ]);
+                    $variant->decrement('instock', $quantityLimit);
+                    $variantIds[] = $variantId;        
+                }
+
+                ProductVariant::whereIn('id', $variantIds)->update(['is_flash_sale' => true]);
+                DB::commit();
+
+                return redirect()->route('admin.flashSale.index')->with('success', 'Thực hiện thành công!');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return back()->withErrors('Error: ' . $e->getMessage());
             }
-
-            ProductVariant::whereIn('id', $variantIds)->update(['is_flash_sale' => true]);
-            DB::commit();
-
-            return redirect()->route('admin.flashSale.index')->with('success', 'Thực hiện thành công!');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors('Error: ' . $e->getMessage());
         }
-    }
 
     public function updateProductVariant($productVariantId){
         $productVariant = ProductVariant::findOrfail($productVariantId);
@@ -117,6 +121,12 @@ class FlashSaleController extends Controller
     public function delete($id)
     {
         $saleItem = SaleItem::with('product_variant.product')->findOrFail($id);
+        if ($saleItem->product_variant_id) {
+            $quantityLimit = $saleItem->quantity_limit;
+            $productVariant = ProductVariant::find($saleItem->product_variant_id);
+            $productVariant->instock = 
+        } 
+        
         $saleItem->delete();
 
         return redirect()->route('admin.flashSale.index')->with('success', 'Xóa flash sale thành công.');
@@ -137,7 +147,7 @@ class FlashSaleController extends Controller
             $saleItem->save();
     
             DB::commit();
-            return redirect()->route('admin.flashSale.index')->with('success', 'Cập nhật thành công!');
+            return redirect()->back()->with('success', 'Cập nhật thành công!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Cập nhật SaleItem thất bại: ' . $e->getMessage());
@@ -145,5 +155,13 @@ class FlashSaleController extends Controller
         }
     }
     
-    
+
+    //** Cập nhật số lượng tồn kho: sô lượng hiện tại + số lượng từ flashSale khi tắt hoạt động */
+    public function updateInstock($id , $quantityLimit)
+    {
+        $reponse = ProductVariant::find($id);
+        $reponse->instock += $quantityLimit;
+        $reponse->save();
+        return true;
+    }
 }

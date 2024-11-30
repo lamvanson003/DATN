@@ -18,7 +18,6 @@ class FlashSaleController extends Controller
                       ->where('end_time', '>=', $now);
             })->where('is_active', ActiveStatus::Active) 
               ->get();
-            Log::info('mess',['mess'=>$activeSaleItems]);
             return response()->json([
                 'success' => true,
                 'data' => FlashSaleResource::collection($activeSaleItems)
@@ -37,15 +36,13 @@ class FlashSaleController extends Controller
        
         try {
             $now = Carbon::now();
-            $activeSaleItems = SaleItem::whereHas('flashSale', function ($query) use ($now) {
-                $query->where('start_time', '<=', $now)
-                      ->where('end_time', '>=', $now);
+            $pendindSaleItems = SaleItem::whereHas('flashSale', function ($query) use ($now) {
+                $query->where('start_time', '>', $now);
             })->where('is_active', ActiveStatus::Active) 
               ->get();
-            Log::info('mess',['mess'=>$activeSaleItems]);
             return response()->json([
                 'success' => true,
-                'data' => FlashSaleResource::collection($activeSaleItems)
+                'data' => FlashSaleResource::collection($pendindSaleItems)
             ]);
     
         } catch (\Throwable $th) {

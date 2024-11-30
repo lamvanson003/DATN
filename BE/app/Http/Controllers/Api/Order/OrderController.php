@@ -68,7 +68,7 @@ class OrderController extends Controller {
             $code = '#'.random_int(1,9999);
             $order = Order::create([
                 'code' => $code,
-                'user_id' => $validatedData['user_id'],
+                'user_id' => $validatedData['user_id'] ?? null,
                 'payment_method_id' => $validatedData['payment_method_id'],
                 'discount_id' => $validatedData['discount_id'] ?? null,
                 'fullname' => $validatedData['fullname'],
