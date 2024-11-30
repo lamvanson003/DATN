@@ -181,12 +181,12 @@
   background-color: #f8d7da;
 }
 
-.countdown.upcoming {
+.countdown.incoming {
   color: #ffc107;
   background-color: #fff3cd;
 }
 
-.countdown.active {
+.countdown.current {
   color: #28a745;
   background-color: #d4edda;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BoxPro } from ".";
+import { BoxPro, Tab } from ".";
 import flashsale from "../assets/images/iHome/flashsale.png";
 import "./css/FlashSale.css";
 import icons from "../ultis/icon";
@@ -7,19 +7,13 @@ import { productApi } from "../apis";
 import { transformFormatProducts } from "../ultis/func";
 const { IoArrowRedoOutline, IoArrowUndoOutline } = icons;
 const FlashSale = () => {
+  const [currentFs, setCurrentFs] = useState([]);
+  const [comingFs, setComingFs] = useState([]);
   const [flashSale, setFlashSale] = useState([]);
   const [activeTab, setActiveTab] = useState("current");
   const [currentPage, setCurrentPage] = useState(0);
   const totalPage = Math.ceil(flashSale?.length / 4);
-  const curItems =
-    activeTab === "current"
-      ? flashSale
-          ?.filter((item) => item.when === "now")
-          .slice(currentPage * 4, (currentPage + 1) * 4)
-      : flashSale
-          ?.filter((item) => item.when === "later")
-          .slice(currentPage * 4, (currentPage + 1) * 4);
-
+  const curItems = flashSale?.slice(currentPage * 4, (currentPage + 1) * 4);
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => (prevPage > 0 ? prevPage - 1 : totalPage - 1));
   };
@@ -31,28 +25,23 @@ const FlashSale = () => {
   };
 
   useEffect(() => {
-    const fetchFlashSale = async () => {
-      const res = await productApi.getFlashSale();
-      const fstonomalpro = res.map(transformFormatProducts);
-      const currentTime = new Date();
-      const updatedProducts = fstonomalpro.map((item) => {
-        const startTime = new Date(item.start_time);
-        const endTime = new Date(item.end_time);
-        const when =
-          currentTime >= startTime && currentTime <= endTime ? "now" : "later";
-        return {
-          ...item,
-          when,
-        };
-      });
-
-      console.log(updatedProducts);
-
-      setFlashSale(updatedProducts);
+    const fetchAllFs = async () => {
+      const CFS = await productApi.getCurrentFs();
+      const UFS = await productApi.getComingFs();
+      setCurrentFs(CFS.map(transformFormatProducts));
+      setComingFs(UFS.map(transformFormatProducts));
     };
-
-    fetchFlashSale();
+    fetchAllFs();
   }, []);
+  useEffect(() => {
+    if (activeTab === "current") {
+      console.log("current");
+      setFlashSale(currentFs);
+    } else {
+      console.log("coming");
+      setFlashSale(comingFs);
+    }
+  }, [activeTab, currentFs, comingFs]);
   return (
     <div
       className="container d-flex flex-column justify-content-center mt-5 mb-5 "

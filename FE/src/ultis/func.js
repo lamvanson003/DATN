@@ -139,54 +139,42 @@ export const useCountdown = (start_time, end_time) => {
     hours: 0,
     minutes: 0,
     seconds: 0,
-    status: "upcoming", // Could be "upcoming", "active", or "expired"
+    status: "upcoming", // upcoming, active, expired
   });
 
-  const calculateTimeRemaining = (endTime) => {
-    const currentTime = new Date();
-    const endDate = new Date(endTime);
-    const difference = endDate - currentTime;
-
-    if (difference <= 0) {
-      return { hours: 0, minutes: 0, seconds: 0 }; // Countdown expired
-    }
-
-    const hours = Math.floor(difference / (1000 * 60 * 60));
-    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-    return { hours, minutes, seconds };
-  };
-
   useEffect(() => {
-    const interval = setInterval(() => {
-      const currentTime = new Date();
-      const startDate = new Date(start_time);
-      const endDate = new Date(end_time);
+    const calculateTimeRemaining = () => {
+      const currentTime = new Date(); // Current date/time
+      const startTime = new Date(start_time); // Parse start time
+      const endTime = new Date(end_time); // Parse end time
 
-      if (currentTime < startDate) {
-        const remaining = calculateTimeRemaining(start_time);
-        setTimeRemaining({
-          ...remaining,
-          status: "upcoming",
-        });
-      } else if (currentTime >= startDate && currentTime <= endDate) {
-        const remaining = calculateTimeRemaining(end_time);
-        setTimeRemaining({
-          ...remaining,
-          status: "active",
-        });
+      let status = "";
+      let remainingTime = endTime - currentTime; // Time difference in ms
+
+      if (remainingTime <= 0) {
+        status = "expired";
+        remainingTime = 0;
+      } else if (currentTime >= startTime) {
+        status = "active";
       } else {
-        setTimeRemaining({
-          hours: 0,
-          minutes: 0,
-          seconds: 0,
-          status: "expired",
-        });
-        clearInterval(interval);
+        status = "upcoming";
       }
-    }, 1000);
 
+      const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+      const minutes = Math.floor(
+        (remainingTime % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+      setTimeRemaining({
+        hours,
+        minutes,
+        seconds,
+        status,
+      });
+    };
+    calculateTimeRemaining();
+    const interval = setInterval(calculateTimeRemaining, 1000);
     return () => clearInterval(interval);
   }, [start_time, end_time]);
 

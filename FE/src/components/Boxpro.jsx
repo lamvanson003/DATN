@@ -5,10 +5,8 @@ import { CartContext } from "../context/Cart";
 import { memo } from "react";
 import { FavorContext } from "../context/Favor";
 import { formatCurrency, handleNumber } from "../ultis/func";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCountdown } from "../ultis/func";
 
-import icons from "../ultis/icon";
 const BoxPro = ({
   id,
   name,
@@ -23,6 +21,7 @@ const BoxPro = ({
   hoverCart,
   hoverCartItem,
   tab,
+  when,
   startFs,
   endFs,
   quantity_limit,
@@ -97,15 +96,6 @@ const BoxPro = ({
     product_variant,
   };
   const { hours, minutes, seconds, status } = useCountdown(startFs, endFs);
-  const memoizedCountdown = useMemo(
-    () => ({
-      hours,
-      minutes,
-      seconds,
-      status,
-    }),
-    [hours, minutes, seconds, status]
-  );
 
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
   return (
@@ -165,15 +155,15 @@ const BoxPro = ({
                 >
                   <h5 className="card-title m-0" style={{ cursor: "pointer" }}>
                     {name
-                      ? name.length > 40
-                        ? name.slice(0, 40) + "..."
+                      ? name.length > 30
+                        ? name.slice(0, 30) + "..."
                         : `${name}${
                             currentVariant?.color?.color
                               ? ` ${currentVariant?.color?.color}`
                               : ""
                           }`
-                      : testname.length > 40
-                      ? testname.slice(0, 40) + "..."
+                      : testname.length > 30
+                      ? testname.slice(0, 30) + "..."
                       : testname}
                   </h5>
                 </span>
@@ -239,34 +229,34 @@ const BoxPro = ({
               </button>
             </div>
           </div>
-          <div className={`countdown ${status}`}>
-            {status === "upcoming" && (
+          <div className={`countdown ${tab}`}>
+            {tab === "incoming" && (
               <span className="countdown-time">
                 <span className="countdown-hour">
-                  {String(memoizedCountdown.hours).padStart(2, "0")}
+                  {String(hours).padStart(2, "0")}
                 </span>
                 :
                 <span className="countdown-minute">
-                  {String(memoizedCountdown.minutes).padStart(2, "0")}
+                  {String(minutes).padStart(2, "0")}
                 </span>
                 :
                 <span className="countdown-second">
-                  {String(memoizedCountdown.seconds).padStart(2, "0")}
+                  {String(seconds).padStart(2, "0")}
                 </span>
               </span>
             )}
-            {status === "active" && (
+            {tab === "current" && (
               <span className="countdown-time">
                 <span className="countdown-hour">
-                  {String(memoizedCountdown.hours).padStart(2, "0")}
+                  {String(hours).padStart(2, "0")}
                 </span>
                 :
                 <span className="countdown-minute">
-                  {String(memoizedCountdown.minutes).padStart(2, "0")}
+                  {String(minutes).padStart(2, "0")}
                 </span>
                 :
                 <span className="countdown-second">
-                  {String(memoizedCountdown.seconds).padStart(2, "0")}
+                  {String(seconds).padStart(2, "0")}
                 </span>
               </span>
             )}
@@ -438,15 +428,15 @@ const BoxPro = ({
               >
                 <h5 className="card-title mb-0" style={{ cursor: "pointer" }}>
                   {name
-                    ? name.length > 40
-                      ? name.slice(0, 40) + "..."
+                    ? name.length > 30
+                      ? name.slice(0, 30) + "..."
                       : `${name}${
                           currentVariant?.color?.color
                             ? ` ${currentVariant?.color?.color}`
                             : ""
                         }`
-                    : testname.length > 40
-                    ? testname.slice(0, 40) + "..."
+                    : testname.length > 30
+                    ? testname.slice(0, 30) + "..."
                     : testname}
                 </h5>
               </span>
