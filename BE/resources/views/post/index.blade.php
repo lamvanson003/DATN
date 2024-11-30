@@ -55,7 +55,7 @@
                 <tbody>
                     @foreach ($posts as $post)
                     <tr>
-                        <td><a href="{{ route('admin.post.edit',$post->id) }}">{{ $post->title }}</a></td>
+                        <td><a class="fix-content" href="{{ route('admin.post.edit',$post->id) }}">{{ $post->title }}</a></td>
                         <td>
                             <img src="{{ asset($post->images) }}" alt="Hình ảnh" width="50">
                         </td>

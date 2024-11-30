@@ -19,7 +19,6 @@ class CheckAdminRole
     public function handle($request, Closure $next)
 {
     if (Auth::check()) {
-
         if (Auth::user()->roles === UserRole::Admin && Auth::user()->status->value === UserStatus::Active ) {
             return $next($request);
         }
