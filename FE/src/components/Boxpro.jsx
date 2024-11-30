@@ -240,8 +240,11 @@ const BoxPro = ({
                         {Math.floor(hours / 24) === 1 ? "day" : "days"}
                       </span>
                     </span>
-                    <span className="countdown-minute"></span>
-                    {String(minutes).padStart(2, "0")} minutes
+                    <span className="countdown-hour">
+                      {hours % 24 === 0
+                        ? `${String(minutes).padStart(2, "0")} minutes`
+                        : `${String(hours % 24).padStart(2, "0")} hours`}
+                    </span>
                   </span>
                 ) : (
                   <>
