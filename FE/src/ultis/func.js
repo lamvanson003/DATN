@@ -149,15 +149,20 @@ export const useCountdown = (start_time, end_time) => {
       const endTime = new Date(end_time); // Parse end time
 
       let status = "";
-      let remainingTime = endTime - currentTime; // Time difference in ms
+      let remainingTime = 0;
 
-      if (remainingTime <= 0) {
+      if (currentTime < startTime) {
+        // Event has not started yet
+        status = "upcoming";
+        remainingTime = startTime - currentTime; // Time until event starts
+      } else if (currentTime >= startTime && currentTime < endTime) {
+        // Event is currently active
+        status = "active";
+        remainingTime = endTime - currentTime; // Time until event ends
+      } else {
+        // Event has ended
         status = "expired";
         remainingTime = 0;
-      } else if (currentTime >= startTime) {
-        status = "active";
-      } else {
-        status = "upcoming";
       }
 
       const hours = Math.floor(remainingTime / (1000 * 60 * 60));
@@ -173,6 +178,7 @@ export const useCountdown = (start_time, end_time) => {
         status,
       });
     };
+
     calculateTimeRemaining();
     const interval = setInterval(calculateTimeRemaining, 1000);
     return () => clearInterval(interval);
