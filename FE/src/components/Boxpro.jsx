@@ -193,7 +193,7 @@ const BoxPro = ({
                 </span>
               </div>
               <div
-                className="progress my-3 position-relative"
+                className="progress my-2 position-relative"
                 style={{ height: "20px", borderRadius: "10px" }}
               >
                 <div
@@ -230,36 +230,39 @@ const BoxPro = ({
             </div>
           </div>
           <div className={`countdown ${tab}`}>
-            {tab === "incoming" && (
+            {tab === "incoming" || tab === "current" ? (
               <span className="countdown-time">
-                <span className="countdown-hour">
-                  {String(hours).padStart(2, "0")}
-                </span>
-                :
-                <span className="countdown-minute">
-                  {String(minutes).padStart(2, "0")}
-                </span>
-                :
-                <span className="countdown-second">
-                  {String(seconds).padStart(2, "0")}
-                </span>
+                {hours >= 24 ? (
+                  <span>
+                    <span className="countdown-day">
+                      <span className="pe-0">{Math.floor(hours / 24)}</span>
+                      <span className="ps-1">
+                        {Math.floor(hours / 24) === 1 ? "day" : "days"}
+                      </span>
+                    </span>
+                    <span className="countdown-hour">
+                      {hours % 24 === 0
+                        ? `${String(minutes).padStart(2, "0")} minutes`
+                        : `${String(hours % 24).padStart(2, "0")} hours`}
+                    </span>
+                  </span>
+                ) : (
+                  <>
+                    <span className="countdown-hour">
+                      {String(hours).padStart(2, "0")}
+                    </span>
+                    :
+                    <span className="countdown-minute">
+                      {String(minutes).padStart(2, "0")}
+                    </span>
+                    :
+                    <span className="countdown-second">
+                      {String(seconds).padStart(2, "0")}
+                    </span>
+                  </>
+                )}
               </span>
-            )}
-            {tab === "current" && (
-              <span className="countdown-time">
-                <span className="countdown-hour">
-                  {String(hours).padStart(2, "0")}
-                </span>
-                :
-                <span className="countdown-minute">
-                  {String(minutes).padStart(2, "0")}
-                </span>
-                :
-                <span className="countdown-second">
-                  {String(seconds).padStart(2, "0")}
-                </span>
-              </span>
-            )}
+            ) : null}
             {status === "expired" && <p>Sale has ended</p>}
           </div>
         </div>
