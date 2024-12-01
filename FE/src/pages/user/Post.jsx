@@ -2,14 +2,23 @@ import React, { useEffect, useState } from "react";
 import "./css/Post.css";
 import { postApi } from "../../apis/post";
 import { Link } from "react-router-dom";
+import { postCategory } from "../../apis/postCategory";
 const Post = () => {
   const [postData, setPostData] = useState([]);
+  const [postCateData, setPostCateData] = useState([]);
   useEffect(() => {
     const fetchPostData = async () => {
       const res = await postApi.getAll();
       setPostData(res);
     };
+    const fetchPostCateData = async () => {
+      const res = await postCategory.getAll();
+      console.log(res);
+
+      setPostCateData(res);
+    };
     fetchPostData();
+    fetchPostCateData();
   }, []);
   return (
     <div className="container" style={{ margin: "0 auto", padding: 20 }}>
@@ -40,7 +49,7 @@ const Post = () => {
                       <h3 className="blog-item-name">
                         <Link
                           title={item?.title}
-                          to={`post-detail/${item?.slug}`}
+                          to={`/post-detail/${item?.slug}`}
                         >
                           {item?.title}
                         </Link>
@@ -50,7 +59,7 @@ const Post = () => {
                       <Link
                         className="btn btn-more"
                         title="Xem thêm"
-                        to={`post-detail/${item?.slug}`}
+                        to={`/post-detail/${item?.slug}`}
                       >
                         Xem thêm
                         <svg
@@ -77,20 +86,15 @@ const Post = () => {
               </h2>
               <div className="module-content">
                 <div className="tags-list">
-                  <a
-                    href="/blogs/all/tagged/kinh-nghiem"
-                    title="kinh nghiệm"
-                    className="tag btn-transition"
-                  >
-                    <span>kinh nghiệm</span>
-                  </a>
-                  <a
-                    href="/blogs/all/tagged/laptop"
-                    title="laptop"
-                    className="tag btn-transition"
-                  >
-                    <span>laptop</span>
-                  </a>
+                  {postCateData?.map((item) => (
+                    <Link
+                      key={item.id}
+                      title="kinh nghiệm"
+                      className="tag btn-transition"
+                    >
+                      <span>{item.name}</span>
+                    </Link>
+                  ))}
                 </div>
               </div>
             </div>
