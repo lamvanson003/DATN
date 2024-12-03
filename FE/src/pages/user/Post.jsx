@@ -6,6 +6,7 @@ import { postCategory } from "../../apis/postCategory";
 const Post = () => {
   const [postData, setPostData] = useState([]);
   const [postCateData, setPostCateData] = useState([]);
+  const [featPost, setFeatPost] = useState([]);
   useEffect(() => {
     const fetchPostData = async () => {
       const res = await postApi.getAll();
@@ -17,6 +18,13 @@ const Post = () => {
 
       setPostCateData(res);
     };
+    const fetchFeatPost = async () => {
+      const res = await postApi.getFeature();
+      console.log(res);
+
+      setFeatPost(res);
+    };
+    fetchFeatPost();
     fetchPostData();
     fetchPostCateData();
   }, []);
@@ -111,175 +119,57 @@ const Post = () => {
                 </a>
               </h2>
             </div>
-            <div className="module-content">
-              <div className="blog-list blog-image-list">
-                <div className="swiper_relateblog swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events swiper-container-multirow">
-                  <div
-                    className="swiper-wrapper"
-                    style={{
-                      width: 526,
-                      transform: "translate3d(0px, 0px, 0px)",
-                    }}
-                  >
+            {featPost?.map((item) => (
+              <div key={item.id} className="module-content">
+                <div className="blog-list blog-image-list">
+                  <div className="swiper_relateblog swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events swiper-container-multirow">
                     <div
-                      className="swiper-slide loop-blog clearfix swiper-slide-active"
-                      style={{ width: 263 }}
+                      className="swiper-wrapper"
+                      style={{
+                        width: 526,
+                        transform: "translate3d(0px, 0px, 0px)",
+                      }}
                     >
-                      <div className="thumb-left">
-                        <a
-                          className="thumb"
-                          href="/tablet-nokia-lumia-chua-bao-gio-ra-mat-vua-lo-dien-mot-lan-nua"
-                          title="Tablet Nokia Lumia vừa mới được lộ diện"
-                        >
-                          <img
-                            src="//bizweb.dktcdn.net/thumb/compact/100/037/441/articles/lumiatablet1.jpg?v=1449042941343"
-                            data-src="//bizweb.dktcdn.net/thumb/compact/100/037/441/articles/lumiatablet1.jpg?v=1449042941343"
-                            alt="Tablet Nokia Lumia vừa mới được lộ diện"
-                            className="lazyload img-responsive loaded"
-                            data-was-processed="true"
-                          />
-                        </a>
-                      </div>
-                      <div className="name-right">
-                        <h3>
-                          <a
-                            href="/tablet-nokia-lumia-chua-bao-gio-ra-mat-vua-lo-dien-mot-lan-nua"
+                      <div
+                        className="swiper-slide loop-blog clearfix swiper-slide-active"
+                        style={{ width: 263 }}
+                      >
+                        <div className="thumb-left">
+                          <Link
+                            className="thumb"
+                            to={`/post-detail/${item?.slug}`}
                             title="Tablet Nokia Lumia vừa mới được lộ diện"
                           >
-                            Tablet Nokia Lumia vừa mới được lộ diện
-                          </a>
-                        </h3>
-                        <div className="entry-date">01/12/2015</div>
-                      </div>
-                    </div>
-                    <div
-                      className="swiper-slide loop-blog clearfix swiper-slide-next"
-                      style={{ width: 263 }}
-                    >
-                      <div className="thumb-left">
-                        <a
-                          className="thumb"
-                          href="/huawei-sap-tung-smartphone-co-camera-doc-dao-khong-kem-gi-oppo-n3"
-                          title="Huawei sắp tung smartphone có camera cực độc"
-                        >
-                          <img
-                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
-                            data-src="//bizweb.dktcdn.net/thumb/compact/100/037/441/articles/maxresdefault.jpg?v=1448966334947"
-                            alt="Huawei sắp tung smartphone có camera cực độc"
-                            className="lazyload img-responsive"
-                          />
-                        </a>
-                      </div>
-                      <div className="name-right">
-                        <h3>
-                          <a
-                            href="/huawei-sap-tung-smartphone-co-camera-doc-dao-khong-kem-gi-oppo-n3"
-                            title="Huawei sắp tung smartphone có camera cực độc"
-                          >
-                            Huawei sắp tung smartphone có camera cực độc
-                          </a>
-                        </h3>
-                        <div className="entry-date">01/12/2015</div>
-                      </div>
-                    </div>
-                    <div
-                      className="swiper-slide loop-blog clearfix"
-                      style={{ marginTop: 0, width: 263 }}
-                    >
-                      <div className="thumb-left">
-                        <a
-                          className="thumb"
-                          href="/iphone-6c-gia-re-tiep-tuc-xuat-hien"
-                          title="iPhone 6c giá rẻ tiếp tục xuất hiện"
-                        >
-                          <img
-                            src="//bizweb.dktcdn.net/thumb/compact/100/037/441/articles/832-img1.jpg?v=1448965983470"
-                            data-src="//bizweb.dktcdn.net/thumb/compact/100/037/441/articles/832-img1.jpg?v=1448965983470"
-                            alt="iPhone 6c giá rẻ tiếp tục xuất hiện"
-                            className="lazyload img-responsive loaded"
-                            data-was-processed="true"
-                          />
-                        </a>
-                      </div>
-                      <div className="name-right">
-                        <h3>
-                          <a
-                            href="/iphone-6c-gia-re-tiep-tuc-xuat-hien"
-                            title="iPhone 6c giá rẻ tiếp tục xuất hiện"
-                          >
-                            iPhone 6c giá rẻ tiếp tục xuất hiện
-                          </a>
-                        </h3>
-                        <div className="entry-date">01/12/2015</div>
-                      </div>
-                    </div>
-                    <div
-                      className="swiper-slide loop-blog clearfix"
-                      style={{ marginTop: 0, width: 263 }}
-                    >
-                      <div className="thumb-left">
-                        <a
-                          className="thumb"
-                          href="/co-nen-thao-cu-sac-thiet-bi-di-dong-ra-khoi-o-dien-khi-khong-dung"
-                          title="Có nên tháo củ sạc ra khỏi ổ điện khi không dùng?"
-                        >
-                          <img
-                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
-                            data-src="//bizweb.dktcdn.net/thumb/compact/100/037/441/articles/adapter.jpg?v=1448965577950"
-                            alt="Có nên tháo củ sạc ra khỏi ổ điện khi không dùng?"
-                            className="lazyload img-responsive"
-                          />
-                        </a>
-                      </div>
-                      <div className="name-right">
-                        <h3>
-                          <a
-                            href="/co-nen-thao-cu-sac-thiet-bi-di-dong-ra-khoi-o-dien-khi-khong-dung"
-                            title="Có nên tháo củ sạc ra khỏi ổ điện khi không dùng?"
-                          >
-                            Có nên tháo củ sạc ra khỏi ổ...
-                          </a>
-                        </h3>
-                        <div className="entry-date">01/12/2015</div>
-                      </div>
-                    </div>
-                    <div
-                      className="swiper-slide loop-blog clearfix"
-                      style={{ marginTop: 0, width: 263 }}
-                    >
-                      <div className="thumb-left">
-                        <a
-                          className="thumb"
-                          href="/bai-viet-mau"
-                          title="Kinh nghiệm chọn mua laptop bạn cần lưu ý"
-                        >
-                          <img
-                            src="//bizweb.dktcdn.net/thumb/compact/100/037/441/articles/laptop-mistakes.jpg?v=1448965209083"
-                            data-src="//bizweb.dktcdn.net/thumb/compact/100/037/441/articles/laptop-mistakes.jpg?v=1448965209083"
-                            alt="Kinh nghiệm chọn mua laptop bạn cần lưu ý"
-                            className="lazyload img-responsive loaded"
-                            data-was-processed="true"
-                          />
-                        </a>
-                      </div>
-                      <div className="name-right">
-                        <h3>
-                          <a
-                            href="/bai-viet-mau"
-                            title="Kinh nghiệm chọn mua laptop bạn cần lưu ý"
-                          >
-                            Kinh nghiệm chọn mua laptop bạn cần lưu...
-                          </a>
-                        </h3>
-                        <div className="entry-date">30/11/2015</div>
+                            <img
+                              src={item?.images}
+                              data-src={item?.images}
+                              alt={item?.title}
+                              className="lazyload img-responsive loaded"
+                              data-was-processed="true"
+                            />
+                          </Link>
+                        </div>
+                        <div className="name-right">
+                          <h3>
+                            <Link
+                              to={`/post-detail/${item?.slug}`}
+                              title="Tablet Nokia Lumia vừa mới được lộ diện"
+                            >
+                              {item?.title}
+                            </Link>
+                          </h3>
+                          <div className="entry-date">
+                            {item?.posted_at} | {item?.user.fullname}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <div className="swiper-button-prev prev_relate swiper-button-disabled" />
+                  <div className="swiper-button-next next_relate" />
                 </div>
-                <div className="swiper-button-prev prev_relate swiper-button-disabled" />
-                <div className="swiper-button-next next_relate" />
               </div>
-            </div>
+            ))}
           </div>
           <div className="aside-item blog-banner d-md-none d-block d-sm-block d-lg-block d-xl-block">
             <div className="module-header">
