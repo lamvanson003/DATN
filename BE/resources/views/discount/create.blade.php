@@ -63,23 +63,23 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-md-6">
-                                    <div class="mb-3">
-                                        <!-- Input cho giảm giá tiền mặt (VND) -->
-                                        <div id="discount_money" class="d-none">
-                                            <label class="form-label">@lang('Giá trị giảm') (VND)</label>
-                                            <input type="number" class="form-control required" name="discount_value" id="discount_value"
-                                                placeholder="VD: 30000" />
-                                        </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="mb-3">
+                                            <!-- Input cho giảm giá tiền mặt (VND) -->
+                                            <div id="discount_money" class="d-none">
+                                                <label class="form-label">@lang('Giá trị giảm') (VND)</label>
+                                                <input type="number" class="form-control" name="discount_value" id="discount_value"
+                                                    placeholder="VD: 30000" />
+                                            </div>
 
-                                        <!-- Input cho giảm giá phần trăm (%) -->
-                                        <div id="discount_percent" >
-                                            <label class="form-label">@lang('Giá trị giảm') (%)</label>
-                                            <input type="number" class="form-control required" name="percent_value" id="percent_value"
-                                                placeholder="VD: 5%" />
+                                            <!-- Input cho giảm giá phần trăm (%) -->
+                                            <div id="discount_percent" >
+                                                <label class="form-label">@lang('Giá trị giảm') (%)</label>
+                                                <input type="number" class="form-control" name="discount_value" id="percent_value"
+                                                    placeholder="VD: 5%" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
     
                                     <div class="col-6">

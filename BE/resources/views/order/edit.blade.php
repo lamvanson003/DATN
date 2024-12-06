@@ -178,6 +178,19 @@
                             </div>
                         </div>
 
+                        <div class="card mb-3">
+                            <div class="card-header">Phương thức thanh toán</div>
+                            <div class="card-body p-2">
+                                <select class="form-select" name="" disabled>
+                                    @if ($order->payment_method_id == 1)
+                                        <option value="{{ $order->payment_method_id }}">Thanh toán Online</option>
+                                    @else
+                                        <option value="{{ $order->payment_method_id }}">Thanh toán Khi nhận hàng</option>
+                                    @endif
+                                </select>                                
+                            </div>
+                        </div>
+
                     </div>                    
                 </div>
             </form>    

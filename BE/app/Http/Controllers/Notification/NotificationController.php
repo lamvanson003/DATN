@@ -31,7 +31,7 @@ class NotificationController extends Controller
     }
     public function type($type)
     {  
-        $notifiType = Notification::where('type',$type)->get();
+        $notifiType = Notification::where('type',$type)->orderBy('id', 'desc')->get();
         $title = NotificationType::getDescription($type);
         return view('notification.type', compact('notifiType','title'));
     }

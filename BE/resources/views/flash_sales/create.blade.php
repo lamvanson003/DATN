@@ -75,7 +75,7 @@
               <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-              <a href="{{ route('admin.flashSale.index') }}">DS Flash sale</a>
+                <a href="{{ route('admin.flashSale.index') }}">DS Flash sale</a>
             </li>
           </ul>
         </div>

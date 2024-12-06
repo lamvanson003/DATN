@@ -26,7 +26,7 @@ class NotificationVoucher extends Mailable
     
     public function build()
     {
-        return $this->subject('Khuyến mãi hot')
+        return $this->subject($this->notification->title)
                     ->view('sentmail.notification.voucher')
                     ->with([
                         'notification' => $this->notification,
