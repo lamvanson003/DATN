@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import login from "../../assets/images/log.svg";
+import login from "../../assets/images//iHome/image_login-removebg-preview (1).png";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Login.css";
 import { toast } from "react-toastify";
@@ -67,7 +67,7 @@ const Login = () => {
             </div>
             <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
               <h3 className="fw-bold text-center text-primary my-4 custom-title">
-                LOGIN
+                Đăng nhập 
               </h3>
               <form onSubmit={handleLogin}>
                 <div className="form-outline mb-4">
@@ -133,9 +133,7 @@ const Login = () => {
                   Đăng nhập
                 </button>
                 <div className="divider d-flex align-items-center my-4">
-                  <p className="text-center fw-bold mx-3 mb-0 text-muted">
-                    Hoặc
-                  </p>
+                
                 </div>
                
               </form>

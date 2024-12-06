@@ -18,7 +18,9 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('product_image_items','product_variant',)->get();
+        $products = Product::with('product_image_items','product_variant')
+        ->orderBy('id','desc')
+        ->get();
         $status = ProductStatus::asSelectArray();
         return view('product.index', compact(['products', 'status']));
     }

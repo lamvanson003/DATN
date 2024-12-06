@@ -17,12 +17,6 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="{{ route('admin.flashSale.index') }}">Flash Sale</a>
-        </li>
-        <li class="separator">
-          <i class="icon-arrow-right"></i>
-        </li>
-        <li class="nav-item">
           <a href="#">{{ $saleItem->product_variant->product->name }} - {{ $saleItem->product_variant->storage }}</a>
         </li>
       </ul>
@@ -38,7 +32,7 @@
                 <div class="col-12 col-md-9">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="red">Chỉnh sửa SaleItem</h5>
+                            <h5 class="red">Chỉnh sửa {{ $saleItem->product_variant->product->name }} - {{ $saleItem->product_variant->storage }}</h5>
                         </div>
                         <div class="card-body">
                             <div class="col-md-12 col-sm-12">

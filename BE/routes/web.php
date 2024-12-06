@@ -71,9 +71,11 @@ Route::middleware(['admin'])->prefix('/admin')->as('admin.')
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
             });
         });
+
         Route::prefix('/flash-sales')->as('flashSale.')->group(function () {
             Route::controller(App\Http\Controllers\FlashSale\FlashSaleController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
+                Route::get('/pending', 'getPending')->name('pending');
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
                 Route::get('/sua/{id}', 'edit')->name('edit');
@@ -81,6 +83,7 @@ Route::middleware(['admin'])->prefix('/admin')->as('admin.')
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
             });
         });
+
         Route::prefix('/categories')->as('category.')->group(function () {
             Route::controller(App\Http\Controllers\Category\CategoryController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
@@ -91,6 +94,7 @@ Route::middleware(['admin'])->prefix('/admin')->as('admin.')
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
             });
         });
+
         Route::prefix('/notifications')->as('notification.')->group(function () {
             Route::controller(App\Http\Controllers\Notification\NotificationController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
@@ -176,31 +180,34 @@ Route::middleware(['admin'])->prefix('/admin')->as('admin.')
 
         });
 
-            Route::prefix('/post_categories')->as('post_category.')->group(function () {
-                Route::controller(App\Http\Controllers\PostCategory\PostCategoryController::class)->group(function () {
-                    Route::get('/', 'index')->name('index');
-                    Route::get('/them', 'create')->name('create');
-                    Route::post('/them', 'store')->name('store');
-                    Route::get('/sua/{id}', 'edit')->name('edit');
-                    Route::put('/sua/{id}', 'update')->name('update');
-                    Route::delete('/xoa/{id}', 'delete')->name('delete');
-                });
+        Route::prefix('/post_categories')->as('post_category.')->group(function () {
+            Route::controller(App\Http\Controllers\PostCategory\PostCategoryController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+                Route::put('/sua/{id}', 'update')->name('update');
+                Route::delete('/xoa/{id}', 'delete')->name('delete');
             });
-            Route::prefix('/posts')->as('post.')->group(function () {
-                Route::controller(App\Http\Controllers\Post\PostController::class)->group(function () {
-                    Route::get('/', 'index')->name('index');
-                    Route::get('/them', 'create')->name('create');
-                    Route::post('/them', 'store')->name('store');
-                    Route::get('/sua/{id}', 'edit')->name('edit');
-                    Route::put('/sua/{id}', 'update')->name('update');
-                    Route::delete('/xoa/{id}', 'destroy')->name('delete');
-                });
+        });
+
+        Route::prefix('/posts')->as('post.')->group(function () {
+            Route::controller(App\Http\Controllers\Post\PostController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/them', 'create')->name('create');
+                Route::post('/them', 'store')->name('store');
+                Route::get('/sua/{id}', 'edit')->name('edit');
+                Route::put('/sua/{id}', 'update')->name('update');
+                Route::delete('/xoa/{id}', 'destroy')->name('delete');
             });
+        });
+
         Route::prefix('/orders')->as('order.')->group(function () {
             Route::controller(App\Http\Controllers\Order\OrderController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/{id}', 'delete')->name('delete');
                 Route::get('/sua/{id}', 'edit')->name('edit');
+                Route::post('/update-status', 'updateIndex')->name('updateIndex');
                 Route::put('/sua/{id}', 'update')->name('update');
                 Route::post('/{id}/update-status', 'updateStatus')->name('updateStatus');
 
@@ -209,6 +216,14 @@ Route::middleware(['admin'])->prefix('/admin')->as('admin.')
                 Route::post('/change-status/{order_id}', 'changeStatus')->name('changeStatus');
             });
         });
+
+        Route::prefix('/warehouses')->as('warehouse.')->group(function () {
+            Route::controller(App\Http\Controllers\Warehouse\WarehouseController::class)->group(function () {
+                Route::get('/product', 'product')->name('product');
+                Route::get('/variant', 'variant')->name('variant');
+            });
+        });
+
         Route::prefix('/discounts')->as('discount.')->group(function () {
             Route::controller(App\Http\Controllers\Discount\DiscountController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
@@ -223,7 +238,8 @@ Route::middleware(['admin'])->prefix('/admin')->as('admin.')
 
         Route::prefix('/search')->as('search.')->group(function () {
             Route::prefix('/select')->as('select.')->group(function () {
-                Route::get('/customer', [App\Http\Controllers\User\CustomerSearchSelectController::class, 'selectSearch'])->name('customer');
+                Route::get('/customer', 
+                [App\Http\Controllers\User\CustomerSearchSelectController::class, 'selectSearch'])->name('customer');
             });
         });
 
