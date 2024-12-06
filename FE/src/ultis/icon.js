@@ -15,6 +15,7 @@ import {
   FaShieldAlt,
   FaFilter,
   FaKey,
+  FaRegCalendar,
 } from "react-icons/fa";
 import {
   IoCartOutline,
@@ -48,12 +49,13 @@ import {
   MdHistory,
   MdOutlineSettingsSuggest,
 } from "react-icons/md";
-import { FaRocketchat, FaPencilAlt, FaTicketAlt,FaUser } from "react-icons/fa";
+import { FaRocketchat, FaPencilAlt, FaTicketAlt, FaUser } from "react-icons/fa";
 import { FaRegCircleUser, FaCheckDouble } from "react-icons/fa6";
 import { BsCashCoin } from "react-icons/bs";
 import { LuUser2 } from "react-icons/lu";
 import { ImBin2 } from "react-icons/im";
 const icons = {
+  FaRegCalendar,
   BiSolidDiscount,
   FaShoppingCart,
   FaRegUser,
@@ -107,6 +109,6 @@ const icons = {
   BiLogIn,
   FaKey,
   IoMdListBox,
-  FaUser 
+  FaUser,
 };
 export default icons;

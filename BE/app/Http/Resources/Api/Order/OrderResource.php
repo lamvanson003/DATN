@@ -23,7 +23,7 @@ class OrderResource extends JsonResource
             'fullname' => $this->fullname,
             'phone' => $this->phone,
             'address' => $this->address,
-            'status' => OrderStatus::getDescription($this->status),
+            'status' => OrderStatus::getDescription($this->status->value),
             'unit' => "Cái",
             'agency' => "Shop CloudLAB",
             'TIN' => 462836,

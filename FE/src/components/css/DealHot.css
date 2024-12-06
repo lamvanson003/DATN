@@ -1,0 +1,36 @@
+/* Styling for the Select Dropdown */
+.selectCateHP {
+  position: absolute;
+  z-index: 10;
+  right: 20px; /* Adjusted for better spacing */
+  top: 20px;
+  outline: none;
+  border: 1px solid #ddd; /* Added border for better visibility */
+  border-radius: 8px; /* More rounded corners */
+  padding: 8px 15px; /* Adjusted padding for a more balanced look */
+  font-size: 14px; /* Slightly smaller font size for a cleaner appearance */
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  cursor: pointer; /* Pointer cursor to indicate interactiveness */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.selectCateHP:hover {
+  border-color: #007bff; /* Border color change on hover */
+  box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3); /* Enhanced shadow on hover */
+}
+
+.selectCateHP:focus {
+  border-color: #007bff; /* Border color on focus for accessibility */
+  outline: none; /* Remove default outline */
+}
+
+.selectCateHP option {
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 8px 15px;
+  font-size: 14px;
+  background-color: #fff; /* Ensures background matches the dropdown */
+}

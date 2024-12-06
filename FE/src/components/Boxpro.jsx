@@ -1,15 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import "./css/Boxpro.css";
 import { Link, useParams } from "react-router-dom";
-import proImg from "../assets/images/iHome/image.png";
-import fire from "../assets/images/iHome/fire.png";
 import { CartContext } from "../context/Cart";
 import { memo } from "react";
 import { FavorContext } from "../context/Favor";
 import { formatCurrency, handleNumber } from "../ultis/func";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCogs, faFire } from "@fortawesome/free-solid-svg-icons";
-import icons from "../ultis/icon";
+import { useCountdown } from "../ultis/func";
+
 const BoxPro = ({
   id,
   name,
@@ -23,12 +20,14 @@ const BoxPro = ({
   hot,
   hoverCart,
   hoverCartItem,
-
+  tab,
+  when,
+  startFs,
+  endFs,
   quantity_limit,
   sold,
   flashSale,
 }) => {
-  const { IoIosStar, IoIosStarHalf, IoIosStarOutline, FaFire } = icons;
   const [currentVariant, setCurrentVariant] = useState();
   const [activeStorage, setActiveStorage] = useState(null);
   const [activeColor, setActiveColor] = useState(null);
@@ -96,134 +95,175 @@ const BoxPro = ({
     product_image_items,
     product_variant,
   };
+  const { hours, minutes, seconds, status } = useCountdown(startFs, endFs);
 
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
   return (
     <div>
       {flashSale ? (
-        <div
-          className="card product-card"
-          style={{
-            width: "18rem",
-            borderRadius: "10px",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          }}
-        >
+        <div>
           <div
-            className="position-absolute top-0 start-0 m-2 badge bg-danger text-white"
-            style={{ borderRadius: "5px", fontSize: "12px" }}
-          >
-            khuyến mãi
-          </div>
-          <div
-            className="position-absolute top-0 end-0 m-2 badge  "
-            style={{ borderRadius: "5px", fontSize: "12px" }}
-          >
-            <span
-              className="badge bg-warning text-dark"
-              style={{ fontSize: "0.8rem" }}
-            >
-              -67%
-            </span>
-          </div>
-
-          <img
-            src={currentVariant?.color?.images}
-            className="card-img-top p-3"
-            alt="Product"
+            className="card product-card"
             style={{
-              width: "100%",
-              height: "200px",
-              objectFit: "contain",
-              borderRadius: "10px 10px 0 0",
-              marginTop: 10,
+              width: "18rem",
+              borderRadius: "10px",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
             }}
-          />
-
-          <div className="card-body text-center">
-            <Link
-              to={`/detail/${slug ? slug : ""}`}
-              style={{ textDecoration: "none" }}
+          >
+            <div
+              className="position-absolute top-0 start-0 m-2 badge bg-danger text-white"
+              style={{ borderRadius: "5px", fontSize: "12px" }}
+            >
+              khuyến mãi
+            </div>
+            <div
+              className="position-absolute top-0 end-0 m-2 badge  "
+              style={{ borderRadius: "5px", fontSize: "12px" }}
             >
               <span
-                style={{
-                  width: "100%",
-                  display: "inline-block",
-                  overflow: "hidden",
-                }}
+                className="badge bg-warning text-dark"
+                style={{ fontSize: "0.8rem" }}
               >
-                <h5 className="card-title m-0" style={{ cursor: "pointer" }}>
-                  {name
-                    ? name.length > 40
-                      ? name.slice(0, 40) + "..."
-                      : `${name}${
-                          currentVariant?.color?.color
-                            ? ` ${currentVariant?.color?.color}`
-                            : ""
-                        }`
-                    : testname.length > 40
-                    ? testname.slice(0, 40) + "..."
-                    : testname}
-                </h5>
+                -67%
               </span>
-            </Link>
+            </div>
 
-            <div
-              className="price-container d-flex justify-content-center align-items-center "
-              style={{ gap: "8px", fontSize: "1.2rem", fontWeight: "bold" }}
-            >
-              {
-                <p className="price text-danger mb-0">
-                  {currentVariant?.color?.sale &&
-                    formatCurrency(currentVariant?.color?.sale)}
-                </p>
-              }
-              <span className="old-price">
-                {currentVariant?.color?.price
-                  ? currentVariant?.color?.price > 100000000
-                    ? handleNumber(currentVariant?.color?.price)
-                    : formatCurrency(currentVariant?.color?.price)
-                  : "---"}
-              </span>
-            </div>
-            <div className="storage-variant m-0 ">
-              <span className="storage-option storage-selected ">
-                {currentVariant?.storage}
-              </span>
-            </div>
-            <div
-              className="progress my-3 position-relative"
-              style={{ height: "20px", borderRadius: "10px" }}
-            >
-              <div
-                className="progress-bar"
-                role="progressbar"
-                style={{
-                  width: `${((quantity_limit - sold) / quantity_limit) * 100}%`,
-                  backgroundColor: "orange",
-                }}
-                aria-valuenow={quantity_limit - sold}
-                aria-valuemin="0"
-                aria-valuemax={quantity_limit}
+            <img
+              src={currentVariant?.color?.images}
+              className="card-img-top p-3"
+              alt="Product"
+              style={{
+                width: "100%",
+                height: "200px",
+                objectFit: "contain",
+                borderRadius: "10px 10px 0 0",
+                marginTop: 10,
+              }}
+            />
+
+            <div className="card-body text-center">
+              <Link
+                to={`/detail/${slug ? slug : ""}`}
+                style={{ textDecoration: "none" }}
               >
-                <span className="position-absolute w-100 text-center text-white">
-                  Còn <span>{quantity_limit - sold}</span>/
-                  <span>{quantity_limit}</span> suất
+                <span
+                  style={{
+                    width: "100%",
+                    display: "inline-block",
+                    overflow: "hidden",
+                  }}
+                >
+                  <h5 className="card-title m-0" style={{ cursor: "pointer" }}>
+                    {name
+                      ? name.length > 30
+                        ? name.slice(0, 30) + "..."
+                        : `${name}${
+                            currentVariant?.color?.color
+                              ? ` ${currentVariant?.color?.color}`
+                              : ""
+                          }`
+                      : testname.length > 30
+                      ? testname.slice(0, 30) + "..."
+                      : testname}
+                  </h5>
+                </span>
+              </Link>
+
+              <div
+                className="price-container d-flex justify-content-center align-items-center "
+                style={{ gap: "8px", fontSize: "1.2rem", fontWeight: "bold" }}
+              >
+                {
+                  <p className="price text-danger mb-0">
+                    {currentVariant?.color?.sale &&
+                      formatCurrency(currentVariant?.color?.sale)}
+                  </p>
+                }
+                <span className="old-price">
+                  {currentVariant?.color?.price
+                    ? currentVariant?.color?.price > 100000000
+                      ? handleNumber(currentVariant?.color?.price)
+                      : formatCurrency(currentVariant?.color?.price)
+                    : "---"}
                 </span>
               </div>
-            </div>
+              <div className="storage-variant m-0 ">
+                <span className="storage-option storage-selected ">
+                  {currentVariant?.storage}
+                </span>
+              </div>
+              <div
+                className="progress my-2 position-relative"
+                style={{ height: "20px", borderRadius: "10px" }}
+              >
+                <div
+                  className="progress-bar"
+                  role="progressbar"
+                  style={{
+                    width: `${
+                      ((quantity_limit - sold) / quantity_limit) * 100
+                    }%`,
+                    backgroundColor: "orange",
+                  }}
+                  aria-valuenow={quantity_limit - sold}
+                  aria-valuemin="0"
+                  aria-valuemax={quantity_limit}
+                >
+                  <span className="position-absolute w-100 text-center text-white">
+                    Còn <span>{quantity_limit - sold}</span>/
+                    <span>{quantity_limit}</span> suất
+                  </span>
+                </div>
+              </div>
 
-            <button
-              className="btn btn-primary btn-sm"
-              style={{
-                borderRadius: "20px",
-                width: "100%",
-                fontWeight: "bold",
-              }}
-              onClick={() => buyNow(main, currentVariant)}
-            >
-              Mua ngay
-            </button>
+              <button
+                className="btn btn-primary btn-sm"
+                style={{
+                  borderRadius: "20px",
+                  width: "100%",
+                  fontWeight: "bold",
+                }}
+                onClick={() => buyNow(main, currentVariant)}
+              >
+                Mua ngay
+              </button>
+            </div>
+          </div>
+          <div className={`countdown ${tab}`}>
+            {tab === "incoming" || tab === "current" ? (
+              <span className="countdown-time">
+                {hours >= 24 ? (
+                  <span>
+                    <span className="countdown-day">
+                      <span className="pe-0">{Math.floor(hours / 24)}</span>
+                      <span className="ps-1">
+                        {Math.floor(hours / 24) === 1 ? "day" : "days"}
+                      </span>
+                    </span>
+                    <span className="countdown-hour">
+                      {hours % 24 === 0
+                        ? `${String(minutes).padStart(2, "0")} minutes`
+                        : `${String(hours % 24).padStart(2, "0")} hours`}
+                    </span>
+                  </span>
+                ) : (
+                  <>
+                    <span className="countdown-hour">
+                      {String(hours).padStart(2, "0")}
+                    </span>
+                    :
+                    <span className="countdown-minute">
+                      {String(minutes).padStart(2, "0")}
+                    </span>
+                    :
+                    <span className="countdown-second">
+                      {String(seconds).padStart(2, "0")}
+                    </span>
+                  </>
+                )}
+              </span>
+            ) : null}
+            {status === "expired" && <p>Sale has ended</p>}
           </div>
         </div>
       ) : horizon ? (
@@ -391,15 +431,15 @@ const BoxPro = ({
               >
                 <h5 className="card-title mb-0" style={{ cursor: "pointer" }}>
                   {name
-                    ? name.length > 40
-                      ? name.slice(0, 40) + "..."
+                    ? name.length > 30
+                      ? name.slice(0, 30) + "..."
                       : `${name}${
                           currentVariant?.color?.color
                             ? ` ${currentVariant?.color?.color}`
                             : ""
                         }`
-                    : testname.length > 40
-                    ? testname.slice(0, 40) + "..."
+                    : testname.length > 30
+                    ? testname.slice(0, 30) + "..."
                     : testname}
                 </h5>
               </span>

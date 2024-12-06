@@ -10,9 +10,11 @@ use App\Enums\Brand\BrandStatus;
 use App\Enums\Status;
 use App\Enums\Product\ProductStatus;
 use App\Http\Resources\Api\Product\ProductResource;
+use App\Http\Resources\Api\Product\ProductVariantResource;
 use App\Http\Resources\Api\Product\ProductDetailResource;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -99,28 +101,79 @@ class ProductController extends controller
         }
     }
 
+    public function hotdeal(Request $request)
+{
+    try {
+        $categoryFilter = $request->query('category');
+
+        if (!$categoryFilter) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Category filter is required.'
+            ], 400);
+        }
+
+        $category = Category::where('status', CategoryStatus::Active)
+            ->where('slug', $categoryFilter)
+            ->first();
+
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Category not found.'
+            ], 404);
+        }
+
+        $productVariants = ProductVariant::with([
+                'product' => function ($query) use ($category) {
+                    $query->where('status', ProductStatus::Active)
+                        ->where('category_id', $category->id);
+                },
+                'product.brand' => function ($query) {
+                    $query->where('status', BrandStatus::Active);
+                },
+                'comments' => function ($query) {
+                    $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
+                },
+                'product.product_image_items' => function ($query) {
+                    $query->where('status', Status::Active);
+                },
+            ])
+            ->whereHas('product', function ($query) use ($category) {
+                $query->where('status', ProductStatus::Active)
+                    ->where('category_id', $category->id);
+            })
+            ->orderBy('sold', 'desc') 
+            ->limit(10)
+            ->get();
+
+        if ($productVariants->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No hot deal product variants found for the selected category.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => ProductVariantResource::collection($productVariants),
+        ], 200);
+    } catch (\Throwable $th) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to fetch data',
+            'error' => $th->getMessage()
+        ], 500);
+    }
+}
+
+
     public function detail($slug)
     {
         try {
 
-            $product = Product::with(
-                [
-                    'category' => function ($query) {
-                        $query->where('status', CategoryStatus::Active);
-                    },
-                    'brand' => function ($query) {
-                        $query->where('status', BrandStatus::Active);
-                    },
-                    'product_image_items' => function ($query) {
-                        $query->where('status', Status::Active);
-                    },
-                    'product_variant.comments' => function ($query) {
-                        $query->selectRaw('AVG(rating) as average_rating');
-                    },
-
-                ]
-            )
-                ->where('slug', $slug)
+            $product = Product::
+                where('slug', $slug)
                 ->where('status', ProductStatus::Active)
                 ->firstOrFail();
             return response()->json([

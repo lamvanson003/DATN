@@ -10,6 +10,14 @@
   color: #C70039; 
 }
 
+.fix-content {
+  display: inline-block;       
+  max-width: 200px;           
+  white-space: nowrap;        
+  overflow: hidden;           
+  text-overflow: ellipsis;    
+}
+
 
 /* Fix image */
 .fix-image {

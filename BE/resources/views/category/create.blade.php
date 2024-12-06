@@ -35,11 +35,11 @@
                                 <div class="col-md-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-5">
                                         <label class="control-label">Tên danh mục<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" placeholder="VD: Điện thoại">
+                                        <input type="text" class="required form-control" id="title" name="name" placeholder="VD: Điện thoại">
                                     </div>
                                     <div class="mb-3 col-5">
                                         <label class="control-label">Đường dẫn<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="slug"  placeholder="VD: dien-thoai">
+                                        <input type="text" class="required form-control" id="slug" name="slug"  placeholder="VD: dien-thoai">
                                     </div>
                                 </div>
                                 <div class="col-12">

@@ -24,7 +24,7 @@ Route::prefix('admin/login')->as('admin.')->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
+Route::middleware(['admin'])->prefix('/admin')->as('admin.')
     ->group(function () {
         Route::prefix('/dashboard')->as('dashboard.')->group(function () {
             Route::controller(App\Http\Controllers\Dashboard\DashboardController::class)->group(function () {
@@ -98,7 +98,7 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::get('/them', 'create')->name('create');
                 Route::post('/them', 'store')->name('store');
                 Route::get('/sua/{id}', 'edit')->name('edit');
-                Route::put('/sua/{id}', 'update')->name('update');
+                Route::put('/sua', 'update')->name('update');
                 Route::delete('/xoa/{id}', 'delete')->name('delete');
                 Route::post('/xoa', 'action')->name('action');
             });
@@ -202,8 +202,10 @@ Route::middleware(['auth', 'auth.admin'])->prefix('/admin')->as('admin.')
                 Route::get('/{id}', 'delete')->name('delete');
                 Route::get('/sua/{id}', 'edit')->name('edit');
                 Route::put('/sua/{id}', 'update')->name('update');
+                Route::post('/{id}/update-status', 'updateStatus')->name('updateStatus');
 
                 Route::get('/status/{status}', 'getByStatus')->name('status');
+                Route::post('/return-confirm/{id}', 'returnConfirm')->name('returnConfirm');
                 Route::post('/change-status/{order_id}', 'changeStatus')->name('changeStatus');
             });
         });

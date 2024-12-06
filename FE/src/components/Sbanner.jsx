@@ -14,7 +14,6 @@ const Sbanner = ({ product }) => {
   const nextBanner = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
   };
-
   const prevBanner = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + banners.length) % banners.length
@@ -39,7 +38,6 @@ const Sbanner = ({ product }) => {
               style={{ width: "100%", height: "auto", borderRadius: "8px" }}
             />
           </div>
-
           <div style={{ width: "48%", borderRadius: "8px" }}>
             <img
               src={banners[(currentIndex + 1) % banners.length]}
@@ -47,7 +45,6 @@ const Sbanner = ({ product }) => {
               style={{ width: "100%", height: "auto", borderRadius: "8px" }}
             />
           </div>
-
           <button
             onClick={prevBanner}
             style={{
@@ -86,31 +83,31 @@ const Sbanner = ({ product }) => {
       ) : (
         <div className="container">
           <div className="sub-banner-embrace">
-          <div className="container mb-5">
-            <div className="row justify-content-center flex-nowrap">
-              <div className="col-lg-6">
-                <div className="sub-banner">
-                  <img
-                    src={sbanner1}
-                    alt="Banner 1 Image"
-                    className="img-fluid"
-                  />
-                  <h5 className="text-center">Sub Banner 1</h5>
+            <div className="container mb-5">
+              <div className="row justify-content-center flex-nowrap">
+                <div className="col-lg-6">
+                  <div className="sub-banner">
+                    <img
+                      src={sbanner1}
+                      alt="Banner 1 Image"
+                      className="img-fluid"
+                    />
+                    <h5 className="text-center">Sub Banner 1</h5>
+                  </div>
                 </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="sub-banner">
-                  <img
-                    src={sbanner2}
-                    alt="Banner 2 Image"
-                    className="img-fluid"
-                  />
-                  <h5 className="text-center">Sub Banner 2</h5>
+                <div className="col-lg-6">
+                  <div className="sub-banner">
+                    <img
+                      src={sbanner2}
+                      alt="Banner 2 Image"
+                      className="img-fluid"
+                    />
+                    <h5 className="text-center">Sub Banner 2</h5>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
       )}
     </div>

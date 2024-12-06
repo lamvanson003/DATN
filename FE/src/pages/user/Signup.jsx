@@ -18,7 +18,6 @@ const Signup = () => {
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
-
     if (!username) {
       newErrors.username = "Tên không được để trống";
       isValid = false;
@@ -39,11 +38,10 @@ const Signup = () => {
       isValid = false;
     }
     if (phone && !/^\d{10,15}$/.test(phone)) {
-      // Updated regex to accept 10-15 digits
+
       newErrors.phone = "Số điện thoại phải từ 10 đến 15 ký tự số";
       isValid = false;
     }
-
     setErrors(newErrors);
     return isValid;
   };
@@ -52,20 +50,17 @@ const Signup = () => {
     e.preventDefault();
     setError("");
     setErrors({});
-
     if (!validateForm()) return;
-
     const data = {
       username,
       email,
       password,
-      password_confirmation: passwordConfirmation, // Key should match what's expected
+      password_confirmation: passwordConfirmation,
       phone,
     };
-
     setIsSubmitting(true);
     try {
-      console.log("Sending data:", data); // Log the data being sent
+      console.log("Sending data:", data);
       const response = await axios.post(
         "http://localhost:8000/api/registers",
         data,
@@ -75,18 +70,16 @@ const Signup = () => {
       );
 
       if (response.status === 200) {
-        localStorage.setItem("signupSuccess", "true");
-        navigate("/login");
+        navigate("/login"); 
       }
     } catch (err) {
-      console.error("Error response:", err.response); // Log the full error response
-
+      console.error("Error response:", err.response);
+  
       if (err.response) {
         const errorMessage =
           err.response.data.error || err.response.data.errors;
 
         if (errorMessage) {
-          // Handle specific error messages
           if (errorMessage.email) {
             setErrors({
               email: "Email đã được sử dụng. Vui lòng nhập email khác.",

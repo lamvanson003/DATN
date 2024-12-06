@@ -20,9 +20,7 @@ const Login = () => {
   }, []);
   const handleLogin = async (event) => {
     event.preventDefault();
-
     const loginData = { email, password };
-
     try {
       const response = await axios.post(
         "http://localhost:8000/api/logins",
@@ -33,10 +31,8 @@ const Login = () => {
           },
         }
       );
-
       const data = response.data;
       console.log(data);
-
       if (data.token) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("loginSuccess", "true");
@@ -73,11 +69,6 @@ const Login = () => {
               <h3 className="fw-bold text-center text-primary my-4 custom-title">
                 LOGIN
               </h3>
-              {/* {errorMessage && (
-                <div className="alert alert-danger" role="alert">
-                  {errorMessage}
-                </div>
-              )} */}
               <form onSubmit={handleLogin}>
                 <div className="form-outline mb-4">
                   <label className="form-label" htmlFor="form1Example13">
@@ -146,34 +137,7 @@ const Login = () => {
                     Hoặc
                   </p>
                 </div>
-                <div className="row mt-3 ">
-                  <span className="col-sm-6 text-start">
-                    <a
-                      className="btn btn-primary border-0 btn-lg btn-block"
-                      href="#!"
-                      style={{
-                        backgroundColor: "#3b5998",
-                        fontSize: 16,
-                      }}
-                    >
-                      <i className="fab fa-facebook-f me-2" />
-                      Đăng nhập bằng Facebook
-                    </a>
-                  </span>
-                  <span className="col-sm-6 text-end">
-                    <a
-                      className="btn btn-primary border-0 btn-lg btn-block"
-                      href="#!"
-                      style={{
-                        backgroundColor: "#DB4437",
-                        fontSize: 16,
-                      }}
-                    >
-                      <i className="fab fa-google me-2" />
-                      Đăng nhập bằng Google
-                    </a>
-                  </span>
-                </div>
+               
               </form>
             </div>
           </div>
