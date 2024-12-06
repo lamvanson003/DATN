@@ -16,7 +16,9 @@ class CommentController extends Controller
   
     public function index()
     {
-        $comments = Comment::with('productVariant')->get(); 
+        $comments = Comment::with('productVariant')
+        ->orderBy('id','desc')
+        ->get(); 
         return view('comment.index', compact('comments')); 
     }
 

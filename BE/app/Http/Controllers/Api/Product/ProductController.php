@@ -86,7 +86,9 @@ class ProductController extends controller
                         $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
                     },
                 ]
-            )->where('status', ProductStatus::Active)->get();
+            )->where('status', ProductStatus::Active)
+            ->orderBy('id','desc')
+            ->get();
 
             return response()->json([
                 'success' => true,

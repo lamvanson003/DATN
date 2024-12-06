@@ -72,8 +72,8 @@
                                   {{ \App\Enums\Post\PostStatus::getDescription($post->status->value) }}
                                 </span>
                             @break
-                            @case(\App\Enums\Post\PostStatus::Draf)
-                                <span class="badge rounded-pill badge-dark">
+                            @case(\App\Enums\Post\PostStatus::Draft)
+                                <span class="badge rounded-pill badge-black">
                                   {{ \App\Enums\Post\PostStatus::getDescription($post->status->value) }}
                                 </span>
                             @break
