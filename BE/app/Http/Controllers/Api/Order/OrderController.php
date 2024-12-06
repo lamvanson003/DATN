@@ -65,10 +65,21 @@ class OrderController extends Controller {
         ]);
         try {
             DB::beginTransaction();
+            if ($validatedData['discount_id']) {
+                $existingOrder = Order::where('phone', $validatedData['phone'])
+                    ->where('discount_id', $validatedData['discount_id'])
+                    ->first();
+                
+                if ($existingOrder) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'số điện thoại này đã sử dụng mã rồi.',
+                    ], 400);
+                }
+            }
             $code = '#'.random_int(1,9999);
             $order = Order::create([
-                'code' => $code,
-                'user_id' => $validatedData['user_id'] ?? null,
+                'code' => $code,'user_id' => $validatedData['user_id'] ?? null,
                 'payment_method_id' => $validatedData['payment_method_id'],
                 'discount_id' => $validatedData['discount_id'] ?? null,
                 'fullname' => $validatedData['fullname'],
@@ -78,8 +89,14 @@ class OrderController extends Controller {
                 'note' => $validatedData['note'],
                 'total_price' => $validatedData['total_price'],
                 'status' => 'pending',
-            ]);
-
+            ]); 
+            if ($validatedData['discount_id']) {
+                $discount = \App\Models\Discount::find($validatedData['discount_id']);
+                if ($discount && $discount->amount > 0) {
+                    $discount->amount -= 1;
+                    $discount->save();
+                }
+            }
             foreach ($validatedData['products'] as $productData) {
                 $orderDetail =OrderDetail::create([
                     'order_id' => $order->id,
