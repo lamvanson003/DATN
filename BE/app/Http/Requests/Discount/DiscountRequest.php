@@ -34,7 +34,7 @@ class DiscountRequest extends BaseRequest
              'amount' => 'required|integer|min:0',
              'date_end' => 'required|date|after_or_equal:date_start',
              'type' => 'required|in:' . implode(',', array_keys(\App\Enums\Discount\DiscountType::asSelectArray())),
-            'status' => 'required|in:' . implode(',', array_keys(\App\Enums\Discount\DiscountStatus::asSelectArray())),
+             'status' => 'required|in:' . implode(',', array_keys(\App\Enums\Discount\DiscountStatus::asSelectArray())),
          ];
      }
      
