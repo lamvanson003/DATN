@@ -10,14 +10,19 @@ class Comment extends Model
     use HasFactory;
 
     protected $table= 'comments';
-    protected $fillable = ['images','fullname','content','product_variant_id','rating','status'];
+    protected $fillable = ['images','fullname','content','product_variant_id','rating','status','post_id'];
     
     public function productVariant()
     {
         return $this->belongsTo(ProductVariant::class);
     }
 
-    protected $cast = [
+    public function post()
+    {
+        return $this->belongsTo(Post::class,'post_id');
+    }
+
+    protected $casts = [
         'status'=> CommentStatus::class,
     ];
 }

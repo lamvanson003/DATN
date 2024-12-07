@@ -6,7 +6,7 @@
 <div class="container">
   <div class="page-inner">
     <div class="page-header">
-      <h3 class="fw-bold mb-3">CloudLab.Net</h3>
+      <h3 class="fw-bold mb-3">CloudLab</h3>
       <ul class="breadcrumbs mb-3">
         <li class="nav-home">
           <a href="{{ route('admin.dashboard.index') }}">
@@ -17,7 +17,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="{{ route('admin.flashSale.index') }}">Flash Sale</a>
+          <a href="#">{{ $saleItem->product_variant->product->name }} - {{ $saleItem->product_variant->storage }}</a>
         </li>
       </ul>
     </div>
@@ -32,7 +32,7 @@
                 <div class="col-12 col-md-9">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="red">Chỉnh sửa SaleItem</h5>
+                            <h5 class="red">Chỉnh sửa {{ $saleItem->product_variant->product->name }} - {{ $saleItem->product_variant->storage }}</h5>
                         </div>
                         <div class="card-body">
                             <div class="col-md-12 col-sm-12">
@@ -49,18 +49,18 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <label class="control-label">Giá khuyễn mãi:<span style="color: red">*</span>:</label>
-                                    <input type="text" required class="form-control" name="discount_price" id="discount_price" value="{{ number_format($saleItem->discount_price, 0, ',', '.') }}" placeholder="VD: 10.000.000">
+                                    <input type="text" class="required form-control" name="discount_price" id="discount_price" value="{{ number_format($saleItem->discount_price, 0, ',', '.') }}" placeholder="VD: 10.000.000">
                                 </div>
                             </div>
 
                             <div class="col-md-12 col-sm-12 d-flex mb-3">
                                 <div class="me-2 flex-grow-1">
-                                    <label class="control-label">Số lượng còn lại:<span style="color: red">*</span>:</label>
-                                    <input type="text" required class="form-control" value="{{ $saleItem->product_variant->instock }}" readonly>
+                                    <label class="control-label">Số lượng đang có (flash-sale)<span style="color: red">*</span>:</label>
+                                    <input type="text" required class="form-control" value="{{ $saleItem->quantity_limit }}" readonly>
                                 </div>
                                 <div class="flex-grow-1">
                                     <label class="control-label">Số lượng giảm giá:<span style="color: red">*</span>:</label>
-                                    <input type="text" required class="form-control" name="quantity_limit" id="quantity_limit" value="{{ $saleItem->quantity_limit }}" placeholder="VD: 5">
+                                    <input type="text" class="required form-control" name="quantity_limit" id="quantity_limit" value="{{ $saleItem->quantity_limit }}" placeholder="VD: 5">
                                 </div>
                             </div>
 
@@ -82,7 +82,7 @@
                     <div class="card mb-3">
                         <div class="card-header">Trạng thái</div>
                         <div class="card-body">
-                            <select class="form-select" name="is_active">
+                            <select class="form-select" name="is_active">                                
                                 @foreach ($status as $key => $value)
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
@@ -105,7 +105,7 @@
 
             <script>
                 const originalPrice = {{ $saleItem->product_variant->price }};
-                const maxQuantity = {{ $saleItem->product_variant->instock }};
+                const maxQuantity = {{ $saleItem->quantity_limit }};
             
                 const discountPriceInput = document.getElementById('discount_price');
                 const quantityLimitInput = document.getElementById('quantity_limit');

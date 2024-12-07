@@ -196,7 +196,6 @@ const Payment = () => {
     }
 
     const orderInfo = {
-      user_id: 1,
       payment_method_id: paymentMethod,
       shipping_method: 0,
       discount_id: discountId ? discountId : null,
@@ -298,7 +297,6 @@ const Payment = () => {
                     style={{ borderColor: validFields.phone ? "" : "red" }}
                   />
                 </div>
-
                 <div>
                   <label htmlFor="email" className="label-style">
                     Email:
@@ -351,7 +349,6 @@ const Payment = () => {
                     </select>
                   </div>
                 </div>
-
                 <div>
                   <label htmlFor="district" className="label-style">
                     Quận huyện:
@@ -390,7 +387,6 @@ const Payment = () => {
                     </select>
                   </div>
                 </div>
-
                 <div>
                   <label htmlFor="ward" className="label-style">
                     Phường xã:
@@ -425,7 +421,6 @@ const Payment = () => {
                     </select>
                   </div>
                 </div>
-
                 <div>
                   <label htmlFor="street" className="label-style">
                     Số nhà, tên đường:

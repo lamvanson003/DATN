@@ -15,7 +15,7 @@ class Order extends Model
     protected $fillable = ['user_id','payment_method_id','discount_id','code','shipping_method','fullname','gender',
                             'email',
                             'phone',
-                            'address','note','total_price','status','completed'
+                            'address','note','total_price','status','completed','processed_at'
                         ];
 
 
@@ -33,13 +33,12 @@ class Order extends Model
 
     public function getOrder(){
         $dateTime = Carbon::now();
-        $startTime = $dateTime->copy()->startOfMinute(); 
+        $startTime = $dateTime->copy()->subMinutes(5);
         $endTime = $dateTime->copy()->endOfMinute();    
-    
-        return Order::whereBetween('created_at', [$startTime, $endTime])->get();
+        return Order::whereBetween('created_at', [$startTime, $endTime])->whereNull('processed_at')->get();
     }
     
-    protected $cast = [
+    protected $casts = [
         'status' => OrderStatus::class,
     ];
 }

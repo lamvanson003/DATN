@@ -51,14 +51,20 @@
                   @foreach ($comments as $item)
                     <tr>
                       <td>
-                        <img class="text-center fix-image" src="{{ asset($item->productVariant->images) }}" alt="{{ $item->productVariant->name }}">
+                        <a href="{{ route('admin.product.product_item.edit',[
+                        $item->productVariant->product->id,
+                        $item->productVariant->id]) }}">
+
+                          {{ $item->productVariant->product->name }}
+                          {{ $item->productVariant->storage }}
+                        </a>
                       </td>
                       <td>{{ $item->fullname }}</td>
                       <td>{{ $item->content }}</td>
                       <td>{{ $item->rating }} ⭐</td>
                       <td>
                         <span class="badge rounded-pill 
-                          @switch($item->status)
+                          @switch($item->status->value)
                             @case(\App\Enums\Comment\CommentStatus::Approved)
                               badge-success
                             @break
@@ -74,7 +80,7 @@
                             @default
                               badge-secondary
                         @endswitch">
-                          {{ \App\Enums\Comment\CommentStatus::getDescription($item->status) }}
+                          {{ \App\Enums\Comment\CommentStatus::getDescription($item->status->value) }}
                         </span>
                       </td>
                       <td>{{ $item->created_at }}</td>

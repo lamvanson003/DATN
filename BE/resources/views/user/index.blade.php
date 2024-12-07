@@ -36,7 +36,7 @@
           <div class="card-body">
             <!-- Modal -->
             <div class="table-responsive">
-              <table id="add-row" class="fontTable table fix_table text-center w-auto">
+              <table id="add-row" class="fontTable table fix_table text-center">
                 <thead>
                   <tr>
                     <th>Avatar</th>

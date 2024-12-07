@@ -80,6 +80,25 @@
               </ul>
             </div>
           </li>
+
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#warehouse">
+              <i class="fas fa-warehouse"></i>
+              <p>Kho hàng</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="warehouse">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('admin.warehouse.variant') }}">
+                    <i class="fas fa-list"></i>
+                    <span>Quản lý biến thể</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#sale">
               <i class="fas fa-bolt"></i>
@@ -97,7 +116,13 @@
                 <li>
                   <a href="{{ route('admin.flashSale.index') }}">
                     <i class="fas fa-list"></i>
-                    <span>DS Flash Sale</span>
+                    <span>Flash Sale đang diễn ra</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.flashSale.pending') }}">
+                    <i class="fas fa-list"></i>
+                    <span>Flash Sale sắp diễn ra</span>
                   </a>
                 </li>
               </ul>

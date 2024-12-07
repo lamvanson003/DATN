@@ -7,6 +7,7 @@ const path = {
   PRODUCT: "product",
   PRODUCT__DETAIL__SLUG: "detail/:slug",
   ORDER__DETAIL__ID: "order-detail/:id",
+  POST__DETAIL__SLUG: "post-detail/:slug",
   ABOUT: "about",
   CONTACT: "contact",
   POST: "post",
@@ -19,6 +20,7 @@ const path = {
   FAVOR: "favor",
   BANKINGONLINE: "banking-online",
   INVOICE__ID: "invoice/:id",
+
   //
 };
 export default path;

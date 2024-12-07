@@ -14,9 +14,10 @@ class OrderController extends Controller
 {
 
     public function index()
-    {
+    {   
+        $status = OrderStatus::asSelectArray();
         $orders = Order::with('order_details')->orderBy('id','desc')->get();
-        return view('order.index', compact('orders'));
+        return view('order.index', compact('orders','status'));
     }
 
     public function edit($id)
@@ -29,12 +30,14 @@ class OrderController extends Controller
         });
 
         $status = OrderStatus::asSelectArray();
+        $payment_method = OrderStatus::asSelectArray();
         return view('order.edit', compact('order','status','totalAmount'));
     }
 
     public function update(Request $request)
     {
         $data = $request->all();
+
         $order = Order::findOrfail($data['id']);
         $order->update([
             'fullname' => $data['fullname'],
@@ -46,12 +49,51 @@ class OrderController extends Controller
 
         Mail::to($order->email)->send(new OrderStatusUpdated($order));
 
-        return redirect()->route('admin.order.index')->with('success', 'Đơn hàng đã được cập nhật thành công!');
+        return redirect()->back()->with('success', 'Đơn hàng đã được cập nhật thành công!');
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        if (!in_array($request->status, \App\Enums\Order\OrderStatus::getValues())) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Trạng thái không hợp lệ.'
+            ]);
+        }
+
+        $order->status = $request->status;
+        $order->save();
+
+        return redirect()->back()->with('success','Thực hiện thành công');
+    }
+
+    public function updateIndex(Request $request)
+    {
+        $ids = $request->input('ids'); 
+        $status = $request->input('status');
+        if (empty($ids)) {
+            return redirect()->back()->with('message', 'Không có đơn hàng nào được chọn');
+        }
+
+        foreach ($ids as $id) {
+            $order = Order::findOrFail($id);
+            $order->update([
+                'status' => $status,
+            ]);
+
+            Mail::to($order->email)->send(new OrderStatusUpdated($order));
+        }    
+        return redirect()->back()->with('success','Thực hiện thành công');
+    }
+
 
     public function getByStatus($status)
     {
-        $order = Order::with('user')->where('status',$status)->get();
+        $order = Order::with('user')->where('status',$status)
+        ->orderBy('id','desc')
+        ->get();
         $title = OrderStatus::getDescription($status);
         return view('order.status', compact('order','title'));
     }

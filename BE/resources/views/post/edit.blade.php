@@ -42,7 +42,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Tiêu đề bài viết<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="title" value="{{ $post->title }}" placeholder="Nhập tiêu đề bài viết">
+                                        <input type="text" class="required form-control" id="title" name="title" value="{{ $post->title }}" placeholder="Nhập tiêu đề bài viết">
                                     </div>
                                 </div>
 
@@ -50,7 +50,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Đường dẫn (Slug)<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="slug" value="{{ $post->slug }}" placeholder="Nhập slug">
+                                        <input type="text" class="required form-control"  id="slug" name="slug" value="{{ $post->slug }}" placeholder="Nhập slug" readonly>
                                     </div>
                                 </div>
 
@@ -58,61 +58,23 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Nội dung<span style="color: red">*</span>:</label>
-                                        <textarea required class="form-control" name="content" rows="5" placeholder="Nhập nội dung bài viết">{{ $post->content }}</textarea>
+                                        <textarea class="required form-control" name="content" rows="5" placeholder="Nhập nội dung bài viết">{{ $post->content }}</textarea>
                                     </div>
                                 </div>
                  
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Ngày sửa<span style="color: red">*</span>:</label>
-                                        <input type="datetime-local" required class="form-control" name="posted_at" value="{{ $post->posted_at instanceof \Carbon\Carbon ? $post->posted_at->format('Y-m-d\TH:i') : '' }}">
+                                        <input type="datetime-local" class="required form-control" name="posted_at" value="{{ $post->posted_at }}" disabled>
                                     </div>
                                 </div>
-
-                     
-                               <div class="col-md-12 col-sm-12">
-                                    <div class="mb-3">
-                                        <label class="control-label">Danh mục<span style="color: red">*</span>:</label>
-                                        <div class="checkbox-list">
-                                            @foreach ($categories as $category)
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="category_id[]" value="{{ $category->id }}"
-                                                    {{ $post->categories && in_array($category->id, $post->categories->pluck('id')->toArray()) ? 'checked' : '' }}>
-                                                    <label class="form-check-label">{{ $category->name }}</label>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-
-
 
                             </div>
                         </div>
                     </div>
 
                     <div class="col-12 col-md-3">
-      
-                        <div class="card mb-3">
-                            <div class="card-header">Trạng thái</div>
-                            <div class="card-body p-2">
-                                <select required class="form-select" name="status">
-                                    @foreach (\App\Enums\Post\PostStatus::asSelectArray() as $key => $value)
-                                        <option value="{{ $key }}" {{ $post->status == $key ? 'selected' : '' }}>{{ $value }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="card mb-3">
-                            <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
-                            <div class="card-body p-2">
-                                <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
-                                <div class="image-container" style="cursor: pointer;" onclick="document.getElementById('fileInput').click();">
-                                    <img id="imagePreview" src="{{ asset('/images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
-                                </div>
-                            </div>
-                        </div>
                         <div class="card mb-3">
                             <div class="card-header">Lưu</div>
                             <div class="card-body p-2">
@@ -121,10 +83,84 @@
                                 </button>
                             </div>
                         </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">Trạng thái</div>
+                            <div class="card-body p-2">
+                                <select class="required form-select" name="status">
+                                    @foreach (\App\Enums\Post\PostStatus::asSelectArray() as $key => $value)
+                                        <option value="{{ $key }}" {{ $post->status->value == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">Nổi bậc</div>
+                            <div class="card-body p-2">
+                                <label class="form-check form-switch">
+                                    <input type="hidden" name="is_featured" value="0">
+                                    <input type="checkbox" class="form-check-input" 
+                                        name="is_featured" value="1" 
+                                        data-parsley-multiple="is_featured"
+                                        {{ $post->is_featured->value == 1 ? 'checked' : '' }}/>
+                                    <span class="form-check-label">Bật bài viết nổi bậc</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">Ảnh đại diện</div>
+                            <div class="card-body p-2">
+                                <input type="file" id="fileInput" name="new_image" class="d-none" accept="image/*">
+                                <input type="hidden" name="old_image" value="{{ $post->images }}">
+                                <div class="image-container" style="cursor: pointer;">
+                                    <img id="imagePreview"
+                                        src="{{ asset($post->images ?? 'images/default-image.png') }}"
+                                        alt="Ảnh đại diện" style="max-width: 100%;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">Danh mục <span style="color: red">*</span>:</div>
+                            <div class="card-body">
+                                <div class="checkbox-list">
+                                    @foreach ($categories as $category)
+                                        <div class="form-check">
+                                            <input class=" required form-check-input" type="checkbox" name="category_id[]" value="{{ $category->id }}"
+                                            {{ $post->categories && in_array($category->id, $post->categories->pluck('id')->toArray()) ? 'checked' : '' }}>
+                                            <label class="form-check-label">{{ $category->name }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                     </div>                    
                 </div>
             </form>    
         </div>
     </div>   
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function loadFile(event) {
+            const imagePreview = document.getElementById('imagePreview');
+            const file = event.target.files[0];
+
+            if (file) {
+                imagePreview.src = URL.createObjectURL(file);
+            } else {
+                imagePreview.src = "{{ asset($post->images ?? 'images/default-image.png') }}";
+            }
+        }
+
+        document.querySelector('.image-container').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', loadFile);
+    });
+</script>
 @endsection

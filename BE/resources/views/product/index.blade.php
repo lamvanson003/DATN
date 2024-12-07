@@ -6,7 +6,7 @@
 <div class="container">
   <div class="page-inner">
     <div class="page-header">
-      <h3 class="fw-bold mb-3">CloudLab.Net</h3>
+      <h3 class="fw-bold mb-3">CloudLab</h3>
       <ul class="breadcrumbs mb-3">
         <li class="nav-home">
           <a href="{{ route('admin.dashboard.index') }}">
@@ -88,15 +88,15 @@
                       </div>                                     
                     </td>
                       <td>
-                        @switch($item->status)
+                        @switch($item->status->value)
                             @case(\App\Enums\Product\ProductStatus::Active)
-                                <span class="badge rounded-pill badge-success">{{ \App\Enums\Product\ProductStatus::getDescription($item->status) }}</span>
+                                <span class="badge rounded-pill badge-success">{{ \App\Enums\Product\ProductStatus::getDescription($item->status->value) }}</span>
                             @break
                             @case(\App\Enums\Product\ProductStatus::Inactive)
-                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\Product\ProductStatus::getDescription($item->status) }}</span>
+                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\Product\ProductStatus::getDescription($item->status->value) }}</span>
                             @break
                             @case(\App\Enums\Product\ProductStatus::Deleted)
-                                <span class="badge rounded-pill badge-danger">{{ \App\Enums\Product\ProductStatus::getDescription($item->status) }}</span>
+                                <span class="badge rounded-pill badge-danger">{{ \App\Enums\Product\ProductStatus::getDescription($item->status->value) }}</span>
                             @break
                             @default
                                 <span class="badge rounded-pill badge-secondary">Không xác định</span>

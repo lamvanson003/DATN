@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import hotB from "../../assets/images/iHome/hot-banner.png";
+
 import recommend from "../../assets/images/iHome/recommend.png";
 import {
   BoxPro,
@@ -11,6 +11,7 @@ import {
   FlashSale,
   Recommend,
   Popup,
+  DealHot,
 } from "../../components";
 import "./css/Home.css";
 import { useSelector } from "react-redux";
@@ -27,7 +28,6 @@ const Home = () => {
   const [flashSale, setFlashSale] = useState([]);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
   useEffect(() => {
-    // Check if login was successful
     const loginSuccess = localStorage.getItem("loginSuccess");
     if (loginSuccess === "true") {
       toast.success("Đăng nhập thành công");
@@ -51,7 +51,7 @@ const Home = () => {
           const parsedItems = JSON.parse(PendingLeftCartItems);
           if (Array.isArray(parsedItems)) {
             setCartItems(parsedItems);
-            localStorage.setItem("cartItems", PendingLeftCartItems); // Không cần stringify lại
+            localStorage.setItem("cartItems", PendingLeftCartItems);
           } else {
             console.error("Parsed items are not an array:", parsedItems);
           }
@@ -71,8 +71,6 @@ const Home = () => {
 
       <Sbanner />
 
-      <Brand />
-
       <FlashSale />
 
       <div className="container mt-5">
@@ -82,7 +80,7 @@ const Home = () => {
             <a href="">Xem tất cả</a>
           </div>
           <div className="row justify-content-start align-items-center pt-3 pb-3">
-            {phonesData
+            {phonesData && phonesData
               .filter((value, index) => index < 8)
               .map((pro, index) => (
                 <div key={index} className="col-md-3">
@@ -111,7 +109,7 @@ const Home = () => {
             <a href="">Xem tất cả</a>
           </div>
           <div className="row justify-content-start align-items-center pt-3 pb-3">
-            {laptopsData
+            {laptopsData && laptopsData
               .filter((value, index) => index < 8)
               .map((pro, index) => (
                 <div key={index} className="col-md-3">
@@ -131,27 +129,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="container mt-5">
-        <div className="row  flex-nowrap">
-          <div className="col-md-3">
-            <div className="hot-product position-relative">
-              <h5 className="text-center">DEAL HOT</h5>
-              <img src={hotB} alt="Hot Banner 1 Image" className="img-fluid" />
-            </div>
-          </div>
-          <div className="col-md-9">
-            <div className="row">
-              {Array(3)
-                .fill(0)
-                .map((_, index) => (
-                  <div key={index} className="col-md-4 ">
-                    <BoxPro />
-                  </div>
-                ))}
-            </div>
-          </div>
-        </div>
-      </div>
+      <DealHot />
 
       <div className="container mt-5">
         <div className="row  d-flex">

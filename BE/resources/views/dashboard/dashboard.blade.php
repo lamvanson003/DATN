@@ -1,8 +1,11 @@
 @extends('layout_admin')
 @section('title', 'Dashboard')
 @section('content_admin')
-
-    @include('dashboard.scripts.chartOrder')
+@push('libs-css')
+<link rel="stylesheet" href="{{ asset('/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('/select2/css/select2-bootstrap-5-theme.min.css') }}">
+@endpush
+@include('dashboard.scripts.chartOrder')
 
     <div class="container">
         <div class="page-inner">
@@ -19,45 +22,30 @@
                 <div class="col-sm-6 col-md-3">
                     <div class="card card-stats card-round">
                         <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-icon">
-                                    <div class="icon-big text-center icon-primary bubble-shadow-small">
-                                        <i class="fas fa-users"></i>
+                                <div class="row align-items-center position-relative">
+                                    <div class="col-icon">
+                                        <div class="icon-big text-center icon-primary bubble-shadow-small">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col col-stats ms-3 ms-sm-0">
+                                        <div class="numbers">
+                                            <p class="card-category">Khách hàng</p>
+                                            <h4 class="card-title">{{ $countUser }}</h4>
+                                        </div>
+                                    </div>
+                                    <div class="position-absolute text-end bottom-0">
+                                        <a href="{{ route('admin.user.index') }}">Xem</a>
                                     </div>
                                 </div>
-                                <div class="col col-stats ms-3 ms-sm-0">
-                                    <div class="numbers">
-                                        <p class="card-category">Khách hàng</p>
-                                        <h4 class="card-title">{{ $countUser }}</h4>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-sm-6 col-md-3">
                     <div class="card card-stats card-round">
                         <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-icon">
-                                    <div class="icon-big text-center icon-info bubble-shadow-small">
-                                        <i class="fas fa-user-check"></i>
-                                    </div>
-                                </div>
-                                <div class="col col-stats ms-3 ms-sm-0">
-                                    <div class="numbers">
-                                        <p class="card-category">Đăng ký mới</p>
-                                        <h4 class="card-title">{{ $countSubcription }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="card card-stats card-round">
-                        <div class="card-body">
-                            <div class="row align-items-center">
+                            <div class="row align-items-center position-relative">
                                 <div class="col-icon">
                                     <div class="icon-big text-center icon-success bubble-shadow-small">
                                         <i class="fas fa-luggage-cart"></i>
@@ -69,14 +57,19 @@
                                         <h4 class="card-title">{{ $countProduct }}</h4>
                                     </div>
                                 </div>
+
+                                <div class="position-absolute text-end bottom-0">
+                                    <a href="{{ route('admin.product.index') }}">Xem</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-sm-6 col-md-3">
                     <div class="card card-stats card-round">
                         <div class="card-body">
-                            <div class="row align-items-center">
+                            <div class="row align-items-center position-relative">
                                 <div class="col-icon">
                                     <div class="icon-big text-center icon-secondary bubble-shadow-small">
                                         <i class="far fa-check-circle"></i>
@@ -84,8 +77,31 @@
                                 </div>
                                 <div class="col col-stats ms-3 ms-sm-0">
                                     <div class="numbers">
-                                        <p class="card-category">Đơn hàng</p>
+                                        <p class="card-category">Tổng đơn hàng</p>
                                         <h4 class="card-title">{{ $countOrder }}</h4>
+                                    </div>
+                                </div>
+                                <div class="position-absolute text-end bottom-0">
+                                    <a href="{{ route('admin.order.index') }}">Xem</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-3">
+                    <div class="card card-stats card-round">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-icon">
+                                    <div class="icon-big text-center icon-info bubble-shadow-small">
+                                        <i class="fas fa-user-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col col-stats ms-3 ms-sm-0">
+                                    <div class="numbers">
+                                        <p class="card-category">Đơn hàng hôm nay</p>
+                                        <h4 class="card-title">{{ $countOrderToday }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -99,13 +115,15 @@
                             <div class="row align-items-center">
                                 <div class="col-icon">
                                     <div class="icon-big text-center icon-secondary bubble-shadow-small">
-                                        <i class="far fa-check-circle"></i>
+                                        <i class="fa fa-money-bill-alt"></i>
                                     </div>
                                 </div>
                                 <div class="col col-stats ms-3 ms-sm-0">
                                     <div class="numbers">
                                         <p class="card-category">Tổng doanh thu:</p>
-                                        <h4 class="card-title">{{ number_format($getTotalpriceOrder, 0, ',', '.') }} VNĐ</h4>
+                                        <h5 class="card-title">
+                                            {{ number_format($getTotalpriceOrder, 0, ',', '.') }}
+                                        </h5>
                                     </div>
                                 </div>
                             </div>
@@ -119,11 +137,25 @@
                         <div class="card-head-row card-tools-still-right">
                             <div class="card-title">Đơn hàng gần đây</div>
                             <div class="card-tools">
-                                <div class="dropdown">
+                                <div class="dropdown" id="viewAll">
                                     <a href="{{ route('admin.order.index') }}">
                                         Xem tất cả
                                     </a>
                                 </div>
+                                <div id="form-action">
+                                    <div class="form-select-lg mb-3 d-flex justify-content-end">
+                                      <select name="status" id="" class="form-select">
+                                        @foreach ($status as $key => $value)
+                                          <option value="{{ $key }}">{{ \App\Enums\Order\OrderStatus::getDescription($key) }}</option>
+                                        @endforeach
+                                      </select>
+                                      <button type="button" class="btn btn-primary" id="basic-addon2" 
+                                      data-route="{{ route('admin.order.updateIndex') }}">
+                                        Duyệt
+                                    </button>
+                                    
+                                    </div>
+                                  </div>
                             </div>
                         </div>
                     </div>
@@ -133,10 +165,11 @@
                             <table class="fontTable table align-items-center mb-0">
                                 <thead class="thead-light">
                                     <tr>
+                                        <th scope="col">Chọn</th>
                                         <th scope="col">Mã</th>
                                         <th scope="col">Tên khách hàng</th>
                                         <th scope="col">Địa chỉ</th>
-                                        <th scope="col" class="text-end">Thời gian đặt hàng</th>
+                                        <th scope="col" class="text-center">Thời gian đặt hàng</th>
                                         <th scope="col" class="text-end">Tổng tiền</th>
                                         <th scope="col" class="text-end">Trạng thái</th>
                                     </tr>
@@ -149,6 +182,9 @@
                                     @else
                                         @foreach ($getOrder as $item)
                                             <tr>
+                                                <td >
+                                                    <input id="checkBox" type="checkbox" name="id[]" class="check-item" value="{{ $item->id }}">
+                                                  </td>
                                                 <th scope="row">
                                                     <a href="{{ route('admin.order.edit',$item->id) }}">{{ $item->code }}</a>
                                                 </th>
@@ -157,22 +193,10 @@
                                                 <td class="text-center">{{ $item->created_at }}</td>
                                                 <td class="text-center">{{ number_format($item->total_price) }}</td>
                                                 <td class="text-center">
-                                                    @switch($item->status)
-                                                        @case(\App\Enums\Order\OrderStatus::Pending)
-                                                            <span class="badge badge-secondary">
-                                                                {{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}
-                                                            </span>
-                                                        @break
-
-                                                        @case(\App\Enums\Order\OrderStatus::Completed)
-                                                            <span class="badge badge-success">
-                                                                {{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}
-                                                            </span>
-                                                        @break
-
-                                                        @default
-                                                    @endswitch
-                                                </td>
+                                                    <span class="badge rounded-pill badge-primary">
+                                                        {{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}
+                                                    </span>
+                                                </td>                                                
                                             </tr>
                                         @endforeach
                                     @endif
@@ -236,172 +260,14 @@
             
         </div>
     </div>
-    <script>
-        var orderRevenue = document.getElementById("orderRevenue").getContext("2d"),
-            userRegistrationChart = document.getElementById("userRegistrationChart").getContext("2d"),
-            orderCountChart = document.getElementById("orderCountChart").getContext("2d"),
-            doughnutChart = document.getElementById("doughnutChart").getContext("2d");
-    
-        new Chart(orderRevenue, {
-            type: "line",
-            data: {
-                labels: @json($orderRevenue['labels']),
-                datasets: [
-                    {
-                        label: "Doanh thu",
-                        data: @json($orderRevenue['revenueData']),
-                        borderColor: "#59d05d",
-                        pointBorderColor: "#59d05d",
-                        pointBackgroundColor: "#59d05d",
-                        pointBorderWidth: 2,
-                        pointHoverRadius: 4,
-                        pointRadius: 4,
-                        backgroundColor: "transparent",
-                        borderWidth: 2,
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: { position: "bottom" },
-                tooltips: {
-                    callbacks: {
-                        label: function (tooltipItem) {
-                            let value = tooltipItem.yLabel;
-                            return value.toLocaleString("vi-VN") + "đ";
-                        },
-                    },
-                },
-                scales: {
-                    yAxes: [
-                        {
-                            ticks: {
-                                callback: function (value) {
-                                    return value.toLocaleString("vi-VN") + "đ";
-                                },
-                            },
-                        },
-                    ],
-                },
-            },
-        });
+   
+    @push('libs-js')
+    <script src="{{ asset('/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('/select2/js/i18n/vi.js') }}"></script>
+    @endpush
 
-        new Chart(userRegistrationChart, {
-            type: "line",
-            data: {
-                labels: @json($userRegistration['labels']),
-                datasets: [
-                    {
-                        label: "Người dùng",
-                        borderColor: "#ff5733",
-                        pointBorderColor: "#FFF",
-                        pointBackgroundColor: "#ff5733",
-                        pointBorderWidth: 2,
-                        pointHoverRadius: 4,
-                        pointRadius: 4,
-                        backgroundColor: "transparent",
-                        borderWidth: 2,
-                        data: @json($userRegistration['userData']),
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: { position: "bottom" },
-                tooltips: {
-                    callbacks: {
-                        label: function (tooltipItem) {
-                            return tooltipItem.yLabel + " người";
-                        },
-                    },
-                },
-                scales: {
-                    yAxes: [
-                        {
-                            ticks: {
-                                callback: function (value) {
-                                    return value + " người";
-                                },
-                            },
-                        },
-                    ],
-                },
-            },
-        });
-
-        new Chart(orderCountChart, {
-            type: "line",
-            data: {
-                labels: @json($orderCount['labels']),
-                datasets: [
-                    {
-                        label: "Số lượng đơn hàng",
-                        borderColor: "#1d7af3",
-                        pointBorderColor: "#FFF",
-                        pointBackgroundColor: "#1d7af3",
-                        pointBorderWidth: 2,
-                        pointHoverRadius: 4,
-                        pointRadius: 4,
-                        backgroundColor: "transparent",
-                        borderWidth: 2,
-                        data: @json($orderCount['orderData']),
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: { position: "bottom" },
-                tooltips: {
-                    callbacks: {
-                        label: function (tooltipItem) {
-                            return tooltipItem.yLabel + " đơn";
-                        },
-                    },
-                },
-                scales: {
-                    yAxes: [
-                        {
-                            ticks: {
-                                callback: function (value) {
-                                    return value + " đơn";
-                                },
-                            },
-                        },
-                    ],
-                },
-            },
-        });
-        
-        new Chart(doughnutChart, {
-            type: "doughnut",
-            data: {
-            datasets: [
-                {
-                data: @json($productCounts['counts']),
-                backgroundColor: ["#1d7af3", "#f3545d"],
-                },
-            ],
-
-            labels: @json($productCounts['labels']),
-            },
-            options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-                position: "bottom",
-            },
-            layout: {
-                padding: {
-                left: 20,
-                right: 20,
-                top: 20,
-                bottom: 20,
-                },
-            },
-            },
-        });
-    </script>
+    @push('custom-js')
+    @include('dashboard.scripts.chartOrder')
+    @include('dashboard.scripts.script')
+    @endpush
 @endsection

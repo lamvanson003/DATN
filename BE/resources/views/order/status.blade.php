@@ -6,7 +6,7 @@
 <div class="container">
   <div class="page-inner">
     <div class="page-header">
-      <h3 class="fw-bold mb-3">CloudLab.Net</h3>
+      <h3 class="fw-bold mb-3">CloudLab</h3>
       <ul class="breadcrumbs mb-3">
         <li class="nav-home">
           <a href="{{ route('admin.dashboard.index') }}">
@@ -74,33 +74,36 @@
                         {{$item->created_at}}
                       </td>
                       <td>
-                        @switch($item->status)
+                        @if ($item->status->value == \App\Enums\Order\OrderStatus::Delivered)
+                            
+                        @endif
+                        @switch($item->status->value)
                             @case(\App\Enums\Order\OrderStatus::Pending)
-                                <span class="badge rounded-pill badge-secondary">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                                <span class="badge rounded-pill badge-secondary">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break
 
                             @case(\App\Enums\Order\OrderStatus::Confirm)
-                              <span class="badge rounded-pill badge-primary">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                              <span class="badge rounded-pill badge-primary">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break
 
                             @case(\App\Enums\Order\OrderStatus::Awaiting)
-                              <span class="badge rounded-pill badge-warning">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                              <span class="badge rounded-pill badge-warning">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break   
 
                             @case(\App\Enums\Order\OrderStatus::InTransit)
-                             <span class="badge rounded-pill badge-info">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                             <span class="badge rounded-pill badge-info">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break 
 
                             @case(\App\Enums\Order\OrderStatus::Delivered)
-                             <span class="badge rounded-pill badge-success">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                             <span class="badge rounded-pill badge-success">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break 
 
                             @case(\App\Enums\Order\OrderStatus::Canceled)
-                             <span class="badge rounded-pill badge-danger">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                             <span class="badge rounded-pill badge-danger">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break 
 
                             @case(\App\Enums\Order\OrderStatus::Returned)
-                             <span class="badge rounded-pill badge-dark">{{ \App\Enums\Order\OrderStatus::getDescription($item->status) }}</span>
+                             <span class="badge rounded-pill badge-black">{{ \App\Enums\Order\OrderStatus::getDescription($item->status->value) }}</span>
                             @break 
 
                             @default
@@ -108,14 +111,34 @@
                         @endswitch
                       </td>
                       <td>
-                        <form action="{{route('admin.order.changeStatus',$item->id)}}" method="post">
-                          @csrf
-                          <input type="hidden" name="status" value="confirm">
-                          <button type="submit" class="btn-icon btn-success btn" data-bs-toggle="modal" >
-                            <i class="fa fa-check"></i>
-                          </button>
-                        </form>
-                      </td>
+                        @if ($item->status->value == \App\Enums\Order\OrderStatus::InTransit)
+                            <span>Đang giao</span>
+                        @elseif ($item->status->value == \App\Enums\Order\OrderStatus::Canceled)
+                            <form action="{{ route('admin.order.delete', $item->id) }}" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-trash"></i> Xóa
+                                </button>
+                            </form>
+                        @elseif ($item->status->value == \App\Enums\Order\OrderStatus::Returned)
+                            <form action="{{ route('admin.order.returnConfirm', $item->id) }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-warning btn-sm">
+                                    <i class="fa fa-check"></i> Xác nhận trả lại
+                                </button>
+                            </form>
+                        @else
+                            <form action="{{route('admin.order.changeStatus',$item->id)}}" method="post">
+                                @csrf
+                                <input type="hidden" name="status" value="confirm">
+                                <button type="submit" class="btn-icon btn-success btn">
+                                    <i class="fa fa-check"></i>
+                                </button>
+                            </form>
+                        @endif
+                    </td>
+                    
                     </tr>
                   @endforeach
                 </tbody>

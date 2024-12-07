@@ -97,15 +97,15 @@
                         @endif
                       </td>
                       <td>
-                        @switch($item->status)
+                        @switch($item->status->value)
                             @case(\App\Enums\DefaultStatus::Active)
-                                <span class="badge rounded-pill badge-success">{{ \App\Enums\DefaultStatus::getDescription($item->status) }}</span>
+                                <span class="badge rounded-pill badge-success">{{ \App\Enums\DefaultStatus::getDescription($item->status->value) }}</span>
                             @break
                             @case(\App\Enums\DefaultStatus::Inactive)
-                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\DefaultStatus::getDescription($item->status) }}</span>
+                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\DefaultStatus::getDescription($item->status->value) }}</span>
                             @break
                             @case(\App\Enums\DefaultStatus::Deleted)
-                                <span class="badge rounded-pill badge-danger">{{ \App\Enums\DefaultStatus::getDescription($item->status) }}</span>
+                                <span class="badge rounded-pill badge-danger">{{ \App\Enums\DefaultStatus::getDescription($item->status->value) }}</span>
                             @break
                             @default
                                 <span class="badge rounded-pill badge-secondary">Không xác định</span>
@@ -130,7 +130,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                              Xóa biến thể  <span class="red">{{ $item->storage }} </span> khỏi dữ liệu hệ thống ?.
+                              Chuyển trạng thái <span class="red">{{ $item->storage }} </span> sang đã xóa ?
                           </div>
                           <div class="modal-footer">
                             <form action="{{ route('admin.product.product_item.delete',[$product->id,$item->id]) }}" method="post">

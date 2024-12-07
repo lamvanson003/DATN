@@ -8,7 +8,7 @@ import * as action from "../../store/actions";
 import { Brand, Filter } from "../../components";
 import { Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
-import { productApi } from "../../apis";
+import { brandApi, productApi } from "../../apis";
 
 const Product = () => {
   const [pros, setPros] = useState([]);
@@ -20,6 +20,14 @@ const Product = () => {
   const [active, setActive] = useState(0);
   const [curPage, setCurPage] = useState(1);
   const [itemsPerPage] = useState(8);
+
+  const handleProByBrandUpdate = (proByBrand, cate) => {
+    if (cate === "dien-thoai") {
+      setPhonesData(proByBrand);
+    } else if (cate === "laptop") {
+      setLaptopsData(proByBrand);
+    }
+  };
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -47,7 +55,7 @@ const Product = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(pros.length / itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(pros?.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
 
@@ -60,10 +68,10 @@ const Product = () => {
   const [maxPrice, setMaxPrice] = useState(100000000);
 
   const filteredPros = useMemo(() => {
-    return pros.filter((pro) => {
+    return pros?.filter((pro) => {
       const price =
-        pro.product_variant[0].variants[0].sale ??
-        pro.product_variant[0].variants[0].price;
+        pro?.product_variant[0]?.variants[0]?.sale ??
+        pro?.product_variant[0]?.variants[0]?.price;
       return price >= minPrice && price <= maxPrice;
     });
   }, [pros, minPrice, maxPrice]);
@@ -72,7 +80,7 @@ const Product = () => {
     return filteredPros.slice(indexOfFirstItem, indexOfLastItem);
   }, [filteredPros, indexOfFirstItem, indexOfLastItem]);
 
-  const [sortOrder, setSortOrder] = useState(1); // 1: tăng dần, 0: giảm dần
+  const [sortOrder, setSortOrder] = useState(1);
 
   const sortedItems = useMemo(() => {
     const itemsToSort = [...curItems];
@@ -163,7 +171,10 @@ const Product = () => {
             )}
 
             <div className="row ">
-              <Brand />
+              <Brand
+                active={active}
+                onProByBrandUpdate={handleProByBrandUpdate}
+              />
               <div className="row mt-5 py-2 bg-box">
                 {sortedItems.map((item) => (
                   <div key={item?.id} className="col-md-3">
