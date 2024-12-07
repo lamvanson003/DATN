@@ -12,51 +12,69 @@ use App\Enums\Slider\SliderStatus;
 class SliderController extends Controller
 {
     //
-    public function index (){
+    public function index (Request $request){
         try {
-            $sliders = Slider::with(
-                [
-                'slider_items'
-                ]
-            )->where('status', SliderStatus::Active)->get();
-            return response()->json([
-                'success' => true,
-                'data' => $sliders
-            ], 200);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to fetch data',
-                'error' => $th->getMessage()
-            ], 500);
-        }
+         $status = $request->input('status', SliderStatus::Active);
+
+         if (is_string($status)) {
+             switch (strtolower($status)) {
+                 case 'active':
+                     $status = SliderStatus::Active;
+                     break;
+                 case 'inactive':
+                     $status = SliderStatus::Inactive;
+                     break;
+                 case 'deleted':
+                     $status = SliderStatus::Deleted;
+                     break;
+                 default:
+                     $status = SliderStatus::Active;
+                     break;
+             }
+         }
+
+         $sliders = Slider::with(['slider_items'])
+             ->where('status', $status)
+             ->get();
+
+         return response()->json([
+             'success' => true,
+             'data' => $sliders
+         ], 200);
+     } catch (\Throwable $th) {
+         return response()->json([
+             'success' => false,
+             'message' => 'Failed to fetch data',
+             'error' => $th->getMessage()
+         ], 500);
+     }
     }
-    
+
     public function show($id) {
         try {
             $slider = Slider::with('slider_items')
                 ->where('id', $id)
                 ->where('status', SliderStatus::Active)
                 ->first();
-    
+
             if (!$slider) {
                 $slider = Slider::with('slider_items')
                     ->where('status', SliderStatus::Active)
                     ->first();
             }
-    
+
             if (!$slider) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Không có slider nào hoạt động.'
                 ], 404);
             }
-    
+
             $sliderItems = $slider->slider_items()
                 ->orderByRaw('position IS NULL, position ASC')
                 ->orderBy('id', 'ASC')
                 ->get();
-    
+
             return response()->json([
                 'success' => true,
                 'slider' => $slider
@@ -69,5 +87,5 @@ class SliderController extends Controller
             ], 500);
         }
     }
-    
+
 }
