@@ -77,11 +77,13 @@ const Modal = ({ order, onClose }) => {
               )}
             </div>
             <img
-              src={`http://127.0.0.1:8000/api/products/image/${item.product_variant.sku}`}
+              src={item.product_variant.images}
               alt={item.product_variant.name}
               style={{
-                maxWidth: "100px",
-                objectFit: "cover",
+                maxWidth: "270px", 
+    width: "100%", 
+    height: "auto",
+    borderRadius: "8px", 
               }}
             />
           </div>
@@ -140,6 +142,7 @@ const SearchOrder = () => {
       const data = await response.json();
 
       if (data.success) {
+        const sortedOrders = data.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         setOrders(data.data);
         setError(null);
       } else {
@@ -174,117 +177,207 @@ const SearchOrder = () => {
 
   return (
     <div
-      style={{
-        maxWidth: "1100px",
-        paddingLeft: "20px",
-        padding: "0px",
-        marginLeft: "255px",
-        marginTop: "25px",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      <h2 style={{ textAlign: "center" }}>Lịch Sử Đơn Hàng</h2>
-
-      <form
-        onSubmit={handleSearchSubmit}
-        style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}
-      >
-        <div style={{ position: "relative", width: "380px" }}>
-          <input
-            type="text"
-            value={phone}
-            onChange={handlePhoneChange}
-            placeholder="Nhập số điện thoại"
-            style={{
-              padding: "10px 15px",
-              width: "100%",
-              borderRadius: "10px",
-              border: "1px solid #ccc",
-              fontSize: "16px",
-              paddingRight: "40px",
-              boxSizing: "border-box",
-            }}
-          />
-          <button
-            type="submit"
-            style={{
-              marginRight: "-9px",
-              position: "absolute",
-              right: "10px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              padding: "10px 15px",
-              backgroundColor: "#007BFF",
-              color: "white",
-              border: "none",
-              borderRadius: "10%",
-              cursor: "pointer",
-              fontSize: "16px",
-              transition: "background-color 0.3s",
-            }}
-            onMouseEnter={(e) => (e.target.style.backgroundColor = "#4ea3fd")}
-            onMouseLeave={(e) => (e.target.style.backgroundColor = "#007BFF")}
-          >
-            <BsSearch />
-          </button>
-        </div>
-      </form>
-
-      {showNotification && (
-  <div
     style={{
-      backgroundColor: "#f8d7da",  // Màu nền của thông báo lỗi (đỏ nhạt)
-      color: "#721c24",             // Màu chữ (đỏ tối)
-      padding: "15px",              // Khoảng cách xung quanh văn bản
-      border: "1px solid #f5c6cb",  // Viền đỏ nhạt
-      borderRadius: "5px",          // Bo tròn các góc
-      textAlign: "center",          // Căn giữa văn bản
-      fontSize: "16px",             // Kích thước font chữ
-      margin: "20px 0",             // Khoảng cách với các phần tử khác
-      boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", // Tạo bóng đổ nhẹ
+      maxWidth: "1100px",
+      marginLeft: "255px",
+      marginTop: "25px",
+      fontFamily: "Arial, sans-serif",
     }}
   >
-    <strong>Vui lòng nhập số điện thoại để tìm đơn hàng.</strong>
-  </div>
-)}
-
-
-      {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
-
-      {orders.length > 0 ? (
-        <div
+    <h2 style={{ textAlign: "center" }}>Lịch Sử Đơn Hàng</h2>
+  
+    <form
+      onSubmit={handleSearchSubmit}
+      style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}
+    >
+      <div style={{ position: "relative", width: "380px" }}>
+        <input
+          type="text"
+          value={phone}
+          onChange={handlePhoneChange}
+          placeholder="Nhập số điện thoại"
           style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            gap: "20px", // Space between columns
+            padding: "10px 15px",
+            width: "100%",
+            borderRadius: "10px",
+            border: "1px solid #ccc",
+            fontSize: "16px",
+            paddingRight: "40px",
+            boxSizing: "border-box",
           }}
+        />
+        <button
+          type="submit"
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            padding: "10px 15px",
+            backgroundColor: "#007BFF",
+            color: "white",
+            border: "none",
+            borderRadius: "10%",
+            cursor: "pointer",
+            fontSize: "16px",
+            transition: "background-color 0.3s",
+          }}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = "#4ea3fd")}
+          onMouseLeave={(e) => (e.target.style.backgroundColor = "#007BFF")}
         >
-          {orders.map((order) => (
-            <div
-              key={order.id}
+          <BsSearch />
+        </button>
+      </div>
+    </form>
+  
+    {showNotification && (
+      <div
+        style={{
+          backgroundColor: "#f8d7da",
+          color: "#721c24",
+          padding: "15px",
+          border: "1px solid #f5c6cb",
+          borderRadius: "5px",
+          textAlign: "center",
+          fontSize: "16px",
+          margin: "20px 0",
+          boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <strong>Vui lòng nhập số điện thoại để tìm đơn hàng.</strong>
+      </div>
+    )}
+  
+    {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
+  
+    {orders.length > 0 ? (
+      <table
+        style={{
+          width: "100%",
+          borderCollapse: "collapse",
+          marginTop: "20px",
+        }}
+      >
+        <thead>
+          <tr>
+            <th
               style={{
                 border: "1px solid #ccc",
-                borderRadius: "8px",
-                backgroundColor: "#f9f9f9",
-                flex: "1 1 calc(50% - 20px)",
-                maxWidth: "calc(48% - 0px)",
-                padding: "15px",
-                height: "220px",
-                boxSizing: "border-box",
+                padding: "10px",
+                backgroundColor: "#f2f2f2",
+                textAlign: "left",
               }}
             >
-              <div style={{ fontSize: "14px", marginBottom: "10px" }}>
-                <h3 style={{ margin: "0 0 10px" }}>Mã Đơn Hàng: {order.code} </h3>
-                <p>Sản phẩm: {order.order_details[0]?.product_variant.name}</p>
-                <p>Số lượng: {order.order_details.reduce((acc, item) => acc + item.quantity, 0)}</p>
-                <p>
-                  Tổng tiền:{" "}
-                  {new Intl.NumberFormat().format(
-                    order.order_details.reduce((acc, item) => acc + item.price * item.quantity, 0)
-                  )}{" "}
-                  VND
-                </p>
+              Mã Đơn Hàng
+            </th>
+            <th
+              style={{
+                border: "1px solid #ccc",
+                padding: "10px",
+                backgroundColor: "#f2f2f2",
+                textAlign: "left",
+              }}
+            >
+              Sản Phẩm
+            </th>
+            <th
+              style={{
+                border: "1px solid #ccc",
+                padding: "10px",
+                backgroundColor: "#f2f2f2",
+                textAlign: "center",
+              }}
+            >
+              Số Lượng
+            </th>
+            <th
+              style={{
+                border: "1px solid #ccc",
+                padding: "10px",
+                backgroundColor: "#f2f2f2",
+                textAlign: "right",
+              }}
+            >
+              Tổng Tiền
+            </th>
+            <th
+              style={{
+                border: "1px solid #ccc",
+                padding: "10px",
+                backgroundColor: "#f2f2f2",
+                textAlign: "center",
+              }}
+            >
+              Ngày Mua
+            </th>
+            <th
+              style={{
+                border: "1px solid #ccc",
+                padding: "10px",
+                backgroundColor: "#f2f2f2",
+                textAlign: "center",
+              }}
+            >
+              Thao Tác
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order.id}>
+              <td
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "10px",
+                }}
+              >
+                {order.code}
+              </td>
+              <td
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "10px",
+                }}
+              >
+                {order.order_details[0]?.product_variant.name}
+              </td>
+              <td
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "10px",
+                  textAlign: "center",
+                }}
+              >
+                {order.order_details.reduce((acc, item) => acc + item.quantity, 0)}
+              </td>
+              <td
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "10px",
+                  textAlign: "right",
+                }}
+              >
+                {new Intl.NumberFormat().format(
+                  order.order_details.reduce((acc, item) => acc + item.price * item.quantity, 0)
+                )}{" "}
+                VND
+              </td>
+              <td
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "10px",
+                  textAlign: "center",
+                }}
+              >
+                {new Date(order.created_at).toLocaleDateString("vi-VN")}
+              </td>
+              <td
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "10px",
+                  textAlign: "center",
+                }}
+              >
                 <button
                   onClick={() => handleShowDetails(order)}
                   style={{
@@ -298,17 +391,20 @@ const SearchOrder = () => {
                 >
                   Xem Chi Tiết
                 </button>
-              </div>
-            </div>
+              </td>
+            </tr>
           ))}
-        </div>
-      ) : (
-        !showNotification && <p style={{ textAlign: "center" }}></p>
-      )}
-
-      {/* Modal for Order Details */}
-      <Modal order={selectedOrder} onClose={handleCloseModal} />
-    </div>
+        </tbody>
+      </table>
+    ) : (
+      !showNotification && <p style={{ textAlign: "center" }}>Không có đơn hàng.</p>
+    )}
+  
+    {/* Modal for Order Details */}
+    <Modal order={selectedOrder} onClose={handleCloseModal} />
+  </div>
+  
+  
   );
 };
 

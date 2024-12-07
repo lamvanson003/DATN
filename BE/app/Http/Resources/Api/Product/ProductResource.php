@@ -20,7 +20,7 @@ class ProductResource extends JsonResource
             'images' => $this->images,
             'slug' => $this->slug,
             'category' => [
-                'name' => optional($this->category)->name,
+               'name' => $this->category ? $this->category->name : null,
             ],
             'brand' => [
                 'name' =>  optional($this->brand)->name,

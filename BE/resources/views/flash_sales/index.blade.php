@@ -17,7 +17,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="{{ route('admin.flashSale.index') }}">Flash Sale</a>
+          <a href="{{ route('admin.flashSale.index',['type' => 'active']) }}">Flash Sale</a>
         </li>
       </ul>
     </div>
@@ -27,7 +27,7 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Danh sách sản phẩm Flash Sale</h4>
+              <h4 class="card-title text-danger">Flash Sale đang diễn ra..</h4>
               <a href="{{ route('admin.flashSale.create') }}" class="ms-auto">
                 <button type="button" class="btn btn-primary btn-round">
                   <i class="fa fa-plus"></i>
@@ -48,6 +48,8 @@
                     <th>Trạng thái</th>
                     <th>Lượt bán</th>
                     <th>Số lượng</th>
+                    <th>Bắt đầu</th>
+                    <th>Kết thúc</th>
                     <th>Hành động</th>
                   </tr>
                 </thead>
@@ -59,6 +61,8 @@
                     <th>Trạng thái</th>
                     <th>Lượt bán</th>
                     <th>Số lượng</th>
+                    <th>Bắt đầu</th>
+                    <th>Kết thúc</th>
                     <th>Hành động</th>
                   </tr>
                 </tfoot>
@@ -74,12 +78,12 @@
                       </td> 
                       <td>{{ number_format($item->discount_price) }}</td>
                       <td>
-                        @switch($item->is_active)
+                        @switch($item->is_active->value)
                             @case(\App\Enums\ActiveStatus::Active)
-                                <span class="badge rounded-pill badge-success">{{ \App\Enums\ActiveStatus::getDescription($item->is_active) }}</span>
+                                <span class="badge rounded-pill badge-success">{{ \App\Enums\ActiveStatus::getDescription($item->is_active->value) }}</span>
                             @break
                             @case(\App\Enums\ActiveStatus::Inactive)
-                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\ActiveStatus::getDescription($item->is_active) }}</span>
+                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\ActiveStatus::getDescription($item->is_active->value) }}</span>
                             @break
                             @default
                                 <span class="badge rounded-pill badge-secondary">Không xác định</span>
@@ -94,6 +98,12 @@
                       </td>
                       <td>
                         {{ $item->quantity_limit }}
+                      </td>
+                      <td>
+                        {{ $item->flashSale->start_time }}
+                      </td>
+                      <td>
+                        {{ $item->flashSale->end_time }}
                       </td>
                       <td>
                           <a href="{{ route('admin.flashSale.edit', $item->id) }}" class="btn btn-primary text-white btn-sm">
@@ -113,12 +123,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                              Chuyển trạng thái <strong>{{ $item->name }}</strong> thành đã xóa
+                              Nếu xóa, số lượng hiện tại của sản phẩm sẽ được thêm vào tồn kho.
                           </div>
                           <div class="modal-footer">
                             <form action="{{ route('admin.flashSale.delete',$item->id) }}" method="POST">
                               @csrf
-                              <input type="hidden" name="_method" value="DELETE">
+                              @method('DELETE')
                               <button type="submit" class="btn btn-danger">Xóa</button>
                             </form>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>

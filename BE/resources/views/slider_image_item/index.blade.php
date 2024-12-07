@@ -25,7 +25,7 @@
           <i class="icon-arrow-right"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Image-items</a>
+          <a href="#">Ds ảnh theo slider</a>
         </li>
       </ul>
     </div>
@@ -47,11 +47,11 @@
 
           <div class="card-body">
             <div class="table-responsive">
-              <table id="add-row" class="display table table-hover fix_table">
+              <table id="add-row" class="fontTable display table table-hover fix_table">
                 <thead>
                   <tr>
                     <th>Hình ảnh</th>
-                    <th>Slider_id</th>
+                    <th>Tên Slider</th>
                     <th>Tiêu đề</th>
                     <th>Vị trí</th>
                     <th style="width: 10%">Hành động</th>
@@ -60,7 +60,7 @@
                 <tfoot>
                   <tr>
                     <th>Hình ảnh</th>
-                    <th>Slider_id</th>
+                    <th>Tên Slider</th>
                     <th>Tiêu đề</th>
                     <th>Vị trí</th>
                     <th style="width: 10%">Hành động</th>
@@ -70,7 +70,7 @@
                   @foreach ($slider_image_item as $item)
                     <tr>
                       <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt=""></td> 
-                      <td><span>{{ $item->slider_id }}</span></td> 
+                      <td><span>{{ $item->slider->name }}</span></td> 
                       <td><span>{{ $item->title ?? 'Chưa có'}}</span></td> 
                       <td><span>{{ $item->position ?? 'Chưa có'}}</span></td> 
                       <td>

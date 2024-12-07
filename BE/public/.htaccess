@@ -5,6 +5,7 @@
 
     RewriteEngine On
     
+    # Redirect /admin to /admin/login
     RewriteCond %{REQUEST_URI} ^/datn/be/admin/?$
     RewriteRule ^ /datn/be/admin/login [L,R=301]
 
@@ -17,7 +18,7 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Send Requests To Front Controller...
+    # Send Requests To Front Controller (index.php)
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]

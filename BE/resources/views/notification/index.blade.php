@@ -6,7 +6,7 @@
 <div class="container">
   <div class="page-inner">
     <div class="page-header">
-      <h3 class="fw-bold mb-3">CloudLab.Net</h3>
+      <h3 class="fw-bold mb-3">CloudLab</h3>
       <ul class="breadcrumbs mb-3">
         <li class="nav-home">
           <a href="{{ route('admin.dashboard.index') }}">
@@ -21,7 +21,6 @@
         </li>
       </ul>
     </div>
-
     <div class="row">
       <div class="col-md-12">
         <div class="card">
@@ -50,7 +49,7 @@
                  
                   @foreach ($notification as $item)
                     <tr>
-                      <td><a href="">{{ $item->title }}</a></td>
+                      <td><a href="{{ route('admin.notification.edit',$item->id) }}">{{ $item->title }}</a></td>
                       <td>
                         @if ($item->user->roles == 2)
                             <a href="{{ route('admin.user.edit',$item->user->id) }}">

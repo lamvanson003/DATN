@@ -4,7 +4,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table id="add-row" class="display table table-hover fix_table">
+            <table id="add-row" class="fontTable display table table-hover fix_table">
                 <thead>
                     <tr>
                         <th>Mã SP</th>

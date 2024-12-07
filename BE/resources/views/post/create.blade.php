@@ -45,16 +45,17 @@
                     <div class="col-md-12 col-sm-12">
                         <div class="mb-3">
                             <label class="control-label">Tiêu đề<span style="color: red">*</span>:</label>
-                            <input type="text" class="form-control required" name="title" placeholder="VD: Công nghệ">
+                            <input type="text" name="title" class="form-control required" id="title" placeholder="Nhập tiêu đề...">
                         </div>
                     </div>
-
+                    
                     <div class="col-md-12 col-sm-12">
                         <div class="mb-3">
                             <label class="control-label">Slug<span style="color: red">*</span>:</label>
-                            <input type="text" class="form-control required" name="slug" placeholder="VD: cong-nghe">
+                            <input type="text" name="slug" class="form-control required" id="slug" placeholder="Đường dẫn">
                         </div>
                     </div>
+                    
 
                     <div class="col-md-12 col-sm-12">
                         <div class="mb-3">
@@ -88,7 +89,7 @@
                 <div class="card-header">Đăng</div>
                 <div class="card-body p-2">
                     <button type="submit" class="btn btn-primary p-1-2" title="Thêm">
-                        Thêm
+                        Thêm 
                     </button>
                 </div>
             </div>
@@ -101,6 +102,19 @@
                             <option value="{{ $key }}">{{ $value }}</option>
                         @endforeach
                     </select>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Nổi bậc</div>
+                <div class="card-body p-2">
+                    <label class="form-check form-switch">
+                        <input type="hidden" name="is_featured" value="0">
+                        <input type="checkbox" class="form-check-input" 
+                            name="is_featured" value="1" 
+                            data-parsley-multiple="is_featured" role="switch"/>
+                        <span class="form-check-label">Bật bài viết nổi bậc</span>
+                    </label>
                 </div>
             </div>
 
@@ -124,8 +138,9 @@
             <div class="card mb-3">
                 <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
                 <div class="card-body p-2">
-                    <input type="file" id="fileInput" name="images" class="d-none required" accept="image/*">
-                    <div class="image-container" style="cursor: pointer;" onclick="document.getElementById('fileInput').click();">
+                    <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
+                    <input type="hidden" name="images" id="imageUrl" value="">
+                    <div class="image-container" style="cursor: pointer; display: inline-block;">
                         <img id="imagePreview" src="{{ asset('/images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">
                     </div>
                 </div>

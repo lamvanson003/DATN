@@ -49,6 +49,12 @@ class User extends Authenticatable
         return $query->where('roles', UserRole::Admin)
                     ->orderBy('id','desc')->get();
     }
+    public function scopeGetAdminDeviceToken($query){
+        return $query->where('roles', UserRole::Admin)
+        ->whereNotNull('device_token') 
+        ->orderBy('id', 'desc')
+        ->get();
+    }
 
     protected $casts = [
         'status' => UserStatus::class,

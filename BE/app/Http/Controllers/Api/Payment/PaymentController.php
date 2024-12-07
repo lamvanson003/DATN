@@ -46,7 +46,6 @@ class PaymentController extends Controller
             'order_data' => json_encode($validatedData), 
         ]);
 
-        Log::info('mess',['es0'=> $temporaryOrder->id]);
         $paymentUrl = $this->vnpayService->createPaymentUrl([
             'transaction_id' => $temporaryOrder->id, 
             'order_description' => "Thanh toán cho đơn hàng".$temporaryOrder->id,

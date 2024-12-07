@@ -35,48 +35,62 @@
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
-                            {{-- <div class="card-header justify-content-center"> --}}
-                                {{-- <h3 class="mb-0 strong text-center">Chỉnh sửa danh mục</h3> --}}
-                            {{-- </div> --}}
+                            <div class="card-header justify-content-center">
+                                <h3 class="mb-0 strong text-center text-danger">Chi tiết đơn hàng</h3>
+                            </div>
                             <div class="row card-body">
                                 <!-- name -->
                                 <div class="col-md-6 col-12">
                                     <div class="mb-3 ">
                                         <label class="control-label">Mã đơn<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="code" value="{{ $order->code }}" disabled>
+                                        <input type="text" class="form-control" name="code" value="{{ $order->code }}" disabled>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-12">
                                     <div class="mb-3">
                                         <label class="control-label">Ngày tạo<span style="color: red">*</span>:</label>
-                                        <input type="datetime" required class="form-control" name="created_at" value="{{ $order->created_at }}" disabled>
+                                        <input type="datetime" class="form-control" name="created_at" value="{{ $order->created_at }}" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="mb-3">
+                                        <label class="control-label">Email<span style="color: red">*</span>:</label>
+                                        <input type="text" class="form-control" name="email" value="{{ $order->email }}" disabled>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-12">
                                     <div class="mb-3">
                                         <label class="control-label">Khách hàng<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="fullname" value="{{ $order->fullname }}">
+                                        <input type="text" class="required form-control" name="fullname" value="{{ $order->fullname }}" readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-12">
                                     <div class="mb-3">
                                         <label class="control-label">Số điện thoại<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="phone" value="{{ $order->phone }}">
+                                        <input type="text" class="required form-control" name="phone" value="{{ $order->phone }}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="mb-3">
+                                        <label class="control-label">Giảm giá<span style="color: red">*</span>:</label>
+                                        <input type="text" class="required form-control" name="discount_id" value="{{ $order->discount->value ?? 'Chưa áp dụng' }}" readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-mb-3">
                                         <label class="control-label">Địa chỉ<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="address" value="{{ $order->address }}">
+                                        <input type="text" class="required form-control" name="address" value="{{ $order->address }}">
                                 </div>
 
                                 <div class="col-12 col-mb-3 mt-3">
                                     <div class="mb-3">
                                         <label class="control-label">Ghi chú:</label>
-                                        <textarea required class="form-control" name="note">{{ $order->note }}</textarea>
+                                        <textarea class="form-control" name="note">{{ $order->note }}</textarea>
                                     </div>
                                 </div>                                
 
@@ -86,7 +100,7 @@
                         <div class="card">
                             <div class="card-header bg-primary">
                                 <div class="title text-white ">
-                                    <h5>Chi tiết đơn hàng</h5>
+                                    <h5>Thông tin sản phẩm</h5>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -160,6 +174,19 @@
                                     @foreach ($status as $key => $value)
                                         <option {{ $key == $order->status ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
+                                </select>                                
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">Phương thức thanh toán</div>
+                            <div class="card-body p-2">
+                                <select class="form-select" name="" disabled>
+                                    @if ($order->payment_method_id == 1)
+                                        <option value="{{ $order->payment_method_id }}">Thanh toán Online</option>
+                                    @else
+                                        <option value="{{ $order->payment_method_id }}">Thanh toán Khi nhận hàng</option>
+                                    @endif
                                 </select>                                
                             </div>
                         </div>
