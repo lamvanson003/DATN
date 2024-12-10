@@ -31,6 +31,11 @@ const BoxPro = ({
   const [currentVariant, setCurrentVariant] = useState();
   const [activeStorage, setActiveStorage] = useState(null);
   const [activeColor, setActiveColor] = useState(null);
+  const now = new Date();
+  const startDate = new Date(startFs);
+  const endDate = new Date(endFs);
+
+  const isSaleActive = startDate <= now && now <= endDate;
 
   useEffect(() => {
     if (variant && variant.length > 0) {
@@ -98,6 +103,7 @@ const BoxPro = ({
   const { hours, minutes, seconds, status } = useCountdown(startFs, endFs);
 
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
+
   return (
     <div>
       {flashSale ? (
@@ -215,18 +221,19 @@ const BoxPro = ({
                   </span>
                 </div>
               </div>
-
-              <button
-                className="btn btn-primary btn-sm"
-                style={{
-                  borderRadius: "20px",
-                  width: "100%",
-                  fontWeight: "bold",
-                }}
-                onClick={() => buyNow(main, currentVariant)}
-              >
-                Mua ngay
-              </button>
+              {isSaleActive && (
+                <button
+                  className="btn btn-primary btn-sm"
+                  style={{
+                    borderRadius: "20px",
+                    width: "100%",
+                    fontWeight: "bold",
+                  }}
+                  onClick={() => buyNow(main, currentVariant)}
+                >
+                  Mua ngay
+                </button>
+              )}
             </div>
           </div>
           <div className={`countdown ${tab}`}>
