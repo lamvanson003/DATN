@@ -22,18 +22,6 @@ class CommentController extends Controller
         return view('comment.index', compact('comments')); 
     }
 
-    
-    public function create()
-    {
-        $users = User::all(); 
-        $products = ProductVariant::all(); 
-        return view('comment.create', [
-            'statuses' => CommentStatus::asSelectArray(),
-            'users' => $users,
-            'products' => $products
-        ]); 
-    }
-
     public function edit($id)
     {
         $comment = Comment::findOrFail($id); 

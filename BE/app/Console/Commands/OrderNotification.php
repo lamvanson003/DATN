@@ -56,7 +56,6 @@ class OrderNotification extends Command
     {
         Log::info('check order start');
         $orders = $this->orderModel->getOrder();
-        Log::info('check order', ['order' => $orders]);
         $orderNotification = config('notifications.new_order');
 
         if ($orders->isNotEmpty()) {
@@ -67,7 +66,7 @@ class OrderNotification extends Command
             if (!empty($deviceTokens)) {
                 foreach ($orders as $order) {
                     $orderMessage = str_replace('#ORDER_ID#', $order->code, $orderNotification['message']);
-                    Log::info('check', ['orderMessage' => $orderMessage]);
+                    // Log::info('check', ['orderMessage' => $orderMessage]);
 
                     $this->sendFirebaseNotification($deviceTokens, null, $orderNotification['title'], $orderMessage);
 

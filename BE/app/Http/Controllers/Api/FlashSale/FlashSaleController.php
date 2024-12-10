@@ -4,7 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\FlashSale\FlashSaleResource;
 use App\Models\SaleItem;
 use Carbon\Carbon;
-use App\Enums\ActiveStatus;
+use App\Enums\Status;
 use Illuminate\Support\Facades\Log;
 
 class FlashSaleController extends Controller
@@ -16,7 +16,7 @@ class FlashSaleController extends Controller
             $activeSaleItems = SaleItem::whereHas('flashSale', function ($query) use ($now) {
                 $query->where('start_time', '<=', $now)
                       ->where('end_time', '>=', $now);
-            })->where('is_active', ActiveStatus::Active) 
+            })->where('is_active', Status::Active) 
               ->orderBy('id','desc')
               ->get();
             return response()->json([
@@ -39,7 +39,7 @@ class FlashSaleController extends Controller
             $now = Carbon::now();
             $pendindSaleItems = SaleItem::whereHas('flashSale', function ($query) use ($now) {
                 $query->where('start_time', '>', $now);
-            })->where('is_active', ActiveStatus::Active) 
+            })->where('is_active', Status::Active) 
             ->orderBy('id','desc')
               ->get();
             return response()->json([

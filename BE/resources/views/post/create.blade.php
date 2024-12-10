@@ -97,7 +97,7 @@
             <div class="card mb-3">
                 <div class="card-header">Trạng thái</div>
                 <div class="card-body p-2">
-                    <select required class="form-select" name="status">
+                    <select class="form-select required" name="status">
                         @foreach ($statuses as $key => $value)
                             <option value="{{ $key }}">{{ $value }}</option>
                         @endforeach
@@ -109,8 +109,8 @@
                 <div class="card-header">Nổi bậc</div>
                 <div class="card-body p-2">
                     <label class="form-check form-switch">
-                        <input type="hidden" name="is_featured" value="0">
-                        <input type="checkbox" class="form-check-input" 
+                        <input type="hidden" name="is_featured " value="0">
+                        <input type="checkbox" class="form-check-input " 
                             name="is_featured" value="1" 
                             data-parsley-multiple="is_featured" role="switch"/>
                         <span class="form-check-label">Bật bài viết nổi bậc</span>
@@ -124,7 +124,7 @@
                     <div class="checkbox-list">
                     @foreach($categories as $category)
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="category_id[]" value="{{ $category->id }}"
+                            <input class="form-check-input required" type="checkbox" name="category_id[]" value="{{ $category->id }}"
                             {{ is_array(old('category_id')) && in_array($category->id, old('category_id')) ? 'checked' : '' }}>
                             <label class="form-check-label">{{ $category->name }}</label>
                         </div>
@@ -138,7 +138,7 @@
             <div class="card mb-3">
                 <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
                 <div class="card-body p-2">
-                    <input required type="file" id="fileInput" name="images" class="d-none" accept="image/*">
+                    <input type="file" id="fileInput" name="images" class="required d-none" accept="image/*">
                     <input type="hidden" name="images" id="imageUrl" value="">
                     <div class="image-container" style="cursor: pointer; display: inline-block;">
                         <img id="imagePreview" src="{{ asset('/images/default-image.png') }}" alt="Ảnh đại diện" style="max-width: 100%;">

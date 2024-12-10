@@ -273,12 +273,6 @@
             <div class="collapse" id="comment">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="{{ route('admin.comment.create') }}">
-                    <i class="fas fa-plus"></i>
-                    <span>Thêm bình luận</span>
-                  </a>
-                </li>
-                <li>
                   <a href="{{ route('admin.comment.index') }}">
                     <i class="fas fa-list"></i>
                     <span>DS bình luận</span>

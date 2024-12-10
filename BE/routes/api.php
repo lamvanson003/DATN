@@ -118,6 +118,7 @@ Route::controller(SliderController::class)->prefix('/sliders')
 ->as('slider.')
 ->group(function(){
     Route::get('/', 'index');
+    Route::get('/{name}', 'index');
 });
 
 Route::controller(PostController::class)->prefix('/posts')

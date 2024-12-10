@@ -79,11 +79,11 @@
                       <td>{{ number_format($item->discount_price) }}</td>
                       <td>
                         @switch($item->is_active->value)
-                            @case(\App\Enums\ActiveStatus::Active)
-                                <span class="badge rounded-pill badge-success">{{ \App\Enums\ActiveStatus::getDescription($item->is_active->value) }}</span>
+                            @case(\App\Enums\Status::Active)
+                                <span class="badge rounded-pill badge-success">{{ \App\Enums\Status::getDescription($item->is_active->value) }}</span>
                             @break
-                            @case(\App\Enums\ActiveStatus::Inactive)
-                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\ActiveStatus::getDescription($item->is_active->value) }}</span>
+                            @case(\App\Enums\Status::Inactive)
+                                <span class="badge rounded-pill badge-warning">{{ \App\Enums\Status::getDescription($item->is_active->value) }}</span>
                             @break
                             @default
                                 <span class="badge rounded-pill badge-secondary">Không xác định</span>
