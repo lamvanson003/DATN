@@ -1,20 +1,17 @@
 @extends('layout_admin')
+@section('title', 'Đơn hàng')>
 
-@section('title', 'Đơn hàng')
-<style>
-  .checkbox-column {
-    display: none;
-  }
-
-</style>
-
+@push('libs-css')
+<link rel="stylesheet" href="{{ asset('/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('/select2/css/select2-bootstrap-5-theme.min.css') }}">
+@endpush
 
 
 @section('content_admin')
 <div class="container">
   <div class="page-inner">
     <div class="page-header">
-      <h3 class="fw-bold mb-3">CloudLab.Net</h3>
+      <h3 class="fw-bold mb-3">CloudLab</h3>
       <ul class="breadcrumbs mb-3">
         <li class="nav-home">
           <a href="{{ route('admin.dashboard.index') }}">
@@ -36,17 +33,18 @@
           <div class="card-header">
             <div class="d-flex align-items-center justify-content-between">
               <h4 class="card-title col-md-5">Tất cả đơn hàng</h4>
-              <div class="col-md-7 d-flex justify-content-end">
-                <!-- Ẩn toàn bộ box này ban đầu -->
-                <div id="action-box" class="col-md-9 d-flex align-items-center" >
-                  <select id="action-select" class="form-control w-75 col-6" style="display: none;">
-                    <option>--Chọn hành động--</option>
-                    <option value="apply-status">Cập nhật trạng thái</option>
+              <div id="form-action">
+                <div class="form-select-lg mb-3 d-flex justify-content-end">
+                  <select name="status" id="" class="form-select">
+                    @foreach ($status as $key => $value)
+                      <option value="{{ $key }}">{{ \App\Enums\Order\OrderStatus::getDescription($key) }}</option>
+                    @endforeach
                   </select>
-                  <button id="apply-action" class="btn btn-success" style="display: none;">Áp dụng</button>
-                </div>
-                <div class="col-md-3 text-end">
-                  <button id="select-toggle" class="btn btn-primary">Chọn</button>
+                  <button type="button" class="btn btn-primary" id="basic-addon2" 
+                  data-route="{{ route('admin.order.updateIndex') }}">
+                    Duyệt
+                </button>
+                
                 </div>
               </div>
             </div>
@@ -57,8 +55,7 @@
               <table id="add-row" class="fontTable display table table-hover fix_table">
                 <thead>
                   <tr>
-                    <th class="checkbox-column" style="display:none;">
-                      <input type="hidden" id="check-all">
+                    <th >
                     </th>
                     <th>Mã</th>
                     <th>Khách hàng</th>
@@ -71,8 +68,8 @@
                 <tbody>
                   @foreach ($orders as $item)
                     <tr>
-                      <td class="checkbox-column" style="display:none;">
-                        <input type="checkbox" class="check-item" value="{{ $item->id }}">
+                      <td >
+                        <input id="checkBox" type="checkbox" name="id[]" class="check-item" value="{{ $item->id }}">
                       </td>
                       <td><a href="{{route('admin.order.edit',$item->id)}}">{{ $item->code }}</a></td>
                       <td>
@@ -136,4 +133,13 @@
     </div>
   </div>
 </div>
+
+@push('libs-js')
+    <script src="{{ asset('/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('/select2/js/i18n/vi.js') }}"></script>
+@endpush
+
+@push('custom-js')
+@include('order.scripts')
+@endpush
 @endsection

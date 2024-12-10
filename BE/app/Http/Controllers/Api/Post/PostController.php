@@ -16,7 +16,9 @@ class PostController extends Controller
     public function index()
     {   
         try {
-            $post = Post::with('categories', 'user')->where('status', PostStatus::Active)->get();
+            $post = Post::with('categories', 'user')->where('status', PostStatus::Active)
+            ->orderBy('id','desc')
+            ->get();
             
             return response()->json([
                 'success' => true,

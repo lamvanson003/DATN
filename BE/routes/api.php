@@ -65,8 +65,8 @@ Route::controller(CommentController::class)->prefix('/comments')
 Route::controller(FlashSaleController::class)->prefix('/flash-sales')
 ->as('flashSale')
 ->group(function(){
-    Route::get('/{active}', 'flashSaleActive');
-
+    Route::get('/active', 'flashSaleActive');
+    Route::get('/pending', 'flashSalePending');
 });
 
 

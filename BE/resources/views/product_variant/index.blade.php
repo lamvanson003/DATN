@@ -130,7 +130,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                              Xóa biến thể  <span class="red">{{ $item->storage }} </span> khỏi dữ liệu hệ thống ?.
+                              Chuyển trạng thái <span class="red">{{ $item->storage }} </span> sang đã xóa ?
                           </div>
                           <div class="modal-footer">
                             <form action="{{ route('admin.product.product_item.delete',[$product->id,$item->id]) }}" method="post">

@@ -112,7 +112,7 @@
                         <input type="hidden" name="is_featured" value="0">
                         <input type="checkbox" class="form-check-input" 
                             name="is_featured" value="1" 
-                            data-parsley-multiple="is_featured"/>
+                            data-parsley-multiple="is_featured" role="switch"/>
                         <span class="form-check-label">Bật bài viết nổi bậc</span>
                     </label>
                 </div>

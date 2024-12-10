@@ -16,11 +16,11 @@ use Carbon\Carbon;
 class DashboardController extends Controller
 {
     public function index()
-    {   
+    {       
         $countUser = $this->countUser();
         $getTotalpriceOrder = $this->getTotalpriceOrder();
         $countProduct = $this->countProduct();
-        $countSubcription = $this->countSubcription();
+        $countOrderToday = $this->countOrderToday();
         $countOrder = $this->countOrder();
 
         $getUser = $this->getUserDash();
@@ -37,7 +37,7 @@ class DashboardController extends Controller
             'getTotalpriceOrder' => $getTotalpriceOrder,
             'countUser' => $countUser,
             'countProduct' => $countProduct,
-            'countSubcription' => $countSubcription,
+            'countOrderToday' => $countOrderToday,
             'countOrder' => $countOrder,
             'getUser' => $getUser,
             'status' => $status,
@@ -59,8 +59,9 @@ class DashboardController extends Controller
         $q = Product::count();
         return $q;
     }
-    public function countSubcription(){
-        $q = Subcription::count();
+    public function countOrderToday(){
+        $time = Carbon::today();
+        $q = Order::whereDate('created_at', $time)->count();
         return $q;
     }
     public function countOrder(){
@@ -76,6 +77,7 @@ class DashboardController extends Controller
 
     public function getTotalpriceOrder(){
         $q = Order::where('completed',true)
+        ->where('status',OrderStatus::Completed)
         ->sum('total_price');
         return $q;
     }

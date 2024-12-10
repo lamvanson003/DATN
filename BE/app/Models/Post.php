@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\ActiveStatus;
 use App\Enums\Is_featured;
+use App\Enums\Post\PostStatus;
+
 class Post extends Model
 {
     use HasFactory;
@@ -25,7 +27,7 @@ class Post extends Model
     ];
 
     protected $casts = [
-        'status'=> ActiveStatus::class,
+        'status'=> PostStatus::class,
         'is_featured'=> Is_featured::class,
     ];
 
