@@ -21,6 +21,7 @@ import {
   SearchOrder,
   PostDetail,
 } from "./pages/user";
+
 import { Routes, Route } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

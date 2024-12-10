@@ -102,7 +102,7 @@ const User = () => {
       <div
         style={{
           textAlign: "center",
-          marginTop: "20px",
+          marginTop: "30px",
           padding: "50px",
           backgroundColor: "#cde7ff",
           borderRadius: "10px",
@@ -120,7 +120,10 @@ const User = () => {
 
   return (
     <>
-      <div className="mt-5" style={{ width: "90%", margin: "0 100px", marginLeft: "50px" }}>
+      <div
+        className="mt-5"
+        style={{ width: "90%", margin: "0 100px", marginLeft: "50px" }}
+      >
         <div className="row" style={{ width: "100%" }}>
           <div className="col-md-3 px-5">
             <span className="px-5 d-flex flex-column gap-4">
@@ -129,7 +132,10 @@ const User = () => {
                   <FaRegCircleUser size={30} style={{ marginLeft: "10px" }} />
                 </span>
                 <span className="d-flex flex-column">
-                  <span className="fw-bold" style={{ fontSize: 20, marginTop: "10px" }}>
+                  <span
+                    className="fw-bold"
+                    style={{ fontSize: 20, marginTop: "10px" }}
+                  >
                     {fullname || "Tên user"}
                   </span>
                 </span>
@@ -142,13 +148,16 @@ const User = () => {
                     ...(selectedItem === "account" ? selectedStyle : {}),
                   }}
                   onClick={() => handleItemClick("account")}
-                  onMouseEnter={(e) => Object.assign(e.target.style, hoverEffectStyleHover)}
-                  onMouseLeave={(e) => Object.assign(e.target.style, { boxShadow: "none" })}
+                  onMouseEnter={(e) =>
+                    Object.assign(e.target.style, hoverEffectStyleHover)
+                  }
+                  onMouseLeave={(e) =>
+                    Object.assign(e.target.style, { boxShadow: "none" })
+                  }
                 >
                   <FaRegUser color="rgb(0, 123, 255)" />
                   Tài khoản của tôi
                 </span>
-                
               </div>
               <button
                 onClick={logout}

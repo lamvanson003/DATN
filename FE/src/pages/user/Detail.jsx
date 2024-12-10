@@ -658,7 +658,9 @@ const Detail = () => {
                 {comment && comment.length > 0 ? (
                   comment.map((item) => (
                     <div className="comment-item" key={item.id}>
-                      <div className="comment-avatar d-flex">T</div>
+                      <div className="comment-avatar d-flex">
+                        {item.fullname.charAt(0)}
+                      </div>
                       <div className="comment-content">
                         <div className="comment-info">
                           <span className="comment-author">
