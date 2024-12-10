@@ -14,7 +14,7 @@ final class PostStatus extends Enum
     public static function asSelectArray(): array
     {
         return [
-            self::Active => 'Đang hoạt động',
+            self::Active => 'Xuất bản',
             self::Inactive => 'Không hoạt động',
             self::Draft => 'Bản nháp',
         ];
@@ -24,7 +24,7 @@ final class PostStatus extends Enum
     public static function getDescription($value): string
     {
         return match ($value) {
-            self::Active => 'Đang hoạt động',
+            self::Active => 'Xuất bản',
             self::Inactive => 'Không hoạt động',
             self::Draft => 'Bản nháp',
             default => 'Không xác định',

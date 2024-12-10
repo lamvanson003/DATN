@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { CartContext } from "../../context/Cart";
-import varImg1 from "../../assets/images/iphone1.jpg";
-import varImg2 from "../../assets/images/iphone2.jpg";
 import { productApi } from "../../apis";
 import { commentApi } from "../../apis";
-import { Tab, BoxPro, Brand } from "../../components";
+import { Tab, BoxPro } from "../../components";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
 import { formatCurrency } from "../../ultis/func";

@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 export const setupSlider = (slidesRef, formRef, prevRef, nextRef) => {
   let currentIndex = 0;
   let interval;
@@ -103,6 +105,8 @@ export const transformFormatProducts = (product) => {
     brand: {
       name: product.brand.name,
     },
+    start_time: product.start_time,
+    end_time: product.end_time,
     sold: product.sold,
     quantity_limit: product.quantity_limit,
     product_variant: [
@@ -128,4 +132,57 @@ export const transformFormatProducts = (product) => {
       images: item.images,
     })),
   };
+};
+
+export const useCountdown = (start_time, end_time) => {
+  const [timeRemaining, setTimeRemaining] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    status: "upcoming", // upcoming, active, expired
+  });
+
+  useEffect(() => {
+    const calculateTimeRemaining = () => {
+      const currentTime = new Date(); // Current date/time
+      const startTime = new Date(start_time); // Parse start time
+      const endTime = new Date(end_time); // Parse end time
+
+      let status = "";
+      let remainingTime = 0;
+
+      if (currentTime < startTime) {
+        // Event has not started yet
+        status = "upcoming";
+        remainingTime = startTime - currentTime; // Time until event starts
+      } else if (currentTime >= startTime && currentTime < endTime) {
+        // Event is currently active
+        status = "active";
+        remainingTime = endTime - currentTime; // Time until event ends
+      } else {
+        // Event has ended
+        status = "expired";
+        remainingTime = 0;
+      }
+
+      const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+      const minutes = Math.floor(
+        (remainingTime % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+      setTimeRemaining({
+        hours,
+        minutes,
+        seconds,
+        status,
+      });
+    };
+
+    calculateTimeRemaining();
+    const interval = setInterval(calculateTimeRemaining, 1000);
+    return () => clearInterval(interval);
+  }, [start_time, end_time]);
+
+  return timeRemaining;
 };

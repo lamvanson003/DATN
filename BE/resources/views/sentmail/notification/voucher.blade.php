@@ -1,77 +1,83 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khuyến mãi đặc biệt</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
         .email-container {
+            width: 100%;
             max-width: 600px;
-            margin: 20px auto;
+            margin: 0 auto;
             background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            border: 1px solid #e0e0e0;
         }
         .header {
-            background-color: #ff6f61;
+            background: #000000;
             color: #ffffff;
             text-align: center;
             padding: 20px;
         }
         .header h1 {
             margin: 0;
+            font-size: 36px;
+        }
+        .header p {
+            margin: 10px 0 0;
+            font-size: 14px;
         }
         .content {
             padding: 20px;
+            text-align: center;
+        }
+        .content img {
+            max-width: 100%;
+            height: auto;
         }
         .content h2 {
-            color: #333333;
+            font-size: 24px;
+            margin: 20px 0 10px;
         }
         .content p {
+            font-size: 16px;
             color: #555555;
-            line-height: 1.6;
+            margin: 10px 0 20px;
+        }
+
+        a{ 
+            color: #ffffff !important
         }
         .button {
-            display: inline-block;
-            margin: 20px 0;
-            padding: 10px 20px;
-            background-color: #ff6f61;
+            background-color: #007bff;
             color: #ffffff;
             text-decoration: none;
+            padding: 10px 20px;
+            font-size: 16px;
             border-radius: 5px;
-            font-weight: bold;
         }
-        .footer {
-            background-color: #f4f4f4;
-            text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            color: #888888;
+        .button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="email-container">
         <div class="header">
-            <h1>Ưu đãi đặc biệt dành cho bạn!</h1>
+            <p>{{  $notification->created_at }}</p>
+            <h1>{{  $notification->title }}</h1>
+            <p>Điều kiện và điều khoản áp dụng</p>
         </div>
         <div class="content">
-            <h2>Xin chào {{ $notification->user->fullname }},</h2>
-            <p>Chúng tôi rất vui được thông báo về một chương trình khuyến mãi hấp dẫn chỉ dành riêng cho bạn. Đừng bỏ lỡ cơ hội này để nhận ưu đãi!</p>
+            <img src="https://via.placeholder.com/500x300" alt="Product Image">
+            <h2>{{ $notification->title }}</h2>
+            <p>{{ $notification->message }}</p>
             @if($url)
-            <a href="{{ $url }}" class="button">Khám phá ngay</a>
+                <a href="{{ $url }}" class="button">Khám phá ngay</a>
             @endif
-            <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với đội ngũ hỗ trợ của chúng tôi.</p>
-        </div>
-        <div class="footer">
-            <p>&copy; 2024 CloudLab. Trân trọng.</p>
         </div>
     </div>
 </body>

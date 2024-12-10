@@ -78,7 +78,18 @@ class AdminController extends Controller
             $newImage->move(public_path('images/avatar'), $newImageName);
             $admin->avatar = $baseUrl.'/images/avatar/' . $newImageName;
         }
+<<<<<<< Updated upstream
           
+=======
+
+        $admin->fullname = $request->input('fullname');
+        $admin->status = $request->input('status');
+        $admin->phone = $request->input('phone');
+        $admin->email = $request->input('email');
+        $admin->address = $request->input('address');
+        $admin->username = $request->input('username')??$request->input('phone');
+
+>>>>>>> Stashed changes
         if ($request->filled('password')) {
             $data['password'] = bcrypt($data['password']);
         }else {

@@ -18,8 +18,7 @@ const DealHot = () => {
     };
     fetchLT();
   }, []);
-  console.log(hotPhone);
-  console.log(hotLaptop);
+
   return (
     <div className="container mt-5">
       <div className="row  flex-nowrap">

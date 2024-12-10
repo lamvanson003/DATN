@@ -42,7 +42,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Tiêu đề bài viết<span style="color: red">*</span>:</label>
-                                        <input type="text" class="required form-control" name="title" value="{{ $post->title }}" placeholder="Nhập tiêu đề bài viết">
+                                        <input type="text" class="required form-control" id="title" name="title" value="{{ $post->title }}" placeholder="Nhập tiêu đề bài viết">
                                     </div>
                                 </div>
 
@@ -50,7 +50,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Đường dẫn (Slug)<span style="color: red">*</span>:</label>
-                                        <input type="text" class="required form-control" name="slug" value="{{ $post->slug }}" placeholder="Nhập slug">
+                                        <input type="text" class="required form-control"  id="slug" name="slug" value="{{ $post->slug }}" placeholder="Nhập slug" readonly>
                                     </div>
                                 </div>
 

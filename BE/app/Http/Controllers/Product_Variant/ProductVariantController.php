@@ -35,8 +35,9 @@ class ProductVariantController extends Controller
     public function delete($product_id,$id)
     {
         $product_variant = ProductVariant::findOrFail($id);
-        $product_variant->delete();
-        return redirect()->route('admin.product.product_item.index',$product_id)->with('success', 'Thực hiện thành công.');
+        $product_variant->status = DefaultStatus::Deleted;
+        $product_variant->save();
+        return redirect()->back()->with('success', 'Thực hiện thành công.');
     }
 
     public function store(ProductVariantRequest $request)
@@ -79,7 +80,7 @@ class ProductVariantController extends Controller
     public function edit($product_id,$id)
     {   
         $product_variant = ProductVariant::with('product')->findOrFail($id);
-        $status = Status::asSelectArray();
+        $status = DefaultStatus::asSelectArray();
         return view('product_variant.edit', [
             'product_variant' => $product_variant,
             'status' => $status,

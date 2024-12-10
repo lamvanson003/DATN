@@ -57,6 +57,7 @@ class CommentController extends Controller {
         try {
             $comments = Comment::where('product_variant_id', $product_variant_id)
             ->where('status',CommentStatus::Approved)
+            ->orderBy('id','desc')
             ->get();
             return response()->json([
                 'success' => true,

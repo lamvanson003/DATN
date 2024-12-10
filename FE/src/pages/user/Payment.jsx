@@ -196,7 +196,6 @@ const Payment = () => {
     }
 
     const orderInfo = {
-      user_id: 1,
       payment_method_id: paymentMethod,
       shipping_method: 0,
       discount_id: discountId ? discountId : null,
