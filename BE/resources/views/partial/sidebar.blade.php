@@ -273,9 +273,15 @@
             <div class="collapse" id="comment">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="{{ route('admin.comment.index') }}">
+                  <a href="{{ route('admin.comment.index',['type' => 'productVariant']) }}">
                     <i class="fas fa-list"></i>
-                    <span>DS bình luận</span>
+                    <span>DS sản phẩm</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('admin.comment.index',['type' => 'post']) }}">
+                    <i class="fas fa-list"></i>
+                    <span>DS bài viết</span>
                   </a>
                 </li>
               </ul>

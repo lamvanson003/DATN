@@ -25,12 +25,6 @@
           <div class="card-header">
             <div class="d-flex align-items-center">
               <h4 class="card-title">DS bình luận</h4>
-              <a href="{{ route('admin.comment.create') }}" class="ms-auto">
-                <button type="submit" class="btn btn-primary btn-round">
-                  <i class="fa fa-plus"></i>
-                  Thêm
-                </button>
-              </a>
             </div>
           </div>
           <div class="card-body">
@@ -38,7 +32,7 @@
               <table id="add-row" class="fontTable display table table-hover fix_table">
                 <thead>
                   <tr>
-                    <th>Hình ảnh sản phẩm</th>
+                    <th></th>
                     <th>Tên người dùng</th>
                     <th>Nội dung</th>
                     <th>Đánh giá</th>
@@ -51,17 +45,31 @@
                   @foreach ($comments as $item)
                     <tr>
                       <td>
-                        <a href="{{ route('admin.product.product_item.edit',[
-                        $item->productVariant->product->id,
-                        $item->productVariant->id]) }}">
-
-                          {{ $item->productVariant->product->name }}
-                          {{ $item->productVariant->storage }}
-                        </a>
+                        @switch($type)
+                            @case('productVariant'):
+                                  <a title="{{  $item->productVariant->product->name }}  
+                                      {{ $item->productVariant->storage }}" 
+                                      class="fix-content" href="{{ route('admin.product.product_item.edit',[
+          
+                                      $item->productVariant->product->id,
+                                      $item->productVariant->id]) }}">
+          
+                                      {{ $item->productVariant->product->name }}
+                                      {{ $item->productVariant->storage }}
+                                  </a>
+                                @break
+                            @case('post')
+                                <a class="fix-content" href="{{ route('admin.post.edit',$item->post_id) }}">
+                                  {{ $item->post->title }}
+                                </a>
+                                @break
+                            @default 
+                                
+                        @endswitch
                       </td>
                       <td>{{ $item->fullname }}</td>
                       <td>{{ $item->content }}</td>
-                      <td>{{ $item->rating }} ⭐</td>
+                      <td>{{ $item->rating.' ⭐' ?? 'N/A'}}</td>
                       <td>
                         <span class="badge rounded-pill 
                           @switch($item->status->value)
@@ -86,15 +94,17 @@
                       <td>{{ $item->created_at }}</td>
                       <td>
                         <div class="form-button-action gap-2">
-                          <a href="{{ route('admin.comment.edit', $item->id) }}">
-                            <button type="button" data-bs-toggle="tooltip" title="Chỉnh sửa" class="btn btn-info btn-icon" data-original-title="Chỉnh sửa">
-                              <i class="fa fa-pencil-alt"></i>
+                          <form action="{{ route('admin.comment.update') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $item->id }}">
+                            <button type="submit"  title="Duyệt" class="btn btn-info btn-icon">
+                              <i class="fa fa-check-circle"></i>
                             </button>
-                          </a>
-                          
-                              <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                          </form>
+                              
+                          <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
                                   <i class="fa fa-trash-alt"></i>
-                              </button>
+                          </button>
           
                         </div>
                       </td>

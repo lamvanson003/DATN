@@ -58,8 +58,8 @@ Route::controller(CommentController::class)->prefix('/comments')
 ->as('comment')
 ->group(function(){
     Route::post('/', 'create');
-    Route::get('/{product_variant_id}', 'index');
-
+    Route::get('/{product_variant_id}', 'productVariant');
+    Route::get('/{post_id}', 'post');
 });
 
 Route::controller(FlashSaleController::class)->prefix('/flash-sales')
