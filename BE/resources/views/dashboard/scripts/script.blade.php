@@ -31,8 +31,8 @@
         return;
     }
 
-    if (!confirm("Bạn có chắc chắn muốn cập nhật các đơn hàng đã chọn?")) {
-        return; // Nếu người dùng chọn "Cancel", dừng thực hiện
+    if (!confirm("Bạn có chắc chắn thực hiện ?")) {
+        return;
     }
 
     const routeUrl = $(this).data("route");

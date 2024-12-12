@@ -44,7 +44,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3 ">
                                         <label class="control-label">Tên Items<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="name" value="{{ $product_image_item->name }}" placeholder="VD: Item-1">
+                                        <input type="text" class="required form-control" name="name" value="{{ $product_image_item->name }}" placeholder="VD: Item-1">
                                     </div>
                                 </div>
 
@@ -72,7 +72,7 @@
                         <div class="card mb-3">
                             <div class="card-header">Trạng thái</div>
                             <div class="card-body p-2">
-                                <select required class="form-select" name="status">
+                                <select class="required form-select" name="status">
                                     @foreach ($status as $key => $value)
                                         <option value="{{ $key }}" {{ $key == $product_image_item->status->value ? 'selected' : '' }}> {{ $value }}</option>
                                     @endforeach

@@ -15,7 +15,8 @@ class CommentController extends Controller {
     public function create(Request $request){
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'product_variant_id' => ['required','exists:App\Models\ProductVariant,id'],
+            'product_variant_id' => ['nullable','exists:App\Models\ProductVariant,id'],
+            'post_id' => ['nullable','exists:App\Models\Post,id'],
             'content' => 'required|string',
             'rating' => 'nullable|integer',
             'images' => 'nullable|array',
@@ -35,10 +36,11 @@ class CommentController extends Controller {
             }
             Comment::create([
                 'fullname' => $validatedData['name'],
-                'product_variant_id' => $validatedData['product_variant_id'],
+                'product_variant_id' => $validatedData['product_variant_id'] ?? null,
+                'post_id' => $validatedData['post_id'] ?? null,
                 'content' => $validatedData['content'],
                 'images' =>  json_encode($imagePath) ?? null, 
-                'rating' => $validatedData['rating'],
+                'rating' => $validatedData['rating'] ?? null,
                 'status' => CommentStatus::Pending,
             ]);
             
@@ -52,10 +54,31 @@ class CommentController extends Controller {
     }
 
 
-    public function index($product_variant_id){
+    public function productVariant($product_variant_id){
        
         try {
-            $comments = Comment::where('product_variant_id', $product_variant_id)
+            $comments = Comment::whereNotNull('product_variant_id', $product_variant_id)
+            ->where('status',CommentStatus::Approved)
+            ->orderBy('id','desc')
+            ->get();
+            return response()->json([
+                'success' => true,
+                'data' => CommentResource::collection($comments)
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch comments',
+                'error' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    
+    public function post($post_id){
+       
+        try {
+            $comments = Comment::whereNotNull('post_id', $post_id)
             ->where('status',CommentStatus::Approved)
             ->orderBy('id','desc')
             ->get();

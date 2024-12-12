@@ -21,7 +21,8 @@
                                 <div class="row align-items-center position-relative">
                                     <div class="col-icon">
                                         <div class="icon-big text-center bubble-shadow-small">
-                                            <img src="{{ $item->images }}" alt="" style="max-width: 50px; object-fit: contain" >
+                                            <img src="{{ $item->images }}" alt=""
+                                                style="max-width: 50px; object-fit: contain">
                                         </div>
                                     </div>
                                     <div class="col col-stats ms-3 ms-sm-0">
@@ -32,7 +33,8 @@
                                         </div>
                                     </div>
                                     <div class="position-absolute text-end bottom-0">
-                                        <a href="{{ route('admin.product.product_item.edit',[$item->product->id, $item->id]) }}">Xem</a>
+                                        <a
+                                            href="{{ route('admin.product.product_item.edit', [$item->product->id, $item->id]) }}">Xem</a>
                                     </div>
                                 </div>
                             </div>
@@ -43,4 +45,15 @@
             </div>
         </div>
     </div>
- @endsection
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const elements = document.querySelectorAll(".card-category");
+            elements.forEach(element => {
+                const originalText = element.textContent.trim();
+                if (originalText.length > 17) {
+                    element.textContent = originalText.substring(0, 17) + "...";
+                }
+            });
+        });
+    </script>
+@endsection

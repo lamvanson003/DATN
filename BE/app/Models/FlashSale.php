@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\Status;
+use App\Enums\ActiveStatus;
+use Carbon\Carbon;
 
 class FlashSale extends Model
 {
@@ -18,6 +19,12 @@ class FlashSale extends Model
     }
 
     protected $casts = [
-        'status' => Status::class,
+        'status' => ActiveStatus::class,
     ];
+
+    public function getFlashSaleExpired(){
+        $now = Carbon::now();
+        return FlashSale::with('saleItems')->where('end_time', '<', $now)->get();
+    }
+    
 }

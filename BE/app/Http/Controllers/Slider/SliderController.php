@@ -9,7 +9,7 @@ use App\Models\Slider;
 use App\Models\SliderItem;
 use App\Enums\Status;
 use App\Enums\Slider\SliderStatus;
-
+use Exception;
 class SliderController extends Controller
 {
     public function index()
@@ -29,8 +29,7 @@ class SliderController extends Controller
     public function delete($id)
     {
         $sliders = Slider::findOrFail($id);
-        $sliders->status = SliderStatus::Deleted;
-        $sliders->save();
+        $sliders->delete();
         return redirect()->route('admin.slider.index')->with('success', 'Thực hiện thành công.');
     }
     

@@ -63,8 +63,15 @@ class OrderController extends Controller
             ]);
         }
 
-        $order->status = $request->status;
-        $order->save();
+        switch ($order->status->value) {
+            case OrderStatus::Deleted:
+                $order->delete();
+                break;
+            default:
+                $order->status = $request->status;
+                $order->save();
+                break;
+        }
 
         return redirect()->back()->with('success','Thực hiện thành công');
     }

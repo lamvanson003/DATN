@@ -3,7 +3,7 @@ import "./css/Brand.css";
 import { brandApi } from "../apis";
 import { useSelector } from "react-redux";
 
-const Brand = ({ active, onProByBrandUpdate }) => {
+const Brand = ({ active, onProByBrandUpdate = () => {} }) => {
   const [brandData, setBrandData] = useState([]);
   const [cate, setCate] = useState("");
   const [selectedBrandId, setSelectedBrandId] = useState(null);
