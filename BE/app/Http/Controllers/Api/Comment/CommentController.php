@@ -57,7 +57,7 @@ class CommentController extends Controller {
     public function productVariant($product_variant_id){
        
         try {
-            $comments = Comment::whereNotNull('product_variant_id', $product_variant_id)
+            $comments = Comment::whereNotNull('product_variant_id')
             ->where('status',CommentStatus::Approved)
             ->orderBy('id','desc')
             ->get();
@@ -78,7 +78,7 @@ class CommentController extends Controller {
     public function post($post_id){
        
         try {
-            $comments = Comment::whereNotNull('post_id', $post_id)
+            $comments = Comment::whereNotNull('post_id')
             ->where('status',CommentStatus::Approved)
             ->orderBy('id','desc')
             ->get();
