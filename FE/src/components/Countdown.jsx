@@ -39,9 +39,7 @@ const Countdown = () => {
             alt="Second Banner Image 1"
             className="img-fluid active"
           />
-          <button type="button" className="btn btn-primary">
-            Mua Ngay
-          </button>
+
           <div id="countdown" className="countdown-timer">
             <div className="time-box">
               <span id="days" className="time-value">
