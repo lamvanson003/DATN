@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import icons from "../../ultis/icon";
 import LogoVisa from "../../assets/images/logovisa.png";
 import logomastercard from "../../assets/images/logomastercard.png";
@@ -130,7 +130,9 @@ const Payment = () => {
       [id]: value,
     }));
   };
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [validFields, setValidFields] = useState({
     name: true,
     phone: true,

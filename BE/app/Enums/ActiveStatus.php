@@ -6,8 +6,8 @@ use BenSampo\Enum\Enum;
 
 final class ActiveStatus extends Enum
 {
-    const Active = 1; // Hoạt động
-    const Inactive = 0; // Ngưng hoạt động
+    const Active = 'active'; // Hoạt động
+    const Inactive = 'inactive'; // Ngưng hoạt động
 
     public static function asSelectArray(): array
     {

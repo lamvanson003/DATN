@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\ActiveStatus;
+use App\Enums\Status;
 
 class SaleItem extends Model
 {
@@ -22,6 +22,6 @@ class SaleItem extends Model
     }
 
     public $casts = [
-        'is_active' => ActiveStatus::class,
+        'is_active' => Status::class,
     ];
 }

@@ -9,6 +9,7 @@ final class NotificationType extends Enum
       
     const VOUCHER = 'voucher'; 
     const ORDER = 'order'; 
+    const UPDATED = 'updated'; 
 
    
     public static function asSelectArray(): array
@@ -16,6 +17,7 @@ final class NotificationType extends Enum
         return [
             self::VOUCHER => 'Thông báo khuyến mãi',
             self::ORDER => 'Thông báo đơn hàng',
+            self::UPDATED => 'Thông báo cập nhật',
         ];
     }
 
@@ -25,6 +27,7 @@ final class NotificationType extends Enum
         return match ($value) {
             self::VOUCHER => 'Thông báo khuyến mãi',
             self::ORDER => 'Thông báo đơn hàng',
+            self::UPDATED => 'Thông báo cập nhật',
             default => 'Không xác định',
         };
     }

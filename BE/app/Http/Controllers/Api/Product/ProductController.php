@@ -41,7 +41,9 @@ class ProductController extends controller
                 'category',
                 'brand',
                 'product_variant.comments',
-                'product_image_items'
+                'product_image_items' => function ($query){
+                    $query->orderBy('posittion', 'asc');
+                }
             ])
                 ->where('status', ProductStatus::Active)
                 ->where('category_id', $category->id)
@@ -70,25 +72,26 @@ class ProductController extends controller
     public function index()
     {
         try {
-            $products = Product::with(
-                [
-                    'category' => function ($query) {
-                        $query->where('status', CategoryStatus::Active);
-                    },
-                    'brand' => function ($query) {
-                        $query->where('status', BrandStatus::Active);
-                    },
-                    'product_variant',
-                    'product_image_items' => function ($query) {
-                        $query->where('status', Status::Active);
-                    },
-                    'product_variant.comments' => function ($query) {
-                        $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
-                    },
-                ]
-            )->where('status', ProductStatus::Active)
-            ->orderBy('id','desc')
-            ->get();
+                $products = Product::with(
+                    [
+                        'category' => function ($query) {
+                            $query->where('status', CategoryStatus::Active);
+                        },
+                        'brand' => function ($query) {
+                            $query->where('status', BrandStatus::Active);
+                        },
+                        'product_variant',
+                        'product_image_items' => function ($query) {
+                            $query->where('status', Status::Active)
+                            ->orderBy('posittion', 'asc');
+                        },
+                        'product_variant.comments' => function ($query) {
+                            $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
+                        },
+                    ]
+                )->where('status', ProductStatus::Active)
+                ->orderBy('id','desc')
+                ->get();
 
             return response()->json([
                 'success' => true,

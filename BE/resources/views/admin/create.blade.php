@@ -41,24 +41,24 @@
                                 <div class="col-md-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-6 ">
                                         <label class="control-label">Tên admin<span class="required_feild">*</span>:</label>
-                                        <input type="text" required class="form-control" name="fullname" placeholder="Tên admin">
+                                        <input type="text" class="required form-control" name="fullname" placeholder="Tên admin">
                                     </div>
                                 {{-- Email --}}
                                     <div class="mb-3 col-6">
                                         <label class="control-label">Email<span class="required_feild">*</span>:</label>
-                                        <input type="email" required class="form-control" name="email" placeholder="Nhập Email">
+                                        <input type="email" class="required form-control" name="email" placeholder="Nhập Email">
                                     </div>
                                 </div>
                                 {{-- Phone --}}
                                 <div class="col-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-6">
                                         <label for="phone" class="control-label">Số điện thoại<span class="required_feild">*</span>:</label>
-                                        <input class="form-control" type="number" id="phone" name="phone" placeholder="Số điện thoại"></input>
+                                        <input class="form-control required" type="number" id="phone" name="phone" placeholder="Số điện thoại"></input>
                                     </div>
                                 {{-- adminname --}}
                                     <div class="mb-3 col-6">
                                         <label for="username" class="control-label">Tên đăng nhập:</label>
-                                        <input class="form-control" type="text" id="username" name="username" placeholder="Tên đăng nhập"></input>
+                                        <input class="form-control " type="text" id="username" name="username" placeholder="Tên đăng nhập"></input>
                                     </div>
                                                                       
                                 </div>
@@ -66,17 +66,17 @@
                                 <div class="col-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-6">
                                         <label for="password" class="control-label" >Mật khẩu <span class="required_feild">*</span>:</label>
-                                        <input required type="password" class="form-control" id="password" name="password" placeholder="Nhập Mật khẩu"></input>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Nhập Mật khẩu"></input>
                                     </div>
                                     <div class="mb-3 col-6">
                                         <label for="password_confirmation" class="control-label">Xác nhận mật khẩu <span class="required_feild">*</span>:</label>
-                                        <input required type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Nhập Mật khẩu"></input>
+                                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Nhập Mật khẩu"></input>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12 d-flex gap-2">
                                     <div class="mb-3 col-6">
                                         <label for="gender" class="form-label">Giới tính:</label>
-                                        <select name="gender" id="gender" class="form-select">
+                                        <select name="gender" id="gender" class="form-select required">
                                             <option value="1">Nam</option>
                                             <option value="2">Nữ</option>
                                             <option value="3">Khác</option>
@@ -125,7 +125,7 @@
                         <div class="card mb-3">
                             <div class="card-header">Trạng thái</div>
                             <div class="card-body p-2">
-                                <select required class="form-select" name="status">
+                                <select class="required form-select" name="status">
                                     @foreach ($status as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
@@ -136,7 +136,7 @@
                         <div class="card mb-3">
                             <div class="card-header">Ảnh đại diện <span style="color: red">*</span></div>
                             <div class="card-body p-2">
-                                <input required type="file" id="fileInput" name="avatar" class="d-none" accept="image/*">
+                                <input type="file" id="fileInput" name="avatar" class="d-none required" accept="image/*">
                                 <input type="hidden" name="avatar" id="imageUrl" value="">
                                 <div class="image-container" style="cursor: pointer;">
                                     <img id="imagePreview" src="{{  asset('/images/default-image.png')}}" alt="Ảnh đại diện" style="max-width: 100%;">

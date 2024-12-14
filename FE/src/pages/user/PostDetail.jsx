@@ -11,18 +11,19 @@ const PostDetail = () => {
   useEffect(() => {
     const fetchDetailData = async () => {
       const res = await postApi.getOne(slug);
-
       setPostDetail(res);
     };
     const fetchFeatPost = async () => {
       const res = await postApi.getFeature();
       console.log(res);
-
       setFeatPost(res);
     };
     fetchDetailData();
     fetchFeatPost();
   }, [slug]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="container mt-5">
       <div className="row">
@@ -88,36 +89,6 @@ const PostDetail = () => {
                   <span className="article-comment-date">12/08/2024</span>
                 </p>
                 <p className="comment-text">tốt</p>
-              </div>
-            </div>
-            <div className="article-comment clearfix">
-              <figure className="article-comment-user-image">
-                <img
-                  src="https://www.gravatar.com/avatar/68f5f844896ee7a4626da5678045ec26?s=110&d=identicon"
-                  alt="binh-luan"
-                />
-              </figure>
-              <div className="article-comment-user-comment">
-                <p className="user-name-comment">
-                  <strong>aaaa</strong>
-                  <span className="article-comment-date">12/05/2019</span>
-                </p>
-                <p className="comment-text">comment</p>
-              </div>
-            </div>
-            <div className="article-comment clearfix">
-              <figure className="article-comment-user-image">
-                <img
-                  src="https://www.gravatar.com/avatar/d04b6934ae002f591c1be910c9b12d29?s=110&d=identicon"
-                  alt="binh-luan"
-                />
-              </figure>
-              <div className="article-comment-user-comment">
-                <p className="user-name-comment">
-                  <strong>Nguyễn Trần Diễm Thị Trà My</strong>
-                  <span className="article-comment-date">09/03/2017</span>
-                </p>
-                <p className="comment-text">comment</p>
               </div>
             </div>
           </div>

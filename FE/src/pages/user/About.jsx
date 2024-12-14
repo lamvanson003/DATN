@@ -364,7 +364,7 @@ const About = () => {
 
       <div className="accordion mt-5" id="accordionExample" data-aos="fade-up">
         <div className="container section-title">
-          <h2 className="text-center align-items-center">Faq</h2>
+          <h2 className="text-center align-items-center">Câu hỏi thường gặp</h2>
         </div>
         {faqData.map((faq, index) => (
           <div className="accordion-item" key={index}>

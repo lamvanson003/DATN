@@ -14,43 +14,29 @@ use Exception;
 class CommentController extends Controller
 {
   
-    public function index()
-    {
-        $comments = Comment::with('productVariant')
-        ->orderBy('id','desc')
-        ->get(); 
-        return view('comment.index', compact('comments')); 
-    }
-
-    
-    public function create()
-    {
-        $users = User::all(); 
-        $products = ProductVariant::all(); 
-        return view('comment.create', [
-            'statuses' => CommentStatus::asSelectArray(),
-            'users' => $users,
-            'products' => $products
-        ]); 
-    }
-
-    public function edit($id)
-    {
-        $comment = Comment::findOrFail($id); 
-        return view('comment.edit', [
-            'comment' => $comment,
-            'statuses' => CommentStatus::asSelectArray(), 
-      
-        ]);
+    public function index($type)
+    {       
+        if($type === 'productVariant'){
+            $comments = Comment::with('productVariant')
+            ->whereNotNull('product_variant_id')
+            ->orderBy('id','desc')
+            ->get(); 
+        } elseif ($type === 'post') {
+            $comments = Comment::with('post')
+                ->whereNotNull('post_id')
+                ->orderBy('id', 'desc')
+                ->get();
+        }  
+        return view('comment.index', compact('comments', 'type')); 
     }
 
     
     public function update(Request $request)
     {       
         $comment = Comment::findOrFail($request->input('id')); 
-        $comment->status = $request->input('status');
+        $comment->status = CommentStatus::Approved;
         $comment->save();
-        return redirect()->route('admin.comment.index')->with('success', 'Comment updated successfully.');
+        return redirect()->back()->with('success', 'Thực hiện thành công.');
     }
 
    
@@ -59,7 +45,7 @@ class CommentController extends Controller
         {
             $comment = Comment::findOrFail($id); 
             $comment->delete(); 
-            return redirect()->route('admin.comment.index')->with('success', 'Comment deleted successfully.');
+            return redirect()->back()->with('success', 'Thực hiện thành công.');
         }
 
 }

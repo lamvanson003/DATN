@@ -139,7 +139,6 @@ const Favor = () => {
             </div>
           </section>
           <div className="row justify-content ">
-            <Brand />
             {sortedItems.map((item) => (
               <div key={item?.id} className="col-md-3">
                 <BoxPro

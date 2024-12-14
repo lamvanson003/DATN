@@ -66,7 +66,7 @@
                   @foreach ($products as $item)
                     <tr>
                       <td><img class="text-center fix-image" src="{{ asset($item->images) }}" alt="{{ $item->name }}"></td>
-                      <td><a href="{{ route('admin.product.edit', $item->id) }}">{{ $item->name }}</a></td> 
+                      <td><a class="fix-content" title="{{ $item->name }}" href="{{ route('admin.product.edit', $item->id) }}">{{ $item->name }}</a></td> 
                       <td>
                         <div class="d-flex" style="flex-direction: column ; align-items: flex-start">
                           <div class="product_variant">
