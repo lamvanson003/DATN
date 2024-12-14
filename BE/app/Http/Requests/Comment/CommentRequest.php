@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Comment;
 
 use App\Http\Requests\BaseRequest;
-use Illuminate\Validation\Rule;
 
 class CommentRequest extends BaseRequest
 {
@@ -15,11 +14,13 @@ class CommentRequest extends BaseRequest
     protected function methodPost()
     {
         return [
-            'product_variant_id' => 'required|exists:product_variants,id', 
-            'user_id' => 'required|exists:users,id', 
-            'content' => 'required|string|max:1000', 
-            'rating' => 'required|integer|min:1|max:5', 
-            'status' => 'required|integer|in:0,1,2,3', 
+            'name' => 'required|string',
+            'product_variant_id' => ['nullable', 'exists:App\Models\ProductVariant,id'],
+            'post_id' => ['nullable', 'exists:App\Models\Post,id'],
+            'content' => 'required|string',
+            'rating' => 'nullable|integer',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ];
     }
 

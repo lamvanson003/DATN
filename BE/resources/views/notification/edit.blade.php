@@ -116,7 +116,7 @@
                             <div class="card-body p-2">
                                 <select required class="form-select" name="read_at" disabled>
                                     @foreach ($read_at as $key => $value)
-                                        <option {{ $notification->read_at == $key ? 'selected' : '' }} value="{{ $key }}" >{{ $value }}</option>
+                                        <option {{ $notification->read_at->value == $key ? 'selected' : '' }} value="{{ $key }}" >{{ $value }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -126,7 +126,7 @@
                             <div class="card-body p-2">
                                 <select required class="form-select" name="type">
                                     @foreach ($type as $key => $value)
-                                        <option {{ $notification->type == $key ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
+                                        <option {{ $notification->type->value == $key ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
                                 </select>
                             </div>

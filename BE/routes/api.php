@@ -57,7 +57,7 @@ Route::controller(OrderController::class)->prefix('/orders')
 Route::controller(CommentController::class)->prefix('/comments')
 ->as('comment')
 ->group(function(){
-    Route::post('/', 'create');
+    Route::post('/create', 'create');
     Route::get('/{product_variant_id}', 'productVariant');
     Route::get('/{post_id}', 'post');
 });

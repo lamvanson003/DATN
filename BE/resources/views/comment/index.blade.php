@@ -69,7 +69,17 @@
                       </td>
                       <td>{{ $item->fullname }}</td>
                       <td>{{ $item->content }}</td>
-                      <td>{{ $item->rating.' ⭐' ?? 'N/A'}}</td>
+                      <td>
+                        @switch($type)
+                            @case('productVariant')
+                                {{ $item->rating.' ⭐' ?? 'N/A'}}
+                                @break
+                            @case('post')                                
+                                @break
+                            @default
+                                
+                        @endswitch
+                      </td>
                       <td>
                         <span class="badge rounded-pill 
                           @switch($item->status->value)
