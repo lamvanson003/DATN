@@ -208,6 +208,78 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs" id="chartTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="daily-tab" data-bs-toggle="tab" href="#daily" role="tab" aria-controls="daily" aria-selected="true">Lượng đơn hàng theo tuần</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="monthly-tab" data-bs-toggle="tab" href="#monthly" role="tab" aria-controls="monthly" aria-selected="false">Lượng đơn hàng theo tháng</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="yearly-tab" data-bs-toggle="tab" href="#yearly" role="tab" aria-controls="yearly" aria-selected="false">Thống kê đơn hàng theo năm</a>
+                        </li>
+                    </ul>
+            
+                    <div class="tab-content" id="chartTabContent">
+                        <!-- Daily Order Count Chart -->
+                        <div class="tab-pane fade show active" id="daily" role="tabpanel" aria-labelledby="daily-tab">
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <div class="card-title">Lượng đơn hàng theo tuần</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="orderDailyChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Monthly Order Count Chart -->
+                        <div class="tab-pane fade" id="monthly" role="tabpanel" aria-labelledby="monthly-tab">
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <div class="card-title">Lượng đơn hàng theo tháng</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="orderCountChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- Yearly Order Count Chart -->
+                        <div class="tab-pane fade" id="yearly" role="tabpanel" aria-labelledby="yearly-tab">
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <div class="card-title">Thống kê đơn hàng theo năm</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="orderYearlyChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="card-title">Sản phẩm bán chạy trong tháng</div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart-container">
+                          <canvas id="bestSale"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
@@ -216,18 +288,6 @@
                         <div class="card-body">
                             <div class="chart-container">
                                 <canvas id="orderRevenue"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">Lượng đơn hàng theo tháng</div>
-                        </div>
-                        <div class="card-body">
-                            <div class="chart-container">
-                                <canvas id="orderCountChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -257,7 +317,6 @@
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
    
