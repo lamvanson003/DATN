@@ -11,7 +11,6 @@ import icons from "../ultis/icon";
 import { navMenu } from "../ultis/menu";
 import logoCloudLab from "../assets/images/logo.svg";
 import fire from "../assets/images/iHome/fire.png";
-import { useSelector } from "react-redux";
 import Fuse from "fuse.js";
 import { BoxPro } from ".";
 import { CartContext } from "../context/Cart";
