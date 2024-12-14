@@ -10,9 +10,19 @@ class SliderRequest extends BaseRequest
     protected function methodPost()
     {
         return [
-            'name' => 'required|string|max:255|regex:/^[a-zA-Z0-9\s]+$/',
-            'desc' => 'nullable|string|max:255|regex:/^[a-zA-Z0-9\s]+$/',
+            'name' => 'required|string|max:255|regex:/^[\p{L}\p{N}\s]+$/u',
+            'desc' => 'nullable|string|max:255|regex:/^[\p{L}\p{N}\s]+$/u',
             'status' => 'required|integer',
         ];
     }
+
+    protected function methodPut()
+    {
+        return [
+            'name' => 'required|string|max:255|regex:/^[\p{L}\p{N}\s]+$/u',
+            'desc' => 'nullable|string|max:255|regex:/^[\p{L}\p{N}\s]+$/u',
+            'status' => 'required|integer',
+        ];
+    }
+
 }

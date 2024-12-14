@@ -1,53 +1,77 @@
-import React, { useRef, useEffect } from "react";
-import banner1 from "../assets/images/iHome/banner-1.png";
-import banner2 from "../assets/images/iHome/banner-2.png";
-import banner3 from "../assets/images/iHome/Banner-Iphone-16.webp";
-import banner4 from "../assets/images/iHome/IP16CASES_blog_1500x.webp";
+import React, { useRef, useEffect, useState } from "react";
 
-import banner5 from "../assets/images/iHome/thietkehaithanh-banner-1-1.jpg";
-import { setupSlider } from "../ultis/func";
 
 const Banner = () => {
-  const slidesRef = useRef([]); // Để tham chiếu tới các slide
-  const formRef = useRef(null);
+  const [sliders, setSliders] = useState([]); 
+  const [currentSlide, setCurrentSlide] = useState(0); 
+  const slidesRef = useRef([]); 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
   useEffect(() => {
-    // Gọi hàm setupSlider từ func.js và truyền tham chiếu (refs) cho nó
-    const cleanup = setupSlider(slidesRef, formRef, prevRef, nextRef);
+    const fetchSliderData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/sliders?status=active');
+        const data = await response.json();
+        if (data.success) {
+          setSliders(data.data); 
+        }
+      } catch (error) {
+        console.error("Error fetching slider data: ", error);
+      }
+    };
 
-    // Cleanup khi component bị unmount
-    return () => cleanup();
+    fetchSliderData();
   }, []);
+
+  const allSlides = sliders.reduce((acc, slider) => acc.concat(slider.slider_items), []);
+
+  const totalSlides = allSlides.length;
+
+  const handlePrev = () => {
+    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
+  };
+
+  useEffect(() => {
+    if (prevRef.current) {
+      prevRef.current.addEventListener('click', handlePrev);
+    }
+
+    if (nextRef.current) {
+      nextRef.current.addEventListener('click', handleNext);
+    }
+
+    return () => {
+      if (prevRef.current) {
+        prevRef.current.removeEventListener('click', handlePrev);
+      }
+      if (nextRef.current) {
+        nextRef.current.removeEventListener('click', handleNext);
+      }
+    };
+  }, [sliders]);
 
   return (
     <div className="d-flex justify-content-center mt-5 mb-5">
       <div className="banner-slide m-0">
-        <div className="banner-content">
-          <img
-            ref={(el) => (slidesRef.current[0] = el)}
-            src={banner4}
-            alt="Banner Image 1"
-            className="img-fluid active"
-          />
-          <form ref={formRef} className="email-form">
-            <input type="email" placeholder="Nhập email của bạn" required />
-            <button type="submit">Đăng ký</button>
-          </form>
-        </div>
-        <img
-          ref={(el) => (slidesRef.current[1] = el)}
-          src={banner5}
-          alt="Banner Image 2"
-          className="img-fluid"
-        />
-        <img
-          ref={(el) => (slidesRef.current[2] = el)}
-          src={banner3}
-          alt="Banner Image 3"
-          className="img-fluid"
-        />
+        {sliders.length > 0 && (
+          <div className="banner-content">
+            {allSlides.map((item, index) => (
+              <img
+                key={item.id}
+                ref={(el) => (slidesRef.current[index] = el)}
+                src={item.images}
+                alt={item.title}
+                className={`img-fluid ${index === currentSlide ? 'active' : ''}`}
+              />
+            ))}
+          
+          </div>
+        )}
         <div className="nav-icons">
           <i
             className="fas fa-chevron-left"
