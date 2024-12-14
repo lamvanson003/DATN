@@ -89,16 +89,19 @@ const Modal = ({ order, onClose }) => {
           </div>
         ))}
 
-        <p style={{ marginTop: "20px", fontWeight: "bold", color: "#007BFF" }}>
-          Tổng tiền:{" "}
-          {new Intl.NumberFormat().format(
-            order.order_details.reduce(
-              (acc, item) => acc + item.price * item.quantity,
-              0
-            )
-          )}{" "}
-          VND
-        </p>
+<p style={{ marginTop: "20px", fontWeight: "bold", color: "#007BFF" }}>
+  Tổng tiền:{" "}
+  {new Intl.NumberFormat().format(
+    order.order_details.reduce(
+      (acc, item) =>
+        acc +
+        (item.sale > 0 ? item.sale : item.price) * item.quantity,
+      0
+    )
+  )}{" "}
+  VND
+</p>
+
 
         <button
           onClick={onClose}
@@ -351,17 +354,23 @@ const SearchOrder = () => {
                 {order.order_details.reduce((acc, item) => acc + item.quantity, 0)}
               </td>
               <td
-                style={{
-                  border: "1px solid #ccc",
-                  padding: "10px",
-                  textAlign: "right",
-                }}
-              >
-                {new Intl.NumberFormat().format(
-                  order.order_details.reduce((acc, item) => acc + item.price * item.quantity, 0)
-                )}{" "}
-                VND
-              </td>
+  style={{
+    border: "1px solid #ccc",
+    padding: "10px",
+    textAlign: "right",
+  }}
+>
+  {new Intl.NumberFormat().format(
+    order.order_details.reduce(
+      (acc, item) =>
+        acc +
+        (item.sale > 0 ? item.sale : item.price) * item.quantity,
+      0
+    )
+  )}{" "}
+  VND
+</td>
+
               <td
                 style={{
                   border: "1px solid #ccc",

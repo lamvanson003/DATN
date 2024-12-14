@@ -57,9 +57,9 @@ Route::controller(OrderController::class)->prefix('/orders')
 Route::controller(CommentController::class)->prefix('/comments')
 ->as('comment')
 ->group(function(){
-    Route::post('/', 'create');
-    Route::get('/{product_variant_id}', 'index');
-
+    Route::post('/create', 'create');
+    Route::get('/{product_variant_id}', 'productVariant');
+    Route::get('/{post_id}', 'post');
 });
 
 Route::controller(FlashSaleController::class)->prefix('/flash-sales')
@@ -118,7 +118,7 @@ Route::controller(SliderController::class)->prefix('/sliders')
 ->as('slider.')
 ->group(function(){
     Route::get('/', 'index');
-    Route::get('/show/{id}', 'show');
+    Route::get('/{name}', 'index');
 });
 
 Route::controller(PostController::class)->prefix('/posts')

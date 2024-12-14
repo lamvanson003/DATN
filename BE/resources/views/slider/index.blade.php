@@ -110,7 +110,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                              Chuyển trạng thái <strong>{{ $item->name }}</strong> thành đã xóa
+                             Xóa <strong>{{ $item->name }}</strong> khỏi dữ liệu hệ thống.
                           </div>
                           <div class="modal-footer">
                             <form action="{{ route('admin.slider.delete',$item->id) }}" method="POST">

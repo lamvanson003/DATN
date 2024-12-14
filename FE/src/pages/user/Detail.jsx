@@ -16,7 +16,6 @@ const Detail = () => {
   const { addToCart, buyNow } = useContext(CartContext);
   const ref = useRef();
   const [detailData, setDetailData] = useState({});
-
   const [loadingComment, setLoadingComment] = useState(false);
   const [activeStorage, setActiveStorage] = useState(null);
   const [activeColor, setActiveColor] = useState(null);
@@ -25,7 +24,6 @@ const Detail = () => {
   const [quantity, setQuantity] = useState(1);
   const [main, setMain] = useState();
   const [viewedProducts, setViewedProducts] = useState([]);
-
   const [images, setImages] = useState([]);
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
@@ -205,13 +203,10 @@ const Detail = () => {
       closeModal();
     }
   };
-  console.log(currentVariant);
 
   // Submit comment
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate fields
     if (!name.trim()) {
       alert("Vui lòng nhập họ tên!");
       return;
@@ -224,12 +219,9 @@ const Detail = () => {
       alert("Vui lòng nhập bình luận!");
       return;
     }
-
     setLoadingComment(true);
     console.log(currentVariant?.color?.id);
-
     try {
-      // Use the provided postComment function
       await commentApi.postComment({
         pId: currentVariant?.color?.id,
         name,
@@ -239,8 +231,6 @@ const Detail = () => {
         uId: 1,
       });
       console.log(images);
-
-      // Reset form after successful submission
       setName("");
       setContent("");
       setImages([]);
@@ -262,8 +252,6 @@ const Detail = () => {
   // Handle image selection
   const handleImageChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
-
-    // Lọc các file hợp lệ
     const validImages = selectedFiles.filter((file) =>
       [
         "image/jpeg",
@@ -277,8 +265,6 @@ const Detail = () => {
     if (validImages.length !== selectedFiles.length) {
       alert("Một số tệp không phải định dạng hình ảnh hợp lệ!");
     }
-
-    // Lưu trực tiếp các file vào state
     setImages((prevImages) => [...prevImages, ...validImages]);
   };
 
@@ -658,7 +644,9 @@ const Detail = () => {
                 {comment && comment.length > 0 ? (
                   comment.map((item) => (
                     <div className="comment-item" key={item.id}>
-                      <div className="comment-avatar d-flex">T</div>
+                      <div className="comment-avatar d-flex">
+                        {item.fullname.charAt(0)}
+                      </div>
                       <div className="comment-content">
                         <div className="comment-info">
                           <span className="comment-author">
@@ -670,7 +658,7 @@ const Detail = () => {
                               <span
                                 key={index}
                                 style={{
-                                  color: "rgb(240 204 9)", // Gold color for stars
+                                  color: "rgb(240 204 9)",
                                   fontSize: "20px",
                                 }}
                               >

@@ -4,10 +4,8 @@ import { BoxPro, Sbanner } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpZA, faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import * as action from "../../store/actions";
 import { Brand, Filter } from "../../components";
 import { Link, useSearchParams } from "react-router-dom";
-import axios from "axios";
 import { brandApi, productApi } from "../../apis";
 
 const Product = () => {
@@ -76,25 +74,21 @@ const Product = () => {
     });
   }, [pros, minPrice, maxPrice]);
 
-  const curItems = useMemo(() => {
-    return filteredPros.slice(indexOfFirstItem, indexOfLastItem);
-  }, [filteredPros, indexOfFirstItem, indexOfLastItem]);
-
+  const curItems = (filteredPros || []).slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
   const [sortOrder, setSortOrder] = useState(1);
 
-  const sortedItems = useMemo(() => {
-    const itemsToSort = [...curItems];
-    itemsToSort.sort((a, b) => {
-      const aPrice =
-        a.product_variant[0].variants[0].sale ||
-        a.product_variant[0].variants[0].price;
-      const bPrice =
-        b.product_variant[0].variants[0].sale ||
-        b.product_variant[0].variants[0].price;
-      return sortOrder === 1 ? aPrice - bPrice : bPrice - aPrice;
-    });
-    return itemsToSort;
-  }, [curItems, sortOrder]);
+  const sortedItems = [...curItems].sort((a, b) => {
+    const aPrice =
+      a.product_variant[0].variants[0].sale ||
+      a.product_variant[0].variants[0].price;
+    const bPrice =
+      b.product_variant[0].variants[0].sale ||
+      b.product_variant[0].variants[0].price;
+    return sortOrder === 1 ? aPrice - bPrice : bPrice - aPrice;
+  });
 
   return (
     <div className="container ">

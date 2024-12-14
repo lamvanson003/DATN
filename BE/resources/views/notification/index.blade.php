@@ -67,24 +67,27 @@
                       </td> 
                       <td>{{ $item->message }}</td> 
                         <td>
-                            @switch($item->read_at)
+                            @switch($item->read_at->value)
                                 @case(\App\Enums\Notification\NotificationReadAt::Read)
-                                    <span class="badge rounded-pill badge-success">{{ \App\Enums\Notification\NotificationReadAt::getDescription($item->read_at) }}</span>
+                                    <span class="badge rounded-pill badge-success">{{ \App\Enums\Notification\NotificationReadAt::getDescription($item->read_at->value) }}</span>
                                 @break
                                 @case(\App\Enums\Notification\NotificationReadAt::Not_Read)
-                                    <span class="badge rounded-pill badge-secondary">{{ \App\Enums\Notification\NotificationReadAt::getDescription($item->read_at) }}</span>
+                                    <span class="badge rounded-pill badge-secondary">{{ \App\Enums\Notification\NotificationReadAt::getDescription($item->read_at->value) }}</span>
                                 @break
                                 @default
                                     <span class="badge rounded-pill badge-danger">Không xác định</span>
                             @endswitch
                         </td>
                         <td>
-                            @switch($item->type)
+                            @switch($item->type->value)
                                 @case(\App\Enums\Notification\NotificationType::ORDER)
-                                    <span class="badge rounded-pill badge-success">{{ \App\Enums\Notification\NotificationType::getDescription($item->type) }}</span>
+                                    <span class="badge rounded-pill badge-success">{{ \App\Enums\Notification\NotificationType::getDescription($item->type->value) }}</span>
                                 @break
                                 @case(\App\Enums\Notification\NotificationType::VOUCHER)
-                                    <span class="badge rounded-pill badge-danger">{{ \App\Enums\Notification\NotificationType::getDescription($item->type) }}</span>
+                                    <span class="badge rounded-pill badge-danger">{{ \App\Enums\Notification\NotificationType::getDescription($item->type->value) }}</span>
+                                @break
+                                @case(\App\Enums\Notification\NotificationType::UPDATED)
+                                    <span class="badge rounded-pill badge-black">{{ \App\Enums\Notification\NotificationType::getDescription($item->type->value) }}</span>
                                 @break
                                 @default
                                     <span class="badge rounded-pill badge-primary">Không xác định</span>

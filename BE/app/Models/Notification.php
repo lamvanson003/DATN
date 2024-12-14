@@ -12,7 +12,7 @@ class Notification extends Model
     protected $table = 'notifications';
     protected $fillable = ['user_id','title','message','type','status','read_at'];
 
-    protected $cast= [
+    protected $casts= [
         'status' => NotificationStatus::class,
         'read_at' => NotificationReadAt::class,
         'type' => NotificationType::class,

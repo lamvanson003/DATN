@@ -12,45 +12,41 @@ export const CartProvider = ({ children }) => {
   );
   const generateVariantKey = (mainName, variantSku) =>
     `${mainName}:${variantSku}`;
-  const addToCart = (main, variant, quantity = 0, inStock = 100) => {
+  const addToCart = (main, variant, quantity = 0) => {
     const variantKey = generateVariantKey(main.name, variant.color.sku);
     const isItemInCart = cartItems.find(
       (cartItem) => cartItem.variantKey === variantKey
     );
 
     const numericQuantity = Number(quantity) > 0 ? Number(quantity) : 1;
-    if (inStock > numericQuantity) {
-      if (isItemInCart) {
-        setCartItems(
-          cartItems.map((cartItem) =>
-            cartItem.variantKey === variantKey
-              ? {
-                  ...cartItem,
-                  quantity: cartItem.quantity + numericQuantity,
-                }
-              : cartItem
-          )
-        );
-      } else {
-        setCartItems([
-          ...cartItems,
-          {
-            ...variant,
-            quantity: numericQuantity,
-            variantKey,
-            main: {
-              id: main.id,
-              name: main.name,
-              image: main.image,
-              slug: main.slug,
-            },
-          },
-        ]);
-        toast.success("Đã thêm sản phẩm mới vào giỏ hàng!");
-      }
-      inStock -= numericQuantity;
+
+    if (isItemInCart) {
+      setCartItems(
+        cartItems.map((cartItem) =>
+          cartItem.variantKey === variantKey
+            ? {
+                ...cartItem,
+                quantity: cartItem.quantity + numericQuantity,
+              }
+            : cartItem
+        )
+      );
     } else {
-      toast.warning("Đã hết mặt hàng!");
+      setCartItems([
+        ...cartItems,
+        {
+          ...variant,
+          quantity: numericQuantity,
+          variantKey,
+          main: {
+            id: main.id,
+            name: main.name,
+            image: main.image,
+            slug: main.slug,
+          },
+        },
+      ]);
+      toast.success("Đã thêm sản phẩm mới vào giỏ hàng!");
     }
   };
 

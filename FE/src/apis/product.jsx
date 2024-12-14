@@ -80,7 +80,7 @@ export const productApi = {
       const res = await axios.get(
         `http://127.0.0.1:8000/api/products/hotdeal?category=${cate}`
       );
-      return res.data;
+      return res.data.data;
     } catch (err) {
       console.log("Lỗi không thể fetch dữ liệu: ", err);
     }

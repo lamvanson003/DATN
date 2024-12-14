@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\FlashSale;
 
 use App\Enums\Product\ProductStatus;
-use App\Enums\ActiveStatus;
+use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Models\SaleItem;
 use App\Models\ProductVariant;
@@ -16,20 +16,17 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\FlashSale\FlashSaleRequest;
 
-use function PHPUnit\Framework\returnSelf;
-
 class FlashSaleController extends Controller
 {
     
     public function index()
     {
         $time = Carbon::now();
-
         $status = ProductStatus::asSelectArray();
         $saleItems = SaleItem::whereHas('flashSale', function ($query) use ($time) {
             $query->where('start_time', '<=', $time)
                   ->where('end_time', '>=', $time);
-        })->where('is_active', ActiveStatus::Active) 
+        })->where('is_active', Status::Active) 
           ->orderBy('id','desc')
           ->get();
         return view('flash_sales.index', compact(['status', 'saleItems']));
@@ -42,7 +39,7 @@ class FlashSaleController extends Controller
         $status = ProductStatus::asSelectArray();
         $saleItems = SaleItem::whereHas('flashSale', function ($query) use ($time) {
             $query->where('start_time', '>', $time);
-        })->where('is_active', ActiveStatus::Active)
+        })->where('is_active', Status::Active)
         ->orderBy('id','desc')
             ->get();
         return view('flash_sales.pending', compact(['status', 'saleItems']));
@@ -54,7 +51,7 @@ class FlashSaleController extends Controller
         $productVariants = ProductVariant::where('status', DefaultStatus::Active)
             ->where('is_flash_sale', false)
             ->get();
-        $status = ActiveStatus::asSelectArray();
+        $status = Status::asSelectArray();
         return view('flash_sales.create', compact('status', 'productVariants'));
     }
 
@@ -86,7 +83,8 @@ class FlashSaleController extends Controller
                     return redirect()->route('admin.flashSale.create')->with('error', "Sản phẩm vượt quá giới hạn cho phép.");
                 }
 
-                if ($data['instock'] < $quantityLimit) {
+                
+                if ($variant->intock < is_array($quantityLimit)) {
                     return redirect()->route('admin.flashSale.create')->with('error', "Số lượng sản phẩm không đủ.");
                 }
                 if ($discountPrice === null || $quantityLimit === null) {
@@ -127,8 +125,7 @@ class FlashSaleController extends Controller
 
     public function edit($id)
     {
-        // $status = ProductStatus::asSelectArray();
-        $status = ActiveStatus::asSelectArray();
+        $status = Status::asSelectArray();
         $saleItem = SaleItem::with('product_variant.product')->findOrFail($id);
 
         return view('flash_sales.edit', compact('status', 'saleItem'));

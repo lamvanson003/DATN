@@ -3,12 +3,13 @@ namespace App\Http\Controllers\Api\Brand;
 use App\Http\Controllers\Controller;
 use Exception;
 use App\Models\Brand;
+use App\Enums\Brand\BrandStatus;
 
 class BrandController extends controller{
 
     public function index() {
         try {
-            $brands = Brand::all();
+            $brands = Brand::where('status',BrandStatus::Active)->get();
 
             return response()->json([
                 'success' => true,

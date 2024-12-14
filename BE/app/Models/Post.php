@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\ActiveStatus;
 use App\Enums\Is_featured;
 use App\Enums\Post\PostStatus;
 
