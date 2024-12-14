@@ -13,7 +13,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('categories', 'user')->get();  
+        $posts = Post::with('categories', 'user')->orderBy('id','desc')->get();  
         return view('post.index', compact('posts'));
     }
 
