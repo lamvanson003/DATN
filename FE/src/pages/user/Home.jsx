@@ -131,7 +131,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* <DealHot /> */}
+      <DealHot />
 
       <div className="container mt-5">
         <div className="row  d-flex">

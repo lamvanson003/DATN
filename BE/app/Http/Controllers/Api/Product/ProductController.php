@@ -149,7 +149,7 @@ class ProductController extends controller
                     ->where('category_id', $category->id);
             })
             ->orderBy('sold', 'desc') 
-            ->limit(10)
+            ->limit(3)
             ->get();
 
         if ($productVariants->isEmpty()) {

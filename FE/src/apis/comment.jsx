@@ -46,7 +46,7 @@ export const commentApi = {
       }
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/comments",
+        "http://127.0.0.1:8000/api/comments/create",
         formData,
         {
           headers: {
