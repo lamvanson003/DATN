@@ -43,7 +43,7 @@
                                 <!-- name -->
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3 ">
-                                        <label class="control-label">Tên Items<span style="color: red">*</span>:</label>
+                                        <label class="control-label">Tiêu đề<span style="color: red">*</span>:</label>
                                         <input type="text" required class="form-control" name="title" value="{{ $slider_image_item->title }}" placeholder="VD: Item-1">
                                     </div>
                                 </div>

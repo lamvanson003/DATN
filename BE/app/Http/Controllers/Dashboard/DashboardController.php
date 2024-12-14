@@ -30,7 +30,9 @@ class DashboardController extends Controller
         $userRegistration = $this->getUserRegistrationByMonth();
         $orderCount = $this->getOrderCountByMonth();
         $productCounts  = $this->getProductCountByCategory();
-        
+        $product  = $this->getBestSaleByMonth();
+        $ordersByYear = $this->getOrdersByYear();
+        $ordersByWeek = $this->getOrdersByWeek();
         $status = OrderStatus::asSelectArray();
 
         return view('dashboard.dashboard', [
@@ -46,7 +48,9 @@ class DashboardController extends Controller
             'userRegistration' => $userRegistration,
             'orderCount' => $orderCount,
             'productCounts' => $productCounts,
-
+            'products' => $product,
+            'ordersByYear' => $ordersByYear,
+            'ordersByWeek' => $ordersByWeek,
         ]);
     }
     
@@ -147,6 +151,84 @@ class DashboardController extends Controller
         return [
             'orderData' => $orderData,
             'labels' => $labels,
+        ];
+    }
+
+    public function getBestSaleByMonth()
+    {
+        $currentYear = Carbon::now()->year;
+    
+        $bestSales = ProductVariant::with('product')
+            ->selectRaw('
+                MONTH(created_at) as month, 
+                product_id, 
+                SUM(sold) as total_sold
+            ')
+            ->whereYear('created_at', $currentYear)
+            ->groupBy('month', 'product_id')
+            ->orderBy('month')
+            ->get()
+            ->groupBy('month')
+            ->map(function ($group) {
+                return $group->sortByDesc('total_sold')->first();
+            });
+    
+        $orderData = array_fill(0, 12, 0);
+        $labels = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+        $bestProducts = [];
+    
+        foreach ($bestSales as $sale) {
+            if ($sale) {
+                $month = $sale->month - 1;
+                $orderData[$month] = $sale->total_sold;
+    
+                $bestProducts[$month] = $sale->product->name ?? 'N/A';
+            }
+        }
+    
+        return [
+            'orderData' => $orderData,
+            'labels' => $labels,
+            'bestProducts' => $bestProducts,
+        ];
+    }
+    
+    public function getOrdersByYear()
+    {
+        $yearlyOrders = DB::table('orders')
+            ->selectRaw('YEAR(created_at) as year, COUNT(*) as total_orders')
+            ->groupBy('year')
+            ->orderBy('year', 'asc')
+            ->get();
+    
+        return [
+            'yearlyOrders' => $yearlyOrders,
+        ];
+    }
+    
+    public function getOrdersByWeek()
+    {
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+    
+        $ordersByWeek = DB::table('orders')
+            ->selectRaw('DAYOFWEEK(created_at) as day_of_week, COUNT(*) as total_orders')
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->groupBy('day_of_week')
+            ->orderBy('day_of_week')
+            ->get();
+    
+        $days = ['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật'];
+        $ordersData = array_fill(0, 7, 0);
+    
+        foreach ($ordersByWeek as $order) {
+            $index = $order->day_of_week == 1 ? 6 : $order->day_of_week - 2;
+            $ordersData[$index] = $order->total_orders;
+        }
+    
+        return [
+            'labels' => $days,
+            'data' => $ordersData,
         ];
     }
 

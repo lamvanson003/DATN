@@ -7,3 +7,4 @@ export * from "./category";
 export * from "./order";
 export * from "./discount";
 export * from "./payment";
+export * from "./slider";
