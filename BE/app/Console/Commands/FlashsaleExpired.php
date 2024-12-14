@@ -84,7 +84,7 @@ class FlashsaleExpired extends Command
                                 "user_id" => $user->id,
                                 "title" => $flashsaleExpired['title'],
                                 "message" => $checkFlashsaleMessage,
-                                "type" => NotificationType::Updated,
+                                "type" => NotificationType::UPDATED,
                                 "read_at" => NotificationReadAt::Not_Read,
                             ]);
                         }
