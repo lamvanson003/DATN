@@ -35,10 +35,8 @@ const FlashSale = () => {
   }, []);
   useEffect(() => {
     if (activeTab === "current") {
-      console.log("current");
       setFlashSale(currentFs);
     } else {
-      console.log("coming");
       setFlashSale(comingFs);
     }
   }, [activeTab, currentFs, comingFs]);
