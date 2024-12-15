@@ -26,6 +26,12 @@ const Product = () => {
       setLaptopsData(proByBrand);
     }
   };
+  useEffect(() => {
+    if (!searchTerm) {
+      setPros(active === 0 ? phonesData : laptopsData);
+      setCurPage(1);
+    }
+  }, [active, phonesData, laptopsData, searchTerm]);
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -192,23 +198,29 @@ const Product = () => {
       <section className="pagi">
         <nav aria-label="Page navigation example">
           <ul className="pagination justify-content-center">
-            <li className="page-item">
+            <li className={`page-item ${curPage === 1 ? "disabled" : ""}`}>
               <a
                 className="page-link"
                 href="#"
                 aria-label="Previous"
                 onClick={(e) => {
                   e.preventDefault();
-                  paginate(curPage - 1);
+                  if (curPage > 1) paginate(curPage - 1);
                 }}
               >
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             {pageNumbers.map((number) => (
-              <li key={number} className="page-item">
+              <li
+                key={number}
+                className={`page-item ${curPage === number ? "active" : ""}`}
+              >
                 <a
-                  onClick={() => paginate(number)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    paginate(number);
+                  }}
                   href="#"
                   className="page-link"
                 >
@@ -216,14 +228,18 @@ const Product = () => {
                 </a>
               </li>
             ))}
-            <li className="page-item">
+            <li
+              className={`page-item ${
+                curPage === pageNumbers.length ? "disabled" : ""
+              }`}
+            >
               <a
                 className="page-link"
                 href="#"
                 aria-label="Next"
                 onClick={(e) => {
                   e.preventDefault();
-                  paginate(curPage + 1);
+                  if (curPage < pageNumbers.length) paginate(curPage + 1);
                 }}
               >
                 <span aria-hidden="true">&raquo;</span>
