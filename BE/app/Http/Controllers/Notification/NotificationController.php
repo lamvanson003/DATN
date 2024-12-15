@@ -13,11 +13,8 @@ use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\Notification\NotificationRequest;
-
-use App\Mail\OrderStatusUpdated;
 use App\Mail\NotificationVoucher;
 use Illuminate\Support\Facades\Mail;
-use PHPUnit\Event\Test\NoticeTriggered;
 
 class NotificationController extends Controller
 {

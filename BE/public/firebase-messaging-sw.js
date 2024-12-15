@@ -60,11 +60,11 @@ self.addEventListener('notificationclick', function(event) {
         }).then(function(clientList) {
             for (var i = 0; i < clientList.length; i++) {
                 var client = clientList[i];
-                if (client.url === 'http://127.0.0.1:8000/admin/orders/' && 'focus' in client)
+                if (client.url === 'http://127.0.0.1:8000/admin/notifications/' && 'focus' in client)
                     return client.focus();
             }
             if (clients.openWindow)
-                return clients.openWindow('http://127.0.0.1:8000/admin/orders/');
+                return clients.openWindow('http://127.0.0.1:8000/admin/notifications/');
         })
     );
 });
