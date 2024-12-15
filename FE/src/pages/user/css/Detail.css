@@ -36,6 +36,7 @@ a {
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
+  margin-right: 10px;
 }
 .sold-tag {
   cursor: default;
@@ -47,7 +48,6 @@ a {
   box-sizing: border-box;
   background: #2d9cdb26;
   width: 122px;
-  margin-left: 10px;
   height: 26px;
   border-radius: 90px;
   color: #2d9cdb;
