@@ -8,12 +8,13 @@ import { useParams } from "react-router-dom";
 import { formatCurrency } from "../../ultis/func";
 import { useSelector } from "react-redux";
 import icons from "../../ultis/icon";
+import { toast } from "react-toastify";
 const Detail = () => {
   const { productsData } = useSelector((state) => state.pro);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const { slug } = useParams();
   const { TiDeleteOutline } = icons;
-  const { addToCart, buyNow } = useContext(CartContext);
+  const { addToCart, buyNow, cartItems } = useContext(CartContext);
   const ref = useRef();
   const [detailData, setDetailData] = useState({});
   const [loadingComment, setLoadingComment] = useState(false);
@@ -170,7 +171,19 @@ const Detail = () => {
   const handleImageClick = (img) => {
     setMainImage(img);
   };
-
+  const handleAddToCart = (quantity) => {
+    const foundItem = cartItems?.find(
+      (item) => item?.color?.id === currentVariant?.color?.id
+    );
+    const checkQuantity = foundItem?.quantity ?? 0;
+    if (checkQuantity < (currentVariant?.color?.instock || 0)) {
+      addToCart(main, currentVariant, quantity);
+    } else {
+      toast.warning(
+        "Số lượng sản phẩm trong giỏ hàng  đã vượt quá số lượng tồn kho!"
+      );
+    }
+  };
   useEffect(() => {
     ref.current.scrollIntoView({
       behavior: "smooth",
@@ -327,7 +340,9 @@ const Detail = () => {
                 <div className="product__details__text">
                   <div className="product-tag">
                     {/* <div className="bestseller-tag">#Bán chạy</div> */}
-                    <div className="sold-tag">Đã bán: {detailData?.sold}</div>
+                    <div className="sold-tag">
+                      Đã bán: {currentVariant?.color?.sold}
+                    </div>
                   </div>
                   <h1 className="text-uppercase">{detailData?.name}</h1>
                   <div className="info-product">
@@ -356,7 +371,9 @@ const Detail = () => {
                         <strong>Mã: {currentVariant?.color?.sku}</strong>
                       </div>
                       <div className="status">
-                        <span className="badge text-bg-success">Còn hàng</span>
+                        <span className="badge text-bg-success">
+                          Còn {currentVariant?.color?.instock} sản phẩm
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -518,16 +535,14 @@ const Detail = () => {
                     onChange={(e) => setQuantity(Number(e.target.value))}
                     id="quantity"
                     type="number"
-                    max="5"
+                    max={currentVariant?.color?.instock}
                     min="1"
                   />
                 </div>
                 <div className="action-buttons">
                   <button
                     className="cart-btn"
-                    onClick={() => {
-                      addToCart(main, currentVariant, quantity);
-                    }}
+                    onClick={() => handleAddToCart(quantity)}
                   >
                     <i className="bx bx-cart-add" /> Thêm giỏ hàng
                   </button>

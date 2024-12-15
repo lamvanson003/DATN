@@ -36,7 +36,7 @@ const Cart = () => {
       );
     } else {
       const itemInCart = cartItems.find(
-        (cartItem) => cartItem.color.sku === item.color.sku
+        (cartItem) => cartItem?.color?.sku === item?.color?.sku
       );
       const quantity = itemInCart.quantity ? itemInCart.quantity : 1;
       setCheckedItemsInCart((prevCheckedItems) => [
@@ -45,6 +45,7 @@ const Cart = () => {
       ]);
     }
   };
+
   useEffect(() => {
     setCheckedItemsInCart((prevCheckedItems) =>
       prevCheckedItems.map((checkedItem) => {
@@ -59,6 +60,7 @@ const Cart = () => {
   }, [cartItems]);
 
   const [checkedItemsInCart, setCheckedItemsInCart] = useState([]);
+  console.log(checkedItemsInCart);
 
   const handleCheckout = () => {
     if (checkedItemsInCart.length > 0) {
