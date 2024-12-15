@@ -82,7 +82,7 @@ const Home = () => {
           <div className="row justify-content-start align-items-center pt-3 pb-3">
             {phonesData &&
               phonesData
-                .filter((value, index) => index < 8)
+                .filter((value, index) => index < 16)
                 .map((pro, index) => (
                   <div key={index} className="col-md-3">
                     <BoxPro
@@ -112,7 +112,7 @@ const Home = () => {
           <div className="row justify-content-start align-items-center pt-3 pb-3">
             {laptopsData &&
               laptopsData
-                .filter((value, index) => index < 8)
+                .filter((value, index) => index < 16)
                 .map((pro, index) => (
                   <div key={index} className="col-md-3">
                     <BoxPro
@@ -131,7 +131,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* <DealHot /> */}
+      <DealHot />
 
       <div className="container mt-5">
         <div className="row  d-flex">

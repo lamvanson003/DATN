@@ -418,7 +418,7 @@ const BoxPro = ({
           </div>
 
           <img
-            src={image}
+            src={currentVariant?.color?.images}
             className="card-img-top p-3"
             alt="Product"
             style={{
