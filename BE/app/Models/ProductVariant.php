@@ -33,6 +33,12 @@ class ProductVariant extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function flashSale()
+    {
+        return $this->hasOne(SaleItem::class, 'product_variant_id');
+    }
+
+
     public $casts = [
         'status' => DefaultStatus::class
     ];
