@@ -78,6 +78,7 @@ const Detail = () => {
     const fetchDetailData = async () => {
       try {
         const data = await productApi.getOne(slug);
+        console.log(data);
 
         if (data.product_image_items) {
           const newImage = {
@@ -325,8 +326,8 @@ const Detail = () => {
               <div className="col-lg-6 col-md-7 pt-3 box-detail-right">
                 <div className="product__details__text">
                   <div className="product-tag">
-                    <div className="bestseller-tag">#Bán chạy</div>
-                    <div className="sold-tag">Đã bán: 10</div>
+                    {/* <div className="bestseller-tag">#Bán chạy</div> */}
+                    <div className="sold-tag">Đã bán: {detailData?.sold}</div>
                   </div>
                   <h1 className="text-uppercase">{detailData?.name}</h1>
                   <div className="info-product">
