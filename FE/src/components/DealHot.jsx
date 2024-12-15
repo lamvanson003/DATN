@@ -4,11 +4,10 @@ import hotB from "../assets/images/iHome/hot-banner.png";
 import "./css/DealHot.css";
 import { BoxPro } from ".";
 const DealHot = () => {
-  const [dealHotData, setDealhotData] = useState([]);
   const [hotPhone, setHotPhone] = useState([]);
   const [hotLaptop, setHotLap] = useState([]);
   const [activeHot, setActiveHot] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("dien_thoai");
+  const [selectedCategory, setSelectedCategory] = useState("dien-thoai");
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };

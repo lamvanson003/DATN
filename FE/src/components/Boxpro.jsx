@@ -378,15 +378,6 @@ const BoxPro = ({
             style={{ borderRadius: "5px", fontSize: "12px" }}
           >
             <div className="d-flex flex-column align-items-center">
-              <span
-                className="badge bg-warning text-dark"
-                style={{ fontSize: "0.8rem" }}
-              >
-                {currentVariant?.color?.percent
-                  ? `${currentVariant.color.percent}% `
-                  : null}
-              </span>
-
               <div
                 className="d-flex flex-column mt-2 action-buttons"
                 style={{
@@ -413,6 +404,14 @@ const BoxPro = ({
                     className={`fas fa-heart ${inFavorItems && "text-danger"}`}
                   />
                 </button>
+                <span
+                  className="badge bg-warning text-dark"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  {currentVariant?.color?.percent
+                    ? `${currentVariant.color.percent}% `
+                    : null}
+                </span>
               </div>
             </div>
           </div>

@@ -44,7 +44,6 @@ export const setupSlider = (slidesRef, formRef, prevRef, nextRef) => {
     resetInterval(); // reset lại interval khi người dùng click
   };
 
-  // Kiểm tra và thêm sự kiện khi ref không bị null
   if (prevRef.current && nextRef.current) {
     prevRef.current.addEventListener("click", handlePrevClick);
     nextRef.current.addEventListener("click", handleNextClick);
@@ -57,7 +56,6 @@ export const setupSlider = (slidesRef, formRef, prevRef, nextRef) => {
     showSlide(currentIndex);
   }, 10000);
 
-  // Dọn dẹp interval và sự kiện khi component bị unmount
   return () => {
     clearInterval(interval);
     if (prevRef.current && nextRef.current) {
@@ -74,7 +72,7 @@ export const formatCurrency = (value) => {
 };
 export const handleNumber = (number) => {
   if (number > Math.pow(10, 6)) {
-    return `${Math.round((number * 10) / Math.pow(10, 6)) / 10} M`;
+    return `${Math.round((number * 10) / Math.pow(10, 6)) / 10}Tr`;
   } else if (number < 1000) {
     return number;
   } else {

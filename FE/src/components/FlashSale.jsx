@@ -28,6 +28,8 @@ const FlashSale = () => {
     const fetchAllFs = async () => {
       const CFS = await productApi.getCurrentFs();
       const UFS = await productApi.getComingFs();
+      console.log(CFS);
+
       setCurrentFs(CFS.map(transformFormatProducts));
       setComingFs(UFS.map(transformFormatProducts));
     };

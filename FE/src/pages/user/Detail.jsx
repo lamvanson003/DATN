@@ -177,7 +177,11 @@ const Detail = () => {
     );
     const checkQuantity = foundItem?.quantity ?? 0;
     if (checkQuantity < (currentVariant?.color?.instock || 0)) {
-      addToCart(main, currentVariant, quantity);
+      if (quantity > currentVariant?.color?.instock) {
+        toast.warning("Vượt quá số lượng tồn kho!");
+      } else {
+        addToCart(main, currentVariant, quantity);
+      }
     } else {
       toast.warning(
         "Số lượng sản phẩm trong giỏ hàng  đã vượt quá số lượng tồn kho!"
@@ -472,7 +476,10 @@ const Detail = () => {
                       }}
                     >
                       <span style={{ fontSize: "20px" }}>
-                        18.890.000 <sup>đ</sup>
+                        {currentVariant?.color?.is_flash_sale === 1 &&
+                          formatCurrency(
+                            currentVariant?.color?.flashSale_price
+                          )}
                       </span>
                       <span
                         style={{

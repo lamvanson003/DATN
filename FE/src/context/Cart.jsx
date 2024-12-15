@@ -31,6 +31,7 @@ export const CartProvider = ({ children }) => {
             : cartItem
         )
       );
+      toast.success("Đã tăng số lượng sản phẩm");
     } else {
       setCartItems([
         ...cartItems,
