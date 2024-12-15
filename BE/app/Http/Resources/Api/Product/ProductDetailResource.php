@@ -45,6 +45,8 @@ class ProductDetailResource extends JsonResource
                             'sku' => $item->sku,
                             'sale' => $item->sale,
                             'price' => $item->price,
+                            'instock' => $item->instock,
+                            'sold' => $item->sold,
                             'color' => $item->color,
                             'images' => $item->images,
                             'average_rating' => round(optional($item->comments->first())->average_rating, 2) ?? 'No ratings',
