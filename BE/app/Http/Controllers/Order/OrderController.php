@@ -56,13 +56,6 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        if (!in_array($request->status, \App\Enums\Order\OrderStatus::getValues())) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Trạng thái không hợp lệ.'
-            ]);
-        }
-
         switch ($order->status->value) {
             case OrderStatus::Deleted:
                 $order->delete();

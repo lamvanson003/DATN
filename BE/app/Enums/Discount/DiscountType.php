@@ -12,7 +12,7 @@ final class DiscountType extends Enum
     public static function asSelectArray(): array
     {
         return [
-            self::Fixed => 'Tiền',
+            self::Fixed => 'Tiền mặt',
             self::Percent => 'Phần trăm',
         ];
     }
@@ -23,7 +23,7 @@ final class DiscountType extends Enum
     public static function getDescription($value): string
     {
         return match ($value) {
-            self::Fixed => 'Tiền',
+            self::Fixed => 'Tiền mặt',
             self::Percent => 'Phần trăm',
             default => 'Không xác định',
         };
