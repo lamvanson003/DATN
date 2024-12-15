@@ -17,7 +17,7 @@ const Product = () => {
   const searchTerm = searchParams.get("search");
   const [active, setActive] = useState(0);
   const [curPage, setCurPage] = useState(1);
-  const [itemsPerPage] = useState(8);
+  const [itemsPerPage] = useState(16);
 
   const handleProByBrandUpdate = (proByBrand, cate) => {
     if (cate === "dien-thoai") {

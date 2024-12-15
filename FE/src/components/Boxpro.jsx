@@ -6,6 +6,7 @@ import { memo } from "react";
 import { FavorContext } from "../context/Favor";
 import { formatCurrency, handleNumber } from "../ultis/func";
 import { useCountdown } from "../ultis/func";
+import { toast } from "react-toastify";
 
 const BoxPro = ({
   id,
@@ -54,8 +55,14 @@ const BoxPro = ({
     }
   }, [variant]);
   const handleAddToCart = () => {
-    if (currentVariant && currentVariant?.color?.instock !== undefined) {
-      addToCart(main, currentVariant, 1, currentVariant?.color?.instock);
+    const foundItem = cartItems?.find(
+      (item) => item?.color?.id === currentVariant?.color?.id
+    );
+    const checkQuantity = foundItem?.quantity ?? 0;
+    if (checkQuantity < (currentVariant?.color?.instock || 0)) {
+      addToCart(main, currentVariant, 1);
+    } else {
+      toast.warning("Đã vượt quá số lượng tồn kho!");
     }
   };
   const handleChangeVariant = (selectedStorage) => {
@@ -380,7 +387,6 @@ const BoxPro = ({
                   : null}
               </span>
 
-              {/* Các nút thêm vào giỏ hàng và yêu thích */}
               <div
                 className="d-flex flex-column mt-2 action-buttons"
                 style={{
@@ -466,7 +472,6 @@ const BoxPro = ({
                     : "---"}
                 </span>
 
-                {/* Chỉ hiển thị old-price nếu có giá sale */}
                 {currentVariant?.color?.sale && (
                   <span className="old-price">
                     {currentVariant?.color?.price
@@ -478,7 +483,6 @@ const BoxPro = ({
                 )}
               </p>
 
-              {/* Hiển thị các biến thể của bộ nhớ */}
               <div className="storage-variant my-3">
                 {variant
                   ?.filter((v, index) => index < 4)
@@ -497,7 +501,6 @@ const BoxPro = ({
                   ))}
               </div>
 
-              {/* Nút "Mua ngay" khi không phải sản phẩm hot */}
               {!hot && (
                 <button
                   className="btn btn-primary btn-sm"
