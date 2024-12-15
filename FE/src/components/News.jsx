@@ -48,14 +48,13 @@ const News = () => {
                   </Link>
 
                   <div className="card-body">
-                    <a href="#" className="card-title">
-                      <Link
-                        title={item?.title}
-                        to={`/post-detail/${item?.slug}`}
-                      >
-                        {item?.title}
-                      </Link>
-                    </a>
+                    <Link
+                      title={item?.title}
+                      className="card-title"
+                      to={`/post-detail/${item?.slug}`}
+                    >
+                      {item?.title}
+                    </Link>
                   </div>
                 </div>
               ))}
