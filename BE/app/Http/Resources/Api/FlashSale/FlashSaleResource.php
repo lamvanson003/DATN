@@ -44,7 +44,7 @@ class FlashSaleResource extends JsonResource
                     'instock' => optional($this->product_variant)->instock,
                     'is_flash_sale' => optional($this->product_variant)->is_flash_sale,
                     'sold' => optional($this->product_variant)->sold,
-                    
+                    'percent' => round((($this->product_variant->price - $this->discount_price) / $this->product_variant->price) * 100),
                 ];
             }),
         ],
@@ -58,5 +58,7 @@ class FlashSaleResource extends JsonResource
         })->values(),
     ];
 }
-
+    public function getVariant($variant){
+        
+    }
 }
