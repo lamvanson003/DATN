@@ -4,7 +4,6 @@ import login from "../../assets/images/iHome/image_login-removebg-preview (1).pn
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Signup.css"; // Ensure correct CSS file path
 
-
 const Signup = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -18,7 +17,7 @@ const Signup = () => {
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
-    
+
     if (!username) {
       newErrors.username = "Tên không được để trống";
       isValid = false;
@@ -38,7 +37,7 @@ const Signup = () => {
       newErrors.passwordConfirmation = "Mật khẩu không khớp";
       isValid = false;
     }
-    
+
     // Updated phone validation
     if (!phone) {
       newErrors.phone = "Số điện thoại không được để trống";
@@ -50,7 +49,7 @@ const Signup = () => {
       newErrors.phone = "Số điện thoại chỉ chứa 10 số ";
       isValid = false;
     }
-  
+
     setErrors(newErrors);
     return isValid;
   };
@@ -76,16 +75,17 @@ const Signup = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-  
+
       if (response.status === 200) {
-        navigate("/login"); 
+        navigate("/login");
       }
     } catch (err) {
       console.error("Error response:", err.response);
-    
+
       if (err.response) {
-        const errorMessage = err.response.data.error || err.response.data.errors;
-  
+        const errorMessage =
+          err.response.data.error || err.response.data.errors;
+
         if (errorMessage) {
           if (errorMessage.email) {
             setErrors((prevErrors) => ({
@@ -123,7 +123,8 @@ const Signup = () => {
             </div>
             <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
               <h3 className="fw-bold text-center text-primary my-4 custom-title">
-Đăng ký               </h3>
+                Đăng ký{" "}
+              </h3>
               <form onSubmit={handleSubmit}>
                 <div className="d-flex mb-2">
                   <div className="form-outline flex-fill mb-0">
