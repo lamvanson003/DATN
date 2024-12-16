@@ -25,8 +25,6 @@ const Payment = () => {
   const location = useLocation();
   const { cartItems, getCartTotal, buyNow, setCartItems } =
     useContext(CartContext);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
   const [finalPrice, setFinalPrice] = useState(getCartTotal());
   const [provinces, setProvinces] = useState([]);
@@ -263,34 +261,6 @@ const Payment = () => {
     };
   }, [location.pathname]);
 
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const token = localStorage.getItem("token"); // Or retrieve it from cookies/session storage
-
-        const response = await axios.get("http://localhost:8000/api/profiles", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const { data } = response;
-
-        if (data.success) {
-          setCustomerInfo({
-            name: data.data.fullname,
-            phone: data.data.phone,
-            email: data.data.email,
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching profile data", error);
-      }
-    };
-
-    fetchProfileData();
-  }, []);
-
   return (
     <>
       {isSendingSuccess && <Popup orderId={orderId} />}
@@ -329,7 +299,6 @@ const Payment = () => {
                     style={{ borderColor: validFields.phone ? "" : "red" }}
                   />
                 </div>
-
                 <div>
                   <label htmlFor="email" className="label-style">
                     Email:
@@ -343,45 +312,45 @@ const Payment = () => {
                     style={{ borderColor: validFields.phone ? "" : "red" }}
                   />
                 </div>
+                <div>
+                  <label htmlFor="province" className="label-style">
+                    Tỉnh, thành phố:
+                  </label>
+                  <div className="input-group input-group-style">
+                    <select
+                      id="province"
+                      className="form-control"
+                      onChange={(e) => {
+                        const selectedProvince = provinces.find(
+                          (p) => p.full_name === e.target.value
+                        );
 
-                <label htmlFor="province" className="label-style">
-                  Tỉnh, thành phố:
-                </label>
-                <div className="input-group input-group-style">
-                  <select
-                    id="province"
-                    className="form-control"
-                    onChange={(e) => {
-                      const selectedProvince = provinces.find(
-                        (p) => p.full_name === e.target.value
-                      );
-
-                      setSelectedProvince(selectedProvince);
-                      setCustomerInfo((prev) => ({
-                        ...prev,
-                        province: selectedProvince
-                          ? selectedProvince.full_name
-                          : "",
-                        district: "",
-                        ward: "",
-                      }));
-                    }}
-                    value={customerInfo.province || ""}
-                    style={{
-                      borderColor: validFields.province ? "" : "red",
-                      marginBottom: 0,
-                      backgroundColor: "#fff",
-                    }}
-                  >
-                    <option value="">Chọn tỉnh thành phố</option>
-                    {provinces.map((province) => (
-                      <option key={province.id} value={province.full_name}>
-                        {province.full_name}
-                      </option>
-                    ))}
-                  </select>
+                        setSelectedProvince(selectedProvince);
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          province: selectedProvince
+                            ? selectedProvince.full_name
+                            : "",
+                          district: "",
+                          ward: "",
+                        }));
+                      }}
+                      value={customerInfo.province || ""}
+                      style={{
+                        borderColor: validFields.province ? "" : "red",
+                        marginBottom: 0,
+                        backgroundColor: "#fff",
+                      }}
+                    >
+                      <option value="">Chọn tỉnh thành phố</option>
+                      {provinces.map((province) => (
+                        <option key={province.id} value={province.full_name}>
+                          {province.full_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-
                 <div>
                   <label htmlFor="district" className="label-style">
                     Quận huyện:
@@ -454,28 +423,27 @@ const Payment = () => {
                     </select>
                   </div>
                 </div>
-
                 <div>
                   <label htmlFor="street" className="label-style">
                     Số nhà, tên đường:
                   </label>
                   <input
+                    style={{ borderColor: validFields.street ? "" : "red" }}
                     id="street"
                     type="text"
                     className="input-style rounded"
                     value={customerInfo.street}
                     onChange={handleInputChange}
-                    style={{ borderColor: validFields.street ? "" : "red" }}
                   />
                 </div>
-
                 <div>
                   <label htmlFor="note" className="label-style">
                     Ghi chú:
                   </label>
+                  <br />
                   <textarea
                     id="note"
-                    className="rounded"
+                    className=" rounded"
                     value={customerInfo.note}
                     onChange={handleInputChange}
                   />
