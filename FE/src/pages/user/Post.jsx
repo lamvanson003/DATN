@@ -14,13 +14,11 @@ const Post = () => {
     };
     const fetchPostCateData = async () => {
       const res = await postCategory.getAll();
-      console.log(res);
 
       setPostCateData(res);
     };
     const fetchFeatPost = async () => {
       const res = await postApi.getFeature();
-      console.log(res);
 
       setFeatPost(res);
     };

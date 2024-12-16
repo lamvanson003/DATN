@@ -107,7 +107,7 @@ export const transformFormatProducts = (product) => {
     end_time: product.end_time,
     sold: product.sold,
     quantity_limit: product.quantity_limit,
-    // total_quanitiy_limit: product.total_quanitiy_limit,
+    total_quantity_limit: product.total_quantity_limit,
     product_variant: [
       {
         storage: product.product_variant[0]?.storage,

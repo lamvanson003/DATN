@@ -96,6 +96,7 @@ const FlashSale = () => {
                   endFs={pro.end_time}
                   sold={pro.sold}
                   quantity_limit={pro.quantity_limit}
+                  total_quantity_limit={pro.total_quantity_limit}
                   tab={activeTab}
                 />
               </div>
