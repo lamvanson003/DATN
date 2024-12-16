@@ -511,7 +511,7 @@ const Payment = () => {
                         />
                       </span>
                       <span
-                        style={{ width: "55%" }}
+                        style={{ width: "50%" }}
                         className="d-flex flex-column gap-1 "
                       >
                         <span className="text-start fw-semibold">
@@ -528,7 +528,7 @@ const Payment = () => {
                           <span>Dung lượng: {item.storage}</span>
                         </span>
                       </span>
-                      <span style={{ width: "5%" }} className="text-center">
+                      <span style={{ width: "10%" }} className="text-center">
                         x {item.quantity}
                       </span>
                       <span style={{ width: "20%" }} className="text-end">

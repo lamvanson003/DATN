@@ -1,13 +1,17 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const headers = {
+  "Content-Type": "application/json",
+};
+
 export const commentApi = {
   getCommentByPid: async (pid) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/comments/${pid}`
+        `http://127.0.0.1:8000/api/comments/${pid}`,
+        { headers: headers }
       );
-
       return response.data;
     } catch (err) {
       console.log("không thể fetch được dữ liệu", err);
@@ -50,7 +54,7 @@ export const commentApi = {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data", // Used for file uploads
           },
         }
       );
@@ -81,7 +85,7 @@ export const commentApi = {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data", // Used for file uploads
           },
         }
       );

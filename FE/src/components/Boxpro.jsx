@@ -25,6 +25,7 @@ const BoxPro = ({
   startFs,
   endFs,
   quantity_limit,
+  total_quantity_limit,
   sold,
   flashSale,
 }) => {
@@ -211,18 +212,16 @@ const BoxPro = ({
                   className="progress-bar"
                   role="progressbar"
                   style={{
-                    width: `${
-                      ((quantity_limit - sold) / quantity_limit) * 100
-                    }%`,
+                    width: `${(quantity_limit / total_quantity_limit) * 100}%`,
                     backgroundColor: "orange",
                   }}
-                  aria-valuenow={quantity_limit - sold}
+                  aria-valuenow={quantity_limit}
                   aria-valuemin="0"
-                  aria-valuemax={quantity_limit}
+                  aria-valuemax={total_quantity_limit}
                 >
                   <span className="position-absolute w-100 text-center text-white">
-                    Còn <span>{quantity_limit - sold}</span>/
-                    <span>{quantity_limit}</span> suất
+                    Còn <span>{quantity_limit}</span>/
+                    <span>{total_quantity_limit}</span> suất
                   </span>
                 </div>
               </div>
