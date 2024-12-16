@@ -13,28 +13,28 @@ class ProductVariantResource extends JsonResource
      */
     public function toArray($request): array
 {
-    return [
-        'id' => $this->id,
-        'sold' => $this->sold,
-        'instock' => $this->instock,
-        'name' => $this->product->name,
-        'images' => $this->product->images,
-        'slug' => $this->product->slug,
-        'sku' => $this->sku,
-        'storage' => $this->storage,
-        'sale' => $this->sale,
-        'price' => $this->price,
-        'images' => $this->images,
-        'color' => $this->color,
-        'instock' => $this->instock,
-        'is_flash_sale' => $this->is_flash_sale,
-        'flashsale_price' => $this->flashSale->discount_price ?? null,
-                    
+    return [                    
         'category' => [
             'name' => optional($this->product->category)->name ?? 'Chưa có thông tin',
         ],
         'brand' => [
             'name' => optional($this->product->brand)->name ?? 'Chưa có thông tin',
+        ],
+        'product_variant' => [
+            'id' => $this->id,
+            'sold' => $this->sold,
+            'instock' => $this->instock,
+            'name' => $this->product->name,
+            'images' => $this->product->images,
+            'slug' => $this->product->slug,
+            'sku' => $this->sku,
+            'storage' => $this->storage,
+            'sale' => $this->sale,
+            'price' => $this->price,
+            'images' => $this->images,
+            'color' => $this->color,
+            'is_flash_sale' => $this->is_flash_sale,
+            'flashsale_price' => $this->flashSale->discount_price ?? null,
         ],
         'product_image_items' => $this->product->product_image_items->map(function ($item) {
             return [
