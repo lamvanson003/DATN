@@ -522,25 +522,24 @@ const Detail = () => {
                       <div>
                         <strong style={{ color: "#000" }}>
                           <span className="countdown-time">
-                            <span> Kết thúc trong:</span>
                             {hours >= 24 ? (
                               <span>
                                 {hours >= 24 && (
-                                  <span className="countdown-day">
-                                    <span className="pe-0">
+                                  <span className="countdown-day p-0">
+                                    <span className="px-0">
                                       {Math.floor(hours / 24)}
                                     </span>
                                     <span className="">ngày</span>
                                   </span>
                                 )}
-                                <span className="countdown-hour">
-                                  <span className="pe-0">
+                                <span className="countdown-hour p-0">
+                                  <span className="px-0">
                                     {String(hours % 24).padStart(2, "0")}
                                   </span>
                                   <span className="">giờ</span>
                                 </span>
-                                <span className="countdown-minute">
-                                  <span className="pe-0">
+                                <span className="countdown-minute p-0">
+                                  <span className="px-0">
                                     {String(minutes).padStart(2, "0")}
                                   </span>
                                   <span className="">phút</span>

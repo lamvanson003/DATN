@@ -120,6 +120,7 @@ export const transformFormatProducts = (product) => {
           color: variant.color,
           instock: variant.instock,
           sold: variant.sold,
+          percent: variant.percent,
           is_flash_sale: variant.is_flash_sale,
         })),
       },

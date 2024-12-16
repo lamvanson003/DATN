@@ -109,7 +109,6 @@ const BoxPro = ({
   const { hours, minutes, seconds, status } = useCountdown(startFs, endFs);
 
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
-
   return (
     <div>
       {flashSale ? (
@@ -136,7 +135,7 @@ const BoxPro = ({
                 className="badge bg-warning text-dark"
                 style={{ fontSize: "0.8rem" }}
               >
-                -67%
+                {`${currentVariant?.color?.percent}%`}
               </span>
             </div>
 
@@ -167,15 +166,15 @@ const BoxPro = ({
                 >
                   <h5 className="card-title m-0" style={{ cursor: "pointer" }}>
                     {name
-                      ? name.length > 30
-                        ? name.slice(0, 30) + "..."
+                      ? name.length > 25
+                        ? name.slice(0, 25) + "..."
                         : `${name}${
                             currentVariant?.color?.color
                               ? ` ${currentVariant?.color?.color}`
                               : ""
                           }`
-                      : testname.length > 30
-                      ? testname.slice(0, 30) + "..."
+                      : testname.length > 25
+                      ? testname.slice(0, 25) + "..."
                       : testname}
                   </h5>
                 </span>
@@ -449,15 +448,15 @@ const BoxPro = ({
               >
                 <h5 className="card-title mb-0" style={{ cursor: "pointer" }}>
                   {name
-                    ? name.length > 30
-                      ? name.slice(0, 30) + "..."
+                    ? name.length > 25
+                      ? name.slice(0, 25) + "..."
                       : `${name}${
                           currentVariant?.color?.color
                             ? ` ${currentVariant?.color?.color}`
                             : ""
                         }`
-                    : testname.length > 30
-                    ? testname.slice(0, 30) + "..."
+                    : testname.length > 25
+                    ? testname.slice(0, 25) + "..."
                     : testname}
                 </h5>
               </span>

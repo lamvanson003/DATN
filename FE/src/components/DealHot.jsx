@@ -14,14 +14,12 @@ const DealHot = () => {
   useEffect(() => {
     const fetchHP = async () => {
       const res = await productApi.getDealHot("dien-thoai");
-      console.log("HP:", res);
 
       setHotPhone(res);
     };
     fetchHP();
     const fetchLT = async () => {
       const res = await productApi.getDealHot("laptop");
-      console.log("HL:", res);
 
       setHotLap(res);
     };
