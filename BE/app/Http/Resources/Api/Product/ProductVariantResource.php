@@ -25,19 +25,22 @@ class ProductVariantResource extends JsonResource
                 'name' => optional($this->product->brand)->name ?? 'Chưa có thông tin',
             ],
             'product_variant' =>
-                [
-                    [
-                        'id' => $this->id,
-                        'sku' => $this->sku,
-                        'storage' => $this->storage,
-                        'sale' => $this->sale,
-                        'price' => $this->price,
-                        'images' => $this->images,
-                        'color' => $this->color,
-                        'instock' => $this->instock,
-                        'is_flash_sale' => $this->is_flash_sale,
-                        'sold' => $this->sold,
-                        
+                [   
+                    'storage' => $this->storage,
+                    'variant' => [
+                        [
+                            'id' => $this->id,
+                            'sku' => $this->sku,
+                            'storage' => $this->storage,
+                            'sale' => $this->sale,
+                            'price' => $this->price,
+                            'images' => $this->images,
+                            'color' => $this->color,
+                            'instock' => $this->instock,
+                            'is_flash_sale' => $this->is_flash_sale,
+                            'sold' => $this->sold,
+                            
+                        ]
                     ]
                 ],
             'product_image_items' => $this->product->product_image_items->map(function ($item) {
