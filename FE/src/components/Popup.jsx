@@ -17,7 +17,9 @@ const Popup = ({ orderId }) => {
   const handleNaSeO = () => {
     navigate("/search-order");
   };
-
+  const handleNaHome = () => {
+    navigate("/");
+  };
   return (
     <div className="custom-modal-overlay">
       <div className="custom-modal">
@@ -29,6 +31,9 @@ const Popup = ({ orderId }) => {
         <div className="group-custom-modal-button">
           <span className="custom-modal-button" onClick={handleNaSeO}>
             Tra cứu hóa đơn
+          </span>
+          <span className="custom-modal-button" onClick={handleNaHome}>
+            Trang chủ
           </span>
           <span className="custom-modal-button" onClick={handleNaPro}>
             Trang sản phẩm
