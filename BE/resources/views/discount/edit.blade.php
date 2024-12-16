@@ -42,11 +42,11 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="control-label">Mã<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="code" value="{{ $discount->code }}" placeholder="VD: DISCOUNT2024">
+                                        <input type="text" class=" required form-control" name="code" value="{{ $discount->code }}" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="control-label">Giá trị giảm<span style="color: red">*</span>:</label>
-                                        <input type="number" required class="form-control" name="discount_value" value="{{ $discount->discount_value }}" placeholder="VD: 100">
+                                        <input type="number" class=" required form-control" name="discount_value" value="{{ $discount->discount_value }}" placeholder="VD: 100">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -79,7 +79,7 @@
                     <div class="col-12 col-md-3">
                         <div class="card mb-3">
                             <div class="card-header">Đăng</div>
-                            <div class="card-body p-2 text-center">
+                            <div class="card-body p-2 ">
                                 <button type="submit" class="btn btn-primary p-2" title="Cập nhật">Cập nhật</button>
                             </div>
                         </div>

@@ -10,7 +10,7 @@
       <ul class="breadcrumbs mb-3">
         <li class="nav-item">
           <a href="{{ route('admin.slider.index') }}">
-            Sản phẩm
+            Slider
             </a>
         </li>
         <li class="separator">

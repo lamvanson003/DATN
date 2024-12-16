@@ -88,21 +88,19 @@ const Sbanner = ({ product }) => {
                 <div className="col-lg-6">
                   <div className="sub-banner">
                     <img
-                      src={sbanner1}
+                      src={banners[0]}
                       alt="Banner 1 Image"
                       className="img-fluid"
                     />
-                    <h5 className="text-center">Sub Banner 1</h5>
                   </div>
                 </div>
                 <div className="col-lg-6">
                   <div className="sub-banner">
                     <img
-                      src={sbanner2}
+                      src={banners[1]}
                       alt="Banner 2 Image"
                       className="img-fluid"
                     />
-                    <h5 className="text-center">Sub Banner 2</h5>
                   </div>
                 </div>
               </div>

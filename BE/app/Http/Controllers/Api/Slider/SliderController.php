@@ -8,6 +8,7 @@ use App\Models\Slider;
 use App\Models\SliderItem;
 use App\Enums\Status;
 use App\Enums\Slider\SliderStatus;
+use App\Http\Resources\Api\Slider\SliderResource;
 
 class SliderController extends Controller
 {
@@ -46,7 +47,7 @@ class SliderController extends Controller
             ->get();
             return response()->json([
                 'success' => true,
-                'data' => $sliders
+                'data' => SliderResource::collection($sliders)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

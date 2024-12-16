@@ -36,7 +36,7 @@ const Cart = () => {
       );
     } else {
       const itemInCart = cartItems.find(
-        (cartItem) => cartItem.color.sku === item.color.sku
+        (cartItem) => cartItem?.color?.sku === item?.color?.sku
       );
       const quantity = itemInCart.quantity ? itemInCart.quantity : 1;
       setCheckedItemsInCart((prevCheckedItems) => [
@@ -45,6 +45,7 @@ const Cart = () => {
       ]);
     }
   };
+
   useEffect(() => {
     setCheckedItemsInCart((prevCheckedItems) =>
       prevCheckedItems.map((checkedItem) => {
@@ -57,11 +58,9 @@ const Cart = () => {
       })
     );
   }, [cartItems]);
-  const [discountCode, setDiscountCode] = useState("");
-  const [finalPrice, setFinalPrice] = useState(0);
-  const [applyStatus, setApplyStatus] = useState(false);
 
   const [checkedItemsInCart, setCheckedItemsInCart] = useState([]);
+  console.log(checkedItemsInCart);
 
   const handleCheckout = () => {
     if (checkedItemsInCart.length > 0) {
@@ -215,19 +214,34 @@ const Cart = () => {
                             -
                           </button>
                           <span className="d-flex align-items-center">
-                            {item.quantity}
+                            {item?.quantity}
                           </span>
-                          <button
-                            className="rounded-end border-0"
-                            style={{
-                              height: 50,
-                              width: 30,
-                              backgroundColor: "#fff",
-                            }}
-                            onClick={() => addToCart(item.main, item)}
-                          >
-                            +
-                          </button>
+                          {item?.quantity < item?.color?.instock ? (
+                            <button
+                              className="rounded-end border-0"
+                              style={{
+                                height: 50,
+                                width: 30,
+                                backgroundColor: "#fff",
+                              }}
+                              onClick={() => addToCart(item.main, item)}
+                            >
+                              +
+                            </button>
+                          ) : (
+                            <button
+                              className="rounded-end border-0"
+                              style={{
+                                height: 50,
+                                width: 30,
+                                backgroundColor: "#ddd",
+                                color: "#999",
+                                cursor: "not-allowed",
+                              }}
+                              title="Đã vượt quá số lượng tồn kho"
+                              disabled
+                            ></button>
+                          )}
                         </span>
                       </span>
                       <span

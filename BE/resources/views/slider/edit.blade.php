@@ -63,9 +63,6 @@
                                 <button type="submit" class="btn btn-primary p-1-2" title="Sửa">
                                     Sửa
                                 </button>
-                                <button type="submit" class="btn btn-primary p-1-2" title="Xóa">
-                                    Xóa
-                                </button>
                             </div>
                         </div>
             
