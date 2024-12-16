@@ -44,6 +44,13 @@ class ProductDetailResource extends JsonResource
                             'id' => $item->id,
                             'is_flash_sale' => $item->is_flash_sale,
                             'flashSale_price' => $flashSale->discount_price ?? null,
+                            'start_time' => optional($this->flashSale)->start_time ?? null,
+                            'end_time' => optional($this->flashSale)->end_time ?? null,
+                            'percent' => (!is_null(optional($flashSale)->discount_price) 
+                                && $flashSale->discount_price < $item->price 
+                                && $item->price > 0)
+                                ? round((($item->price - $flashSale->discount_price) / $item->price) * 100)
+                                : null,
                             'sku' => $item->sku,
                             'sale' => $item->sale,
                             'price' => $item->price,
