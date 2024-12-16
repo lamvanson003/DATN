@@ -78,7 +78,7 @@ class ItemController extends Controller
     {       
         $request->validate([
             'id' => 'required|exists:slider_items,id',
-            'title' => 'required|string|max:255',
+            'title' => 'nullable|string|max:255',
             'position' => 'nullable|integer',
             'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'old_image' => 'nullable|string',

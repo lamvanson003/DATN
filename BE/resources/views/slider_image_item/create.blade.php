@@ -42,14 +42,14 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3 ">
                                         <label class="control-label">Tiêu đề<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="title" placeholder="VD: Mẫu 1">
+                                        <input type="text" class="form-control" name="title" placeholder="VD: Mẫu 1">
                                     </div>
                                 </div>
                                 <!-- position -->
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Vị trí sắp xếp:</label>
-                                        <input type="number" required class="form-control" name="position" placeholder="VD: 1">
+                                        <input type="number" class="form-control" name="position" placeholder="VD: 1">
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
