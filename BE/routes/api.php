@@ -75,7 +75,7 @@ Route::controller(UsersLoginController::class)->prefix('/logins')
 ->group(function(){
     Route::get('/', 'index');
     Route::post('/', 'index');
-    Route::post('/request-otp', 'requestOtp')->name('requestOtp');
+    Route::post('/request-otp', [UsersLoginController::class, 'requestOtp']);
     Route::post('/verify-otp', 'verifyOtpAndResetPassword')->name('verifyOtp');
 
 });
@@ -124,11 +124,11 @@ Route::controller(SliderController::class)->prefix('/sliders')
 Route::controller(PostController::class)->prefix('/posts')
     ->as('post')
     ->group(function () {
-        Route::get('/', 'index');  
+        Route::get('/', 'index');
         Route::get('/is_featured', 'postFeatured');
         Route::get('/category', 'category');
-        Route::get('/{slug}', 'detail');  
-        Route::get('/category/{slug}', 'postsByCategory');  
+        Route::get('/{slug}', 'detail');
+        Route::get('/category/{slug}', 'postsByCategory');
     });
 
 Route::get('/firebase-config', function () {
