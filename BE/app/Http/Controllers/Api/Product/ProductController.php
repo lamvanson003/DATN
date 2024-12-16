@@ -23,7 +23,6 @@ class ProductController extends controller
 
     public function productByCate(Request $request, $slug)
     {   
-        Log::info($request->all());
         try {
             $category = Category::where('slug', $slug)
                 ->where('status', CategoryStatus::Active)
