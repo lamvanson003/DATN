@@ -101,6 +101,7 @@ class FlashSaleController extends Controller
                     'product_variant_id' => $variantId,
                     'discount_price' => $discountPrice,
                     'quantity_limit' => $quantityLimit,
+                    'total_quanlity_limit' => $quantityLimit,
                     'is_active' => $data['is_active'],
                 ]);
                 $variant->decrement('instock', $quantityLimit);

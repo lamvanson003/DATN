@@ -23,7 +23,6 @@ class ProductController extends controller
 
     public function productByCate(Request $request, $slug)
     {   
-        Log::info($request->all());
         try {
             $category = Category::where('slug', $slug)
                 ->where('status', CategoryStatus::Active)
@@ -137,7 +136,9 @@ class ProductController extends controller
                     $query->where('status', ProductStatus::Active)
                         ->where('category_id', $category->id);
                 },
-                'product.brand',
+                'product.brand' => function ($query){
+                    $query->where('status', Status::Active);
+                },
                 'comments' => function ($query) {
                     $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
                 },
@@ -179,6 +180,12 @@ class ProductController extends controller
         try {
 
             $product = Product::
+
+                with([
+                    'product_variant'=> function ($query) {
+                    $query->where('status', Status::Active);
+                }
+                ])->
                 where('slug', $slug)
                 ->where('status', ProductStatus::Active)
                 ->firstOrFail();

@@ -28,7 +28,7 @@ class ProductVariantResource extends JsonResource
                 [
                     [   
                         'storage' => $this->storage,
-                        'variant' => [
+                        'variants' => [
                             [
                                 'id' => $this->id,
                                 'sku' => $this->sku,
@@ -40,7 +40,12 @@ class ProductVariantResource extends JsonResource
                                 'instock' => $this->instock,
                                 'is_flash_sale' => $this->is_flash_sale,
                                 'sold' => $this->sold,
-                                
+                                'is_flash_sale' => $this->is_flash_sale,
+                                'percent' => (!is_null($this->sale) && $this->sale < $this->price && $this->price > 0)
+                                        ? round((($this->price - $this->sale) / $this->price) * 100)
+                                        : null,
+                                'average_rating' => round(optional($this->comments->first())->average_rating ?? 0 , 2),
+                                'total_comments' => $this->comments->first()->total_comments ?? 0,
                             ]
                         ]
                     ]

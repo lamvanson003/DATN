@@ -13,18 +13,27 @@ const Banner = () => {
       try {
         const response = await fetch('http://127.0.0.1:8000/api/sliders?status=active');
         const data = await response.json();
-        if (data.success) {
-          setSliders(data.data); 
+        if (data.success && data.slider) {
+          setSliders([data.slider]);
         }
       } catch (error) {
         console.error("Error fetching slider data: ", error);
       }
     };
-
+  
     fetchSliderData();
   }, []);
+  
 
-  const allSlides = sliders.reduce((acc, slider) => acc.concat(slider.slider_items), []);
+  const allSlides = Array.isArray(sliders)
+  ? sliders.reduce((acc, slider) => {
+      const mainBannerItems = slider.slider_items?.filter(
+        (item) => item.type === "main_banner"
+      ) || [];
+      return acc.concat(mainBannerItems);
+    }, [])
+  : [];
+
 
   const totalSlides = allSlides.length;
 

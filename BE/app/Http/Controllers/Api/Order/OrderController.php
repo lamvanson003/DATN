@@ -9,7 +9,7 @@ use App\Models\OrderDetail;
 use App\Http\Resources\Api\Order\OrderResource;
 use Illuminate\Http\JsonResponse;
 use App\Enums\User\UserRole;
-use App\Models\FlashSale;
+use App\Models\SaleItem;
 use App\Models\ProductVariant;
 
 use Illuminate\Support\Facades\DB;
@@ -113,7 +113,13 @@ class OrderController extends Controller {
                     $productVariant->sold += $productData['quantity'];
                     $productVariant->save();
                 }
-
+                
+                if($productVariant->is_flash_sale == true){
+                    $saleItem = SaleItem::where('product_variant_id', $productData['product_variant_id'])->first();
+                    $saleItem->quantity_limit -= $productData['quantity'];
+                    $saleItem->sold += $productData['quantity'];
+                    $saleItem->save();
+                }
                 
             }
             DB::commit();
