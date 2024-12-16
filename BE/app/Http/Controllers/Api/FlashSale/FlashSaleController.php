@@ -16,7 +16,8 @@ class FlashSaleController extends Controller
             $activeSaleItems = SaleItem::whereHas('flashSale', function ($query) use ($now) {
                 $query->where('start_time', '<=', $now)
                       ->where('end_time', '>=', $now);
-            })->where('is_active', Status::Active) 
+            })->where('quantity_limit', '>' , 0) 
+              ->where('is_active', Status::Active) 
               ->orderBy('id','desc')
               ->get();
             return response()->json([

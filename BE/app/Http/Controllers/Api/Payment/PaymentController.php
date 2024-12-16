@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Api\Payment;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Payment\PaymentRequest;
 use Illuminate\Http\Request;
 use App\Services\VnpayService;
 use App\Models\Order;
 use App\Models\TemporaryOrder;
 use App\Models\OrderDetail; 
-use App\Models\FlashSale; 
+use App\Models\SaleItem; 
 use App\Models\ProductVariant; 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -102,6 +101,12 @@ class PaymentController extends Controller
                         $productVariant->save();
                     }
 
+                    if($productVariant->is_flash_sale == true){
+                        $saleItem = SaleItem::where('product_variant_id', $productData['product_variant_id'])->first();
+                        $saleItem->quantity_limit -= $productData['quantity'];
+                        $saleItem->sold += $productData['quantity'];
+                        $saleItem->save();
+                    }
                     
                 }
 

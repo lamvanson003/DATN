@@ -166,7 +166,9 @@ const Cart = () => {
                         />
                         <span className="d-flex flex-column gap-2">
                           <span style={{ fontSize: 18, fontWeight: 600 }}>
-                            {item?.main.name}
+                            <Link to={`/detail/${item?.main?.slug}`}>
+                              {item?.main.name}
+                            </Link>
                           </span>
                           <span className="opacity-75 d-flex flex-column gap-1">
                             <span>

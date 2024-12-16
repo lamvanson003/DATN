@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('slider_id');
             $table->string('title')->nullable();
             $table->tinyInteger('position')->nullable();
+            $table->enum('type', ['main_banner', 'sub_banner'])->default('main_banner');
             $table->string('images');
             $table->timestamps();
 
