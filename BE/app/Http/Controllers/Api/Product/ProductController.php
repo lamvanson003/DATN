@@ -179,6 +179,12 @@ class ProductController extends controller
         try {
 
             $product = Product::
+
+                with([
+                    'product_variant'=> function ($query) {
+                    $query->where('status', Status::Active);
+                }
+                ])->
                 where('slug', $slug)
                 ->where('status', ProductStatus::Active)
                 ->firstOrFail();
