@@ -28,8 +28,7 @@ const FlashSale = () => {
     const fetchAllFs = async () => {
       const CFS = await productApi.getCurrentFs();
       const UFS = await productApi.getComingFs();
-      console.log(CFS);
-
+      console.log("CFS: ", CFS);
       setCurrentFs(CFS.map(transformFormatProducts));
       setComingFs(UFS.map(transformFormatProducts));
     };
@@ -78,27 +77,29 @@ const FlashSale = () => {
         </span>
 
         <div className="fsproducts-container">
-          {curItems.map((pro, index) => (
-            <div key={index}>
-              <BoxPro
-                id={pro.id}
-                name={pro.name}
-                category={pro.category}
-                brand={pro.brand}
-                slug={pro.slug}
-                image={pro.images}
-                product_image_items={pro.product_image_items}
-                variant={pro.product_variant}
-                flashSale
-                whenFs={pro.when}
-                startFs={pro.start_time}
-                endFs={pro.end_time}
-                sold={pro.sold}
-                quantity_limit={pro.quantity_limit}
-                tab={activeTab}
-              />
-            </div>
-          ))}
+          {curItems.map((pro, index) => {
+            return (
+              <div key={index}>
+                <BoxPro
+                  id={pro.id}
+                  name={pro.name}
+                  category={pro.category}
+                  brand={pro.brand}
+                  slug={pro.slug}
+                  image={pro.images}
+                  product_image_items={pro.product_image_items}
+                  variant={pro.product_variant}
+                  flashSale
+                  whenFs={pro.when}
+                  startFs={pro.start_time}
+                  endFs={pro.end_time}
+                  sold={pro.sold}
+                  quantity_limit={pro.quantity_limit}
+                  tab={activeTab}
+                />
+              </div>
+            );
+          })}
         </div>
 
         <span className="arrow-container">

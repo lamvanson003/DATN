@@ -24,7 +24,7 @@ const News = () => {
     <div className="d-flex justify-content-center mt-3">
       <div className="container news-section">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <div className="news-title">TIN CÔNG NGHỆ</div>
+          <div className="news-title">BÀI VIẾT</div>
           <div className="view-all">
             <span style={{ cursor: "pointer" }} onClick={handleViewAll}>
               Xem tất cả
