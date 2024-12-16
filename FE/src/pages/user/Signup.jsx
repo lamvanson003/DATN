@@ -25,6 +25,9 @@ const Signup = () => {
     if (!email) {
       newErrors.email = "Email không được để trống";
       isValid = false;
+    } else if (!/^[\w.%+-]+@gmail\.com$/.test(email)) {
+      newErrors.email = "Email sai định dạng vui lòng nhập lại ";
+      isValid = false;
     }
     if (!password) {
       newErrors.password = "Mật khẩu không được để trống";
