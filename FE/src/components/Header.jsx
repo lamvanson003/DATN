@@ -241,7 +241,9 @@ const Header = ({ cartItemAmout, favorItemAmount }) => {
                 }}
                 className="rounded-pill"
               >
-                <img src={logoCloudLab} alt="logo" />
+                <Link to={"/"}>
+                  <img src={logoCloudLab} alt="logo" />
+                </Link>
               </div>
               <div className="position-relative" ref={wrapperRef}>
                 <form action="">

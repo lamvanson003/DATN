@@ -78,7 +78,12 @@ export const productApi = {
   getDealHot: async (cate) => {
     try {
       const res = await axios.get(
-        `http://127.0.0.1:8000/api/products/hotdeal?category=${cate}`
+        `http://127.0.0.1:8000/api/products/hotdeal?category=${cate}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
       return res.data.data;
     } catch (err) {

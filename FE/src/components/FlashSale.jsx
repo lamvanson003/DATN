@@ -29,6 +29,7 @@ const FlashSale = () => {
       const CFS = await productApi.getCurrentFs();
       const UFS = await productApi.getComingFs();
       console.log("CFS: ", CFS);
+
       setCurrentFs(CFS.map(transformFormatProducts));
       setComingFs(UFS.map(transformFormatProducts));
     };
@@ -95,6 +96,7 @@ const FlashSale = () => {
                   endFs={pro.end_time}
                   sold={pro.sold}
                   quantity_limit={pro.quantity_limit}
+                  total_quantity_limit={pro.total_quantity_limit}
                   tab={activeTab}
                 />
               </div>
