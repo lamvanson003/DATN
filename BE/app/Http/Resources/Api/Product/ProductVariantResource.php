@@ -16,6 +16,7 @@ class ProductVariantResource extends JsonResource
         return [
             'id' => optional($this->product)->id,
             'images' => $this->product->images,
+            'name' => $this->product->name,
             'slug' => $this->product->slug,
             'category' => [
                 'name' => optional($this->product->category)->name ?? 'Chưa có thông tin',
