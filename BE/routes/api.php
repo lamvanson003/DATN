@@ -117,7 +117,7 @@ Route::controller(PaymentController::class)->prefix('/payments')
 Route::controller(SliderController::class)->prefix('/sliders')
 ->as('slider.')
 ->group(function(){
-    Route::get('/', 'index');
+    Route::get('/', 'showActive');
     Route::get('/{name}', 'index');
 });
 

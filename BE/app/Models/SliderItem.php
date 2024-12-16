@@ -15,10 +15,22 @@ class SliderItem extends Model
         'title', 
         'images',
         'position',
+        'type',
     ];
 
     public function slider()
     {
         return $this->belongsTo(slider::class);
+    }
+    
+    const TYPE_MAIN_BANNER = 'main_banner';
+    const TYPE_SUB_BANNER = 'sub_banner';
+
+    public static function getTypes()
+    {
+        return [
+            self::TYPE_MAIN_BANNER => 'Main Banner',
+            self::TYPE_SUB_BANNER => 'Sub Banner',
+        ];
     }
 }
