@@ -40,6 +40,8 @@ const Product = () => {
           const results = await productApi.search(searchTerm);
           setPros(results);
         } else if (productsData) {
+          console.log(productsData);
+
           setPhonesData(productsData.phone);
           setLaptopsData(productsData.laptop);
         }

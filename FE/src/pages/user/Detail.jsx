@@ -5,7 +5,7 @@ import { commentApi } from "../../apis";
 import { Tab, BoxPro } from "../../components";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
-import { formatCurrency } from "../../ultis/func";
+import { formatCurrency, useCountdown } from "../../ultis/func";
 import { useSelector } from "react-redux";
 import icons from "../../ultis/icon";
 import { toast } from "react-toastify";
@@ -285,7 +285,10 @@ const Detail = () => {
     }
     setImages((prevImages) => [...prevImages, ...validImages]);
   };
-
+  const { hours, minutes, seconds, status } = useCountdown(
+    currentVariant?.color?.start_time,
+    currentVariant?.color?.end_time
+  );
   return (
     <>
       <section className="px-2 mb-2" id="Breadcrumb" ref={ref}>
@@ -488,7 +491,7 @@ const Detail = () => {
                           marginLeft: "8px",
                         }}
                       >
-                        -10%
+                        {currentVariant?.color?.percent}%
                       </span>
                     </div>
 
@@ -509,11 +512,58 @@ const Detail = () => {
                           padding: "4px 8px",
                         }}
                       >
-                        🔥 Đã bán <strong>0/10</strong> suất
+                        🔥 Đã bán
+                        <strong>
+                          <span> {currentVariant?.color?.soldFlashSale}</span>/
+                          {currentVariant?.color?.quantity_limit}
+                        </strong>
+                        suất
                       </div>
                       <div>
-                        Kết thúc vào:
-                        <strong style={{ color: "#000" }}> 18/11/2024</strong>
+                        <strong style={{ color: "#000" }}>
+                          <span className="countdown-time">
+                            <span> Kết thúc trong:</span>
+                            {hours >= 24 ? (
+                              <span>
+                                {hours >= 24 && (
+                                  <span className="countdown-day">
+                                    <span className="pe-0">
+                                      {Math.floor(hours / 24)}
+                                    </span>
+                                    <span className="">ngày</span>
+                                  </span>
+                                )}
+                                <span className="countdown-hour">
+                                  <span className="pe-0">
+                                    {String(hours % 24).padStart(2, "0")}
+                                  </span>
+                                  <span className="">giờ</span>
+                                </span>
+                                <span className="countdown-minute">
+                                  <span className="pe-0">
+                                    {String(minutes).padStart(2, "0")}
+                                  </span>
+                                  <span className="">phút</span>
+                                </span>
+                              </span>
+                            ) : (
+                              <>
+                                <span className="countdown-hour px-0">
+                                  {String(hours).padStart(2, "0")}
+                                </span>
+                                <span className="px-0">giờ</span>
+                                <span className="countdown-minute px-0">
+                                  {String(minutes).padStart(2, "0")}
+                                </span>
+                                <span className="px-0">phút</span>
+                                <span className="countdown-second px-0">
+                                  {String(seconds).padStart(2, "0")}
+                                </span>
+                                <span className="px-0">giây</span>
+                              </>
+                            )}
+                          </span>
+                        </strong>
                       </div>
                     </div>
                   </div>

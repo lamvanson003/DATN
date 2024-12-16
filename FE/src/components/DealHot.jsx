@@ -66,6 +66,7 @@ const DealHot = () => {
                   image={pro.images}
                   product_image_items={pro.product_image_items}
                   variant={pro.product_variant}
+                  hot
                 />
               </div>
             ))}

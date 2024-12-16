@@ -14,7 +14,7 @@ const News = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await postApi.getAll();
-      console.log(res);
+
       setPost(res);
     };
     fetchData();
