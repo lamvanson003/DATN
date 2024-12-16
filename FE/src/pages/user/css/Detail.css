@@ -832,3 +832,49 @@ h3 {
   border: 1px solid rgb(217, 217, 238);
   box-shadow: 1px 2px 2px #ccc;
 }
+.countdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px; /* Larger font for readability */
+  color: #333;
+  background-color: #ffcc00; /* Bright orange background */
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.countdown-time {
+  display: flex;
+  gap: 5px;
+}
+
+.countdown-time span {
+  padding: 5px 5px;
+  background-color: #fff; /* White background for time blocks */
+  border-radius: 5px;
+  font-size: 18px;
+  color: #ff8c00; /* Bright orange text color */
+  font-weight: 600;
+}
+
+.countdown .label {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.countdown.expired {
+  color: #dc3545;
+  background-color: #f8d7da;
+}
+
+.countdown.incoming {
+  color: #ffc107;
+  background-color: #fff3cd;
+}
+
+.countdown.current {
+  color: #28a745;
+  background-color: #d4edda;
+}
