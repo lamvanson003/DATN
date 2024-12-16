@@ -18,7 +18,7 @@ class FlashSaleResource extends JsonResource
         'id' => $this->product_variant->product->id,
         'quantity_limit' => $this->quantity_limit,
         'sold' => $this->sold,
-        'total_quanlity_limit' => $this->total_quanlity_limit,
+        'total_quantity_limit' => $this->total_quanlity_limit,
         'discount_price' => $this->discount_price,
         'is_active' => $this->is_active,
         'name' => $this->product_variant->product->name,

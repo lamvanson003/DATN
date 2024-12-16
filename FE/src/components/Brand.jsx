@@ -21,7 +21,7 @@ const Brand = ({ active, onProByBrandUpdate = () => {} }) => {
   useEffect(() => {
     const fetchBrandData = async () => {
       const res = await brandApi.getAll();
-      setBrandData(res.data);
+      setBrandData(res);
     };
     fetchBrandData();
   }, []);
@@ -38,7 +38,7 @@ const Brand = ({ active, onProByBrandUpdate = () => {} }) => {
     setSelectedBrandId(id);
     try {
       const res = await brandApi.getOneByCate(cate, id);
-      const brandProducts = res?.data;
+      const brandProducts = res;
       setProductCount(brandProducts?.length || 0);
       onProByBrandUpdate(brandProducts, cate);
     } catch (error) {

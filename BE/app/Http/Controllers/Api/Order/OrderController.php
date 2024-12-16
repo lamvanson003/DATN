@@ -86,7 +86,7 @@ class OrderController extends Controller {
                 'phone' => $validatedData['phone'],
                 'address' => $validatedData['address'],
                 'email' => $validatedData['email'],
-                'note' => $validatedData['note'],
+                'note' => $validatedData['note']??null,
                 'total_price' => $validatedData['total_price'],
                 'status' => 'pending',
             ]); 

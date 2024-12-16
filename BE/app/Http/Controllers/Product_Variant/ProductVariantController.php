@@ -109,6 +109,7 @@ class ProductVariantController extends Controller
             'memory' => $request->input('memory'),
             'price' => $request->input('price'),
             'sale' => $request->input('sale'),
+            'status' => $request->input('status'),
             'instock' => $request->input('instock'),
             'storage' => $request->input('storage'),
             'images' => $product_variant->images,

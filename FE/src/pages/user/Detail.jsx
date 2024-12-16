@@ -79,7 +79,6 @@ const Detail = () => {
     const fetchDetailData = async () => {
       try {
         const data = await productApi.getOne(slug);
-        console.log(data);
 
         if (data.product_image_items) {
           const newImage = {

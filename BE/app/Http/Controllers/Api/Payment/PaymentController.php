@@ -79,7 +79,7 @@ class PaymentController extends Controller
                     'phone' => $orderData['phone'],
                     'address' => $orderData['address'],
                     'email' => $orderData['email'],
-                    'note' => $orderData['note'],
+                    'note' => $orderData['note'] ?? null,
                     'total_price' => $orderData['total_price'],
                     'status' => 'pending',
                     'completed' => true,
