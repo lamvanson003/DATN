@@ -25,8 +25,8 @@ const Payment = () => {
   const location = useLocation();
   const { cartItems, getCartTotal, buyNow, setCartItems } =
     useContext(CartContext);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isSendingSuccess, setIsSendingSuccess] = useState(false);
   const [finalPrice, setFinalPrice] = useState(getCartTotal());
   const [provinces, setProvinces] = useState([]);
@@ -266,9 +266,9 @@ const Payment = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const token = localStorage.getItem('token'); // Or retrieve it from cookies/session storage
+        const token = localStorage.getItem("token"); // Or retrieve it from cookies/session storage
 
-        const response = await axios.get('http://localhost:8000/api/profiles', {
+        const response = await axios.get("http://localhost:8000/api/profiles", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -281,15 +281,10 @@ const Payment = () => {
             name: data.data.fullname,
             phone: data.data.phone,
             email: data.data.email,
-            province: data.data.address.province,
-            district: data.data.address.district,
-            ward: data.data.address.ward,
-            street: data.data.address.street,
-            note: '', // You might not have a note in your backend data
           });
         }
       } catch (error) {
-        console.error('Error fetching profile data', error);
+        console.error("Error fetching profile data", error);
       }
     };
 
@@ -306,135 +301,186 @@ const Payment = () => {
         <div className="row" style={{ width: 1300 }}>
           <div className="col-md-6">
             <div className="d-flex flex-column">
-            <form className="form-container">
-      <div>
-        <label htmlFor="name" className="label-style">
-          Họ tên:
-        </label>
-        <input
-          id="name"
-          type="text"
-          className="input-style rounded"
-          value={customerInfo.name}
-          onChange={handleInputChange}
-          style={{ borderColor: validFields.name ? '' : 'red' }}
-        />
-      </div>
+              <form className="form-container">
+                <div>
+                  <label htmlFor="name" className="label-style">
+                    Họ tên:
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    className="input-style rounded"
+                    value={customerInfo.name}
+                    onChange={handleInputChange}
+                    style={{ borderColor: validFields.name ? "" : "red" }}
+                  />
+                </div>
 
-      <div>
-        <label htmlFor="phone" className="label-style">
-          Số điện thoại:
-        </label>
-        <input
-          id="phone"
-          type="text"
-          className="input-style rounded"
-          value={customerInfo.phone}
-          onChange={handleInputChange}
-          style={{ borderColor: validFields.phone ? '' : 'red' }}
-        />
-      </div>
+                <div>
+                  <label htmlFor="phone" className="label-style">
+                    Số điện thoại:
+                  </label>
+                  <input
+                    id="phone"
+                    type="text"
+                    className="input-style rounded"
+                    value={customerInfo.phone}
+                    onChange={handleInputChange}
+                    style={{ borderColor: validFields.phone ? "" : "red" }}
+                  />
+                </div>
 
-      <div>
-        <label htmlFor="email" className="label-style">
-          Email:
-        </label>
-        <input
-          id="email"
-          type="text"
-          className="input-style rounded"
-          value={customerInfo.email}
-          onChange={handleInputChange}
-          style={{ borderColor: validFields.phone ? '' : 'red' }}
-        />
-      </div>
+                <div>
+                  <label htmlFor="email" className="label-style">
+                    Email:
+                  </label>
+                  <input
+                    id="email"
+                    type="text"
+                    className="input-style rounded"
+                    value={customerInfo.email}
+                    onChange={handleInputChange}
+                    style={{ borderColor: validFields.phone ? "" : "red" }}
+                  />
+                </div>
 
-      <div>
-        <label htmlFor="province" className="label-style">
-          Tỉnh, thành phố:
-        </label>
-        <select
-          id="province"
-          className="form-control"
-          value={customerInfo.province}
-          onChange={handleInputChange}
-          style={{
-            borderColor: validFields.province ? '' : 'red',
-            marginBottom: 0,
-            backgroundColor: '#fff',
-          }}
-        >
-          <option value="">Chọn tỉnh thành phố</option>
-          {/* Replace with dynamic province options */}
-        </select>
-      </div>
+                <label htmlFor="province" className="label-style">
+                  Tỉnh, thành phố:
+                </label>
+                <div className="input-group input-group-style">
+                  <select
+                    id="province"
+                    className="form-control"
+                    onChange={(e) => {
+                      const selectedProvince = provinces.find(
+                        (p) => p.full_name === e.target.value
+                      );
 
-      <div>
-        <label htmlFor="district" className="label-style">
-          Quận huyện:
-        </label>
-        <select
-          id="district"
-          className="form-control"
-          value={customerInfo.district}
-          onChange={handleInputChange}
-          style={{
-            borderColor: validFields.district ? '' : 'red',
-            marginBottom: 0,
-            backgroundColor: '#fff',
-          }}
-        >
-          <option value="">Chọn quận huyện</option>
-          {/* Replace with dynamic district options */}
-        </select>
-      </div>
+                      setSelectedProvince(selectedProvince);
+                      setCustomerInfo((prev) => ({
+                        ...prev,
+                        province: selectedProvince
+                          ? selectedProvince.full_name
+                          : "",
+                        district: "",
+                        ward: "",
+                      }));
+                    }}
+                    value={customerInfo.province || ""}
+                    style={{
+                      borderColor: validFields.province ? "" : "red",
+                      marginBottom: 0,
+                      backgroundColor: "#fff",
+                    }}
+                  >
+                    <option value="">Chọn tỉnh thành phố</option>
+                    {provinces.map((province) => (
+                      <option key={province.id} value={province.full_name}>
+                        {province.full_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-      <div>
-        <label htmlFor="ward" className="label-style">
-          Phường xã:
-        </label>
-        <select
-          id="ward"
-          className="form-control"
-          value={customerInfo.ward}
-          onChange={handleInputChange}
-          style={{
-            borderColor: validFields.ward ? '' : 'red',
-            marginBottom: 0,
-            backgroundColor: '#fff',
-          }}
-        >
-          <option value="">Chọn phường xã</option>
-          {/* Replace with dynamic ward options */}
-        </select>
-      </div>
+                <div>
+                  <label htmlFor="district" className="label-style">
+                    Quận huyện:
+                  </label>
+                  <div className="input-group input-group-style">
+                    <select
+                      id="district"
+                      className="form-control"
+                      onChange={(e) => {
+                        const selectedDistrict = districts.find(
+                          (d) => d.full_name === e.target.value
+                        );
 
-      <div>
-        <label htmlFor="street" className="label-style">
-          Số nhà, tên đường:
-        </label>
-        <input
-          id="street"
-          type="text"
-          className="input-style rounded"
-          value={customerInfo.street}
-          onChange={handleInputChange}
-          style={{ borderColor: validFields.street ? '' : 'red' }}
-        />
-      </div>
+                        setSelectedDistrict(selectedDistrict);
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          district: selectedDistrict
+                            ? selectedDistrict.full_name
+                            : "",
+                          ward: "",
+                        }));
+                      }}
+                      value={customerInfo.district || ""}
+                      style={{
+                        borderColor: validFields.district ? "" : "red",
+                        marginBottom: 0,
+                        backgroundColor: "#fff",
+                      }}
+                    >
+                      <option value="">Chọn quận huyện</option>
+                      {districts.map((district) => (
+                        <option key={district.id} value={district.full_name}>
+                          {district.full_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="ward" className="label-style">
+                    Phường xã:
+                  </label>
+                  <div className="input-group input-group-style">
+                    <select
+                      id="ward"
+                      className="form-control"
+                      onChange={(e) => {
+                        const selectedWard = wards.find(
+                          (w) => w.full_name === e.target.value
+                        );
 
-      <div>
-        <label htmlFor="note" className="label-style">
-          Ghi chú:
-        </label>
-        <textarea
-          id="note"
-          className="rounded"
-          value={customerInfo.note}
-          onChange={handleInputChange}
-        />
-      </div>
-    </form>
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          ward: selectedWard ? selectedWard.full_name : "",
+                        }));
+                      }}
+                      value={customerInfo.ward || ""}
+                      style={{
+                        borderColor: validFields.ward ? "" : "red",
+                        marginBottom: 0,
+                        backgroundColor: "#fff",
+                      }}
+                    >
+                      <option value="">Chọn phường xã</option>
+                      {wards.map((ward) => (
+                        <option key={ward.id} value={ward.full_name}>
+                          {ward.full_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="street" className="label-style">
+                    Số nhà, tên đường:
+                  </label>
+                  <input
+                    id="street"
+                    type="text"
+                    className="input-style rounded"
+                    value={customerInfo.street}
+                    onChange={handleInputChange}
+                    style={{ borderColor: validFields.street ? "" : "red" }}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="note" className="label-style">
+                    Ghi chú:
+                  </label>
+                  <textarea
+                    id="note"
+                    className="rounded"
+                    value={customerInfo.note}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </form>
             </div>
           </div>
           <div className="col-md-6">
