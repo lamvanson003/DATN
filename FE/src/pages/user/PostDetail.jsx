@@ -8,6 +8,8 @@ const PostDetail = () => {
   const { slug } = useParams();
   const [postDetail, setPostDetail] = useState([]);
   const [featPost, setFeatPost] = useState([]);
+  const [name, setName] = useState("");
+  const [content, setContent] = useState("");
   useEffect(() => {
     const fetchDetailData = async () => {
       const res = await postApi.getOne(slug);
@@ -21,6 +23,7 @@ const PostDetail = () => {
     fetchDetailData();
     fetchFeatPost();
   }, [slug]);
+  const handleSubmitComment = () => {};
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -39,27 +42,7 @@ const PostDetail = () => {
               <span>Tác giả: {postDetail[0]?.user.fullname}</span>
             </span>
           </div>
-          {/* <div className="col-xs-12 text-left">
-            <ul className="breadcrumb gap-2">
-              <li className="home">
-                <a href="/">
-                  <span>Trang chủ</span>
-                </a>
-                <span className="br-line">|</span>
-              </li>
-              <li>
-                <a href="/tin-tuc">
-                  <span>Tin tức</span>
-                </a>
-                <span className="br-line">|</span>
-              </li>
-              <li>
-                <strong>
-                  <span>10 bí quyết giúp uống rượu để bảo vệ sức khỏe</span>
-                </strong>
-              </li>
-            </ul>
-          </div> */}
+
           <div className="article-wrapper">
             <div className="article-image-container ">
               <img
@@ -96,9 +79,8 @@ const PostDetail = () => {
             <div className="col-lg-12">
               <div className="form-comment">
                 <h5 className="title-form-comment">Viết bình luận của bạn:</h5>
-                <form action="#" method="POST">
+                <form onSubmit={handleSubmitComment}>
                   <div className="row">
-                    {/* Họ và tên */}
                     <div className="col-md-6 col-12">
                       <div className="form-group">
                         <label htmlFor="fullname" className="control-label">
@@ -110,23 +92,7 @@ const PostDetail = () => {
                           className="form-control"
                           name="fullname"
                           placeholder="Nhập họ và tên"
-                          required=""
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-md-6 col-12">
-                      <div className="form-group">
-                        <label htmlFor="email" className="control-label">
-                          Email <span className="text-danger">*</span>:
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          className="form-control"
-                          name="email"
-                          placeholder="Nhập email"
-                          required=""
+                          required
                         />
                       </div>
                     </div>
@@ -145,7 +111,7 @@ const PostDetail = () => {
                       defaultValue={""}
                     />
                   </div>
-                  {/* Nút gửi */}
+
                   <div className="form-group text-right">
                     <button type="submit" className="btn btn-primary">
                       Gửi bình luận

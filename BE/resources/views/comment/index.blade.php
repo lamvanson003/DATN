@@ -46,7 +46,7 @@
                     <tr>
                       <td>
                         @switch($type)
-                            @case('productVariant'):
+                            @case('productVariant')
                                   <a title="{{  $item->productVariant->product->name }}  
                                       {{ $item->productVariant->storage }}" 
                                       class="fix-content" href="{{ route('admin.product.product_item.edit',[

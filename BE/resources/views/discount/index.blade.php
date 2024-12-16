@@ -49,23 +49,10 @@
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th>Mã</th>
-                    <th>Giá trị giảm</th>
-                    <th>Bắt đầu</th>
-                    <th>Kết thúc</th>
-                    <th>Mô tả</th>
-                    <th>Số lượng</th> 
-                    <th>Loại</th>
-                    <th>Trạng thái</th>
-                    <th style="width: 10%">Hành động</th>
-                  </tr>
-                </tfoot>
                 <tbody>
                     @foreach ($discounts as $item)
                       <tr>
-                        <td>{{ $item->code }}</td>
+                        <td><a href="{{ route('admin.discount.edit',$item->id) }}">{{ $item->code }}</a></td>
                         <td>{{ $item->discount_value }}</td>
                         <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $item->date_start)->format('d/m/Y') }}</td>
                         <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $item->date_end)->format('d/m/Y') }}</td>

@@ -8,15 +8,15 @@ import { useParams } from "react-router-dom";
 import { formatCurrency } from "../../ultis/func";
 import { useSelector } from "react-redux";
 import icons from "../../ultis/icon";
+import { toast } from "react-toastify";
 const Detail = () => {
   const { productsData } = useSelector((state) => state.pro);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const { slug } = useParams();
   const { TiDeleteOutline } = icons;
-  const { addToCart, buyNow } = useContext(CartContext);
+  const { addToCart, buyNow, cartItems } = useContext(CartContext);
   const ref = useRef();
   const [detailData, setDetailData] = useState({});
-
   const [loadingComment, setLoadingComment] = useState(false);
   const [activeStorage, setActiveStorage] = useState(null);
   const [activeColor, setActiveColor] = useState(null);
@@ -25,7 +25,6 @@ const Detail = () => {
   const [quantity, setQuantity] = useState(1);
   const [main, setMain] = useState();
   const [viewedProducts, setViewedProducts] = useState([]);
-
   const [images, setImages] = useState([]);
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
@@ -80,6 +79,7 @@ const Detail = () => {
     const fetchDetailData = async () => {
       try {
         const data = await productApi.getOne(slug);
+        console.log(data);
 
         if (data.product_image_items) {
           const newImage = {
@@ -171,7 +171,19 @@ const Detail = () => {
   const handleImageClick = (img) => {
     setMainImage(img);
   };
-
+  const handleAddToCart = (quantity) => {
+    const foundItem = cartItems?.find(
+      (item) => item?.color?.id === currentVariant?.color?.id
+    );
+    const checkQuantity = foundItem?.quantity ?? 0;
+    if (checkQuantity < (currentVariant?.color?.instock || 0)) {
+      addToCart(main, currentVariant, quantity);
+    } else {
+      toast.warning(
+        "Số lượng sản phẩm trong giỏ hàng  đã vượt quá số lượng tồn kho!"
+      );
+    }
+  };
   useEffect(() => {
     ref.current.scrollIntoView({
       behavior: "smooth",
@@ -205,13 +217,10 @@ const Detail = () => {
       closeModal();
     }
   };
-  console.log(currentVariant);
 
   // Submit comment
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate fields
     if (!name.trim()) {
       alert("Vui lòng nhập họ tên!");
       return;
@@ -224,12 +233,9 @@ const Detail = () => {
       alert("Vui lòng nhập bình luận!");
       return;
     }
-
     setLoadingComment(true);
     console.log(currentVariant?.color?.id);
-
     try {
-      // Use the provided postComment function
       await commentApi.postComment({
         pId: currentVariant?.color?.id,
         name,
@@ -239,8 +245,6 @@ const Detail = () => {
         uId: 1,
       });
       console.log(images);
-
-      // Reset form after successful submission
       setName("");
       setContent("");
       setImages([]);
@@ -262,8 +266,6 @@ const Detail = () => {
   // Handle image selection
   const handleImageChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
-
-    // Lọc các file hợp lệ
     const validImages = selectedFiles.filter((file) =>
       [
         "image/jpeg",
@@ -277,8 +279,6 @@ const Detail = () => {
     if (validImages.length !== selectedFiles.length) {
       alert("Một số tệp không phải định dạng hình ảnh hợp lệ!");
     }
-
-    // Lưu trực tiếp các file vào state
     setImages((prevImages) => [...prevImages, ...validImages]);
   };
 
@@ -339,8 +339,10 @@ const Detail = () => {
               <div className="col-lg-6 col-md-7 pt-3 box-detail-right">
                 <div className="product__details__text">
                   <div className="product-tag">
-                    <div className="bestseller-tag">#Bán chạy</div>
-                    <div className="sold-tag">Đã bán: 10</div>
+                    {/* <div className="bestseller-tag">#Bán chạy</div> */}
+                    <div className="sold-tag">
+                      Đã bán: {currentVariant?.color?.sold}
+                    </div>
                   </div>
                   <h1 className="text-uppercase">{detailData?.name}</h1>
                   <div className="info-product">
@@ -369,7 +371,9 @@ const Detail = () => {
                         <strong>Mã: {currentVariant?.color?.sku}</strong>
                       </div>
                       <div className="status">
-                        <span className="badge text-bg-success">Còn hàng</span>
+                        <span className="badge text-bg-success">
+                          Còn {currentVariant?.color?.instock} sản phẩm
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -531,16 +535,14 @@ const Detail = () => {
                     onChange={(e) => setQuantity(Number(e.target.value))}
                     id="quantity"
                     type="number"
-                    max="5"
+                    max={currentVariant?.color?.instock}
                     min="1"
                   />
                 </div>
                 <div className="action-buttons">
                   <button
                     className="cart-btn"
-                    onClick={() => {
-                      addToCart(main, currentVariant, quantity);
-                    }}
+                    onClick={() => handleAddToCart(quantity)}
                   >
                     <i className="bx bx-cart-add" /> Thêm giỏ hàng
                   </button>
@@ -672,7 +674,7 @@ const Detail = () => {
                               <span
                                 key={index}
                                 style={{
-                                  color: "rgb(240 204 9)", // Gold color for stars
+                                  color: "rgb(240 204 9)",
                                   fontSize: "20px",
                                 }}
                               >

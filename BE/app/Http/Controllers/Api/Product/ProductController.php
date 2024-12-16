@@ -22,7 +22,8 @@ class ProductController extends controller
 {
 
     public function productByCate(Request $request, $slug)
-    {
+    {   
+        Log::info($request->all());
         try {
             $category = Category::where('slug', $slug)
                 ->where('status', CategoryStatus::Active)
@@ -39,7 +40,9 @@ class ProductController extends controller
 
             $products = Product::with([
                 'category',
-                'brand',
+                'brand'=> function ($query){
+                    $query->where('status', BrandStatus::Active);
+                },
                 'product_variant.comments',
                 'product_image_items' => function ($query){
                     $query->orderBy('posittion', 'asc');
@@ -149,7 +152,7 @@ class ProductController extends controller
                     ->where('category_id', $category->id);
             })
             ->orderBy('sold', 'desc') 
-            ->limit(10)
+            ->limit(3)
             ->get();
 
         if ($productVariants->isEmpty()) {
