@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SaleItem;
 use App\Models\ProductVariant;
 use App\Enums\DefaultStatus;
+use App\Enums\ActiveStatus;
 use App\Models\FlashSale;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -26,8 +27,7 @@ class FlashSaleController extends Controller
         $saleItems = SaleItem::whereHas('flashSale', function ($query) use ($time) {
             $query->where('start_time', '<=', $time)
                   ->where('end_time', '>=', $time);
-        })->where('is_active', Status::Active) 
-          ->orderBy('id','desc')
+        })->orderBy('id','desc')
           ->get();
         return view('flash_sales.index', compact(['status', 'saleItems']));
     }
@@ -39,7 +39,7 @@ class FlashSaleController extends Controller
         $status = ProductStatus::asSelectArray();
         $saleItems = SaleItem::whereHas('flashSale', function ($query) use ($time) {
             $query->where('start_time', '>', $time);
-        })->where('is_active', Status::Active)
+        })
         ->orderBy('id','desc')
             ->get();
         return view('flash_sales.pending', compact(['status', 'saleItems']));
@@ -50,6 +50,7 @@ class FlashSaleController extends Controller
     {   
         $productVariants = ProductVariant::where('status', DefaultStatus::Active)
             ->where('is_flash_sale', false)
+            ->where('instock', '>' , 0)
             ->get();
         $status = Status::asSelectArray();
         return view('flash_sales.create', compact('status', 'productVariants'));
@@ -68,7 +69,7 @@ class FlashSaleController extends Controller
             $flashSale = FlashSale::create([
                 'start_time' => $startTime,
                 'end_time' => $endTime,
-                'status' => DefaultStatus::Active,
+                'status' => ActiveStatus::Active,
             ]);
 
             $flashSaleId = $flashSale->id;

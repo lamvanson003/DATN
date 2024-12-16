@@ -4,7 +4,8 @@ namespace App\Http\Resources\Api\Product;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\FlashSale;
+use App\Models\SaleItem;
+use Illuminate\Support\Facades\Log;
 
 class ProductDetailResource extends JsonResource
 {
@@ -35,16 +36,26 @@ class ProductDetailResource extends JsonResource
                 return [
                     'storage' => $storage,
                     'variants' => $items->map(function($item) {
+                        $flashSale = null;
                         if ($item->is_flash_sale == true) {
-                           $flashSale = FlashSale::find($item->id);
+                           $flashSale = SaleItem::where('product_variant_id',$item->id)->first();
                         }
                         return [
                             'id' => $item->id,
                             'is_flash_sale' => $item->is_flash_sale,
                             'flashSale_price' => $flashSale->discount_price ?? null,
+                            'start_time' => optional($this->flashSale)->start_time ?? null,
+                            'end_time' => optional($this->flashSale)->end_time ?? null,
+                            'percent' => (!is_null(optional($flashSale)->discount_price) 
+                                && $flashSale->discount_price < $item->price 
+                                && $item->price > 0)
+                                ? round((($item->price - $flashSale->discount_price) / $item->price) * 100)
+                                : null,
                             'sku' => $item->sku,
                             'sale' => $item->sale,
                             'price' => $item->price,
+                            'instock' => $item->instock,
+                            'sold' => $item->sold,
                             'color' => $item->color,
                             'images' => $item->images,
                             'average_rating' => round(optional($item->comments->first())->average_rating, 2) ?? 'No ratings',

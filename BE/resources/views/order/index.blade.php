@@ -1,5 +1,5 @@
 @extends('layout_admin')
-@section('title', 'Đơn hàng')>
+@section('title', 'Đơn hàng')
 
 @push('libs-css')
 <link rel="stylesheet" href="{{ asset('/select2/css/select2.min.css') }}">
