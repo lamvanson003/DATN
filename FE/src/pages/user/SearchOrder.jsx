@@ -213,14 +213,14 @@ const SearchOrder = () => {
           type="submit"
           style={{
             position: "absolute",
-            right: "10px",
+            right: "1px",
             top: "50%",
             transform: "translateY(-50%)",
             padding: "10px 15px",
             backgroundColor: "#007BFF",
             color: "white",
             border: "none",
-            borderRadius: "10%",
+            borderRadius: "20%",
             cursor: "pointer",
             fontSize: "16px",
             transition: "background-color 0.3s",
