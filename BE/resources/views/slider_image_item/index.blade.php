@@ -54,6 +54,7 @@
                     <th>Tên Slider</th>
                     <th>Tiêu đề</th>
                     <th>Vị trí</th>
+                    <th>Loại banner</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </thead>
@@ -63,6 +64,7 @@
                     <th>Tên Slider</th>
                     <th>Tiêu đề</th>
                     <th>Vị trí</th>
+                    <th>Loại banner</th>
                     <th style="width: 10%">Hành động</th>
                   </tr>
                 </tfoot>
@@ -73,6 +75,15 @@
                       <td><span>{{ $item->slider->name }}</span></td> 
                       <td><span>{{ $item->title ?? 'Chưa có'}}</span></td> 
                       <td><span>{{ $item->position ?? 'Chưa có'}}</span></td> 
+                      <td>
+                        @if($item->type === 'main_banner')
+                            <span class="badge bg-primary">Main Banner</span>
+                        @elseif($item->type === 'sub_banner')
+                            <span class="badge bg-secondary">Sub Banner</span>
+                        @else
+                            <span class="badge bg-warning">Unknown</span>
+                        @endif
+                      </td>                    
                       <td>
                         <div class="form-button-action gap-2">
                           <a href="{{ route('admin.slider.item.edit', $item->id) }}">

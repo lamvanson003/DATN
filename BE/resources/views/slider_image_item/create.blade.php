@@ -52,6 +52,15 @@
                                         <input type="number" required class="form-control" name="position" placeholder="VD: 1">
                                     </div>
                                 </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="mb-3">
+                                        <label class="control-label">Loại banner:</label>
+                                        <select class="form-control" name="type" required>
+                                            <option value="main_banner">Banner Chính</option>
+                                            <option value="sub_banner">Banner Phụ</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -52,6 +52,7 @@ class ItemController extends Controller
                 'title' => $request->title,
                 'slider_id' => $slider_id,
                 'position' => $position,
+                'type' => $request->type,
                 'images' => $imagePath,
             ]);
             return redirect()->route('admin.slider.item.index',$slider_id)->with('success', 'Thêm thành công.');
@@ -81,6 +82,7 @@ class ItemController extends Controller
             'position' => 'nullable|integer',
             'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'old_image' => 'nullable|string',
+            'type' => 'required|in:main_banner,sub_banner',
         ]);
         
         $slider_image_item = SliderItem::findOrFail($request['id']);
@@ -101,7 +103,9 @@ class ItemController extends Controller
 
         $slider_image_item->update([
             'title' => $request['title'],
+            'position' => $request['position'],
             'images' => $slider_image_item->images,
+            'type' => $request['type'],
         ]);
 
         return redirect()->route('admin.slider.item.index', ['slider_id' => $slider_image_item->slider_id])->with('success', 'Item đã được cập nhật thành công!');

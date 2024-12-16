@@ -55,6 +55,17 @@
                                         <input type="number" required class="form-control" name="position" value="{{ $slider_image_item->position }}" placeholder="VD: 1">
                                     </div>
                                 </div>
+
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="mb-3">
+                                        <label for="type">Loại banner:</label>
+                                        <select name="type" id="type" class="form-control">
+                                            @foreach(App\Models\SliderItem::getTypes() as $key => $value)
+                                                <option value="{{ $key }}" {{ $slider_image_item->type === $key ? 'selected' : '' }}>{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
