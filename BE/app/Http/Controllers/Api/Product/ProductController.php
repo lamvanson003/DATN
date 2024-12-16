@@ -137,7 +137,9 @@ class ProductController extends controller
                     $query->where('status', ProductStatus::Active)
                         ->where('category_id', $category->id);
                 },
-                'product.brand',
+                'product.brand' => function ($query){
+                    $query->where('status', Status::Active);
+                },
                 'comments' => function ($query) {
                     $query->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_comments');
                 },
