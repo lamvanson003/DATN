@@ -58,6 +58,9 @@ class DiscountController extends Controller
             if ($data['type'] === DiscountType::Percent && $data['discount_value'] > 99) {
                 return redirect()->back()->withErrors(['discount_value' => 'Giá trị giảm giá không được lớn hơn 99% cho loại giảm giá phần trăm.'])->withInput();
             }
+            if ($data['type'] === DiscountType::Fixed && $data['discount_value'] <= 0) {
+                return redirect()->back()->withErrors(['discount_value' => 'Giá trị giảm giá cố định phải lớn hơn 0.'])->withInput();
+            }
 
             if (!in_array($data['type'], array_keys(DiscountType::asSelectArray()))) {
                 return redirect()->back()->withErrors(['type' => 'Loại giảm giá không hợp lệ.']);
@@ -114,6 +117,9 @@ class DiscountController extends Controller
 
             if ($data['type'] === DiscountType::Percent && $data['discount_value'] > 99) {
                 return redirect()->back()->withErrors(['discount_value' => 'Giá trị giảm giá không được lớn hơn 99% cho loại giảm giá phần trăm.'])->withInput();
+            }
+            if ($data['type'] === DiscountType::Fixed && $data['discount_value'] <= 0) {
+                return redirect()->back()->withErrors(['discount_value' => 'Giá trị giảm giá cố định phải lớn hơn 0.'])->withInput();
             }
 
             $discount->update([
