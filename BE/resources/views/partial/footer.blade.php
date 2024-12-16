@@ -359,27 +359,38 @@
           });
       },
     });
-
-    // Add Row
-    $("#add-row").DataTable({
-      pageLength: 10,
-    });
-
-    var action =
-      '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-    $("#addRowButton").click(function () {
-      $("#add-row")
-        .dataTable()
-        .fnAddData([
-          $("#addName").val(),
-          $("#addPosition").val(),
-          $("#addOffice").val(),
-          action,
-        ]);
-      $("#addRowModal").modal("hide");
-    });
   });
+
+  $(document).ready(function () {
+    var table = $("#add-row").DataTable({
+      pageLength: 10,
+      "columnDefs": [
+        {
+          "targets": 0, 
+          "orderable": true, 
+        }
+      ],
+      "order": [[0, 'asc']] 
+    });
+
+  var action =
+    '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+  
+  let rowId = 1; 
+
+  $("#addRowButton").click(function () {
+    table.row.add([
+      rowId++,  
+      $("#addName").val(),
+      $("#addPosition").val(),
+      $("#addOffice").val(),
+      action,
+    ]).draw(false); 
+    $("#addRowModal").modal("hide");
+  });
+});
+
 </script>
 
 </body>
