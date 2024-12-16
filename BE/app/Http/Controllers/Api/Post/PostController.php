@@ -76,8 +76,6 @@ class PostController extends Controller
 
     }
 
-
-
     public function detail($slug)
     {
         try {

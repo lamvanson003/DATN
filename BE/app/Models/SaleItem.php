@@ -11,7 +11,9 @@ class SaleItem extends Model
     use HasFactory;
 
     protected $table = "flash_sale_items";
-    protected $fillable = ['product_variant_id','flash_sale_id','discount_price','quantity_limit','view','sold','is_active','status'];
+    protected $fillable = ['product_variant_id','flash_sale_id',
+    'discount_price','quantity_limit','view','sold',
+    'total_quanlity_limit','is_active','status'];
 
     public function flashSale(){
         return $this->belongsTo(FlashSale::class,'flash_sale_id');

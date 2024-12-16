@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useContext, useMemo } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./css/Boxpro.css";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CartContext } from "../context/Cart";
 import { memo } from "react";
 import { FavorContext } from "../context/Favor";
 import { formatCurrency, handleNumber } from "../ultis/func";
 import { useCountdown } from "../ultis/func";
 import { toast } from "react-toastify";
-
+import fire from "../assets/images/iHome/fire.png";
 const BoxPro = ({
   id,
   name,
@@ -22,7 +22,6 @@ const BoxPro = ({
   hoverCart,
   hoverCartItem,
   tab,
-  when,
   startFs,
   endFs,
   quantity_limit,
@@ -110,7 +109,6 @@ const BoxPro = ({
   const { hours, minutes, seconds, status } = useCountdown(startFs, endFs);
 
   const testname = "Laptop ASUS TUF Gaming A14 FA401WV-RG061WS 12312412412";
-
   return (
     <div>
       {flashSale ? (
@@ -137,7 +135,7 @@ const BoxPro = ({
                 className="badge bg-warning text-dark"
                 style={{ fontSize: "0.8rem" }}
               >
-                -67%
+                {`${currentVariant?.color?.percent}%`}
               </span>
             </div>
 
@@ -168,15 +166,15 @@ const BoxPro = ({
                 >
                   <h5 className="card-title m-0" style={{ cursor: "pointer" }}>
                     {name
-                      ? name.length > 30
-                        ? name.slice(0, 30) + "..."
+                      ? name.length > 25
+                        ? name.slice(0, 25) + "..."
                         : `${name}${
                             currentVariant?.color?.color
                               ? ` ${currentVariant?.color?.color}`
                               : ""
                           }`
-                      : testname.length > 30
-                      ? testname.slice(0, 30) + "..."
+                      : testname.length > 25
+                      ? testname.slice(0, 25) + "..."
                       : testname}
                   </h5>
                 </span>
@@ -248,16 +246,23 @@ const BoxPro = ({
               <span className="countdown-time">
                 {hours >= 24 ? (
                   <span>
-                    <span className="countdown-day">
-                      <span className="pe-0">{Math.floor(hours / 24)}</span>
-                      <span className="ps-1">
-                        {Math.floor(hours / 24) === 1 ? "day" : "days"}
+                    {hours >= 24 && (
+                      <span className="countdown-day">
+                        <span className="pe-0">{Math.floor(hours / 24)}</span>
+                        <span className="">ngày</span>
                       </span>
-                    </span>
+                    )}
                     <span className="countdown-hour">
-                      {hours % 24 === 0
-                        ? `${String(minutes).padStart(2, "0")} minutes`
-                        : `${String(hours % 24).padStart(2, "0")} hours`}
+                      <span className="pe-0">
+                        {String(hours % 24).padStart(2, "0")}
+                      </span>
+                      <span className="">giờ</span>
+                    </span>
+                    <span className="countdown-minute">
+                      <span className="pe-0">
+                        {String(minutes).padStart(2, "0")}
+                      </span>
+                      <span className="">phút</span>
                     </span>
                   </span>
                 ) : (
@@ -378,15 +383,6 @@ const BoxPro = ({
             style={{ borderRadius: "5px", fontSize: "12px" }}
           >
             <div className="d-flex flex-column align-items-center">
-              <span
-                className="badge bg-warning text-dark"
-                style={{ fontSize: "0.8rem" }}
-              >
-                {currentVariant?.color?.percent
-                  ? `${currentVariant.color.percent}% `
-                  : null}
-              </span>
-
               <div
                 className="d-flex flex-column mt-2 action-buttons"
                 style={{
@@ -413,6 +409,14 @@ const BoxPro = ({
                     className={`fas fa-heart ${inFavorItems && "text-danger"}`}
                   />
                 </button>
+                <span
+                  className="badge bg-warning text-dark"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  {currentVariant?.color?.percent
+                    ? `${currentVariant?.color?.percent}% `
+                    : null}
+                </span>
               </div>
             </div>
           </div>
@@ -444,15 +448,15 @@ const BoxPro = ({
               >
                 <h5 className="card-title mb-0" style={{ cursor: "pointer" }}>
                   {name
-                    ? name.length > 30
-                      ? name.slice(0, 30) + "..."
+                    ? name.length > 25
+                      ? name.slice(0, 25) + "..."
                       : `${name}${
                           currentVariant?.color?.color
                             ? ` ${currentVariant?.color?.color}`
                             : ""
                         }`
-                    : testname.length > 30
-                    ? testname.slice(0, 30) + "..."
+                    : testname.length > 25
+                    ? testname.slice(0, 25) + "..."
                     : testname}
                 </h5>
               </span>
@@ -461,7 +465,7 @@ const BoxPro = ({
             <div>
               <p className="price text-center my-1">
                 <span className="me-2">
-                  {currentVariant?.color?.sale
+                  {currentVariant?.color?.sale > 0
                     ? currentVariant?.color?.sale > 100000000
                       ? handleNumber(currentVariant?.color?.sale)
                       : formatCurrency(currentVariant?.color?.sale)
@@ -472,15 +476,14 @@ const BoxPro = ({
                     : "---"}
                 </span>
 
-                {currentVariant?.color?.sale && (
-                  <span className="old-price">
-                    {currentVariant?.color?.price
-                      ? currentVariant?.color?.price > 100000000
+                {currentVariant?.color?.sale > 0 &&
+                  currentVariant?.color?.price && (
+                    <span className="old-price">
+                      {currentVariant?.color?.price > 100000000
                         ? handleNumber(currentVariant?.color?.price)
-                        : formatCurrency(currentVariant?.color?.price)
-                      : ""}
-                  </span>
-                )}
+                        : formatCurrency(currentVariant?.color?.price)}
+                    </span>
+                  )}
               </p>
 
               <div className="storage-variant my-3">
@@ -499,21 +502,24 @@ const BoxPro = ({
                       {v?.storage}
                     </span>
                   ))}
+                {hot && (
+                  <span className="storage-option">
+                    Lượt bán: {currentVariant?.color?.sold}
+                  </span>
+                )}
               </div>
 
-              {!hot && (
-                <button
-                  className="btn btn-primary btn-sm"
-                  style={{
-                    borderRadius: "20px",
-                    width: "100%",
-                    fontWeight: "bold",
-                  }}
-                  onClick={() => buyNow(main, currentVariant)}
-                >
-                  Mua ngay
-                </button>
-              )}
+              <button
+                className="btn btn-primary btn-sm"
+                style={{
+                  borderRadius: "20px",
+                  width: "100%",
+                  fontWeight: "bold",
+                }}
+                onClick={() => buyNow(main, currentVariant)}
+              >
+                Mua ngay
+              </button>
             </div>
           </div>
         </div>

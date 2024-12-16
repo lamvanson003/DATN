@@ -5,7 +5,7 @@ import { commentApi } from "../../apis";
 import { Tab, BoxPro } from "../../components";
 import "./css/Detail.css";
 import { useParams } from "react-router-dom";
-import { formatCurrency } from "../../ultis/func";
+import { formatCurrency, useCountdown } from "../../ultis/func";
 import { useSelector } from "react-redux";
 import icons from "../../ultis/icon";
 import { toast } from "react-toastify";
@@ -177,7 +177,11 @@ const Detail = () => {
     );
     const checkQuantity = foundItem?.quantity ?? 0;
     if (checkQuantity < (currentVariant?.color?.instock || 0)) {
-      addToCart(main, currentVariant, quantity);
+      if (quantity > currentVariant?.color?.instock) {
+        toast.warning("Vượt quá số lượng tồn kho!");
+      } else {
+        addToCart(main, currentVariant, quantity);
+      }
     } else {
       toast.warning(
         "Số lượng sản phẩm trong giỏ hàng  đã vượt quá số lượng tồn kho!"
@@ -281,7 +285,10 @@ const Detail = () => {
     }
     setImages((prevImages) => [...prevImages, ...validImages]);
   };
-
+  const { hours, minutes, seconds, status } = useCountdown(
+    currentVariant?.color?.start_time,
+    currentVariant?.color?.end_time
+  );
   return (
     <>
       <section className="px-2 mb-2" id="Breadcrumb" ref={ref}>
@@ -472,7 +479,10 @@ const Detail = () => {
                       }}
                     >
                       <span style={{ fontSize: "20px" }}>
-                        18.890.000 <sup>đ</sup>
+                        {currentVariant?.color?.is_flash_sale === 1 &&
+                          formatCurrency(
+                            currentVariant?.color?.flashSale_price
+                          )}
                       </span>
                       <span
                         style={{
@@ -481,7 +491,7 @@ const Detail = () => {
                           marginLeft: "8px",
                         }}
                       >
-                        -10%
+                        {currentVariant?.color?.percent}%
                       </span>
                     </div>
 
@@ -502,11 +512,57 @@ const Detail = () => {
                           padding: "4px 8px",
                         }}
                       >
-                        🔥 Đã bán <strong>0/10</strong> suất
+                        🔥 Đã bán
+                        <strong>
+                          <span> {currentVariant?.color?.soldFlashSale}</span>/
+                          {currentVariant?.color?.quantity_limit}
+                        </strong>
+                        suất
                       </div>
                       <div>
-                        Kết thúc vào:
-                        <strong style={{ color: "#000" }}> 18/11/2024</strong>
+                        <strong style={{ color: "#000" }}>
+                          <span className="countdown-time">
+                            {hours >= 24 ? (
+                              <span>
+                                {hours >= 24 && (
+                                  <span className="countdown-day p-0">
+                                    <span className="px-0">
+                                      {Math.floor(hours / 24)}
+                                    </span>
+                                    <span className="">ngày</span>
+                                  </span>
+                                )}
+                                <span className="countdown-hour p-0">
+                                  <span className="px-0">
+                                    {String(hours % 24).padStart(2, "0")}
+                                  </span>
+                                  <span className="">giờ</span>
+                                </span>
+                                <span className="countdown-minute p-0">
+                                  <span className="px-0">
+                                    {String(minutes).padStart(2, "0")}
+                                  </span>
+                                  <span className="">phút</span>
+                                </span>
+                              </span>
+                            ) : (
+                              <>
+                                <span className="countdown-hour px-0">
+                                  {String(hours).padStart(2, "0")}
+                                </span>
+                                <span className="px-0">giờ</span>
+                                <span className="countdown-minute px-0">
+                                  {String(minutes).padStart(2, "0")}
+                                </span>
+                                <span className="px-0">phút</span>
+                                <span className="countdown-second px-0">
+                                  {String(seconds).padStart(2, "0")}
+                                </span>
+                                <span className="px-0">giây</span>
+                              </>
+                            )}
+                          </span>
+                        </strong>
                       </div>
                     </div>
                   </div>

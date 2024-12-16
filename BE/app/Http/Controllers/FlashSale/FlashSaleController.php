@@ -50,6 +50,7 @@ class FlashSaleController extends Controller
     {   
         $productVariants = ProductVariant::where('status', DefaultStatus::Active)
             ->where('is_flash_sale', false)
+            ->where('instock', '>' , 0)
             ->get();
         $status = Status::asSelectArray();
         return view('flash_sales.create', compact('status', 'productVariants'));
@@ -100,6 +101,7 @@ class FlashSaleController extends Controller
                     'product_variant_id' => $variantId,
                     'discount_price' => $discountPrice,
                     'quantity_limit' => $quantityLimit,
+                    'total_quanlity_limit' => $quantityLimit,
                     'is_active' => $data['is_active'],
                 ]);
                 $variant->decrement('instock', $quantityLimit);

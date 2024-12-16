@@ -39,7 +39,6 @@
                     <th>Khách hàng</th>
                     <th>Admin</th>
                     <th>Nội dung</th>
-                    <th>Trạng thái</th>
                     <th>Loại </th>
                     <th>Ngày tạo </th>
                     <th>Hành động</th>
@@ -65,19 +64,7 @@
                             </a>
                         @endif
                       </td> 
-                      <td>{{ $item->message }}</td> 
-                        <td>
-                            @switch($item->read_at->value)
-                                @case(\App\Enums\Notification\NotificationReadAt::Read)
-                                    <span class="badge rounded-pill badge-success">{{ \App\Enums\Notification\NotificationReadAt::getDescription($item->read_at->value) }}</span>
-                                @break
-                                @case(\App\Enums\Notification\NotificationReadAt::Not_Read)
-                                    <span class="badge rounded-pill badge-secondary">{{ \App\Enums\Notification\NotificationReadAt::getDescription($item->read_at->value) }}</span>
-                                @break
-                                @default
-                                    <span class="badge rounded-pill badge-danger">Không xác định</span>
-                            @endswitch
-                        </td>
+                      <td style="max-width: 200px !important;">{{ $item->message }}</td> 
                         <td>
                             @switch($item->type->value)
                                 @case(\App\Enums\Notification\NotificationType::ORDER)

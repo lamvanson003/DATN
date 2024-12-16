@@ -44,7 +44,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3 ">
                                         <label class="control-label">Tiêu đề<span style="color: red">*</span>:</label>
-                                        <input type="text" required class="form-control" name="title" value="{{ $slider_image_item->title }}" placeholder="VD: Item-1">
+                                        <input type="text" class="form-control" name="title" value="{{ $slider_image_item->title }}" placeholder="VD: Item-1">
                                     </div>
                                 </div>
 
@@ -52,7 +52,18 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="mb-3">
                                         <label class="control-label">Vị trí sắp xếp:</label>
-                                        <input type="number" required class="form-control" name="position" value="{{ $slider_image_item->position }}" placeholder="VD: 1">
+                                        <input type="number" class="form-control" name="position" value="{{ $slider_image_item->position }}" placeholder="VD: 1">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="mb-3">
+                                        <label for="type">Loại banner:</label>
+                                        <select name="type" id="type" class="form-control">
+                                            @foreach(App\Models\SliderItem::getTypes() as $key => $value)
+                                                <option value="{{ $key }}" {{ $slider_image_item->type === $key ? 'selected' : '' }}>{{ $value }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>

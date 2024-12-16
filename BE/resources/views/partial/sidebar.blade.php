@@ -168,13 +168,13 @@
                 <li>
                   <a href="{{ route('admin.discount.index') }}">
                     <i class="fas fa-list"></i>
-                    <span>DS mã giảm giá đang hoạt động</span>
+                    <span>Mã giảm giá hoạt động</span>
                   </a>
                 </li>
                 <li>
                   <a href="{{ route('admin.discount.inactive') }}">
                     <i class="fas fa-list"></i>
-                    <span>DS mã giảm giá ngừng hoạt động</span>
+                    <span>Mã giảm giá hết hạn</span>
                   </a>
                 </li>
               </ul>
@@ -275,13 +275,13 @@
                 <li>
                   <a href="{{ route('admin.comment.index',['type' => 'productVariant']) }}">
                     <i class="fas fa-list"></i>
-                    <span>DS sản phẩm</span>
+                    <span>DS bình luận sản phẩm</span>
                   </a>
                 </li>
                 <li>
                   <a href="{{ route('admin.comment.index',['type' => 'post']) }}">
                     <i class="fas fa-list"></i>
-                    <span>DS bài viết</span>
+                    <span>DS bình luận bài viết</span>
                   </a>
                 </li>
               </ul>

@@ -19,12 +19,12 @@ class CommentController extends Controller
         if($type === 'productVariant'){
             $comments = Comment::with('productVariant')
             ->whereNotNull('product_variant_id')
-            ->orderBy('id','desc')
+            ->orderBy('created_at','desc')
             ->get(); 
         } elseif ($type === 'post') {
             $comments = Comment::with('post')
                 ->whereNotNull('post_id')
-                ->orderBy('id', 'desc')
+                ->orderBy('created_at', 'desc')
                 ->get();
         }  
         return view('comment.index', compact('comments', 'type')); 
