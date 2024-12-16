@@ -25,7 +25,7 @@ final class OrderStatus extends Enum
             self::Delivered => 'Đã được giao',
             self::Canceled => 'Hủy đơn',
             self::Returned => 'Trả hàng',
-            self::Deleted => 'Đã xóa',
+            self::Deleted => 'Xóa đơn hàng',
             self::Completed => 'Đã thanh toán',
         ];
     }
@@ -40,7 +40,7 @@ final class OrderStatus extends Enum
             self::Delivered => 'Đã được giao',
             self::Canceled => 'Hủy đơn',
             self::Returned => 'Trả hàng',
-            self::Deleted => 'Đã xóa',
+            self::Deleted => 'Xóa đơn hàng',
             self::Completed => 'Đã thanh toán',
             default => 'Không xác định',
         };

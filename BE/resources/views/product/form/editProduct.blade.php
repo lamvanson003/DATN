@@ -46,8 +46,7 @@
         <div class="col-md-12 col-sm-12">
             <div class="mb-3">
                 <label class="control-label">Mô tả chi tiết:</label>
-                <textarea class="form-control" name="description" rows="5" placeholder="Mô tả chi tiết về sản phẩm" >
-                    {{ $product->description }}
+                <textarea class="form-control" name="description" rows="5" placeholder="Mô tả chi tiết về sản phẩm" >{{ $product->description }}
                 </textarea>
             </div>
         </div>

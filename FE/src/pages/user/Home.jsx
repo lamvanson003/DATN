@@ -77,12 +77,11 @@ const Home = () => {
         <div className="row bg-box">
           <div className="d-flex title-p align-items-center">
             <span>Điện thoại</span>
-            <a href="">Xem tất cả</a>
           </div>
           <div className="row justify-content-start align-items-center pt-3 pb-3">
             {phonesData &&
               phonesData
-                .filter((value, index) => index < 8)
+                .filter((value, index) => index < 16)
                 .map((pro, index) => (
                   <div key={index} className="col-md-3">
                     <BoxPro
@@ -107,12 +106,11 @@ const Home = () => {
         <div className="row justify-content-start bg-box">
           <div className="d-flex title-p align-items-center">
             <span>Laptop</span>
-            <a href="">Xem tất cả</a>
           </div>
           <div className="row justify-content-start align-items-center pt-3 pb-3">
             {laptopsData &&
               laptopsData
-                .filter((value, index) => index < 8)
+                .filter((value, index) => index < 16)
                 .map((pro, index) => (
                   <div key={index} className="col-md-3">
                     <BoxPro

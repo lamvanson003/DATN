@@ -32,6 +32,7 @@
         <div class="container-xl">
             <form action="{{ route('admin.discount.store') }}" method="POST">
                 @csrf
+               
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9">
                         <div class="card">
@@ -63,24 +64,25 @@
                                     </div>
                                 </div>
 
-                                    <div class="col-12 col-md-6">
-                                        <div class="mb-3">
-                                            <!-- Input cho giảm giá tiền mặt (VND) -->
-                                            <div id="discount_money" class="d-none">
-                                                <label class="form-label">@lang('Giá trị giảm') (VND)</label>
-                                                <input type="number" class="form-control" name="discount_value" id="discount_value"
-                                                    placeholder="VD: 30000" />
-                                            </div>
-
-                                            <!-- Input cho giảm giá phần trăm (%) -->
-                                            <div id="discount_percent" >
-                                                <label class="form-label">@lang('Giá trị giảm') (%)</label>
-                                                <input type="number" class="form-control" name="discount_value" id="percent_value"
-                                                    placeholder="VD: 5%" />
-                                            </div>
+                                <div class="col-12 col-md-6">
+                                    <input type="hidden" name="discount_value" id="discount_value_hidden" />
+                                    <div class="mb-3">
+                                        <!-- Input cho giảm giá tiền mặt (VND) -->
+                                        <div id="discount_money" class="d-none">
+                                            <label class="form-label">@lang('Giá trị giảm') (VND)</label>
+                                            <input type="number" class="form-control" name="discount_money" id="discount_money_value"
+                                                placeholder="VD: 30000" />
+                                        </div>
+                                
+                                        <!-- Input cho giảm giá phần trăm (%) -->
+                                        <div id="discount_percent">
+                                            <label class="form-label">@lang('Giá trị giảm') (%)</label>
+                                            <input type="number" class="form-control" name="discount_percent" id="discount_percent_value"
+                                                placeholder="VD: 5%" />
                                         </div>
                                     </div>
-
+                                </div>
+                                
     
                                     <div class="col-6">
                                         <div class="mb-3">

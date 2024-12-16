@@ -18,6 +18,7 @@ class FlashSaleResource extends JsonResource
         'id' => $this->product_variant->product->id,
         'quantity_limit' => $this->quantity_limit,
         'sold' => $this->sold,
+        'total_quanlity_limit' => $this->total_quanlity_limit,
         'discount_price' => $this->discount_price,
         'is_active' => $this->is_active,
         'name' => $this->product_variant->product->name,
@@ -44,7 +45,7 @@ class FlashSaleResource extends JsonResource
                     'instock' => optional($this->product_variant)->instock,
                     'is_flash_sale' => optional($this->product_variant)->is_flash_sale,
                     'sold' => optional($this->product_variant)->sold,
-                    
+                    'percent' => round((($this->product_variant->price - $this->discount_price) / $this->product_variant->price) * 100),
                 ];
             }),
         ],
@@ -58,5 +59,7 @@ class FlashSaleResource extends JsonResource
         })->values(),
     ];
 }
-
+    public function getVariant($variant){
+        
+    }
 }
