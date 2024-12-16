@@ -6,18 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpZA } from "@fortawesome/free-solid-svg-icons";
 import { faArrowDownAZ } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import * as action from "../../store/actions";
-import { Brand, Filter } from "../../components";
-import { Link } from "react-router-dom";
+import { Filter } from "../../components";
 import { useContext } from "react";
-import axios from "axios";
 import { FavorContext } from "../../context/Favor";
-import { formatCurrency } from "../../ultis/func";
 import blank from "../../assets/images/iHome/blank.svg";
 import "./css/Favor.css";
 const Favor = () => {
-  const { isLoading } = useSelector((state) => state.app);
-  const dispatch = useDispatch();
   const [Pros, setPros] = useState([]);
   const { favorItems, clearFavor } = useContext(FavorContext);
   const [curPage, setCurPage] = useState(1);
@@ -37,7 +31,6 @@ const Favor = () => {
   useEffect(() => {
     setPros(favorItems);
   }, [favorItems]);
-  console.log(Pros);
 
   const filteredPros = useMemo(() => {
     return Pros?.filter((pro) => {
@@ -51,18 +44,17 @@ const Favor = () => {
     return filteredPros.slice(indexOfFirstItem, indexOfLastItem);
   }, [filteredPros, indexOfFirstItem, indexOfLastItem]);
 
-  const handleRangeChange = (e) => {
-    setMaxPrice(e.target.value);
-  };
-  const [sortOrder, setSortOrder] = useState(1); // 1: tăng dần, 0: giảm dần
-  const sortedItems = useMemo(() => {
-    const sorted = [...curItems]; // Tạo một bản sao của curItems để tránh thay đổi trực tiếp
-    if (sortOrder) {
-      return sorted.sort((a, b) => a.sale - b.sale);
-    } else {
-      return sorted.sort((a, b) => b.sale - a.sale);
-    }
-  }, [curItems, sortOrder]);
+  const [sortOrder, setSortOrder] = useState(1);
+
+  const sortedItems = [...curItems].sort((a, b) => {
+    const aPrice =
+      a.product_variant[0].variants[0].sale ||
+      a.product_variant[0].variants[0].price;
+    const bPrice =
+      b.product_variant[0].variants[0].sale ||
+      b.product_variant[0].variants[0].price;
+    return sortOrder === 1 ? aPrice - bPrice : bPrice - aPrice;
+  });
 
   const navigate = useNavigate();
   const handleNaPro = () => {
@@ -71,7 +63,7 @@ const Favor = () => {
 
   return (
     <div className="container ">
-      {sortedItems.length === 0 ? (
+      {favorItems.length === 0 ? (
         <div className="favorite-container d-flex flex-column align-items-center justify-content-center mt-3">
           <img src={blank} alt="No Favorites" className="favorite-image" />
           <p className="favorite-text">
@@ -87,8 +79,8 @@ const Favor = () => {
       ) : (
         <div>
           <section id="header">
-            <section className="px-2 mb-2" id="Breadcrumb">
-              <div className="container p-3 bg-Breadcrumb ">
+            <section className=" mb-2" id="Breadcrumb">
+              <div className="container py-3 px-0 bg-Breadcrumb ">
                 <nav aria-label="breadcrumb">
                   <ol className="breadcrumb mb-0">
                     <li className="breadcrumb-item">
@@ -98,14 +90,14 @@ const Favor = () => {
                     </li>
                     <li className="breadcrumb-item active_route">
                       <a href="/product" className="route">
-                        Sản phẩm
+                        Sản phẩm yêu thích
                       </a>
                     </li>
                   </ol>
                 </nav>
               </div>
             </section>
-            <Sbanner product />
+
             <div className="row my-3">
               <div className="col-md-6"></div>
               <div className="col-md-6 d-flex align-items-center justify-content-end gap-4">
@@ -155,52 +147,59 @@ const Favor = () => {
             ))}
           </div>
           <section className="pagi">
-            <div className="row">
-              <div className="col-md-3"></div>
-              <div className="col-md-9">
-                <nav aria-label="Page navigation example">
-                  <ul className="pagination justify-content-center">
-                    <li className="page-item">
-                      <a
-                        className="page-link"
-                        href="#"
-                        aria-label="Previous"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          paginate(curPage - 1);
-                        }}
-                      >
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                    {pageNumbers.map((number) => (
-                      <li key={number} className="page-item">
-                        <a
-                          onClick={() => paginate(number)}
-                          href="#"
-                          className="page-link"
-                        >
-                          {number}
-                        </a>
-                      </li>
-                    ))}
-                    <li className="page-item">
-                      <a
-                        className="page-link"
-                        href="#"
-                        aria-label="Next"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          paginate(curPage + 1);
-                        }}
-                      >
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
+            <nav aria-label="Page navigation example">
+              <ul className="pagination justify-content-center">
+                <li className={`page-item ${curPage === 1 ? "disabled" : ""}`}>
+                  <a
+                    className="page-link"
+                    href="#"
+                    aria-label="Previous"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (curPage > 1) paginate(curPage - 1);
+                    }}
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                {pageNumbers.map((number) => (
+                  <li
+                    key={number}
+                    className={`page-item ${
+                      curPage === number ? "active" : ""
+                    }`}
+                  >
+                    <a
+                      onClick={(e) => {
+                        e.preventDefault();
+                        paginate(number);
+                      }}
+                      href="#"
+                      className="page-link"
+                    >
+                      {number}
+                    </a>
+                  </li>
+                ))}
+                <li
+                  className={`page-item ${
+                    curPage === pageNumbers.length ? "disabled" : ""
+                  }`}
+                >
+                  <a
+                    className="page-link"
+                    href="#"
+                    aria-label="Next"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (curPage < pageNumbers.length) paginate(curPage + 1);
+                    }}
+                  >
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </section>
         </div>
       )}

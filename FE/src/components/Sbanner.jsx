@@ -20,7 +20,7 @@ const Sbanner = ({ product }) => {
     );
   };
   return (
-    <div className="container">
+    <div className="container px-0">
       {product ? (
         <div
           style={{
@@ -28,7 +28,6 @@ const Sbanner = ({ product }) => {
             margin: "auto",
             display: "flex",
             justifyContent: "space-between",
-            padding: "4px",
           }}
         >
           <div style={{ width: "48%", borderRadius: "8px" }}>

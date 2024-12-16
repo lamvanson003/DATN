@@ -28,7 +28,9 @@ const Post = () => {
     fetchPostData();
     fetchPostCateData();
   }, []);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="container" style={{ margin: "0 auto", padding: 20 }}>
       <div className="row mt-5">

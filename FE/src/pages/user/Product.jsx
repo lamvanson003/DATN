@@ -40,6 +40,8 @@ const Product = () => {
           const results = await productApi.search(searchTerm);
           setPros(results);
         } else if (productsData) {
+          console.log(productsData);
+
           setPhonesData(productsData.phone);
           setLaptopsData(productsData.laptop);
         }
@@ -97,10 +99,10 @@ const Product = () => {
   });
 
   return (
-    <div className="container ">
+    <div className="container">
       <section id="header">
-        <section className="px-2 mb-2" id="Breadcrumb">
-          <div className="container p-3 bg-Breadcrumb ">
+        <section className="mb-2" id="Breadcrumb">
+          <div className="container py-3 px-0 bg-Breadcrumb ">
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb mb-0">
                 <li className="breadcrumb-item">

@@ -11,19 +11,16 @@ const Commercial = () => {
             <div className="col-auto">
               <div className="commercial">
                 <img src={asus} alt="Banner 1 Image" className="img-fluid" />
-                <h5 className="text-center ">Sub Banner 1</h5>
               </div>
             </div>
             <div className="col-auto">
               <div className="commercial ">
                 <img src={laptop} alt="Banner 2 Image" className="img-fluid" />
-                <h5 className="text-center ">Sub Banner 2</h5>
               </div>
             </div>
             <div className="col-auto">
               <div className="commercial">
                 <img src={phone} alt="Banner 3 Image" className="img-fluid" />
-                <h5 className="text-center ">Sub Banner 3</h5>
               </div>
             </div>
           </div>
