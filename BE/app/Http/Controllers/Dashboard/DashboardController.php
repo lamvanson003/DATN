@@ -81,7 +81,6 @@ class DashboardController extends Controller
 
     public function getTotalpriceOrder(){
         $q = Order::where('completed',true)
-        ->where('status',OrderStatus::Completed)
         ->sum('total_price');
         return $q;
     }

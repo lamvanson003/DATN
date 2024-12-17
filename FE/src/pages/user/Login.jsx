@@ -121,7 +121,6 @@ const Login = () => {
                       type="checkbox"
                     />
                   </div>
-                  <span>Quên mật khẩu ?</span>
                   <span onClick={navigateSignup} style={{ cursor: "pointer" }}>
                     Chưa có tài khoản ?
                   </span>

@@ -4,7 +4,6 @@ import login from "../../assets/images/iHome/image_login-removebg-preview (1).pn
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Signup.css"; // Ensure correct CSS file path
 
-
 const Signup = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -15,16 +14,19 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
+
     if (!username) {
       newErrors.username = "Tên không được để trống";
       isValid = false;
     }
     if (!email) {
       newErrors.email = "Email không được để trống";
+      isValid = false;
+    } else if (!/^[\w.%+-]+@gmail\.com$/.test(email)) {
+      newErrors.email = "Email sai định dạng vui lòng nhập lại ";
       isValid = false;
     }
     if (!password) {
@@ -38,15 +40,22 @@ const Signup = () => {
       newErrors.passwordConfirmation = "Mật khẩu không khớp";
       isValid = false;
     }
-    if (phone && !/^\d{10,15}$/.test(phone)) {
 
-      newErrors.phone = "Số điện thoại phải từ 10 đến 15 ký tự số";
+    // Updated phone validation
+    if (!phone) {
+      newErrors.phone = "Số điện thoại không được để trống";
+      isValid = false;
+    } else if (!/^\d+$/.test(phone)) {
+      newErrors.phone = "Số điện thoại chỉ chứa ký tự số";
+      isValid = false;
+    } else if (phone.length < 10 || phone.length > 15) {
+      newErrors.phone = "Số điện thoại chỉ chứa 10 số ";
       isValid = false;
     }
+
     setErrors(newErrors);
     return isValid;
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -71,29 +80,33 @@ const Signup = () => {
       );
 
       if (response.status === 200) {
-        navigate("/login"); 
+        navigate("/login");
       }
     } catch (err) {
       console.error("Error response:", err.response);
-  
+
       if (err.response) {
         const errorMessage =
           err.response.data.error || err.response.data.errors;
 
         if (errorMessage) {
           if (errorMessage.email) {
-            setErrors({
+            setErrors((prevErrors) => ({
+              ...prevErrors,
               email: "Email đã được sử dụng. Vui lòng nhập email khác.",
-            });
+            }));
           } else if (errorMessage.phone) {
-            setErrors({
+            setErrors((prevErrors) => ({
+              ...prevErrors,
               phone: "Số điện thoại đã được sử dụng. Vui lòng nhập số khác.",
-            });
+            }));
+          } else if (errorMessage.username) {
+            setError("Tên tài khoản đã tồn tại. Vui lòng thử lại.");
           } else {
-            setError("Tên tài khoản đã tồn tại . Vui lòng thử lại.");
+            setError("Số điện thoại đã được sử dụng. Vui lòng nhập số khác.");
           }
         } else {
-          setError("Đăng ký thất bại. Vui lòng thử lại.");
+          setError("Có lỗi xảy ra. Vui lòng thử lại.");
         }
       } else {
         setError("Có lỗi xảy ra. Vui lòng thử lại.");
@@ -113,7 +126,8 @@ const Signup = () => {
             </div>
             <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
               <h3 className="fw-bold text-center text-primary my-4 custom-title">
-Đăng ký               </h3>
+                Đăng ký{" "}
+              </h3>
               <form onSubmit={handleSubmit}>
                 <div className="d-flex mb-2">
                   <div className="form-outline flex-fill mb-0">

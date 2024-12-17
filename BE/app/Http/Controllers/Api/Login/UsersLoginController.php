@@ -88,69 +88,77 @@ class UsersLoginController extends Controller
     }
     public function requestOtp(Request $request)
     {
+        // Validate input
         $request->validate([
-            'identifier' => 'required|string', // identifier can be email or phone
+            'email' => 'required|email', // Email phải hợp lệ
         ]);
 
-        $user = User::where('email', $request->identifier)
-                    ->orWhere('phone', $request->identifier)
-                    ->first();
+        // Kiểm tra xem email có tồn tại trong cơ sở dữ liệu không
+        $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json(['error' => 'Không tìm thấy tài khoản với thông tin này.'], 404);
+            return response()->json(['error' => 'Email không tồn tại trong hệ thống.'], 404);
         }
 
-        // Generate a random OTP
+        // Tạo mã OTP ngẫu nhiên
         $otp = rand(100000, 999999);
+
+        // Lưu mã OTP và thời gian hết hạn vào cơ sở dữ liệu
         $user->otp = $otp;
-        $user->otp_expires_at = Carbon::now()->addMinutes(10); // OTP expires in 10 minutes
+        $user->otp_expires_at = Carbon::now()->addMinutes(10); // OTP có hiệu lực trong 10 phút
         $user->save();
 
-        // Send OTP via email or SMS
-        if (filter_var($request->identifier, FILTER_VALIDATE_EMAIL)) {
-            // Send OTP via email
-            Mail::raw("Mã OTP của bạn là: $otp", function ($message) use ($user) {
-                $message->to($user->email)
-                        ->subject('Mã OTP để đặt lại mật khẩu');
-            });
-        } else {
-            // Send OTP via SMS (You would use a third-party service like Twilio here)
-            // Example: SMS sending logic
-            // SmsService::send($user->phone, "Mã OTP của bạn là: $otp");
-        }
+        // Gửi OTP qua email
+        $this->sendOtpEmail($user, $otp);
 
-        return response()->json(['message' => 'Mã OTP đã được gửi. Vui lòng kiểm tra tin nhắn hoặc email.']);
+        // Trả về thông báo đã gửi OTP
+        return response()->json(['message' => 'Mã OTP đã được gửi đến email của bạn.']);
+    }
+
+
+    public function sendOtpEmail($user, $otp)
+    {
+        $mailData = [
+            'otp' => $otp
+        ];
+
+        // Gửi email OTP
+        Mail::send([], [], function (Message $message) use ($user, $otp) {
+            $message->to($user->email)
+                    ->subject('Mã OTP để đặt lại mật khẩu')
+                    ->setBody("Mã OTP của bạn là: {$otp}")
+                    ->from('trantony030@gmail.com', 'CloudLAB'); // Cấu hình gửi email từ địa chỉ này
+        });
     }
 
     // Verify OTP and reset password
     public function verifyOtpAndResetPassword(Request $request)
     {
         $request->validate([
-            'identifier' => 'required|string', // identifier can be email or phone
+            'email' => 'required|email',
             'otp' => 'required|integer',
             'new_password' => 'required|string|min:6|confirmed',
         ]);
 
-        $user = User::where('email', $request->identifier)
-                    ->orWhere('phone', $request->identifier)
-                    ->first();
+        $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json(['error' => 'Không tìm thấy tài khoản với thông tin này.'], 404);
+            return response()->json(['error' => 'Email không tồn tại trong hệ thống.'], 404);
         }
 
-        // Check if OTP is correct and not expired
+        // Kiểm tra mã OTP có đúng và chưa hết hạn không
         if ($user->otp !== (int) $request->otp || Carbon::now()->greaterThan($user->otp_expires_at)) {
             return response()->json(['error' => 'Mã OTP không đúng hoặc đã hết hạn.'], 400);
         }
 
-        // Reset password
-        $user->password = Hash::make($request->new_password);
-        $user->otp = null; // Clear the OTP
-        $user->otp_expires_at = null; // Clear OTP expiration
+        // Đặt lại mật khẩu
+        $user->password = bcrypt($request->new_password);
+        $user->otp = null; // Xóa OTP
+        $user->otp_expires_at = null; // Xóa thời gian hết hạn OTP
         $user->save();
 
         return response()->json(['message' => 'Mật khẩu đã được đặt lại thành công.']);
     }
+
 }
 
